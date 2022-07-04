@@ -32,6 +32,7 @@ Vue.component("m-make", require("./components/Mmake.vue").default);
 Vue.component("mit-parts", require("./components/Parts.vue").default);
 Vue.component("out-sourcing", require("./components/Outsourcing.vue").default);
 
+Vue.component("backup-logs", require("./components/BackupLogs.vue").default);
 
 
 Vue.component("base-cnt", require("./components/Base.vue").default);

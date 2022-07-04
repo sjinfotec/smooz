@@ -53,6 +53,8 @@ Route::get('/parts', [PartsController::class,'index'])->middleware('auth');
 Route::post('/parts/get', [PartsController::class,'getitem'])->middleware('auth');
 Route::post('/outsourcing/get', [OutsourcingController::class,'getRequest'])->middleware('auth');
 
+// 管理
+Route::get('/maintenance/backup', [BackupLogsController::class,'index'])->middleware('auth');
 
 
 

@@ -586,19 +586,9 @@ header .header_login_info a {
 
 /*--------------------## メンテナンス / バックアップ ##--------------------*/
 
-#backup_btnzone  {
-  display:flex;
-  align-items: center;
-  justify-content: center;
 
-}
-#backup_btnzone button  {
-  width:auto;
-  background:#CCC;
-}
-#backup_btnzone img:hover {
-  opacity: 0.5;
-}
+
+
 
 
 
