@@ -1,0 +1,72 @@
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Middleware\Authenticate;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+/*
+Route::get('/', function () {
+    return view('welcome');
+});
+*/
+/*
+Route::get('/', function () {
+    return view('contents');
+});
+*/
+/*Route::get('/', 'HomeController@index')->name('home');*/
+//Auth::routes();
+Route::get('/', [HomeController::class,'index'])->middleware('auth');
+//Route::post('/home', [HomeController::class,'index'])->name('login');
+Route::get('/home', [HomeController::class,'index'])->middleware('auth');
+//Route::get('/', 'HomeController@index')->middleware('auth');
+//Route::get('/', [HomeController::class,'index']);
+Route::get('/base', [BaseController::class,'base'])->middleware('auth');
+
+Route::get('login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login'); // view は auth.login2
+Route::post('login', 'App\Http\Controllers\Auth\LoginController@login');
+Route::post('logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+
+// 見積作成
+//Route::get('/m_make', [MmakeController::class,'index'])->middleware('auth');
+Route::get('/m_make', [MmakeController::class,'topView'])->middleware('auth');
+Route::post('/m_make/get', [MmakeController::class,'getDataA'])->middleware('auth');
+Route::post('/m_make/getone', [MmakeController::class,'getDataAone'])->middleware('auth');
+Route::post('/m_make/update', [MmakeController::class,'fixA'])->middleware('auth');
+Route::post('/m_make/insert', [MmakeController::class,'storeA'])->middleware('auth');
+Route::post('/m_make/search', [MmakeController::class,'getDataAsearch'])->middleware('auth');
+
+Route::get('/parts', [PartsController::class,'index'])->middleware('auth');
+// Route::post('/parts/get', [PartsController::class,'getitem']);
+//Route::post('/parts/get', 'PartsController@getitem');
+Route::post('/parts/get', [PartsController::class,'getitem'])->middleware('auth');
+Route::post('/outsourcing/get', [OutsourcingController::class,'getRequest'])->middleware('auth');
+
+
+
+
+
+/*
+Route::get('/home', function () {
+    return view('auth.login2');
+})->name('login');
+*/
+
+/*
+Route::post('/home', function () {
+    return view('auth.login2');
+})->name('login');
+*/
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
