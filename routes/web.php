@@ -47,7 +47,18 @@ Route::post('/m_make/update', [MmakeController::class,'fixA'])->middleware('auth
 Route::post('/m_make/insert', [MmakeController::class,'storeA'])->middleware('auth');
 Route::post('/m_make/search', [MmakeController::class,'getDataAsearch'])->middleware('auth');
 
-Route::get('/parts', [PartsController::class,'index'])->middleware('auth');
+// 見積作成
+Route::get('/quotations', [QuotationsController::class,'index'])->middleware('auth');
+Route::post('/quotations/get', [QuotationsController::class,'getDataA'])->middleware('auth');
+Route::post('/quotations/getone', [QuotationsController::class,'getDataAone'])->middleware('auth');
+Route::post('/quotations/update', [QuotationsController::class,'fixA'])->middleware('auth');
+Route::post('/quotations/insert', [QuotationsController::class,'storeA'])->middleware('auth');
+Route::post('/quotations/search', [QuotationsController::class,'getDataAsearch'])->middleware('auth');
+Route::get('/quotations/binding', [QuotationsBindingController::class,'index'])->middleware('auth');
+Route::get('/quotations/cost', [QuotationsCostController::class,'index'])->middleware('auth');
+Route::get('/quotations/department', [QuotationsDepartmentController::class,'index'])->middleware('auth');
+
+//Route::get('/parts', [PartsController::class,'index'])->middleware('auth');
 // Route::post('/parts/get', [PartsController::class,'getitem']);
 //Route::post('/parts/get', 'PartsController@getitem');
 Route::post('/parts/get', [PartsController::class,'getitem'])->middleware('auth');

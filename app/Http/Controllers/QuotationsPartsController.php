@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class PartsController extends Controller
+class QuotationsPartsController extends Controller
 {
     public function index(Request $request)
     {
@@ -41,12 +41,11 @@ class PartsController extends Controller
         $pagename = $params['pagename'];
         $partsview = $params['partsview'];
         $authusers = Auth::user();
-        return view('parts',
+        return view('quotationsparts',
             compact(
                 'pagenum',
                 'pagename',
                 'partsview'
             ));
     }
-
 }

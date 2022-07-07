@@ -1,21 +1,3 @@
-<?php
-$action_msg = "message!!<br>\n";
-
-$requesturi = $_SERVER['REQUEST_URI'];
-$action_msg .= "REQUEST_URI = ".$requesturi."<br>\n";
-
-$searchstr = "/quotations";
-if(strpos($requesturi,$searchstr) !== false){
-    $action_msg .= "A match was found.".$requesturi." in ".$searchstr."<br>\n";
-    $html_menu = "layouts.quomenu";
-} else {
-    $action_msg .= "A match was not found.".$requesturi." in ".$searchstr."<br>\n";
-    $html_menu = "layouts.sidemenu";
-}
-
-
-
-?>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -90,7 +72,7 @@ if(strpos($requesturi,$searchstr) !== false){
 
             </nav>
             <!-- /header nav -->
-        @include($html_menu)
+        @include('layouts.maintemenu')
         </header>
         <!-- /header -->
 
@@ -114,6 +96,6 @@ if(strpos($requesturi,$searchstr) !== false){
         </div>
         <!-- /offcanvas- -->
     </div><!--end id="app" class="wrapper"-->
-<?php echo $action_msg; ?>
+
 </body>
 </html>

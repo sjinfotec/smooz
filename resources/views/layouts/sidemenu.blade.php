@@ -5,7 +5,7 @@
                         <div id="menu_li">
                             <!--<h3 class="side-head p-3 font-size-rg">見積システム</h3>  offcanvas_left-->
                                 <ul>
-                                        <li class="gc1"><a class="" href="{{ url('/m_make') }}">見積作成</a></li>
+                                        <li class="gc1"><a class="" href="{{ url('/quotations') }}">見積作成</a></li>
                                         <li class="gc1"><a class="" href="{{ url('/base') }}">見積検索</a></li>
                                         <li class="gc1"><a class="" href="{{ url('/') }}">見積</a></li>
                                         <li class="gc1"><a class="" href="{{ url('/') }}">見積書</a></li>

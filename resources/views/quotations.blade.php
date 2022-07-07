@@ -1,11 +1,11 @@
-@extends('layouts.maintenance')
+@extends('layouts.main')
 
 @section('content')
 <div id="home_cnt">
 					<div id="app">
-							<backup-logs
+							<quotations-top
 								v-bind:authusers="{{ $authusers }}"
 							>
-							</backup-logs>
+							</quotations-top>
 					</div>
 @endsection
