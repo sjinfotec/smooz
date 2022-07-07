@@ -34,7 +34,7 @@ body  {
   background:#EEE;
   text-align:left;
   position:relative;
-  max-width:1040px;
+  max-width:1120px;
   margin:0 auto;
 }
 .nbr{
@@ -378,7 +378,25 @@ header .header_login_info a {
 
 
 /*--------------------## 見積作成 ##----------------------------------------*/
+
+#cnt_title1 h3 {
+  /*color:rgba(25, 157, 218, 0.9);*/
+  color:rgba(126, 196, 35, 0.9);
+  font-size:2rem;
+  padding:0 0 0 20px;
+  border-left:20px solid rgba(126, 196, 35, 0.9);
+  background: linear-gradient(to right,rgba(255,255,255,0) 100px, rgba(126, 196, 35, 0.9) 90%);
+}
+#cnt_title2 h3 {
+  /*color:rgba(25, 157, 218, 0.9);*/
+  color:rgba(35, 46, 196, 0.9);
+  font-size:2rem;
+  padding:0 0 0 20px;
+  border-left:20px solid rgba(35, 46, 196, 0.9);
+  background: linear-gradient(to right,rgba(255,255,255,0) 100px, rgba(35, 46, 196, 0.9) 90%);
+}
 .main_cnt {visibility: visible;}
+#cnt1 {padding:0 0 20px 0}
 #cnt1 .line {
   display:flex;
   width:100%;
@@ -459,6 +477,15 @@ header .header_login_info a {
   width:100%;
   box-sizing: border-box;
 }
+.form_style_textarea {
+  font-size:2rem;
+  line-height:2.4rem;
+  /*height:6rem;*/
+  /*width:calc(100% - 12px);*/
+  padding:4px 6px;
+  width:41em;
+  box-sizing: border-box;
+}
  .input_w1  {width:1em;}
  .input_w2  {width:2em;}
  .input_w3  {width:3em;}
@@ -534,6 +561,7 @@ header .header_login_info a {
 #department01 .flexbasis_auto  {flex-basis: calc(100% - 160px);}
  .spanwidth_1 {display:inline-block; width:4em;} 
  .spanwidth_2 {display:inline-block; width:6em;} 
+ .spanwidth_8 {display:inline-block; width:8em;} 
  .spanwidth_12 {display:inline-block; width:12em;} 
  .lspacing1{letter-spacing: 1em;}
  .mglrauto {margin-left:auto; margin-right:auto;}
@@ -572,8 +600,12 @@ header .header_login_info a {
   min-height: 100vh;
   background:rgb(238, 238, 238, 1);
 
-
 }
+
+.partsbtn {
+  padding:20px 0;
+}
+
 
 
 #area1  {
@@ -608,6 +640,109 @@ header .header_login_info a {
 }
 
 
+/*--------------------## 見積検索 ##----------------------------------------*/
+#cnt_title_search h3 {
+  color:rgba(35, 196, 175, 1);
+  font-size:2rem;
+  padding:0 0 0 20px;
+  border-left:20px solid rgba(35, 196, 175, 1);
+  background: linear-gradient(to right,rgba(255,255,255,0) 100px, rgba(35, 196, 175, 1) 90%);
+}
+#cnt1 .inputgroup3 {
+  margin-top:1.4rem;
+  margin-left:0.5rem;
+  margin-right:0.5rem;
+  flex-grow: 1;
+}
+#cnt1 .inputgroup4 {
+  margin-top:1.4rem;
+  margin-left:0.5rem;
+  margin-right:0.5rem;
+  flex-grow:0;
+  
+}
+#cnt1 .care {
+  /*float:right;*/
+  font-size:1.2rem;
+}
+.input_w100p_m  {width:calc(100% - 8em);}  /*spanの幅分をマイナス*/
+.input_w50p_m {width:calc(20% - 4em);} 
+.input_search_w1  {width:10rem;} 
+#cnt1 .spanblock1ss  {
+  display:inline-block;
+  /*width:calc(100% - 8em);*/
+  width:235px;
+  background: #AAC;
+}
+
+#cnt_search {
+  width:calc(100% - 1rem);
+  margin:0 auto;
+}
+
+#search_result {
+  position: relative;
+  z-index:0;
+  margin-top:10px;
+  /*box-sizing: border-box;*/
+}
+#search_result table{
+  width:100%;
+  border-collapse: collapse;
+  margin-bottom:0px;
+  border-spacing:0;
+  border-left:1px solid #888888;
+  border-top:1px solid #888888;
+  box-sizing: border-box;
+}
+#search_result thead th{
+  /* 縦スクロール時に固定する */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 73px;
+  /* tbody内のセルより手前に表示する */
+  z-index: 1;
+  white-space: nowrap;
+  background:rgba(35, 196, 175, 1);
+  border-right:1px solid #888888;
+  padding:5px 5px;
+  text-align:center;
+}
+#search_result td{
+  padding:2px 0.5rem;
+  border-right:1px solid #888888;
+  border-bottom:1px solid #888888;
+}
+#search_result .err {color:red;}
+#search_result .style1 {
+  text-align:right;
+}
+#search_result .w1 {
+  width:5em;
+}
+#search_result  button  {
+  white-space:nowrap;
+  border-radius: 5px;
+  padding:2px 6px;
+  color:#FFF;
+  background:#bbaa88;
+  width:auto;
+}
+#search_result  button:hover  {
+  background:#DDCCAA;
+}
+#search_result button.style1  {
+  border:1px solid #888;
+  border-radius: 4px;
+  background:#8C8;
+}
+#search_result button.style1:hover  {
+  color:#FFF;
+  background:#C88;
+}
+#search_result .mg_r  {
+  margin-right:10px;
+}
 
 
 

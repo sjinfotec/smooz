@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div id="cnt_title2">
       <h3>パーツ設定 － {{ pageNum }}P目 －</h3>
     </div>
     <div id="cnt1">
@@ -70,7 +70,7 @@
       </div>
 
 
-      <div id="department01">
+      <div id="department01" class="mgt40">
         <div class="cate"><h4>フォーム部</h4></div>
         <div class="area">
           <div class="group">
@@ -176,7 +176,7 @@
       </div><!--end department01-->
 
 
-      <div id="department01">
+      <div id="department01" class="mgt40">
         <div class="cate"><h4>オフセット部</h4></div>
         <div class="area flex_auto">
           <div class="group">
@@ -202,7 +202,7 @@
       </div><!--end department01-->
 
 
-      <div id="department01">
+      <div id="department01" class="mgt40">
         <div class="cate"><h4 class="lspacing1">活版</h4></div>
         <div class="area">
           <div class="group">
@@ -313,7 +313,7 @@
       </div><!--end department01-->
 
 
-      <div id="department01">
+      <div id="department01" class="mgt40">
         <div class="cate"><h4>情報処理</h4></div>
         <div class="area flex_auto">
 
@@ -359,7 +359,7 @@
       </div><!--end department01-->
 
 
-      <div id="department01">
+      <div id="department01" class="mgt40">
         <div class="cate"><h4>ダイカッタ</h4></div>
         <div class="area">
           <div class="group">
@@ -447,7 +447,7 @@
       </div><!--end department01-->
 
 
-      <div id="department01">
+      <div id="department01" class="mgt40">
         <div class="cate"><h4 class="lspacing1">外注</h4></div>
         <div class="area">
           <div class="group">
@@ -474,7 +474,7 @@
       </div><!--end department01-->
 
 
-      <div class="line flex_jc_c">
+      <div class="line flex_jc_c partsbtn">
         <div class="inputgroup">
           <button type="button" id="p_cancel_btn" @click="cancelClickBtn();">キャンセル</button>
         </div>

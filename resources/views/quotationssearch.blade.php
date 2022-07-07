@@ -3,9 +3,9 @@
 @section('content')
 <div id="home_cnt">
 					<div id="app">
-							<quotations-doc
+							<quotations-search
 								v-bind:authusers="{{ $authusers }}"
 							>
-							</quotations-doc>
+							</quotations-search>
 					</div>
 @endsection

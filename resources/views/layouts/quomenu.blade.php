@@ -8,17 +8,17 @@ $active_css[4] = "";
 
 switch ($requesturi) {
 	case '/quotations/department':
-		$active_css[2] = "active";
+		        $active_css[2] = "active";
 		break;
 	case '/quotations/binding':
-		$active_css[3] = "active";
+		        $active_css[3] = "active";
 		break;
 	case '/quotations/cost':
-		$active_css[4] = "active";
-		break;
+		        $active_css[4] = "active";
+	        break;
 	default:
-        $active_css[1] = "active";
-        break;
+                        $active_css[1] = "active";
+                break;
 }
 
 ?>

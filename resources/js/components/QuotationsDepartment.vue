@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div id="cnt_title1">
       <h3>見積作成</h3>
     </div>
     <div id="cnt1" >

@@ -17,4 +17,12 @@ class QuotationsController extends Controller
         return view('quotations', compact('authusers'));
     }
 
+    public function search()
+    {
+        $authusers = Auth::user();
+        return view('quotationssearch', compact('authusers')
+        );
+    }
+
+
 }

@@ -4336,6 +4336,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 //import { dialogable } from "../mixins/dialogable.js";
@@ -4611,6 +4615,10 @@ __webpack_require__.r(__webpack_exports__);
       this.inputtextid = t;
       this.outsourcingview = true;
       console.log('OutsourcingButton 引数 = ' + t);
+    },
+    viewStrLen: function viewStrLen() {
+      var len = document.getElementById("textarea1").value.length;
+      document.getElementById("strLen").innerText = len + "文字";
     },
     // -------------------- サーバー処理 --------------------
     // -------------------- 共通 --------------------
@@ -6939,6 +6947,184 @@ __webpack_require__.r(__webpack_exports__);
       console.log('Parts.vue 出力');
     } // -------------------- 共通 ----------------------------
 
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsSearch.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsSearch.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// import mit-parts from "./Parts.vue";
+//import moment from "moment";
+//import { dialogable } from "../mixins/dialogable.js";
+//import { checkable } from "../mixins/checkable.js";
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Mmake",
+  //mixins: [dialogable, checkable, requestable],
+  mixins: [_mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__["requestable"]],
+  props: {
+    /*
+      authusers: {
+        type: Array,
+        default: []
+      }
+    */
+  },
+
+  /*
+  components: {
+    mit-parts: mit-parts,
+  },
+  */
+  data: function data() {
+    return {
+      details: [],
+      login_user_code: 0,
+      login_user_role: 0,
+      dialogVisible: false,
+      messageshowsearch: false
+    };
+  },
+  // マウント時
+  mounted: function mounted() {//this.login_user_code = this.authusers["code"];
+    //this.login_user_role = this.authusers["role"];
+  },
+  methods: {
+    // -------------------- イベント処理 --------------------
+    SetParts: function SetParts(pnum, pname) {
+      var _this = this;
+
+      var tid = "cnt1";
+      var targetid = document.getElementById(tid);
+      targetid.style.visibility = "hidden"; //現在未使用
+
+      var arrayParams = {
+        pagenum: pnum,
+        pagename: pname,
+        partsview: true
+      };
+      this.postRequest("/parts/get", arrayParams).then(function (response) {
+        _this.getThen(response);
+      })["catch"](function (reason) {
+        _this.serverCatch("取得");
+      });
+      this.pagenum = pnum;
+      this.pagename = pname;
+      this.partsview = true;
+      console.log('SetParts コンソール出力 = ' + pname);
+    },
+    // -------------------- サーバー処理 --------------------
+    // -------------------- 共通 --------------------
+    // 取得正常処理
+    getThen: function getThen(response) {
+      console.log('正常');
+    },
+    // 異常処理
+    serverCatch: function serverCatch(eventtext) {
+      console.log('異常処理');
+    }
   }
 });
 
@@ -35101,12 +35287,14 @@ var render = function () {
       _vm._v(" "),
       _vm._m(5),
       _vm._v(" "),
+      _vm._m(6),
+      _vm._v(" "),
       _c("div", { staticClass: "line" }, [
-        _vm._m(6),
-        _vm._v(" "),
         _vm._m(7),
         _vm._v(" "),
         _vm._m(8),
+        _vm._v(" "),
+        _vm._m(9),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [
           _c("span", {
@@ -35185,12 +35373,12 @@ var render = function () {
           }),
         ]),
         _vm._v(" "),
-        _vm._m(9),
-        _vm._v(" "),
         _vm._m(10),
+        _vm._v(" "),
+        _vm._m(11),
       ]),
       _vm._v(" "),
-      _vm._m(11),
+      _vm._m(12),
       _vm._v(" "),
       _c("div", { staticClass: "line" }, [
         _c("div", { staticClass: "inputgroup" }, [
@@ -35498,7 +35686,25 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _vm._m(12),
+      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("label", [
+            _c("span", { staticClass: "spanwidth_1" }, [_vm._v("コメント")]),
+            _vm._v(" "),
+            _c("span", { attrs: { id: "strLen" } }, [_vm._v("0文字")]),
+            _vm._v(" "),
+            _c("textarea", {
+              staticClass: "form_style_textarea",
+              attrs: { name: "comment", rows: "4", id: "textarea1" },
+              on: {
+                keyup: function ($event) {
+                  return _vm.viewStrLen()
+                },
+              },
+            }),
+          ]),
+        ]),
+      ]),
       _vm._v(" "),
       _vm._m(13),
       _vm._v(" "),
@@ -35581,7 +35787,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h3", [_vm._v("見積作成")])])
+    return _c("div", { attrs: { id: "cnt_title1" } }, [
+      _c("h3", [_vm._v("見積作成")]),
+    ])
   },
   function () {
     var _vm = this
@@ -35638,7 +35846,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "line" }, [
       _c("div", { staticClass: "inputgroup" }, [
         _c("label", [
-          _vm._v("担当者"),
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("担当者")]),
           _c("input", {
             staticClass: "form_style",
             attrs: { type: "text", name: "manager" },
@@ -35646,10 +35854,16 @@ var staticRenderFns = [
           _c("span"),
         ]),
       ]),
-      _vm._v(" "),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
       _c("div", { staticClass: "inputgroup" }, [
         _c("label", [
-          _vm._v("得意先"),
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先")]),
           _c("input", {
             staticClass: "form_style",
             attrs: { type: "text", name: "customer_code" },
@@ -35669,7 +35883,9 @@ var staticRenderFns = [
     return _c("div", { staticClass: "line" }, [
       _c("div", { staticClass: "inputgroup" }, [
         _c("label", [
-          _vm._v("エンドユーザー"),
+          _c("span", { staticClass: "spanwidth_8" }, [
+            _vm._v("エンドユーザー"),
+          ]),
           _c("input", {
             staticClass: "form_style input_w30",
             attrs: { type: "text", name: "enduser" },
@@ -35685,7 +35901,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "line" }, [
       _c("div", { staticClass: "inputgroup" }, [
         _c("label", [
-          _vm._v("製品名"),
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("製品名")]),
           _c("input", {
             staticClass: "form_style input_w30",
             attrs: { type: "text", name: "product" },
@@ -35955,23 +36171,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
-      _c("div", { staticClass: "inputgroup" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_1" }, [_vm._v("コメント")]),
-          _c("input", {
-            staticClass: "form_style input_w40",
-            attrs: { type: "text", name: "comment" },
-          }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
+    return _c("div", { staticClass: "line mgt40" }, [
       _c("div", { staticClass: "mglrauto", attrs: { id: "zukei" } }, [
         _c("div", { staticClass: "yajirushi_1" }),
       ]),
@@ -36867,7 +37067,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h3", [_vm._v("見積作成")])])
+    return _c("div", { attrs: { id: "cnt_title1" } }, [
+      _c("h3", [_vm._v("見積作成")]),
+    ])
   },
   function () {
     var _vm = this
@@ -37492,7 +37694,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h3", [_vm._v("見積作成")])])
+    return _c("div", { attrs: { id: "cnt_title1" } }, [
+      _c("h3", [_vm._v("見積作成")]),
+    ])
   },
   function () {
     var _vm = this
@@ -38404,7 +38608,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h3", [_vm._v("見積作成")])])
+    return _c("div", { attrs: { id: "cnt_title1" } }, [
+      _c("h3", [_vm._v("見積作成")]),
+    ])
   },
   function () {
     var _vm = this
@@ -38969,7 +39175,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", [
+    _c("div", { attrs: { id: "cnt_title2" } }, [
       _c("h3", [_vm._v("パーツ設定 － " + _vm._s(_vm.pageNum) + "P目 －")]),
     ]),
     _vm._v(" "),
@@ -39168,7 +39374,7 @@ var render = function () {
         _vm._m(6),
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "department01" } }, [
+      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
         _vm._m(7),
         _vm._v(" "),
         _c("div", { staticClass: "area" }, [
@@ -39471,7 +39677,7 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "department01" } }, [
+      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
         _vm._m(23),
         _vm._v(" "),
         _c("div", { staticClass: "area flex_auto" }, [
@@ -39548,7 +39754,7 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "department01" } }, [
+      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
         _vm._m(26),
         _vm._v(" "),
         _c("div", { staticClass: "area" }, [
@@ -39916,7 +40122,7 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "department01" } }, [
+      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
         _vm._m(41),
         _vm._v(" "),
         _c("div", { staticClass: "area flex_auto" }, [
@@ -39962,7 +40168,7 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "department01" } }, [
+      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
         _vm._m(46),
         _vm._v(" "),
         _c("div", { staticClass: "area" }, [
@@ -40202,7 +40408,7 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "department01" } }, [
+      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
         _vm._m(59),
         _vm._v(" "),
         _c("div", { staticClass: "area" }, [
@@ -40266,7 +40472,7 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "line flex_jc_c" }, [
+      _c("div", { staticClass: "line flex_jc_c partsbtn" }, [
         _c("div", { staticClass: "inputgroup" }, [
           _c(
             "button",
@@ -41344,6 +41550,211 @@ var staticRenderFns = [
           staticClass: "form_style input_w5",
           attrs: { type: "text", name: "outsource_paper_all_cost" },
         }),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsSearch.vue?vue&type=template&id=029fc7da&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsSearch.vue?vue&type=template&id=029fc7da& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("div", { attrs: { id: "cnt_title_search" } }, [
+        _c("h3", [_vm._v("見積検索")]),
+      ]),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "cnt1" } }, [
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("button", [_vm._v("見積へ")]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("button", [_vm._v("受注へ")]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("button", [_vm._v("クリア")]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("button", [_vm._v("製品概要")]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "inputgroup3" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
+              _c("input", {
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "m_code" },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup3" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [
+                _vm._v("得意先コード"),
+              ]),
+              _c("input", {
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "customer_code" },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup3" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [
+                _vm._v("得意先名"),
+                _c("span", { staticClass: "care" }, [_vm._v("✽")]),
+              ]),
+              _c("input", {
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "customer" },
+              }),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "inputgroup4" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [
+                _vm._v("エンドユーザー"),
+                _c("span", { staticClass: "care" }, [_vm._v("✽")]),
+              ]),
+              _c("input", {
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "enduser" },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup4" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [
+                _vm._v("製品名"),
+                _c("span", { staticClass: "care" }, [_vm._v("✽")]),
+              ]),
+              _c("input", {
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "product" },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup4" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [
+                _vm._v("作成年月（期間）"),
+              ]),
+              _c("span", { staticClass: "spanblock1" }, [
+                _c("input", {
+                  staticClass: "form_style input_search_w1",
+                  attrs: { type: "text", name: "date_start" },
+                }),
+                _vm._v("～"),
+                _c("input", {
+                  staticClass: "form_style input_search_w1",
+                  attrs: { type: "text", name: "date_end" },
+                }),
+              ]),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "caretxt" }, [_vm._v("✽ 部分一致可")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("button", [_vm._v("見積書を検索")]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("button", [_vm._v("見積を検索")]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("button", [_vm._v("内容")]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { attrs: { id: "cnt_search" } }, [
+          _c("h3", [_vm._v("検索結果")]),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "search_result" } }, [
+            _c("table", { attrs: { id: "quodoc" } }, [
+              _c("thead", [
+                _c("tr", [
+                  _c("th", {}),
+                  _vm._v(" "),
+                  _c("th", { staticClass: "nrap" }, [_vm._v("見積書番号")]),
+                  _vm._v(" "),
+                  _c("th", {}, [_vm._v("作成日")]),
+                  _vm._v(" "),
+                  _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
+                  _vm._v(" "),
+                  _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
+                  _vm._v(" "),
+                  _c("th", {}, [_vm._v("形態")]),
+                  _vm._v(" "),
+                  _c("th", {}, [_vm._v("製品名")]),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("tbody", [
+                _c("tr", [
+                  _c("td", {}, [
+                    _c("input", {
+                      attrs: { type: "radio", name: "wm_code", value: "" },
+                    }),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "nrap" }, [_vm._v("22060123")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "nrap" }, [_vm._v("2022年6月18日")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "nrap" }, [_vm._v("54321")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "nrap" }, [_vm._v("JR北海道")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "nrap" }, [_vm._v("通常")]),
+                  _vm._v(" "),
+                  _c("td", {}, [_vm._v("線路施設工事線区別日報")]),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
       ]),
     ])
   },
@@ -56850,6 +57261,7 @@ vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-cos
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-parts", __webpack_require__(/*! ./components/QuotationsParts.vue */ "./resources/js/components/QuotationsParts.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("mit-parts", __webpack_require__(/*! ./components/Parts.vue */ "./resources/js/components/Parts.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("out-sourcing", __webpack_require__(/*! ./components/Outsourcing.vue */ "./resources/js/components/Outsourcing.vue")["default"]);
+vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-search", __webpack_require__(/*! ./components/QuotationsSearch.vue */ "./resources/js/components/QuotationsSearch.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("backup-logs", __webpack_require__(/*! ./components/BackupLogs.vue */ "./resources/js/components/BackupLogs.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("base-cnt", __webpack_require__(/*! ./components/Base.vue */ "./resources/js/components/Base.vue")["default"]);
 /*
@@ -57690,6 +58102,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsParts_vue_vue_type_template_id_5f2e82c4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsParts_vue_vue_type_template_id_5f2e82c4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsSearch.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/QuotationsSearch.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _QuotationsSearch_vue_vue_type_template_id_029fc7da___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuotationsSearch.vue?vue&type=template&id=029fc7da& */ "./resources/js/components/QuotationsSearch.vue?vue&type=template&id=029fc7da&");
+/* harmony import */ var _QuotationsSearch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuotationsSearch.vue?vue&type=script&lang=js& */ "./resources/js/components/QuotationsSearch.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _QuotationsSearch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _QuotationsSearch_vue_vue_type_template_id_029fc7da___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _QuotationsSearch_vue_vue_type_template_id_029fc7da___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/QuotationsSearch.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsSearch.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/QuotationsSearch.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsSearch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./QuotationsSearch.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsSearch.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsSearch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsSearch.vue?vue&type=template&id=029fc7da&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/QuotationsSearch.vue?vue&type=template&id=029fc7da& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsSearch_vue_vue_type_template_id_029fc7da___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./QuotationsSearch.vue?vue&type=template&id=029fc7da& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsSearch.vue?vue&type=template&id=029fc7da&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsSearch_vue_vue_type_template_id_029fc7da___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsSearch_vue_vue_type_template_id_029fc7da___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -49,20 +49,25 @@ Route::post('/m_make/search', [MmakeController::class,'getDataAsearch'])->middle
 
 // 見積作成
 Route::get('/quotations', [QuotationsController::class,'index'])->middleware('auth');
-Route::post('/quotations/get', [QuotationsController::class,'getDataA'])->middleware('auth');
-Route::post('/quotations/getone', [QuotationsController::class,'getDataAone'])->middleware('auth');
-Route::post('/quotations/update', [QuotationsController::class,'fixA'])->middleware('auth');
-Route::post('/quotations/insert', [QuotationsController::class,'storeA'])->middleware('auth');
-Route::post('/quotations/search', [QuotationsController::class,'getDataAsearch'])->middleware('auth');
+Route::post('/quotations/get', [QuotationsController::class,'getData'])->middleware('auth');
+Route::post('/quotations/getone', [QuotationsController::class,'getDataOne'])->middleware('auth');
+Route::post('/quotations/update', [QuotationsController::class,'fix'])->middleware('auth');
+Route::post('/quotations/insert', [QuotationsController::class,'store'])->middleware('auth');
+Route::get('/qsearch', [QuotationsController::class,'search'])->middleware('auth');
+Route::post('/qsearch/get', [QuotationsController::class,'getDataSearch'])->middleware('auth');
 Route::get('/quotations/binding', [QuotationsBindingController::class,'index'])->middleware('auth');
 Route::get('/quotations/cost', [QuotationsCostController::class,'index'])->middleware('auth');
 Route::get('/quotations/department', [QuotationsDepartmentController::class,'index'])->middleware('auth');
 
 //Route::get('/parts', [PartsController::class,'index'])->middleware('auth');
-// Route::post('/parts/get', [PartsController::class,'getitem']);
+//Route::post('/parts/get', [PartsController::class,'getitem']);
 //Route::post('/parts/get', 'PartsController@getitem');
 Route::post('/parts/get', [PartsController::class,'getitem'])->middleware('auth');
 Route::post('/outsourcing/get', [OutsourcingController::class,'getRequest'])->middleware('auth');
+
+// 見積書
+Route::get('/quotations/doc', [QuotationsDocController::class,'index'])->middleware('auth');
+
 
 // 管理
 Route::get('/maintenance/backup', [BackupLogsController::class,'index'])->middleware('auth');

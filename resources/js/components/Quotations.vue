@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div id="cnt_title1">
       <h3>見積作成</h3>
     </div>
     <div id="cnt1" >
@@ -33,20 +33,22 @@
       </div>
       <div class="line">
         <div class="inputgroup">
-          <label>担当者<input type="text" class="form_style" name="manager"><span></span></label>
-        </div>
-        <div class="inputgroup">
-          <label>得意先<input type="text" class="form_style" name="customer_code"><input type="text" class="form_style" name="customer"></label>
+          <label><span class="spanwidth_8">担当者</span><input type="text" class="form_style" name="manager"><span></span></label>
         </div>
       </div>
       <div class="line">
         <div class="inputgroup">
-          <label>エンドユーザー<input type="text" class="form_style input_w30" name="enduser"></label>
+          <label><span class="spanwidth_8">得意先</span><input type="text" class="form_style" name="customer_code"><input type="text" class="form_style" name="customer"></label>
         </div>
       </div>
       <div class="line">
         <div class="inputgroup">
-          <label>製品名<input type="text" class="form_style input_w30" name="product"></label>
+          <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w30" name="enduser"></label>
+        </div>
+      </div>
+      <div class="line">
+        <div class="inputgroup">
+          <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w30" name="product"></label>
         </div>
       </div>
       <div class="line">
@@ -231,12 +233,14 @@
 
       <div id="department01" class="mgt40">
         <div class="inputgroup">
-          <label><span class="spanwidth_1">コメント</span><input type="text" class="form_style input_w40" name="comment"></label>
+          <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
+          <textarea name="comment" class="form_style_textarea" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
+          </label>
         </div>
       </div><!--end department01-->
 
 
-      <div class="line">
+      <div class="line mgt40">
           <div id="zukei" class="mglrauto">
             <div class="yajirushi_1"></div>
           </div>
@@ -605,6 +609,10 @@ export default {
 
     },
 
+    viewStrLen(){
+      var len = document.getElementById("textarea1").value.length;
+      document.getElementById("strLen").innerText = len + "文字";
+    },
 
     // -------------------- サーバー処理 --------------------
     // -------------------- 共通 --------------------

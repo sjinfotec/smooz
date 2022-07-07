@@ -36,6 +36,7 @@ Vue.component("quotations-cost", require("./components/QuotationsCost.vue").defa
 Vue.component("quotations-parts", require("./components/QuotationsParts.vue").default);
 Vue.component("mit-parts", require("./components/Parts.vue").default);
 Vue.component("out-sourcing", require("./components/Outsourcing.vue").default);
+Vue.component("quotations-search", require("./components/QuotationsSearch.vue").default);
 
 Vue.component("backup-logs", require("./components/BackupLogs.vue").default);
 
