@@ -4036,6 +4036,47 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PopupPrint.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PopupPrint.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Base",
+  props: {
+    pageName: {
+      type: String,
+      "default": ""
+    },
+    printData: {
+      type: String,
+      "default": ""
+    }
+  },
+  data: function data() {
+    return {
+      details: [],
+      pagename: ""
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Quotations.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Quotations.vue?vue&type=script&lang=js& ***!
@@ -7055,13 +7096,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 //import { dialogable } from "../mixins/dialogable.js";
 //import { checkable } from "../mixins/checkable.js";
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Mmake",
+  name: "QuotationsSearch",
   //mixins: [dialogable, checkable, requestable],
   mixins: [_mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__["requestable"]],
   props: {
@@ -7072,19 +7159,18 @@ __webpack_require__.r(__webpack_exports__);
       }
     */
   },
-
-  /*
-  components: {
-    mit-parts: mit-parts,
-  },
-  */
   data: function data() {
     return {
       details: [],
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
-      messageshowsearch: false
+      messageshowsearch: false,
+      searchview: "",
+      printview: "",
+      sr_title: "",
+      mcradio: "",
+      printdata: ""
     };
   },
   // マウント時
@@ -7093,27 +7179,83 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // -------------------- イベント処理 --------------------
-    SetParts: function SetParts(pnum, pname) {
-      var _this = this;
+    SearchClick: function SearchClick(k, arr, str) {
+      var idname_array = new Object();
+      idname_array[0] = ['doc', 'mit'];
 
-      var tid = "cnt1";
-      var targetid = document.getElementById(tid);
-      targetid.style.visibility = "hidden"; //現在未使用
+      for (var i = 0; i < idname_array[arr].length; i++) {
+        var n = idname_array[arr][i]; //const tid = "search_" + n + "_btn";
+
+        var tid = n + '_mark';
+        var sc = 'search_com';
+        var targetid = document.getElementById(tid);
+        var searchcom = document.getElementById(sc);
+
+        if (idname_array[arr][i] == k) {
+          targetid.style.visibility = "visible";
+          searchcom.style.visibility = "visible";
+          searchcom.innerHTML = str;
+        } else {
+          targetid.style.visibility = "hidden";
+        }
+      }
 
       var arrayParams = {
-        pagenum: pnum,
-        pagename: pname,
-        partsview: true
+        kind: k
       };
-      this.postRequest("/parts/get", arrayParams).then(function (response) {
-        _this.getThen(response);
-      })["catch"](function (reason) {
-        _this.serverCatch("取得");
-      });
-      this.pagenum = pnum;
-      this.pagename = pname;
-      this.partsview = true;
-      console.log('SetParts コンソール出力 = ' + pname);
+      /*
+      this.postRequest("/search/get", arrayParams)
+        .then(response  => {
+          this.getThen(response);
+        })
+        .catch(reason => {
+          this.serverCatch("取得");
+        });
+      */
+
+      this.sr_title = "検索結果";
+      this.searchview = k;
+      console.log('SearchClick  = ' + k);
+    },
+    MitGoBtn: function MitGoBtn(i, mcode) {},
+    ContentsClick: function ContentsClick() {
+      var element = document.getElementById("searchform");
+      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+      //if (typeof a === "undefined") {
+
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      } else {
+        var vvmc = radioNodeList.value;
+
+        if (vvmc === "") {
+          // 未選択状態
+          alert('検索結果一覧より見積を選択して下さい。');
+        } else {
+          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
+          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc); //console.log( vvmc ) ;
+        }
+      }
+    },
+    OverviewClick: function OverviewClick() {
+      var element = document.getElementById("searchform");
+      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+      //if (typeof a === "undefined") {
+
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      } else {
+        var vvmc = radioNodeList.value;
+
+        if (vvmc === "") {
+          // 未選択状態
+          alert('検索結果一覧より見積を選択して下さい。');
+        } else {
+          this.printview = true; //var ovWindow = window.open("", "ovWindow", "width=300, height=600, top=0, left=0");
+          //ovWindow.document.write("<div>製品概要</div>" + vvmc);
+          //console.log( vvmc ) ;
+        }
+      }
     },
     // -------------------- サーバー処理 --------------------
     // -------------------- 共通 --------------------
@@ -7153,6 +7295,25 @@ exports.push([module.i, ".swal2-popup.swal2-toast{flex-direction:row;align-items
 /*!**********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Base.vue?vue&type=style&index=0&lang=css& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.app  {color:red;}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24913,6 +25074,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./PopupPrint.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -35258,6 +35449,40 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PopupPrint.vue?vue&type=template&id=1e2ff18c&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PopupPrint.vue?vue&type=template&id=1e2ff18c& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { attrs: { id: "tips_cnt" } }, [
+      _c("h3", {}, [_vm._v("見積内容")]),
+      _vm._v(" "),
+      _c("div", [_vm._v("this is PopupPrintvue")]),
+      _vm._v(" "),
+      _c("div", [_vm._v(_vm._s(_vm.printData))]),
+      _vm._v(" "),
+      _c("div", { attrs: { value: _vm.pageName } }),
+    ]),
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Quotations.vue?vue&type=template&id=1a483d92&":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Quotations.vue?vue&type=template&id=1a483d92& ***!
@@ -41575,186 +41800,417 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "cnt1" } }, [
+      _c("div", { staticClass: "line" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _vm._m(2),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_ovv_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.OverviewClick()
+                },
+              },
+            },
+            [_vm._v("製品概要")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_cnt_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.ContentsClick()
+                },
+              },
+            },
+            [_vm._v("内容")]
+          ),
+        ]),
+        _vm._v(" "),
+        _vm._m(3),
+      ]),
+      _vm._v(" "),
+      _vm._m(4),
+      _vm._v(" "),
+      _vm._m(5),
+      _vm._v(" "),
+      _c("div", { staticClass: "line" }, [
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("span", {
+            staticClass: "markzone mz_c2 v_hidden",
+            attrs: { id: "doc_mark" },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_doc_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.SearchClick("doc", 0, "見積書")
+                },
+              },
+            },
+            [_vm._v("見積書を検索")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("span", {
+            staticClass: "markzone mz_c2 v_hidden",
+            attrs: { id: "mit_mark" },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_mit_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.SearchClick("mit", 0, "見積")
+                },
+              },
+            },
+            [_vm._v("見積を検索")]
+          ),
+        ]),
+        _vm._v(" "),
+        _vm._m(6),
+      ]),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "cnt_search" } }, [
+        _c("form", { attrs: { id: "searchform" } }, [
+          _c("h4", [
+            _vm._v(_vm._s(_vm.sr_title)),
+            _c("span", {
+              staticClass: "v_hidden",
+              attrs: { id: "search_com" },
+            }),
+          ]),
+          _vm._v(" "),
+          _vm.searchview === "doc"
+            ? _c("div", { attrs: { id: "search_result" } }, [
+                _c("table", { attrs: { id: "quodoc" } }, [
+                  _vm._m(7),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(45, function (item, rowIndex) {
+                      return _c("tr", { key: rowIndex }, [
+                        _c("td", { staticClass: "w2" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "srbtn",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.MitGoBtn(
+                                    item["id"],
+                                    item["m_code"]
+                                  )
+                                },
+                              },
+                            },
+                            [
+                              _vm._v(
+                                "\n                  見積\n                "
+                              ),
+                            ]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("22060123")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v("2022年6月18日"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("54321")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("JR北海道")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("通常")]),
+                        _vm._v(" "),
+                        _c("td", {}, [_vm._v("線路施設工事線区別日報")]),
+                      ])
+                    }),
+                    0
+                  ),
+                ]),
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.searchview === "mit"
+            ? _c("div", { attrs: { id: "search_result" } }, [
+                _c("table", { attrs: { id: "quodoc" } }, [
+                  _vm._m(8),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(68, function (item, rowIndex) {
+                      return _c("tr", { key: rowIndex }, [
+                        _c("td", { staticClass: "w2" }, [
+                          _c("label", { staticStyle: { display: "block" } }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.mcradio,
+                                  expression: "mcradio",
+                                },
+                              ],
+                              attrs: { type: "radio", name: "m_codes" },
+                              domProps: {
+                                value: rowIndex,
+                                checked: _vm._q(_vm.mcradio, rowIndex),
+                              },
+                              on: {
+                                change: function ($event) {
+                                  _vm.mcradio = rowIndex
+                                },
+                              },
+                            }),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("22060123")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v("2022年5月24日"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("23456")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v("ロイズコーポレーション"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", {}, [
+                          _vm._v("合同支援利用促進パンフレット　４色"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("0P2000部")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("1200000")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v("2022年05月31日"),
+                        ]),
+                      ])
+                    }),
+                    0
+                  ),
+                ]),
+              ])
+            : _vm._e(),
+        ]),
+      ]),
+    ]),
+    _vm._v(" "),
+    _vm.printview === true
+      ? _c(
+          "div",
+          { attrs: { id: "printzone" } },
+          [_c("popup-print", { attrs: { "print-data": _vm.printdata } })],
+          1
+        )
+      : _vm._e(),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { attrs: { id: "cnt_title_search" } }, [
-        _c("h3", [_vm._v("見積検索")]),
+    return _c("div", { attrs: { id: "cnt_title_search" } }, [
+      _c("h3", [_vm._v("見積検索")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inputgroup" }, [
+      _c("button", [_vm._v("見積編集")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inputgroup" }, [
+      _c(
+        "button",
+        { staticStyle: { "pointer-events": "none" }, attrs: { disabled: "" } },
+        [_vm._v("受注")]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inputgroup" }, [
+      _c("button", [_vm._v("クリア")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "m_code" },
+          }),
+        ]),
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "cnt1" } }, [
-        _c("div", { staticClass: "line" }, [
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("button", [_vm._v("見積へ")]),
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先コード")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "customer_code" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [
+            _vm._v("得意先名"),
+            _c("span", { staticClass: "care" }, [_vm._v("✽")]),
           ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("button", [_vm._v("受注へ")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "customer" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [
+            _vm._v("エンドユーザー"),
+            _c("span", { staticClass: "care" }, [_vm._v("✽")]),
           ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("button", [_vm._v("クリア")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "enduser" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [
+            _vm._v("製品名"),
+            _c("span", { staticClass: "care" }, [_vm._v("✽")]),
           ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("button", [_vm._v("製品概要")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "product" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "inputgroup4" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [
+            _vm._v("作成年月（期間）"),
+          ]),
+          _c("span", { staticClass: "spanblock1" }, [
+            _c("input", {
+              staticClass: "form_style input_search_w1",
+              attrs: { type: "text", name: "date_start" },
+            }),
+            _vm._v("～"),
+            _c("input", {
+              staticClass: "form_style input_search_w1",
+              attrs: { type: "text", name: "date_end" },
+            }),
           ]),
         ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inputgroup" }, [
+      _c("div", { staticClass: "caretxt" }, [_vm._v("✽ 部分一致可")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }),
         _vm._v(" "),
-        _c("div", { staticClass: "line" }, [
-          _c("div", { staticClass: "inputgroup3" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
-              _c("input", {
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "m_code" },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup3" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [
-                _vm._v("得意先コード"),
-              ]),
-              _c("input", {
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "customer_code" },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup3" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [
-                _vm._v("得意先名"),
-                _c("span", { staticClass: "care" }, [_vm._v("✽")]),
-              ]),
-              _c("input", {
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "customer" },
-              }),
-            ]),
-          ]),
-        ]),
+        _c("th", { staticClass: "nrap" }, [_vm._v("見積書番号")]),
         _vm._v(" "),
-        _c("div", { staticClass: "line" }, [
-          _c("div", { staticClass: "inputgroup4" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [
-                _vm._v("エンドユーザー"),
-                _c("span", { staticClass: "care" }, [_vm._v("✽")]),
-              ]),
-              _c("input", {
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "enduser" },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup4" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [
-                _vm._v("製品名"),
-                _c("span", { staticClass: "care" }, [_vm._v("✽")]),
-              ]),
-              _c("input", {
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "product" },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup4" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [
-                _vm._v("作成年月（期間）"),
-              ]),
-              _c("span", { staticClass: "spanblock1" }, [
-                _c("input", {
-                  staticClass: "form_style input_search_w1",
-                  attrs: { type: "text", name: "date_start" },
-                }),
-                _vm._v("～"),
-                _c("input", {
-                  staticClass: "form_style input_search_w1",
-                  attrs: { type: "text", name: "date_end" },
-                }),
-              ]),
-            ]),
-          ]),
-        ]),
+        _c("th", {}, [_vm._v("作成日")]),
         _vm._v(" "),
-        _c("div", { staticClass: "line" }, [
-          _c("div", { staticClass: "caretxt" }, [_vm._v("✽ 部分一致可")]),
-        ]),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
         _vm._v(" "),
-        _c("div", { staticClass: "line" }, [
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("button", [_vm._v("見積書を検索")]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("button", [_vm._v("見積を検索")]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("button", [_vm._v("内容")]),
-          ]),
-        ]),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
         _vm._v(" "),
-        _c("div", { attrs: { id: "cnt_search" } }, [
-          _c("h3", [_vm._v("検索結果")]),
-          _vm._v(" "),
-          _c("div", { attrs: { id: "search_result" } }, [
-            _c("table", { attrs: { id: "quodoc" } }, [
-              _c("thead", [
-                _c("tr", [
-                  _c("th", {}),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "nrap" }, [_vm._v("見積書番号")]),
-                  _vm._v(" "),
-                  _c("th", {}, [_vm._v("作成日")]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
-                  _vm._v(" "),
-                  _c("th", {}, [_vm._v("形態")]),
-                  _vm._v(" "),
-                  _c("th", {}, [_vm._v("製品名")]),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", {}, [
-                    _c("input", {
-                      attrs: { type: "radio", name: "wm_code", value: "" },
-                    }),
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "nrap" }, [_vm._v("22060123")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "nrap" }, [_vm._v("2022年6月18日")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "nrap" }, [_vm._v("54321")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "nrap" }, [_vm._v("JR北海道")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "nrap" }, [_vm._v("通常")]),
-                  _vm._v(" "),
-                  _c("td", {}, [_vm._v("線路施設工事線区別日報")]),
-                ]),
-              ]),
-            ]),
-          ]),
-        ]),
+        _c("th", {}, [_vm._v("形態")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("製品名")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("見積番号")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("作成日")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("製品名")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("制作数")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("金額")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("受注日")]),
       ]),
     ])
   },
@@ -57261,6 +57717,7 @@ vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-cos
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-parts", __webpack_require__(/*! ./components/QuotationsParts.vue */ "./resources/js/components/QuotationsParts.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("mit-parts", __webpack_require__(/*! ./components/Parts.vue */ "./resources/js/components/Parts.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("out-sourcing", __webpack_require__(/*! ./components/Outsourcing.vue */ "./resources/js/components/Outsourcing.vue")["default"]);
+vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("popup-print", __webpack_require__(/*! ./components/PopupPrint.vue */ "./resources/js/components/PopupPrint.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-search", __webpack_require__(/*! ./components/QuotationsSearch.vue */ "./resources/js/components/QuotationsSearch.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("backup-logs", __webpack_require__(/*! ./components/BackupLogs.vue */ "./resources/js/components/BackupLogs.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("base-cnt", __webpack_require__(/*! ./components/Base.vue */ "./resources/js/components/Base.vue")["default"]);
@@ -57757,6 +58214,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Parts_vue_vue_type_template_id_678e2385___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Parts_vue_vue_type_template_id_678e2385___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PopupPrint.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/PopupPrint.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PopupPrint_vue_vue_type_template_id_1e2ff18c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PopupPrint.vue?vue&type=template&id=1e2ff18c& */ "./resources/js/components/PopupPrint.vue?vue&type=template&id=1e2ff18c&");
+/* harmony import */ var _PopupPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PopupPrint.vue?vue&type=script&lang=js& */ "./resources/js/components/PopupPrint.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _PopupPrint_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PopupPrint.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _PopupPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PopupPrint_vue_vue_type_template_id_1e2ff18c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PopupPrint_vue_vue_type_template_id_1e2ff18c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PopupPrint.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PopupPrint.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/PopupPrint.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PopupPrint.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PopupPrint.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./PopupPrint.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PopupPrint.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PopupPrint.vue?vue&type=template&id=1e2ff18c&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/PopupPrint.vue?vue&type=template&id=1e2ff18c& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_template_id_1e2ff18c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PopupPrint.vue?vue&type=template&id=1e2ff18c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PopupPrint.vue?vue&type=template&id=1e2ff18c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_template_id_1e2ff18c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PopupPrint_vue_vue_type_template_id_1e2ff18c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

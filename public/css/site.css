@@ -665,26 +665,45 @@ header .header_login_info a {
   /*float:right;*/
   font-size:1.2rem;
 }
+#cnt1 .caretxt {
+  /*float:right;*/
+  margin:5px 0 0 20px;
+  font-size:1.2rem;
+}
+
+
 .input_w100p_m  {width:calc(100% - 8em);}  /*spanの幅分をマイナス*/
-.input_w50p_m {width:calc(20% - 4em);} 
-.input_search_w1  {width:10rem;} 
-#cnt1 .spanblock1ss  {
+.input_search_w1  {width:9.3rem;} 
+#cnt1 .spanblock1  {
   display:inline-block;
   /*width:calc(100% - 8em);*/
-  width:235px;
-  background: #AAC;
+  width:251px;
+  /*background: #AAC;*/
 }
 
 #cnt_search {
   width:calc(100% - 1rem);
   margin:0 auto;
+  margin-top:20px;
+}
+#cnt_search h4  {
+  color:#555;  
+}
+#search_com {
+  margin-left:20px;
+  padding:0 0px;
+  /*background:#f4c836;*/
+  border-bottom:2px solid #f4c836;
 }
 
 #search_result {
   position: relative;
   z-index:0;
-  margin-top:10px;
+  margin-top:5px;
   /*box-sizing: border-box;*/
+}
+#search_result .srbtn {
+  padding:0 2px;
 }
 #search_result table{
   width:100%;
@@ -699,13 +718,13 @@ header .header_login_info a {
   /* 縦スクロール時に固定する */
   position: -webkit-sticky;
   position: sticky;
-  top: 73px;
+  top: 66px;
   /* tbody内のセルより手前に表示する */
   z-index: 1;
   white-space: nowrap;
   background:rgba(35, 196, 175, 1);
   border-right:1px solid #888888;
-  padding:5px 5px;
+  padding:2px 5px;
   text-align:center;
 }
 #search_result td{
@@ -713,23 +732,30 @@ header .header_login_info a {
   border-right:1px solid #888888;
   border-bottom:1px solid #888888;
 }
+#search_result  tr:hover  {
+  background:rgba(136, 144, 187, 0.5);
+}
+
 #search_result .err {color:red;}
 #search_result .style1 {
   text-align:right;
 }
 #search_result .w1 {
-  width:5em;
+  min-width:6em;
+}
+#search_result .w2 {
+  width:2em;
 }
 #search_result  button  {
   white-space:nowrap;
   border-radius: 5px;
   padding:2px 6px;
   color:#FFF;
-  background:#bbaa88;
+  background:#8890bb;
   width:auto;
 }
 #search_result  button:hover  {
-  background:#DDCCAA;
+  background:rgba(136, 144, 187, 0.5);
 }
 #search_result button.style1  {
   border:1px solid #888;
@@ -1163,7 +1189,7 @@ html { scroll-behavior: smooth;}
 
 
 /*------#### 1200px以下のとき ####------*/
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 960px) {
   .menu_btn {display:block;}
   #cnt_menu  .offcanvas-collapse-from-left {
     position: fixed;
