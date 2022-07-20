@@ -4055,14 +4055,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Base",
   props: {
-    pageName: {
+    mCode: {
       type: String,
       "default": ""
     },
     printData: {
+      type: String,
+      "default": ""
+    },
+    printTitle: {
       type: String,
       "default": ""
     }
@@ -4070,8 +4080,63 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       details: [],
-      pagename: ""
+      pagename: "",
+      RePrintData: ""
     };
+  },
+  mounted: function mounted() {
+    //this.getItem();
+    this.ReplacePrintData();
+  },
+  methods: {
+    // -------------------- イベント処理 --------------------
+    cancelClickBtn: function cancelClickBtn() {
+      this.$emit('pricancel-event', event);
+      console.log('cancelClickBtn PopupPrint.vue 閉じるボタン押下 = ' + this.pageName);
+    },
+    // -------------------- サーバー処理 ----------------------------
+    // 見積情報を取得
+    getItem: function getItem() {
+      var _this = this;
+
+      var arrayParams = {
+        m_code: mCode
+      };
+      this.postRequest("/print_q/get", arrayParams).then(function (response) {
+        _this.getThen(response);
+      })["catch"](function (reason) {
+        _this.serverCatch("取得");
+      });
+    },
+    // -------------------- 共通 ----------------------------
+    // 取得正常処理
+    getThen: function getThen(response) {
+      var res = response.data; //console.log('getthen in res = ' + res);
+
+      if (res.result) {
+        this.details = res.details;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("取得");
+        }
+      }
+
+      console.log('取得正常処理');
+    },
+    // 異常処理
+    serverCatch: function serverCatch(eventtext) {
+      var messages = []; //messages.push("" + eventtext + "に失敗しました");
+      //this.htmlMessageSwal("エラー", messages, "error", true, false);
+
+      console.log('異常処理');
+    },
+    // 置換
+    ReplacePrintData: function ReplacePrintData() {
+      var str = this.printData;
+      this.RePrintData = str.replace(/\n/g, '<br>');
+    }
   }
 });
 
@@ -6383,6 +6448,387 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsDoc.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsDoc.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// import mit-parts from "./Parts.vue";
+//import moment from "moment";
+//import { dialogable } from "../mixins/dialogable.js";
+//import { checkable } from "../mixins/checkable.js";
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "QuotationsSearch",
+  //mixins: [dialogable, checkable, requestable],
+  mixins: [_mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__["requestable"]],
+  props: {
+    /*
+      authusers: {
+        type: Array,
+        default: []
+      }
+    */
+  },
+  data: function data() {
+    return {
+      details: [],
+      login_user_code: 0,
+      login_user_role: 0,
+      dialogVisible: false,
+      messageshowsearch: false,
+      searchview: "",
+      printview: "",
+      sr_title: "",
+      mcradio: "",
+      printdata: "",
+      m_code: "",
+      printtitle: ""
+    };
+  },
+  // マウント時
+  mounted: function mounted() {//this.login_user_code = this.authusers["code"];
+    //this.login_user_role = this.authusers["role"];
+  },
+  methods: {
+    // -------------------- イベント処理 --------------------
+    SearchClick: function SearchClick(k, arr, str) {
+      var idname_array = new Object();
+      idname_array[0] = ['doc', 'mit'];
+
+      for (var i = 0; i < idname_array[arr].length; i++) {
+        var n = idname_array[arr][i]; //const tid = "search_" + n + "_btn";
+
+        var tid = n + '_mark';
+        var sc = 'search_com';
+        var targetid = document.getElementById(tid);
+        var searchcom = document.getElementById(sc);
+
+        if (idname_array[arr][i] == k) {
+          targetid.style.visibility = "visible";
+          searchcom.style.visibility = "visible";
+          searchcom.innerHTML = str;
+        } else {
+          targetid.style.visibility = "hidden";
+        }
+      }
+
+      var arrayParams = {
+        kind: k
+      };
+      /*
+      this.postRequest("/search/get", arrayParams)
+        .then(response  => {
+          this.getThen(response);
+        })
+        .catch(reason => {
+          this.serverCatch("取得");
+        });
+      */
+
+      this.sr_title = "検索結果";
+      this.searchview = k;
+      console.log('SearchClick  = ' + k);
+    },
+    MitGoBtn: function MitGoBtn(i, mcode) {},
+    ContentsClick: function ContentsClick() {
+      var element = document.getElementById("searchform");
+      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+      //if (typeof a === "undefined") {
+
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      } else {
+        var vvmc = radioNodeList.value;
+
+        if (vvmc === "") {
+          alert('検索結果一覧より見積を選択して下さい。');
+        } else {
+          this.printtitle = "見積内容 ― 製品名 ―";
+          this.printdata = "【見積番号】D15689 【作成日】20120221 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";
+          this.printdata += "【得意先】 119  萬  谷（一 般）\n";
+          this.printdata += "【エンドユーザー】 すずらん商事\n";
+          this.printdata += "【製品名】 納品書（タイトルなし）\n";
+          this.printdata += "【数量】1Ｐ 100,000枚 【総数量】100,000 【総通し数】50,000\n";
+          this.printdata += "【規格】ミリ 【シリンダー】10.5インチ 3本 10.5インチ折\n";
+          this.printdata += "<hr>";
+          this.printdata += "【シリンダー】3 X 5000 = 15,000\n";
+          this.printdata += "【フォーム部】\n";
+          this.printdata += "【フォーム部合計】11,500 \n";
+          this.printdata += "【版下設定】範疇：新版, 種別：フォーム, 難度：Ａ, 面積:72インチ平方, 料金:3000 \n";
+          this.printdata += "       ＣＴＰ 3版 \n";
+          this.printdata += "【組版・製版合計】12,000 \n";
+          this.printdata += "【製　本】\n";
+          this.printdata += "      [断裁・イン] [バースター] \n";
+          this.printdata += "      [バラ] \n";
+          this.printdata += "【梱包等】 [Ａ式] 2,500入り  40箱 X @250 = 10,000, \n";
+          this.printdata += "【製本合計】66,000 \n";
+          this.printdata += "【発　送】市内 40個 X 150 = 6,000, 【送料合計】 6,000 \n";
+          this.printdata += "<hr>";
+          this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
+          this.printdata += "【提示額】245,000 単価 2.45-\n";
+          this.m_code = "D11999";
+          var nopri = 'cnt1';
+          var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
+
+          nopriid.style.display = "none";
+          this.printview = true; //console.log( vvmc ) ;
+        }
+      }
+    },
+    OverviewClick: function OverviewClick() {
+      var element = document.getElementById("searchform");
+      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+      //if (typeof a === "undefined") {
+
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      } else {
+        var vvmc = radioNodeList.value;
+
+        if (vvmc === "") {
+          // 未選択状態
+          alert('検索結果一覧より見積を選択して下さい。');
+        } else {
+          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
+          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc); //console.log( vvmc ) ;
+        }
+      }
+    },
+    Pricancel: function Pricancel() {
+      var tid = "cnt1";
+      var targetid = document.getElementById(tid); //targetid.style.visibility = "visible";
+
+      targetid.style.display = "block";
+      this.printview = false;
+      console.log('プリント画面 終了');
+    },
+    // -------------------- サーバー処理 --------------------
+    // -------------------- 共通 --------------------
+    // 取得正常処理
+    getThen: function getThen(response) {
+      console.log('正常');
+    },
+    // 異常処理
+    serverCatch: function serverCatch(eventtext) {
+      console.log('異常処理');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsParts.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsParts.vue?vue&type=script&lang=js& ***!
@@ -7142,6 +7588,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 //import { dialogable } from "../mixins/dialogable.js";
@@ -7170,7 +7621,9 @@ __webpack_require__.r(__webpack_exports__);
       printview: "",
       sr_title: "",
       mcradio: "",
-      printdata: ""
+      printdata: "",
+      m_code: "",
+      printtitle: ""
     };
   },
   // マウント時
@@ -7229,11 +7682,37 @@ __webpack_require__.r(__webpack_exports__);
         var vvmc = radioNodeList.value;
 
         if (vvmc === "") {
-          // 未選択状態
           alert('検索結果一覧より見積を選択して下さい。');
         } else {
-          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
-          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc); //console.log( vvmc ) ;
+          this.printtitle = "見積内容 ― 製品名 ―";
+          this.printdata = "【見積番号】D15689 【作成日】20120221 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";
+          this.printdata += "【得意先】 119  萬  谷（一 般）\n";
+          this.printdata += "【エンドユーザー】 すずらん商事\n";
+          this.printdata += "【製品名】 納品書（タイトルなし）\n";
+          this.printdata += "【数量】1Ｐ 100,000枚 【総数量】100,000 【総通し数】50,000\n";
+          this.printdata += "【規格】ミリ 【シリンダー】10.5インチ 3本 10.5インチ折\n";
+          this.printdata += "<hr>";
+          this.printdata += "【シリンダー】3 X 5000 = 15,000\n";
+          this.printdata += "【フォーム部】\n";
+          this.printdata += "【フォーム部合計】11,500 \n";
+          this.printdata += "【版下設定】範疇：新版, 種別：フォーム, 難度：Ａ, 面積:72インチ平方, 料金:3000 \n";
+          this.printdata += "       ＣＴＰ 3版 \n";
+          this.printdata += "【組版・製版合計】12,000 \n";
+          this.printdata += "【製　本】\n";
+          this.printdata += "      [断裁・イン] [バースター] \n";
+          this.printdata += "      [バラ] \n";
+          this.printdata += "【梱包等】 [Ａ式] 2,500入り  40箱 X @250 = 10,000, \n";
+          this.printdata += "【製本合計】66,000 \n";
+          this.printdata += "【発　送】市内 40個 X 150 = 6,000, 【送料合計】 6,000 \n";
+          this.printdata += "<hr>";
+          this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
+          this.printdata += "【提示額】245,000 単価 2.45-\n";
+          this.m_code = "D11999";
+          var nopri = 'cnt1';
+          var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
+
+          nopriid.style.display = "none";
+          this.printview = true; //console.log( vvmc ) ;
         }
       }
     },
@@ -7251,11 +7730,18 @@ __webpack_require__.r(__webpack_exports__);
           // 未選択状態
           alert('検索結果一覧より見積を選択して下さい。');
         } else {
-          this.printview = true; //var ovWindow = window.open("", "ovWindow", "width=300, height=600, top=0, left=0");
-          //ovWindow.document.write("<div>製品概要</div>" + vvmc);
-          //console.log( vvmc ) ;
+          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
+          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc); //console.log( vvmc ) ;
         }
       }
+    },
+    Pricancel: function Pricancel() {
+      var tid = "cnt1";
+      var targetid = document.getElementById(tid); //targetid.style.visibility = "visible";
+
+      targetid.style.display = "block";
+      this.printview = false;
+      console.log('プリント画面 終了');
     },
     // -------------------- サーバー処理 --------------------
     // -------------------- 共通 --------------------
@@ -35465,14 +35951,36 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { attrs: { id: "tips_cnt" } }, [
-      _c("h3", {}, [_vm._v("見積内容")]),
+    _c("div", { attrs: { id: "cnt2" } }, [
+      _c("h3", {}, [_vm._v(_vm._s(_vm.printTitle))]),
       _vm._v(" "),
-      _c("div", [_vm._v("this is PopupPrintvue")]),
+      _c("div", {
+        attrs: { id: "pdatazone" },
+        domProps: { innerHTML: _vm._s(_vm.RePrintData) },
+      }),
       _vm._v(" "),
-      _c("div", [_vm._v(_vm._s(_vm.printData))]),
-      _vm._v(" "),
-      _c("div", { attrs: { value: _vm.pageName } }),
+      _c("div", { staticClass: "print-none", attrs: { id: "print_btnzone" } }, [
+        _c(
+          "button",
+          {
+            attrs: { type: "button", onclick: "window.print(); return false;" },
+          },
+          [_vm._v("印刷")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            attrs: { type: "button" },
+            on: {
+              click: function ($event) {
+                return _vm.cancelClickBtn()
+              },
+            },
+          },
+          [_vm._v("閉じる")]
+        ),
+      ]),
     ]),
   ])
 }
@@ -39384,6 +39892,540 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsDoc.vue?vue&type=template&id=09116314&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsDoc.vue?vue&type=template&id=09116314& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "cnt1" } }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _vm._m(4),
+      _vm._v(" "),
+      _vm._m(5),
+      _vm._v(" "),
+      _vm._m(6),
+      _vm._v(" "),
+      _c("div", { staticClass: "line" }, [
+        _c("div", { staticClass: "inputgroup" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_ovv_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.OverviewClick()
+                },
+              },
+            },
+            [_vm._v("再印刷・番号")]
+          ),
+        ]),
+        _vm._v(" "),
+        _vm._m(7),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_cnt_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.ContentsClick()
+                },
+              },
+            },
+            [_vm._v("参照・番号")]
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "line" }, [
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("span", {
+            staticClass: "markzone mz_c2 v_hidden",
+            attrs: { id: "doc_mark" },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_doc_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.ClearClick()
+                },
+              },
+            },
+            [_vm._v("クリア")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("span", {
+            staticClass: "markzone mz_c2 v_hidden",
+            attrs: { id: "doc_mark" },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_doc_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.SearchClick("doc", 0, "通常見積")
+                },
+              },
+            },
+            [_vm._v("通常見積")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("span", {
+            staticClass: "markzone mz_c2 v_hidden",
+            attrs: { id: "mit_mark" },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_mit_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.SearchClick("mit", 0, "単価見積")
+                },
+              },
+            },
+            [_vm._v("単価見積")]
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _vm._m(8),
+      _vm._v(" "),
+      _vm._m(9),
+      _vm._v(" "),
+      _c("div", { staticClass: "line" }, [
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("span", {
+            staticClass: "markzone mz_c2 v_hidden",
+            attrs: { id: "doc_mark" },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_doc_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.SearchClick("doc", 0, "見積書")
+                },
+              },
+            },
+            [_vm._v("見積書を検索")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("span", {
+            staticClass: "markzone mz_c2 v_hidden",
+            attrs: { id: "mit_mark" },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              attrs: { type: "button", id: "search_mit_btn" },
+              on: {
+                click: function ($event) {
+                  return _vm.SearchClick("mit", 0, "見積")
+                },
+              },
+            },
+            [_vm._v("見積を検索")]
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "cnt_search" } }, [
+        _c("form", { attrs: { id: "searchform" } }, [
+          _c("h4", [
+            _vm._v(_vm._s(_vm.sr_title)),
+            _c("span", {
+              staticClass: "v_hidden",
+              attrs: { id: "search_com" },
+            }),
+          ]),
+          _vm._v(" "),
+          _vm.searchview === "doc"
+            ? _c("div", { attrs: { id: "search_result" } }, [
+                _c("table", { attrs: { id: "quodoc" } }, [
+                  _vm._m(10),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(45, function (ditem, drowIndex) {
+                      return _c("tr", { key: drowIndex }, [
+                        _c("td", { staticClass: "w2" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "srbtn",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.MitGoBtn(
+                                    ditem["id"],
+                                    ditem["m_code"]
+                                  )
+                                },
+                              },
+                            },
+                            [
+                              _vm._v(
+                                "\n                  見積\n                "
+                              ),
+                            ]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("22060123")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v("2022年6月18日"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("54321")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("JR北海道")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("通常")]),
+                        _vm._v(" "),
+                        _c("td", {}, [_vm._v("線路施設工事線区別日報")]),
+                      ])
+                    }),
+                    0
+                  ),
+                ]),
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.searchview === "mit"
+            ? _c("div", { attrs: { id: "search_result" } }, [
+                _c("table", { attrs: { id: "quodoc" } }, [
+                  _vm._m(11),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(68, function (mitem, mrowIndex) {
+                      return _c("tr", { key: mrowIndex }, [
+                        _c("td", { staticClass: "w2" }, [
+                          _c("label", { staticStyle: { display: "block" } }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.mcradio,
+                                  expression: "mcradio",
+                                },
+                              ],
+                              attrs: { type: "radio", name: "m_codes" },
+                              domProps: {
+                                value: mrowIndex,
+                                checked: _vm._q(_vm.mcradio, mrowIndex),
+                              },
+                              on: {
+                                change: function ($event) {
+                                  _vm.mcradio = mrowIndex
+                                },
+                              },
+                            }),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v(_vm._s(mitem["m_code"])),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v("2022年5月24日"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("23456")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v("ロイズコーポレーション"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", {}, [
+                          _vm._v("合同支援利用促進パンフレット　４色"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("0P2000部")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [_vm._v("1200000")]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v("2022年05月31日"),
+                        ]),
+                      ])
+                    }),
+                    0
+                  ),
+                ]),
+              ])
+            : _vm._e(),
+        ]),
+      ]),
+    ]),
+    _vm._v(" "),
+    _vm.printview === true
+      ? _c(
+          "div",
+          { attrs: { id: "printzone" } },
+          [
+            _c("popup-print", {
+              attrs: {
+                "m-code": _vm.m_code,
+                "print-data": _vm.printdata,
+                "print-title": _vm.printtitle,
+              },
+              on: { "pricancel-event": _vm.Pricancel },
+            }),
+          ],
+          1
+        )
+      : _vm._e(),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "cnt_title_search" } }, [
+      _c("h3", { staticClass: "print-none" }, [_vm._v("見積書印刷")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("発行日付")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先名")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "customer" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("納期")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積期限")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("支払条件")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("納入場所")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inputgroup3" }, [
+      _c("label", [
+        _c("input", {
+          staticClass: "form_style input_w100p_m",
+          attrs: { type: "text", name: "" },
+        }),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "line" }, [
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "m_code" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "inputgroup3" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_m",
+            attrs: { type: "text", name: "product" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("見積書番号")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("作成日")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("形態")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("製品名")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("見積番号")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("作成日")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("製品名")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("制作数")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("金額")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("受注日")]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsParts.vue?vue&type=template&id=5f2e82c4&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsParts.vue?vue&type=template&id=5f2e82c4& ***!
@@ -41886,8 +42928,6 @@ var render = function () {
             [_vm._v("見積を検索")]
           ),
         ]),
-        _vm._v(" "),
-        _vm._m(6),
       ]),
       _vm._v(" "),
       _c("div", { attrs: { id: "cnt_search" } }, [
@@ -41903,12 +42943,12 @@ var render = function () {
           _vm.searchview === "doc"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(7),
+                  _vm._m(6),
                   _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(45, function (item, rowIndex) {
-                      return _c("tr", { key: rowIndex }, [
+                    _vm._l(45, function (ditem, drowIndex) {
+                      return _c("tr", { key: drowIndex }, [
                         _c("td", { staticClass: "w2" }, [
                           _c(
                             "button",
@@ -41918,8 +42958,8 @@ var render = function () {
                               on: {
                                 click: function ($event) {
                                   return _vm.MitGoBtn(
-                                    item["id"],
-                                    item["m_code"]
+                                    ditem["id"],
+                                    ditem["m_code"]
                                   )
                                 },
                               },
@@ -41956,12 +42996,12 @@ var render = function () {
           _vm.searchview === "mit"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(8),
+                  _vm._m(7),
                   _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(68, function (item, rowIndex) {
-                      return _c("tr", { key: rowIndex }, [
+                    _vm._l(68, function (mitem, mrowIndex) {
+                      return _c("tr", { key: mrowIndex }, [
                         _c("td", { staticClass: "w2" }, [
                           _c("label", { staticStyle: { display: "block" } }, [
                             _c("input", {
@@ -41975,19 +43015,21 @@ var render = function () {
                               ],
                               attrs: { type: "radio", name: "m_codes" },
                               domProps: {
-                                value: rowIndex,
-                                checked: _vm._q(_vm.mcradio, rowIndex),
+                                value: mrowIndex,
+                                checked: _vm._q(_vm.mcradio, mrowIndex),
                               },
                               on: {
                                 change: function ($event) {
-                                  _vm.mcradio = rowIndex
+                                  _vm.mcradio = mrowIndex
                                 },
                               },
                             }),
                           ]),
                         ]),
                         _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("22060123")]),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v(_vm._s(mitem["m_code"])),
+                        ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
                           _vm._v("2022年5月24日"),
@@ -42025,7 +43067,16 @@ var render = function () {
       ? _c(
           "div",
           { attrs: { id: "printzone" } },
-          [_c("popup-print", { attrs: { "print-data": _vm.printdata } })],
+          [
+            _c("popup-print", {
+              attrs: {
+                "m-code": _vm.m_code,
+                "print-data": _vm.printdata,
+                "print-title": _vm.printtitle,
+              },
+              on: { "pricancel-event": _vm.Pricancel },
+            }),
+          ],
           1
         )
       : _vm._e(),
@@ -42037,7 +43088,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { id: "cnt_title_search" } }, [
-      _c("h3", [_vm._v("見積検索")]),
+      _c("h3", { staticClass: "print-none" }, [_vm._v("見積検索")]),
     ])
   },
   function () {
@@ -42095,10 +43146,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "inputgroup3" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [
-            _vm._v("得意先名"),
-            _c("span", { staticClass: "care" }, [_vm._v("✽")]),
-          ]),
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先名")]),
           _c("input", {
             staticClass: "form_style input_w100p_m",
             attrs: { type: "text", name: "customer" },
@@ -42116,7 +43164,6 @@ var staticRenderFns = [
         _c("label", [
           _c("span", { staticClass: "spanwidth_8" }, [
             _vm._v("エンドユーザー"),
-            _c("span", { staticClass: "care" }, [_vm._v("✽")]),
           ]),
           _c("input", {
             staticClass: "form_style input_w100p_m",
@@ -42127,10 +43174,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "inputgroup3" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [
-            _vm._v("製品名"),
-            _c("span", { staticClass: "care" }, [_vm._v("✽")]),
-          ]),
+          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("製品名")]),
           _c("input", {
             staticClass: "form_style input_w100p_m",
             attrs: { type: "text", name: "product" },
@@ -42156,14 +43200,6 @@ var staticRenderFns = [
           ]),
         ]),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _c("div", { staticClass: "caretxt" }, [_vm._v("✽ 部分一致可")]),
     ])
   },
   function () {
@@ -57719,6 +58755,7 @@ vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("mit-parts", __
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("out-sourcing", __webpack_require__(/*! ./components/Outsourcing.vue */ "./resources/js/components/Outsourcing.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("popup-print", __webpack_require__(/*! ./components/PopupPrint.vue */ "./resources/js/components/PopupPrint.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-search", __webpack_require__(/*! ./components/QuotationsSearch.vue */ "./resources/js/components/QuotationsSearch.vue")["default"]);
+vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-doc", __webpack_require__(/*! ./components/QuotationsDoc.vue */ "./resources/js/components/QuotationsDoc.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("backup-logs", __webpack_require__(/*! ./components/BackupLogs.vue */ "./resources/js/components/BackupLogs.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("base-cnt", __webpack_require__(/*! ./components/Base.vue */ "./resources/js/components/Base.vue")["default"]);
 /*
@@ -58577,6 +59614,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsDepartment_vue_vue_type_template_id_35396384___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsDepartment_vue_vue_type_template_id_35396384___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsDoc.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/QuotationsDoc.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _QuotationsDoc_vue_vue_type_template_id_09116314___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuotationsDoc.vue?vue&type=template&id=09116314& */ "./resources/js/components/QuotationsDoc.vue?vue&type=template&id=09116314&");
+/* harmony import */ var _QuotationsDoc_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuotationsDoc.vue?vue&type=script&lang=js& */ "./resources/js/components/QuotationsDoc.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _QuotationsDoc_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _QuotationsDoc_vue_vue_type_template_id_09116314___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _QuotationsDoc_vue_vue_type_template_id_09116314___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/QuotationsDoc.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsDoc.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/QuotationsDoc.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsDoc_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./QuotationsDoc.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsDoc.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsDoc_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsDoc.vue?vue&type=template&id=09116314&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/QuotationsDoc.vue?vue&type=template&id=09116314& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsDoc_vue_vue_type_template_id_09116314___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./QuotationsDoc.vue?vue&type=template&id=09116314& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsDoc.vue?vue&type=template&id=09116314&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsDoc_vue_vue_type_template_id_09116314___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsDoc_vue_vue_type_template_id_09116314___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -7,7 +7,7 @@
                                 <ul>
                                         <li class="gc1"><a class="" href="{{ url('/quotations') }}">見積作成</a></li>
                                         <li class="gc1"><a class="" href="{{ url('/qsearch') }}">見積検索</a></li>
-                                        <li class="gc1"><a class="" href="{{ url('/doc') }}">見積書</a></li>
+                                        <li class="gc1"><a class="" href="{{ url('/qdoc') }}">見積書</a></li>
                                 </ul>
                         </div>
                         </nav>

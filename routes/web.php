@@ -66,7 +66,12 @@ Route::post('/parts/get', [PartsController::class,'getitem'])->middleware('auth'
 Route::post('/outsourcing/get', [OutsourcingController::class,'getRequest'])->middleware('auth');
 
 // 見積書
-Route::get('/quotations/doc', [QuotationsDocController::class,'index'])->middleware('auth');
+Route::get('/qdoc', [QuotationsDocController::class,'index'])->middleware('auth');
+
+// 印刷
+Route::get('/print_q', [QuotationsController::class,'index'])->middleware('auth');
+Route::post('/print_q/get', [QuotationsController::class,'getSeaDetail'])->middleware('auth');
+
 
 
 // 管理

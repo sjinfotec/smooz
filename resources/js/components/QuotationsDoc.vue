@@ -1,48 +1,110 @@
 <template>
   <div>
     <div id="cnt_title_search">
-      <h3 class="print-none">見積検索</h3>
+      <h3 class="print-none">見積書印刷</h3>
     </div>
     <div id="cnt1" >
       <div class="line">
-        <div class="inputgroup">
-          <button>見積編集</button>
-        </div>
-        <div class="inputgroup">
-          <button style="pointer-events: none;" disabled>受注</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="search_ovv_btn" @click="OverviewClick();">製品概要</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
-        </div>
-        <div class="inputgroup">
-          <button>クリア</button>
+        <div class="inputgroup3">
+          <label><span class="spanwidth_8">発行日付</span><input type="text" class="form_style input_w100p_m" name=""></label>
         </div>
       </div>
       <div class="line">
         <div class="inputgroup3">
-          <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style input_w100p_m" name="m_code"></label>
-        </div>
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">得意先コード</span><input type="text" class="form_style input_w100p_m" name="customer_code"></label>
-        </div>
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">得意先名<!--<span class="care">&#10045;</span>--></span><input type="text" class="form_style input_w100p_m" name="customer"></label>
+          <label><span class="spanwidth_8">得意先名</span><input type="text" class="form_style input_w100p_m" name="customer"></label>
         </div>
       </div>
       <div class="line">
         <div class="inputgroup3">
-          <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w100p_m" name="enduser"></label>
-        </div>
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w100p_m" name="product"></label>
-        </div>
-        <div class="inputgroup4">
-          <label><span class="spanwidth_8">作成年月（期間）</span><span class="spanblock1"><input type="text" class="form_style input_search_w1" name="date_start">～<input type="text" class="form_style input_search_w1" name="date_end"></span></label>
+          <label><span class="spanwidth_8">納期</span><input type="text" class="form_style input_w100p_m" name=""></label>
         </div>
       </div>
+      <div class="line">
+        <div class="inputgroup3">
+          <label><span class="spanwidth_8">見積期限</span><input type="text" class="form_style input_w100p_m" name=""></label>
+        </div>
+      </div>
+      <div class="line">
+        <div class="inputgroup3">
+          <label><span class="spanwidth_8">支払条件</span><input type="text" class="form_style input_w100p_m" name=""></label>
+        </div>
+      </div>
+      <div class="line">
+        <div class="inputgroup3">
+          <label><span class="spanwidth_8">納入場所</span><input type="text" class="form_style input_w100p_m" name=""></label>
+        </div>
+      </div>
+
+
+
+      <div class="line">
+        <div class="inputgroup">
+          <button type="button" id="search_ovv_btn" @click="OverviewClick();">再印刷・番号</button>
+        </div>
+        <div class="inputgroup3">
+          <label><input type="text" class="form_style input_w100p_m" name=""></label>
+        </div>
+        <div class="inputgroup">
+          <button type="button" id="search_cnt_btn" @click="ContentsClick();">参照・番号</button>
+        </div>
+      </div>
+
+
+      <div class="line">
+        <div class="inputgroup">
+          <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
+          <button type="button" id="search_doc_btn" @click="ClearClick();">クリア</button>
+        </div>
+        <div class="inputgroup">
+          <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
+          <button type="button" id="search_doc_btn" @click="SearchClick('doc',0,'通常見積');">通常見積</button>
+        </div>
+        <div class="inputgroup">
+          <span id="mit_mark" class="markzone mz_c2 v_hidden"></span>
+          <button type="button" id="search_mit_btn" @click="SearchClick('mit',0,'単価見積');">単価見積</button>
+        </div>
+      </div>
+
+
+
+
+      <div class="line">
+        <div class="inputgroup3">
+          <label><span class="spanwidth_8">見積番号</span></label>
+        </div>
+      </div>
+      <div class="line">
+        <div class="inputgroup3">
+          <label><input type="text" class="form_style input_w100p_m" name="m_code"></label>
+        </div>
+        <div class="inputgroup3">
+          <label><input type="text" class="form_style input_w100p_m" name="product"></label>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       <div class="line">
         <div class="inputgroup">

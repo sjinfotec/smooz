@@ -38,6 +38,7 @@ Vue.component("mit-parts", require("./components/Parts.vue").default);
 Vue.component("out-sourcing", require("./components/Outsourcing.vue").default);
 Vue.component("popup-print", require("./components/PopupPrint.vue").default);
 Vue.component("quotations-search", require("./components/QuotationsSearch.vue").default);
+Vue.component("quotations-doc", require("./components/QuotationsDoc.vue").default);
 
 Vue.component("backup-logs", require("./components/BackupLogs.vue").default);
 

@@ -48,8 +48,8 @@ $action_msg = ""; //動作メッセージ利用時はコメントアウト
         <!-- header -->
         <header>
             <!-- header nav -->
-            <nav class="navbar">
-                <div class="toplogoarea">
+            <nav class="navbar print-none">
+                <div class="toplogoarea ">
                     <button type="button" class="menu_btn" type="button" data-toggle="offcanvas-left">
                         <span class="menu_btn_style" ><img class="" src="{{ asset('images/round-menu-w.svg') }}" alt=""></span>
                     </button>
@@ -61,7 +61,7 @@ $action_msg = ""; //動作メッセージ利用時はコメントアウト
                     </div>
                 </div>
 
-                <ul class="header_login_info">
+                <ul class="header_login_info ">
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -99,7 +99,7 @@ $action_msg = ""; //動作メッセージ利用時はコメントアウト
                 @yield('content')
                     <!-- .panel -->
                     <div id="footer">
-                        <div class="foot_cnt">
+                        <div class="foot_cnt print-none">
                             <small>© 2022 M System</small>
                         </div>
                     </div>
