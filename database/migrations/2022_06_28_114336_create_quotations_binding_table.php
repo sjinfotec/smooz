@@ -69,7 +69,7 @@ class CreateQuotationsBindingTable extends Migration
             $table->string('updated_user', 10)->nullable()->comment('修正ユーザー');
             $table->timestamps();
             $table->boolean('is_deleted')->nullable()->comment('削除フラグ')->default(0);
-                        
+
         });
     }
 

@@ -14,8 +14,9 @@ class CreateWrkQuotationsTable extends Migration
     public function up()
     {
         Schema::create('wrk_quotations', function (Blueprint $table) {
+
             $table->bigIncrements('id');
-            $table->string('user_code', 2)->nullable()->comment('オペレータＩＤ');
+            $table->char('user_code', 10)->nullable()->comment('オペレータＩＤ');
             $table->char('m_code', 10)->nullable(false)->comment('見積番号');
             $table->char('wm_code', 14)->nullable()->comment('見積書番号');
             $table->char('wm_sub', 2)->nullable()->comment('見積書補完番号');
@@ -55,10 +56,14 @@ class CreateWrkQuotationsTable extends Migration
             $table->integer('estimate_amount')->nullable()->comment('見積予定金額');
             $table->string('comment', 255)->nullable()->comment('コメント');
             $table->integer('offered_amount')->nullable()->comment('提示額');
+            $table->integer('print_cost_max')->nullable()->comment('印刷原価最高額');
+            $table->integer('paper_cost')->nullable()->comment('総用紙原価');
             $table->string('created_user', 10)->nullable()->comment('作成ユーザー');
             $table->string('updated_user', 10)->nullable()->comment('修正ユーザー');
             $table->timestamps();
             $table->boolean('is_deleted')->nullable()->comment('削除フラグ')->default(0);
+
+
         });
     }
 

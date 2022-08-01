@@ -50,17 +50,11 @@ class CreateQuotationsCostTable extends Migration
             $table->string('product_all_outsou3', 34)->nullable()->comment('外注先3');
             $table->integer('product_all_outsou3_cost')->nullable()->comment('外注費3');
             $table->integer('product_all_subtotal')->nullable()->comment('全体の外注合計');
-            $table->integer('paper_amount')->nullable()->comment('用紙代総額');
-            $table->integer('wages_amount')->nullable()->comment('工賃他総額');
-            $table->integer('cost_amount')->nullable()->comment('実質原価総額');
-            $table->integer('estimate_amount')->nullable()->comment('見積予定金額');
-            $table->string('comment', 255)->nullable()->comment('コメント');
-            $table->integer('offered_amount')->nullable()->comment('提示額');
             $table->string('created_user', 10)->nullable()->comment('作成ユーザー');
             $table->string('updated_user', 10)->nullable()->comment('修正ユーザー');
             $table->timestamps();
             $table->boolean('is_deleted')->nullable()->comment('削除フラグ')->default(0);
-                        
+            
         });
     }
 

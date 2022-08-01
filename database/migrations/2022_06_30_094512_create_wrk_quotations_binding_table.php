@@ -14,6 +14,7 @@ class CreateWrkQuotationsBindingTable extends Migration
     public function up()
     {
         Schema::create('wrk_quotations_binding', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->char('m_code', 10)->nullable(false)->comment('見積番号');
             $table->char('sei_time', 4)->nullable()->comment('完結時刻');
@@ -68,6 +69,8 @@ class CreateWrkQuotationsBindingTable extends Migration
             $table->string('updated_user', 10)->nullable()->comment('修正ユーザー');
             $table->timestamps();
             $table->boolean('is_deleted')->nullable()->comment('削除フラグ')->default(0);
+
+
         });
     }
 

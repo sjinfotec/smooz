@@ -19,8 +19,8 @@ class CreateQuotationsDepartmentTable extends Migration
             $table->char('m_code', 10)->nullable(false)->comment('見積番号');
             $table->char('wkake', 1)->nullable()->comment('Ｗ掛け');
             $table->char('daenpin', 1)->nullable()->comment('楕円ピン');
-            $table->char('ana2', 1)->nullable()->comment('２穴');
-            $table->char('ana6', 1)->nullable()->comment('６穴');
+            $table->char('2ana', 1)->nullable()->comment('２穴');
+            $table->char('6ana', 1)->nullable()->comment('６穴');
             $table->char('donko', 1)->nullable()->comment('ドンコ');
             $table->char('katanuki', 1)->nullable()->comment('型ヌキ');
             $table->string('katanuki_outsou', 34)->nullable()->comment('外注先');
@@ -28,8 +28,8 @@ class CreateQuotationsDepartmentTable extends Migration
             $table->char('kasutori', 1)->nullable()->comment('カス取');
             $table->string('kasutori_outsou', 34)->nullable()->comment('外注先');
             $table->integer('kasutori_outsou_cost')->nullable()->comment('外注費');
-            $table->char('nisu_single', 1)->nullable()->comment('ニス片面');
-            $table->char('nisu_double', 1)->nullable()->comment('ニス両面');
+            $table->char('nisu', 1)->nullable()->comment('ニス');
+            $table->integer('nisu_through')->nullable()->comment('ニス通し');
             $table->tinyInteger('tsr_times')->nullable()->comment('ＴＳＲスキップ回');
             $table->integer('tsr_through')->nullable()->comment('ＴＳＲスキップ通');
             $table->tinyInteger('form_color_change')->nullable()->comment('色替');
@@ -76,7 +76,8 @@ class CreateQuotationsDepartmentTable extends Migration
             $table->string('updated_user', 10)->nullable()->comment('修正ユーザー');
             $table->timestamps();
             $table->boolean('is_deleted')->nullable()->comment('削除フラグ')->default(0);
-            
+
+
         });
     }
 
