@@ -19,8 +19,8 @@ class CreateWrkQuotationsDepartmentTable extends Migration
             $table->char('m_code', 10)->nullable(false)->comment('見積番号');
             $table->char('wkake', 1)->nullable()->comment('Ｗ掛け');
             $table->char('daenpin', 1)->nullable()->comment('楕円ピン');
-            $table->char('2ana', 1)->nullable()->comment('２穴');
-            $table->char('6ana', 1)->nullable()->comment('６穴');
+            $table->char('ana2', 1)->nullable()->comment('２穴');
+            $table->char('ana6', 1)->nullable()->comment('６穴');
             $table->char('donko', 1)->nullable()->comment('ドンコ');
             $table->char('katanuki', 1)->nullable()->comment('型ヌキ');
             $table->string('katanuki_outsou', 34)->nullable()->comment('外注先');
