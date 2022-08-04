@@ -98,8 +98,8 @@ $action_msg = ""; //動作メッセージ利用時はコメントアウト
 		<div class="itembox">
                 @yield('content')
                     <!-- .panel -->
-                    <div id="footer">
-                        <div class="foot_cnt print-none">
+                    <div id="footer" class="print-none">
+                        <div class="foot_cnt">
                             <small>© 2022 M System</small>
                         </div>
                     </div>

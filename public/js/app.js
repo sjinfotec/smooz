@@ -6664,6 +6664,74 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 //import { dialogable } from "../mixins/dialogable.js";
@@ -7593,6 +7661,218 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 //import { dialogable } from "../mixins/dialogable.js";
@@ -7623,7 +7903,8 @@ __webpack_require__.r(__webpack_exports__);
       mcradio: "",
       printdata: "",
       m_code: "",
-      printtitle: ""
+      printtitle: "",
+      searchdetail: ""
     };
   },
   // マウント時
@@ -7712,7 +7993,7 @@ __webpack_require__.r(__webpack_exports__);
           var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
 
           nopriid.style.display = "none";
-          this.printview = true; //console.log( vvmc ) ;
+          this.printview = '1'; //console.log( vvmc ) ;
         }
       }
     },
@@ -7730,8 +8011,54 @@ __webpack_require__.r(__webpack_exports__);
           // 未選択状態
           alert('検索結果一覧より見積を選択して下さい。');
         } else {
-          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
-          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc); //console.log( vvmc ) ;
+          /*
+                    $.ajax({
+                      url : 'm_101.php',
+                      type: 'post',
+                      dataType : 'html',
+                      data : { "vvmc": vvmc, "name": "アイランドラビリンス", },
+                      success : function(resultdata){
+                          $('#printgaiyo').html(resultdata);
+                          //ajaxJs();
+                      },
+                      error: function(data){
+                          $('#printgaiyo').html(data);
+                      }
+                    });
+          */
+          var nopri = 'cnt1';
+          var nopriid = document.getElementById(nopri);
+          nopriid.style.display = "none";
+          this.printview = '2'; //printgaiyo.style.display = "block";
+
+          /*
+          // 基本的にはresponse.dataにデータが返る
+          function UPDATEcollect() {
+            var tn = document.getElementById('t_number').value;
+            var name = document.getElementById('name').value;
+            var namecode = document.getElementById('name_code').value;
+            console.log("t_number cn :" + tn);
+            const res = axios.post("input_update.php", {
+              t_number: tn,
+              name: name,
+              name_code: namecode,
+              mode: 'statusupdate',
+            })
+            .then(response => {
+              appendList(response.data);
+              
+            })
+            .catch(error => {
+              window.error(error.response.data);
+            });
+          }
+          */
+
+          var Str = "変数テスト";
+          this.searchdetail = "\n          <!DOCTYPE html>\n          <html lang=\"ja\">\n          <head>\n          <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n          <meta http-equiv=\"Content-Language\" content=\"ja\" />\n          <title>TEST!</title>\n          <meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\" />\n          <meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n          <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n          <link rel=\"stylesheet\" type=\"text/css\" href=\"./css/site.css\" media=\"screen,print\" />\n          </head>\n          <body>\n\n          <button id='popup_printbtn' type='button' onclick='window.print(); return false;'>\u5370\u5237</button>\n          <div id=\"print_cnt_title\">\n            <h1>\u4E09\u6761\u5370\u5237\u3000\u88FD\u54C1\u4FBF\u89A7</h1>\n            <div class=\"abs_r\">L06541</div>\n          </div>\n\n          <div id=\"print_cnt_main\">\n            <div>\u5F97\u610F\u5148</div>\n\n\n          </div>\n                    <h3>\u6587\u5B57\u5217</h3>\n                    <div>\n                      \u30D2\u30A2\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8<br>\n                      \u30C6\u30B9\u30C8\u51FA\u529B<br>\n                      ".concat(Str, "<br>\n                    </div>\n          ").concat(vvmc, "\n\n          </body>\n          </html>\n          "); //var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
+          //myWindow.document.write(this.searchdetail);
+          //myWindow.document.write("<div id='popup_cnt'><div>見積内容！</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc);
+          //console.log( vvmc ) ;
         }
       }
     },
@@ -39910,7 +40237,7 @@ var render = function () {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { attrs: { id: "cnt1" } }, [
+    _c("div", { attrs: { id: "cnt3" } }, [
       _vm._m(1),
       _vm._v(" "),
       _vm._m(2),
@@ -39923,8 +40250,8 @@ var render = function () {
       _vm._v(" "),
       _vm._m(6),
       _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
+      _c("div", { staticClass: "flex_jc_c", attrs: { id: "linezone" } }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c(
             "button",
             {
@@ -39941,7 +40268,7 @@ var render = function () {
         _vm._v(" "),
         _vm._m(7),
         _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c(
             "button",
             {
@@ -39957,8 +40284,8 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
+      _c("div", { staticClass: "columngap_10px", attrs: { id: "linezone" } }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c("span", {
             staticClass: "markzone mz_c2 v_hidden",
             attrs: { id: "doc_mark" },
@@ -39978,7 +40305,7 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c("span", {
             staticClass: "markzone mz_c2 v_hidden",
             attrs: { id: "doc_mark" },
@@ -39998,7 +40325,7 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c("span", {
             staticClass: "markzone mz_c2 v_hidden",
             attrs: { id: "mit_mark" },
@@ -40019,11 +40346,29 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
+      _c("div", [_vm._v("見積番号")]),
+      _vm._v(" "),
       _vm._m(8),
       _vm._v(" "),
       _vm._m(9),
       _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
+      _vm._m(10),
+      _vm._v(" "),
+      _vm._m(11),
+      _vm._v(" "),
+      _vm._m(12),
+      _vm._v(" "),
+      _vm._m(13),
+      _vm._v(" "),
+      _vm._m(14),
+      _vm._v(" "),
+      _vm._m(15),
+      _vm._v(" "),
+      _vm._m(16),
+      _vm._v(" "),
+      _vm._m(17),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "linezone" } }, [
         _c("div", { staticClass: "inputgroup" }, [
           _c("span", {
             staticClass: "markzone mz_c2 v_hidden",
@@ -40078,7 +40423,7 @@ var render = function () {
           _vm.searchview === "doc"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(10),
+                  _vm._m(18),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -40131,7 +40476,7 @@ var render = function () {
           _vm.searchview === "mit"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(11),
+                  _vm._m(19),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -40230,12 +40575,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("発行日付")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("発行日付")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -40246,12 +40591,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先名")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("得意先名")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "customer" },
           }),
         ]),
@@ -40262,12 +40607,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("納期")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("納期")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -40278,12 +40623,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積期限")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("見積期限")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -40294,12 +40639,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("支払条件")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("支払条件")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -40310,12 +40655,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("納入場所")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("納入場所")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -40326,10 +40671,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { staticClass: "flexgroup2" }, [
       _c("label", [
         _c("input", {
-          staticClass: "form_style input_w100p_m",
+          staticClass: "form_style input_w100p_1",
           attrs: { type: "text", name: "" },
         }),
       ]),
@@ -40339,10 +40684,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { staticClass: "mgt0", attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_1" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_1" },
+          }),
         ]),
       ]),
     ])
@@ -40351,21 +40708,213 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
         _c("label", [
           _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "m_code" },
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_2" },
           }),
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "inputgroup3" }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
           _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "product" },
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_2" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_3" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_3" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_4" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_4" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_5" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_5" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_6" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_6" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_7" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_7" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_8" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_8" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_9" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_9" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_10" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_10" },
           }),
         ]),
       ]),
@@ -42966,7 +43515,7 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                  見積\n                "
+                                "\n                    見積\n                  "
                               ),
                             ]
                           ),
@@ -43013,7 +43562,11 @@ var render = function () {
                                   expression: "mcradio",
                                 },
                               ],
-                              attrs: { type: "radio", name: "m_codes" },
+                              attrs: {
+                                type: "radio",
+                                name: "m_codes",
+                                id: "sr_" + mrowIndex,
+                              },
                               domProps: {
                                 value: mrowIndex,
                                 checked: _vm._q(_vm.mcradio, mrowIndex),
@@ -43038,11 +43591,25 @@ var render = function () {
                         _c("td", { staticClass: "nrap" }, [_vm._v("23456")]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
-                          _vm._v("ロイズコーポレーション"),
+                          _c(
+                            "label",
+                            {
+                              staticStyle: { display: "block" },
+                              attrs: { for: "sr_" + mrowIndex },
+                            },
+                            [_vm._v("ロイズコーポレーション")]
+                          ),
                         ]),
                         _vm._v(" "),
                         _c("td", {}, [
-                          _vm._v("合同支援利用促進パンフレット　４色"),
+                          _c(
+                            "label",
+                            {
+                              staticStyle: { display: "block" },
+                              attrs: { for: "sr_" + mrowIndex },
+                            },
+                            [_vm._v("合同支援利用促進パンフレット　４色")]
+                          ),
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [_vm._v("0P2000部")]),
@@ -43063,7 +43630,7 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _vm.printview === true
+    _vm.printview === "1"
       ? _c(
           "div",
           { attrs: { id: "printzone" } },
@@ -43079,6 +43646,140 @@ var render = function () {
           ],
           1
         )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "printgaiyo" } }),
+    _vm._v(" "),
+    _vm.printview === "2"
+      ? _c("div", { attrs: { id: "print2zone" } }, [
+          _vm._m(8),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "print2_main" } }, [
+            _vm._m(9),
+            _vm._v(" "),
+            _vm._m(10),
+            _vm._v(" "),
+            _vm._m(11),
+            _vm._v(" "),
+            _c("div", { staticClass: "mgt20", attrs: { id: "p2_tbl" } }, [
+              _c("table", [
+                _vm._m(12),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(15, function (gitem, growIndex) {
+                    return _c("tr", { key: growIndex }, [
+                      _c("td", {}, [_vm._v(_vm._s(growIndex + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "txtstyle" }, [
+                        _vm._v("用紙名が入る"),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("*")]),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("*")]),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("4")]),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("1")]),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                    ])
+                  }),
+                  0
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _vm._m(13),
+            _vm._v(" "),
+            _vm._m(14),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "print-none", attrs: { id: "print_btnzone" } },
+            [
+              _c(
+                "button",
+                {
+                  attrs: {
+                    type: "button",
+                    onclick: "window.print(); return false;",
+                  },
+                },
+                [_vm._v("印刷")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.Pricancel()
+                    },
+                  },
+                },
+                [_vm._v("閉じる")]
+              ),
+            ]
+          ),
+        ])
       : _vm._e(),
   ])
 }
@@ -43247,6 +43948,244 @@ var staticRenderFns = [
         _c("th", {}, [_vm._v("金額")]),
         _vm._v(" "),
         _c("th", {}, [_vm._v("受注日")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "print2_title" } }, [
+      _c("h1", [_vm._v("三条印刷　製品便覧")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "abs_r" }, [_vm._v("L06541")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "p2_cnt" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("得意先")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("需要家")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("製品名")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt_flex" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("サイズ")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em3" }, [_vm._v("姿")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em4" }, [_vm._v("印刷")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt_flex2" } }, [
+      _c("div", { staticClass: "waku" }, [
+        _c("dl", [
+          _c("dt", { staticClass: "em3" }, [_vm._v("数量")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+        _vm._v(" "),
+        _c("dl", [
+          _c("dt", { staticClass: "em4" }, [_vm._v("総数量")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "waku" }, [
+        _c("dl", [
+          _c("dt", { staticClass: "em6" }, [_vm._v("シリンダー")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }, [_vm._v("P")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("用紙・紙質")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "6" } }, [_vm._v("オプション")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "9" } }, [_vm._v("フォーム")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "2" } }, [_vm._v("ＯＦ")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "9" } }, [_vm._v("活版")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "6" } }, [_vm._v("ダイカッタ")]),
+      ]),
+      _vm._v(" "),
+      _c("tr", [
+        _c("th", {}),
+        _vm._v(" "),
+        _c("th", {}),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("減感")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("カボン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ホワイ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("セパレ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("表色数")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("裏色数")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スジ入")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スリト")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("コーナ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＩＪＰ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スジ入")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スリト")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("型抜き")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("親子№")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("穴ヶ所")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("コーナ")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt2" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("組版")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("フォーム部")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("オフセット部")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("情報処理")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("コレート")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("ネームライナ")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("製本")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "p2_cnt3" } }, [
+      _c("dl", [
+        _c("dt", [_vm._v("最終受注日")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("年月日")]),
       ]),
     ])
   },

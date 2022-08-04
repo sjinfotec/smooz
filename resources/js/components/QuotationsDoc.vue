@@ -3,63 +3,63 @@
     <div id="cnt_title_search">
       <h3 class="print-none">見積書印刷</h3>
     </div>
-    <div id="cnt1" >
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">発行日付</span><input type="text" class="form_style input_w100p_m" name=""></label>
+    <div id="cnt3" >
+      <div id="linezone">
+        <div class="flexgroup">
+          <label><span class="spanwidth_10">発行日付</span><input type="text" class="form_style input_w100p_10" name=""></label>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">得意先名</span><input type="text" class="form_style input_w100p_m" name="customer"></label>
+      <div id="linezone">
+        <div class="flexgroup">
+          <label><span class="spanwidth_10">得意先名</span><input type="text" class="form_style input_w100p_10" name="customer"></label>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">納期</span><input type="text" class="form_style input_w100p_m" name=""></label>
+      <div id="linezone">
+        <div class="flexgroup">
+          <label><span class="spanwidth_10">納期</span><input type="text" class="form_style input_w100p_10" name=""></label>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">見積期限</span><input type="text" class="form_style input_w100p_m" name=""></label>
+      <div id="linezone">
+        <div class="flexgroup">
+          <label><span class="spanwidth_10">見積期限</span><input type="text" class="form_style input_w100p_10" name=""></label>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">支払条件</span><input type="text" class="form_style input_w100p_m" name=""></label>
+      <div id="linezone">
+        <div class="flexgroup">
+          <label><span class="spanwidth_10">支払条件</span><input type="text" class="form_style input_w100p_10" name=""></label>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">納入場所</span><input type="text" class="form_style input_w100p_m" name=""></label>
+      <div id="linezone">
+        <div class="flexgroup">
+          <label><span class="spanwidth_10">納入場所</span><input type="text" class="form_style input_w100p_10" name=""></label>
         </div>
       </div>
 
 
 
-      <div class="line">
-        <div class="inputgroup">
+      <div id="linezone" class="flex_jc_c">
+        <div class="flexgroup2">
           <button type="button" id="search_ovv_btn" @click="OverviewClick();">再印刷・番号</button>
         </div>
-        <div class="inputgroup3">
-          <label><input type="text" class="form_style input_w100p_m" name=""></label>
+        <div class="flexgroup2">
+          <label><input type="text" class="form_style input_w100p_1" name=""></label>
         </div>
-        <div class="inputgroup">
+        <div class="flexgroup2">
           <button type="button" id="search_cnt_btn" @click="ContentsClick();">参照・番号</button>
         </div>
       </div>
 
 
-      <div class="line">
-        <div class="inputgroup">
+      <div id="linezone" class="columngap_10px">
+        <div class="flexgroup2">
           <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
           <button type="button" id="search_doc_btn" @click="ClearClick();">クリア</button>
         </div>
-        <div class="inputgroup">
+        <div class="flexgroup2">
           <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
           <button type="button" id="search_doc_btn" @click="SearchClick('doc',0,'通常見積');">通常見積</button>
         </div>
-        <div class="inputgroup">
+        <div class="flexgroup2">
           <span id="mit_mark" class="markzone mz_c2 v_hidden"></span>
           <button type="button" id="search_mit_btn" @click="SearchClick('mit',0,'単価見積');">単価見積</button>
         </div>
@@ -68,17 +68,85 @@
 
 
 
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">見積番号</span></label>
+      <div>見積番号</div>
+      <div id="linezone" class="mgt0">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_1"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_1"></label>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup3">
-          <label><input type="text" class="form_style input_w100p_m" name="m_code"></label>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_2"></label>
         </div>
-        <div class="inputgroup3">
-          <label><input type="text" class="form_style input_w100p_m" name="product"></label>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_2"></label>
+        </div>
+      </div>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_3"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_3"></label>
+        </div>
+      </div>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_4"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_4"></label>
+        </div>
+      </div>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_5"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_5"></label>
+        </div>
+      </div>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_6"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_6"></label>
+        </div>
+      </div>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_7"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_7"></label>
+        </div>
+      </div>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_8"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_8"></label>
+        </div>
+      </div>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_9"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_9"></label>
+        </div>
+      </div>
+      <div id="linezone">
+        <div class="flexgroup2 w1">
+          <label><input type="text" class="form_style input_w100p_1" name="m_code_10"></label>
+        </div>
+        <div class="flexgroup">
+          <label><input type="text" class="form_style input_w100p_1" name="product_10"></label>
         </div>
       </div>
 
@@ -106,7 +174,7 @@
 
 
 
-      <div class="line">
+      <div id="linezone">
         <div class="inputgroup">
           <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
           <button type="button" id="search_doc_btn" @click="SearchClick('doc',0,'見積書');">見積書を検索</button>
@@ -189,7 +257,7 @@
         </form>
       </div>
 
-    </div><!--end id cnt1-->
+    </div><!--end id cnt3-->
 
 
     <div id="printzone" v-if="printview === true">
