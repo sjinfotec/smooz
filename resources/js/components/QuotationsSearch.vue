@@ -528,7 +528,7 @@ export default {
         } else {
 
 
-/*
+          /*
           $.ajax({
             url : 'm_101.php',
             type: 'post',
@@ -542,7 +542,8 @@ export default {
                 $('#printgaiyo').html(data);
             }
           });
-*/
+          */
+
           const nopri = 'cnt1';
           var nopriid = document.getElementById(nopri);
           nopriid.style.display = "none";

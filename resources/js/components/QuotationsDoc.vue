@@ -39,13 +39,13 @@
 
       <div id="linezone" class="flex_jc_c">
         <div class="flexgroup2">
-          <button type="button" id="search_ovv_btn" @click="OverviewClick();">再印刷・番号</button>
+          <button type="button" id="search_ovv_btn" @click="Click();">再印刷・番号</button>
         </div>
         <div class="flexgroup2">
           <label><input type="text" class="form_style input_w100p_1" name=""></label>
         </div>
         <div class="flexgroup2">
-          <button type="button" id="search_cnt_btn" @click="ContentsClick();">参照・番号</button>
+          <button type="button" id="search_cnt_btn" @click="Click();">参照・番号</button>
         </div>
       </div>
 
@@ -68,7 +68,7 @@
 
 
 
-      <div>見積番号</div>
+      <div class="sect">見積番号</div>
       <div id="linezone" class="mgt0">
         <div class="flexgroup2 w1">
           <label><input type="text" class="form_style input_w100p_1" name="m_code_1"></label>
@@ -151,123 +151,120 @@
       </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <div id="linezone">
-        <div class="inputgroup">
-          <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
-          <button type="button" id="search_doc_btn" @click="SearchClick('doc',0,'見積書');">見積書を検索</button>
+      <div class="sect inlineblock input_w5">備考</div><span>{{ comment_1.length }} / 200</span>
+      <div id="linezone" class="mgt0">
+        <div class="flexgroup">
+          <label><textarea class="textarea1" name="comment_1" rows="4"  v-model="comment_1" maxlength="200"></textarea></label>
         </div>
-        <div class="inputgroup">
-          <span id="mit_mark" class="markzone mz_c2 v_hidden"></span>
-          <button type="button" id="search_mit_btn" @click="SearchClick('mit',0,'見積');">見積を検索</button>
-        </div>
-        <!--
-        <div class="inputgroup">
-          <div class="caretxt">&#10045; 部分一致可</div>
-        </div>
-        -->
       </div>
 
-      <div id="cnt_search">
-        <form id="searchform">
-        <h4>{{ sr_title }}<span id="search_com" class="v_hidden"></span></h4>
-        <div id="search_result" v-if="searchview === 'doc'">
-          <table id="quodoc">
-            <thead>
-              <tr>
-                <th class="w2"></th>
-                <th class="nrap">見積書番号</th>
-                <th class="">作成日</th>
-                <th class="nrap">得意先コード</th>
-                <th class="nrap">得意先名</th>
-                <th class="">形態</th>
-                <th class="w1">製品名</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(ditem,drowIndex) in 45" :key="drowIndex">
-                <td class="w2">
-                  <!--<input type="radio" name="wm_code" value="">-->
-                  <button type="button" class="srbtn" @click="MitGoBtn(ditem['id'],ditem['m_code'])">
-                    見積
-                  </button>
-                </td>
-                <td class="nrap">22060123</td>
-                <td class="nrap">2022年6月18日</td>
-                <td class="nrap">54321</td>
-                <td class="nrap">JR北海道</td>
-                <td class="nrap">通常</td>
-                <td class="">線路施設工事線区別日報</td>
-              </tr>
-            </tbody>
-          </table>
+
+      <div id="linezone" class="columngap_10px mgt20">
+        <div class="flexgroup2 ">
+          <label><span>値引き額</span><input type="text" class="form_style input_w7" name="discount_amount"></label>
         </div>
-        <div id="search_result" v-if="searchview === 'mit'">
-          <table id="quodoc">
-            <thead>
-              <tr>
-                <th class="w2"></th>
-                <th class="nrap">見積番号</th>
-                <th class="">作成日</th>
-                <th class="nrap">得意先コード</th>
-                <th class="nrap">得意先名</th>
-                <th class="w1">製品名</th>
-                <th class="">制作数</th>
-                <th class="">金額</th>
-                <th class="">受注日</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(mitem,mrowIndex) in 68" :key="mrowIndex">
-                <td class="w2"><label style="display:block;"><input type="radio" name="m_codes" v-model="mcradio" :value="mrowIndex"></label></td>
-                <td class="nrap">{{ mitem['m_code'] }}</td>
-                <td class="nrap">2022年5月24日</td>
-                <td class="nrap">23456</td>
-                <td class="nrap">ロイズコーポレーション</td>
-                <td class="">合同支援利用促進パンフレット　４色</td>
-                <td class="nrap">0P2000部</td>
-                <td class="nrap">1200000</td>
-                <td class="nrap">2022年05月31日</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="flexgroup">
+          <label><span>値引きコメント</span><input type="text" class="form_style input_w50p" name="discount_comment"></label>
         </div>
-        </form>
+      </div>
+
+
+      <div id="linezone" class="columngap_10px mgt20">
+        <div class="inputgroup">
+          <button type="button" id="set_doc_btn" @click="Click('doc',0,'見積書');">採番</button>
+          <span>20220812341234</span>
+        </div>
+
+        <div class="inputgroup">
+          <button type="button" id="search_ovv_btn" @click="previewClick();">プレビュー</button>
+        </div>
+        <div class="inputgroup">
+          <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
+        </div>
+
+
+
+
       </div>
 
     </div><!--end id cnt3-->
 
 
-    <div id="printzone" v-if="printview === true">
-      <popup-print
-       v-bind:m-code="m_code"
-       v-bind:print-data="printdata"
-       v-bind:print-title="printtitle"
-       v-on:pricancel-event="Pricancel"
-      ></popup-print>
+    <div id="printdoczone" class="font_go"  v-if="printview === '1'">
+      <section class="page">
+
+
+        <div id="printdoc_title">
+          <h1 class="font_min">御見積書</h1>
+          <div class="abs_l">No. 20220812345678</div>
+        </div>
+        <div class="docdate">令和 4 年 8 月 12 日</div>
+
+        <div id="printdoc_customer">
+          <h2>変数 株式会社 三条不動産 賃貸事業部 法人課　様</h2>
+        </div>
+
+        <div id="printdoc_primary">
+          <div class="parts1">
+            <div id="pd_terms">
+              <ul>
+                <li>納期：変数</li>
+                <li>見積有効期限：変数</li>
+                <li>支払条件：変数</li>
+                <li>納入場所：変数</li>
+              </ul>
+            </div>
+          </div>
+          <div class="parts2">
+            <div class="logo"><img src="images/logo_sanjyo.svg"></div>
+            <div id="your_office">
+              <h4 class="company">三条印刷株式会社</h4>
+              <h5 class="president"><span class="op">代表取締役</span><span class="name font_min">川口 理一郎</span></h5>
+              <div class="address">札幌市東区北１０条東１３丁目１４</div>
+              <div class="telfax"><span>TEL:011-742-2769</span><span class="fax">FAX:011-702-8197</span></div>
+              <h6 class="email">E-Mail: <span>sanjyo@ssjjoo.com</span></h6>
+            </div> 
+
+
+          </div>
+        </div>
+
+
+
+
+        <div id="printdoc_main">
+          <div id="pd_cnt">
+            <dl>
+              <dt class="em5">得意先</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="em5">需要家</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="em5">製品名</dt>
+              <dd>変数欄</dd>
+            </dl>
+          </div>
+        </div>
+
+
+
+        <div id="print_btnzone" class="print-none">
+          <button type='button' onclick='window.print(); return false;'>印刷</button>
+          <button type='button' @click="Pricancel();">閉じる</button>
+        </div>
+
+
+
+
+
+      </section>
     </div>
+
+
+
 
 
   </div>
@@ -307,6 +304,7 @@ export default {
       printdata: "",
       m_code: "",
       printtitle: "",
+      comment_1: "",
 
     };
   },
@@ -371,88 +369,41 @@ export default {
 
 
     },
-    ContentsClick() {
-      const element = document.getElementById( "searchform" ) ;
-      var radioNodeList = element.m_codes ;
+
+
+    previewClick() {
       //console.log( 'radioNodeList = ' + radioNodeList ) ;
-
       //if (typeof a === "undefined") {
-      if (radioNodeList == null) {
-        alert('見積の検索をして下さい。');
-      }
-      else {
-        var vvmc = radioNodeList.value ;
-        if ( vvmc === "" ) {
-          alert('検索結果一覧より見積を選択して下さい。');
-        } else {
-          this.printtitle = "見積内容 ― 製品名 ―";
-          this.printdata = "【見積番号】D15689 【作成日】20120221 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";    
-          this.printdata += "【得意先】 119  萬  谷（一 般）\n";
-          this.printdata += "【エンドユーザー】 すずらん商事\n";
-          this.printdata += "【製品名】 納品書（タイトルなし）\n";
-          this.printdata += "【数量】1Ｐ 100,000枚 【総数量】100,000 【総通し数】50,000\n";
-          this.printdata += "【規格】ミリ 【シリンダー】10.5インチ 3本 10.5インチ折\n";
 
-          this.printdata += "<hr>";
+          /*
+          $.ajax({
+            url : 'm_101.php',
+            type: 'post',
+            dataType : 'html',
+            data : { "vvmc": vvmc, "name": "アイランドラビリンス", },
+            success : function(resultdata){
+                $('#printgaiyo').html(resultdata);
+                //ajaxJs();
+            },
+            error: function(data){
+                $('#printgaiyo').html(data);
+            }
+          });
+          */
 
-          this.printdata += "【シリンダー】3 X 5000 = 15,000\n";
-          this.printdata += "【フォーム部】\n";
-          this.printdata += "【フォーム部合計】11,500 \n";
-          this.printdata += "【版下設定】範疇：新版, 種別：フォーム, 難度：Ａ, 面積:72インチ平方, 料金:3000 \n";
-          this.printdata += "       ＣＴＰ 3版 \n";
-          this.printdata += "【組版・製版合計】12,000 \n";
-          this.printdata += "【製　本】\n";
-          this.printdata += "      [断裁・イン] [バースター] \n";
-          this.printdata += "      [バラ] \n";
-          this.printdata += "【梱包等】 [Ａ式] 2,500入り  40箱 X @250 = 10,000, \n";
-          this.printdata += "【製本合計】66,000 \n";
-          this.printdata += "【発　送】市内 40個 X 150 = 6,000, 【送料合計】 6,000 \n";
-
-          this.printdata += "<hr>";
-
-          this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
-          this.printdata += "【提示額】245,000 単価 2.45-\n";
-
-
-
-          this.m_code = "D11999";
-          const nopri = 'cnt1';
+          const nopri = 'cnt3';
           var nopriid = document.getElementById(nopri);
-          //nopriid.style.visibility = "visible";
           nopriid.style.display = "none";
-          this.printview = true;
-          //console.log( vvmc ) ;
+          this.printview = '1';
+          //printgaiyo.style.display = "block";
 
 
-        }
-      }
-    },
 
 
-    OverviewClick() {
-      const element = document.getElementById( "searchform" ) ;
-      var radioNodeList = element.m_codes ;
-      //console.log( 'radioNodeList = ' + radioNodeList ) ;
-      //if (typeof a === "undefined") {
-      if (radioNodeList == null) {
-        alert('見積の検索をして下さい。');
-      }
-      else {
-        var vvmc = radioNodeList.value ;
-        if ( vvmc === "" ) {
-          // 未選択状態
-          alert('検索結果一覧より見積を選択して下さい。');
-        } else {
 
-          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
-          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc);
-          //console.log( vvmc ) ;
-
-        }
-      }
     },
     Pricancel() {
-      const tid = "cnt1";
+      const tid = "cnt3";
       var targetid = document.getElementById(tid);
       //targetid.style.visibility = "visible";
       targetid.style.display = "block";

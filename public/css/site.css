@@ -77,6 +77,9 @@ button:active {
   background:#cc8888;
 }
 
+.font_go  {font-family: "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック体", "YuGothic", "メイリオ", sans-serif;}
+.font_min {font-family: "Yu Mincho", "游明朝", "YuMincho", "游明朝体", serif;}
+
 
 
 /*--------------------## ヘッダー ##--------------------*/
@@ -301,8 +304,8 @@ header .header_login_info a {
 .mgl20  {margin-left:20px;}
 .mgl40  {margin-left:40px;}
 .mgt0   {margin-top:0px !important;}
-.mgt20  {margin-top:20px;}
-.mgt40  {margin-top:40px;}
+.mgt20  {margin-top:20px !important;}
+.mgt40  {margin-top:40px !important;}
 
 .gc1  {  background:#88d7dd;}
 .bc1  {  border:2px solid #dddd88;}
@@ -321,6 +324,8 @@ header .header_login_info a {
 
 .txtcolor1  {color:#C0A;}
 .txtcolor2  {color:#C01800;}
+
+.inlineblock  {display:inline-block;}
 
 .flex_jc_sb  {
   justify-content: space-between;
@@ -782,6 +787,19 @@ header .header_login_info a {
 
 
 /*--------------------## 各種印刷プレビュー ##----------------------------------------*/
+
+.page{
+  width: 210mm;
+  height: 297mm;
+  box-sizing: border-box;
+  padding: 15mm 12mm;
+  page-break-after: always;
+  box-shadow: 0 .5mm 2mm rgba(0,0,0,.3); /* ドロップシャドウ */
+  margin: 5mm;
+  background: #FFF;
+}
+
+
 #cnt2{
   display:block;
 }
@@ -941,7 +959,12 @@ header .header_login_info a {
 
 /*--------------------## 見積書印刷 QuotationDoc.vue ##--------------------*/
 
-#cnt3 {padding:0 0 20px 0}
+#cnt3 {padding:0 10px 20px 10px;}
+#cnt3 .sect {
+  margin-top:20px;
+  margin-left:10px;
+
+}
 #linezone {
   display:flex;
   width:100%;
@@ -963,11 +986,142 @@ header .header_login_info a {
 #linezone .w1 {
   width:10em;
 }
+#linezone .textarea1 {
+  font-size:1.8rem;
+  line-height:2.4rem;
+  /*height:6rem;*/
+  width:calc(100% - 10px);
+  padding:4px 6px;
+  /*width:44em;*/
+  box-sizing: border-box;
+}
 
 
 .input_w100p  {width:100%;}
 .input_w100p_1  {width:calc(100% - 1em);}  /*幅分をマイナス*/
 .input_w100p_10  {width:calc(100% - 10em);}
+.input_w50p  {width:50%;}
+.input_maxw20  {max-width:20em;}
+
+
+/*--## 見積書印刷画面 ##--*/
+
+#printdoc_title {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+#printdoc_title h1  {
+  font-size:8mm;
+  line-height: 12mm;
+  letter-spacing: 4mm;
+  margin-left: 4mm;
+}
+#printdoc_title .abs_l {
+  line-height: 12mm;
+  font-size: 3.5mm;
+  position: absolute;
+  left: 0;
+}
+#printdoczone .docdate {
+  font-size: 4mm;
+  text-align: right;
+  margin-top:1mm;
+}
+
+#printdoc_customer h2 {
+  font-size: 6mm;
+  letter-spacing: 0.4mm;
+}
+
+#printdoc_primary {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 3mm;
+  /*line-height:1em;*/
+  
+}
+#printdoc_primary .parts1 {
+  flex:1;
+}
+#pd_terms ul {list-style: none;}
+#pd_terms ul li {
+  position: relative;
+  font-size: 4mm;
+  font-weight: bold;
+  line-height: 1.3em;
+}
+#pd_terms ul li::before {
+  content: "";
+  display:inline-block;
+  width:  3.5mm;
+  height:  3.5mm;
+  background-color: #000;
+  border-radius:  50%;
+  line-height: 4mm;
+  text-align: center;
+  position:  relative;
+  left:0mm;
+  top: 0.3mm;
+  margin-right:1mm;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#printdoc_primary .parts2 {
+  display: flex;
+  align-items: center;
+}
+#printdoc_primary .logo {
+  width: 26mm;
+}
+#printdoc_primary .logo img {
+  width: 22mm;
+}
+
+#your_office .company {
+  font-size:7mm;
+  line-height:1em;
+}
+#your_office .president {
+  font-size:6mm;
+  line-height:1em;
+  margin-top:2mm;
+}
+#your_office .op  {font-size:4mm;}
+#your_office .name  {margin-left:4mm;}
+#your_office .address {
+  font-size:3.5mm;
+  line-height:1em;
+  margin-top:2mm;
+}
+#your_office .telfax  {
+  font-size:3.2mm;
+  line-height:1em;
+  margin-top:1mm;
+}
+#your_office .fax {margin-left:2mm;}
+#your_office .email {
+  font-size: 4mm;
+  line-height:1em;
+  margin-top:1mm;
+}
+#your_office .email span  {letter-spacing: 0.4mm;}
+
 
 
 
@@ -1466,6 +1620,11 @@ html { scroll-behavior: smooth;}
 }
 
 /*------#### print out ####------*/
+/* A4縦用のベース設定 */
+@page {
+  size: A4 portrait; /* 横の場合はlandscape */
+  margin: 0mm;
+}
 @media print {
   .print_view {display:block;}
   .print-none {display: none !important;}
@@ -1490,8 +1649,14 @@ html { scroll-behavior: smooth;}
     padding:0px 4px;
   }
   
-
-
+  .page{
+    page-break-after: always;
+    box-shadow: none;
+    margin: 0;
+  }
+  .page:last-child{
+    page-break-after: auto;
+  }
 
 
 
