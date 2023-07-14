@@ -61,7 +61,7 @@ button  {
   padding:2px 6px;
   color:#FFF;
   background:#88b3bb;
-  width:10em;
+  width:140px;
   cursor: pointer;
 }
 
@@ -76,6 +76,9 @@ button:focus {
 button:active {
   background:#cc8888;
 }
+
+.font_go  {font-family: "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック体", "YuGothic", "メイリオ", sans-serif;}
+.font_min {font-family: "Yu Mincho", "游明朝", "YuMincho", "游明朝体", serif;}
 
 
 
@@ -300,8 +303,9 @@ header .header_login_info a {
 .mgl10  {margin-left:10px;}
 .mgl20  {margin-left:20px;}
 .mgl40  {margin-left:40px;}
-.mgt20  {margin-top:20px;}
-.mgt40  {margin-top:40px;}
+.mgt0   {margin-top:0px !important;}
+.mgt20  {margin-top:20px !important;}
+.mgt40  {margin-top:40px !important;}
 
 .gc1  {  background:#88d7dd;}
 .bc1  {  border:2px solid #dddd88;}
@@ -321,6 +325,8 @@ header .header_login_info a {
 .txtcolor1  {color:#C0A;}
 .txtcolor2  {color:#C01800;}
 
+.inlineblock  {display:inline-block;}
+
 .flex_jc_sb  {
   justify-content: space-between;
 }
@@ -333,9 +339,15 @@ header .header_login_info a {
 .flex_jc_r  {
   justify-content: right;
 }
+.columngap_10px {
+  column-gap:10px;
+}
 .nrap  {
   white-space: nowrap;
 }
+.ta_l {text-align: left;}
+.ta_c {text-align: center;}
+.ta_r {text-align: right;}
 
 /*--------------------## TOP page ##--------------------*/
 #tips_cnt .lst1  {
@@ -562,6 +574,7 @@ header .header_login_info a {
  .spanwidth_1 {display:inline-block; width:4em;} 
  .spanwidth_2 {display:inline-block; width:6em;} 
  .spanwidth_8 {display:inline-block; width:8em;} 
+ .spanwidth_10 {display:inline-block; width:10em;} 
  .spanwidth_12 {display:inline-block; width:12em;} 
  .lspacing1{letter-spacing: 1em;}
  .mglrauto {margin-left:auto; margin-right:auto;}
@@ -774,6 +787,19 @@ header .header_login_info a {
 
 
 /*--------------------## 各種印刷プレビュー ##----------------------------------------*/
+
+.page{
+  width: 210mm;
+  height: 297mm;
+  box-sizing: border-box;
+  padding: 15mm 12mm;
+  page-break-after: always;
+  box-shadow: 0 .5mm 2mm rgba(0,0,0,.3); /* ドロップシャドウ */
+  margin: 5mm;
+  background: #FFF;
+}
+
+
 #cnt2{
   display:block;
 }
@@ -793,6 +819,313 @@ header .header_login_info a {
 #print_btnzone  {
   margin-top:30px;
 }
+
+
+/*--## 見積概要印刷 ##--*/
+#print2_title {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+#print2_title h1  {
+  font-size:20px;
+  line-height: 30px;
+}
+#print2_title .abs_r {
+  line-height: 30px;
+  font-size: 1em;
+  position: absolute;
+  right: 0;
+}
+
+
+#print2_main {
+  box-sizing: border-box;
+}
+#print2_main dt {
+  padding:2px 8px;
+}
+#print2_main dd {
+  padding:2px 8px;
+}
+
+
+#p2_cnt dl {
+  border: 1px solid #000;
+  display: flex;
+  margin-top:20px;
+}
+
+#p2_cnt_flex {
+  display: flex;
+  border: 1px solid #000;
+  border-width: 1px 0 0 1px;
+}
+#p2_cnt_flex dl {
+  width: 100%;
+  display: flex;
+  border: 1px solid #000;
+  border-width: 0 1px 1px 0;
+}
+ 
+#p2_cnt_flex2 {
+  display: flex;
+  border: 1px solid #000;
+  border-width: 1px 0 0 1px;
+}
+#p2_cnt_flex2 .waku {
+  width: 100%;
+  display: flex;
+  border: 1px solid #000;
+  border-width: 0 1px 1px 0;
+}
+#p2_cnt_flex2 dl {
+  width: 100%;
+  display: flex;
+}
+
+#p2_cnt2 dl {
+  display: flex;
+  margin-top:10px;
+}
+#p2_cnt2 dd {
+  width: 100%;
+  border: 1px solid #000;
+}
+#p2_cnt2 .width_style {
+  width:9em;
+}
+
+#p2_cnt3 dl {
+  display: flex;
+  justify-content:flex-end;
+  margin-top:20px;
+}
+#p2_cnt3 dt {
+  border: 2px solid #000;
+  border-width: 2px 2px 2px 2px;
+}
+#p2_cnt3 dd {
+  border: 2px solid #000;
+  border-width: 2px 2px 2px 0;
+}
+
+
+#print2_main .em3 {width: 3em;}
+#print2_main .em4 {width: 4em;}
+#print2_main .em5 {width: 5em;}
+#print2_main .em6 {width: 6em;}
+#print2_main .em8 {width: 8em;}
+
+
+
+
+
+#p2_tbl table {
+  width:100%;
+  border-collapse: collapse;
+  margin-bottom:0px;
+  border-spacing:0;
+  /*
+  border-left:1px solid #888888;
+  border-top:1px solid #888888;
+  */
+
+}
+#p2_tbl th {
+  text-align: center;
+  border:1px solid #000;
+}
+#p2_tbl td {
+  text-align: center;
+  border:1px solid #000;
+  padding:1px 1px;
+  vertical-align: middle;
+}
+#p2_tbl .w1 {
+  width:1em;
+  letter-spacing: 0.1em;
+  padding:1px 1px;
+}
+#p2_tbl .w1 span {writing-mode: vertical-rl;}
+#p2_tbl .w2 {
+  width:2em;
+}
+#p2_tbl .txtstyle {
+  text-align: left;
+  padding:1px 8px;
+}
+
+
+/*--------------------## 見積書印刷 QuotationDoc.vue ##--------------------*/
+
+#cnt3 {padding:0 10px 20px 10px;}
+#cnt3 .sect {
+  margin-top:20px;
+  margin-left:10px;
+
+}
+#linezone {
+  display:flex;
+  width:100%;
+  flex-wrap:wrap;
+  margin-top:1rem;
+
+}
+#linezone .flexgroup {
+  flex-grow: 1;
+} 
+#linezone .flexgroup2 {
+  flex-grow: 0;
+  text-align: center;
+}
+#linezone .flexgroup3 {
+  flex-grow: 1;
+  text-align: center;
+}
+#linezone .w1 {
+  width:10em;
+}
+#linezone .textarea1 {
+  font-size:1.8rem;
+  line-height:2.4rem;
+  /*height:6rem;*/
+  width:calc(100% - 10px);
+  padding:4px 6px;
+  /*width:44em;*/
+  box-sizing: border-box;
+}
+
+
+.input_w100p  {width:100%;}
+.input_w100p_1  {width:calc(100% - 1em);}  /*幅分をマイナス*/
+.input_w100p_10  {width:calc(100% - 10em);}
+.input_w50p  {width:50%;}
+.input_maxw20  {max-width:20em;}
+
+
+/*--## 見積書印刷画面 ##--*/
+
+#printdoc_title {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+#printdoc_title h1  {
+  font-size:8mm;
+  line-height: 12mm;
+  letter-spacing: 4mm;
+  margin-left: 4mm;
+}
+#printdoc_title .abs_l {
+  line-height: 12mm;
+  font-size: 3.5mm;
+  position: absolute;
+  left: 0;
+}
+#printdoczone .docdate {
+  font-size: 4mm;
+  text-align: right;
+  margin-top:1mm;
+}
+
+#printdoc_customer h2 {
+  font-size: 6mm;
+  letter-spacing: 0.4mm;
+}
+
+#printdoc_primary {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 3mm;
+  /*line-height:1em;*/
+  
+}
+#printdoc_primary .parts1 {
+  flex:1;
+}
+#pd_terms ul {list-style: none;}
+#pd_terms ul li {
+  position: relative;
+  font-size: 4mm;
+  font-weight: bold;
+  line-height: 1.3em;
+}
+#pd_terms ul li::before {
+  content: "";
+  display:inline-block;
+  width:  3.5mm;
+  height:  3.5mm;
+  background-color: #000;
+  border-radius:  50%;
+  line-height: 4mm;
+  text-align: center;
+  position:  relative;
+  left:0mm;
+  top: 0.3mm;
+  margin-right:1mm;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#printdoc_primary .parts2 {
+  display: flex;
+  align-items: center;
+}
+#printdoc_primary .logo {
+  width: 26mm;
+}
+#printdoc_primary .logo img {
+  width: 22mm;
+}
+
+#your_office .company {
+  font-size:7mm;
+  line-height:1em;
+}
+#your_office .president {
+  font-size:6mm;
+  line-height:1em;
+  margin-top:2mm;
+}
+#your_office .op  {font-size:4mm;}
+#your_office .name  {margin-left:4mm;}
+#your_office .address {
+  font-size:3.5mm;
+  line-height:1em;
+  margin-top:2mm;
+}
+#your_office .telfax  {
+  font-size:3.2mm;
+  line-height:1em;
+  margin-top:1mm;
+}
+#your_office .fax {margin-left:2mm;}
+#your_office .email {
+  font-size: 4mm;
+  line-height:1em;
+  margin-top:1mm;
+}
+#your_office .email span  {letter-spacing: 0.4mm;}
+
+
+
+
+
 
 
 
@@ -829,7 +1162,7 @@ header .header_login_info a {
 }
 
 
-/*--------------------## メンテナンス / バックアップ ##--------------------*/
+/*--------------------## メンテナンス / バックアップ BackuoLogs.vue ##--------------------*/
 
 #backup_btnzone  {
   max-width:1000px;
@@ -1124,13 +1457,13 @@ button.style2:hover  {
 
 
 /*--------------------## 棚卸 /  ##--------------------*/
-#cnt3 {
+#cnt33 {
   display:flex;
   /*width:100%;*/
   align-items: center;
   flex-wrap:wrap;
 }
-#cnt3 .mg1 {
+#cnt33 .mg1 {
   margin-left:20px;
 }
 
@@ -1287,11 +1620,45 @@ html { scroll-behavior: smooth;}
 }
 
 /*------#### print out ####------*/
+/* A4縦用のベース設定 */
+@page {
+  size: A4 portrait; /* 横の場合はlandscape */
+  margin: 0mm;
+}
 @media print {
   .print_view {display:block;}
   .print-none {display: none !important;}
 
   .navbar{display:none;}
+
+
+  #p2_tbl th {
+    font-size:1.2rem;
+  }
+  #p2_tbl td {
+    padding:2px 1px 0px 1px;
+    line-height: 16px;
+  }
+  #p2_tbl .w1 {
+    font-size:1rem;
+    line-height: 12px;
+    letter-spacing: 0em;
+    padding:2px 1px;
+  }
+  #p2_tbl .txtstyle {
+    padding:0px 4px;
+  }
+  
+  .page{
+    page-break-after: always;
+    box-shadow: none;
+    margin: 0;
+  }
+  .page:last-child{
+    page-break-after: auto;
+  }
+
+
 
   select {
     -webkit-appearance: none;/* ベンダープレフィックス(Google Chrome、Safari用) */
