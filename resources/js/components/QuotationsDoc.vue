@@ -225,14 +225,59 @@
               <h6 class="email">E-Mail: <span>sanjyo@ssjjoo.com</span></h6>
             </div> 
 
-
           </div>
         </div>
 
 
+        <div id="printdoc_cate_quo" class="flex_jc_sb">
+          <div class="quokind">
+            <h2 class="flex flex_ai_c flex_jc_c"><span>単価見積</span></h2>
+          </div>
+          <div class="stamp">
+            <p>&emsp;</p>
+            <p>&emsp;</p>
+            <p>&emsp;</p>
+            <p>&emsp;</p>
+          </div>
+        </div>
 
 
         <div id="printdoc_main">
+
+					<table id="tbl_cnt">
+						<thead>
+							<tr>
+								<th class="ta_c w1">見積No.</th>
+								<th class="ta_c"><span class="inlineblock w50p ta_lj">品名</span></th>
+								<th class="ta_c w3"><span class="inlineblock w50p ta_lj">数量</span></th>
+								<th class="ta_c w4">単位</th>
+								<th class="ta_c w5"><span class="inlineblock w50p ta_lj">単価</span></th>
+								<th class="ta_c w6"><span class="inlineblock w50p ta_lj">金額</span></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(ditem,drowIndex) in 10" :key="drowIndex">
+								<td class="">20220000{{drowIndex + 11}}</td>
+								<td class="">変数例オリジナルメモ帳</td>
+								<td class="ta_r">8,000</td>
+								<td class="ta_c">冊</td>
+								<td class="ta_r">200.00</td>
+								<td class="ta_r">1,600,000</td>
+							</tr>
+						</tbody>
+					</table>
+
+
+
+
+
+
+
+
+
+
+
+
           <div id="pd_cnt">
             <dl>
               <dt class="em5">得意先</dt>

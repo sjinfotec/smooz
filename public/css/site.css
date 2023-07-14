@@ -327,6 +327,13 @@ header .header_login_info a {
 
 .inlineblock  {display:inline-block;}
 
+
+.flex {display: flex;}
+.flex_ai_s  {align-items: stretch;}
+.flex_ai_c  {align-items: center}
+.flex_ai_fe {align-items: flex-end;}
+.flex_ai_fs {align-items: flex-start;}
+
 .flex_jc_sb  {
   justify-content: space-between;
 }
@@ -335,6 +342,9 @@ header .header_login_info a {
 }
 .flex_jc_c  {
   justify-content: center;
+}
+.flex_jc_fe  {
+  justify-content: flex-end;
 }
 .flex_jc_r  {
   justify-content: right;
@@ -348,6 +358,11 @@ header .header_login_info a {
 .ta_l {text-align: left;}
 .ta_c {text-align: center;}
 .ta_r {text-align: right;}
+
+.ta_j{text-align: justify}
+.ta_lj{text-align-last: justify}
+
+
 
 /*--------------------## TOP page ##--------------------*/
 #tips_cnt .lst1  {
@@ -1047,9 +1062,9 @@ header .header_login_info a {
 #pd_terms ul {list-style: none;}
 #pd_terms ul li {
   position: relative;
-  font-size: 4mm;
-  font-weight: bold;
-  line-height: 1.3em;
+  font-size: 4.5mm;
+  font-weight: normal;
+  line-height: 1.2em;
 }
 #pd_terms ul li::before {
   content: "";
@@ -1065,21 +1080,6 @@ header .header_login_info a {
   top: 0.3mm;
   margin-right:1mm;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #printdoc_primary .parts2 {
@@ -1105,22 +1105,108 @@ header .header_login_info a {
 #your_office .op  {font-size:4mm;}
 #your_office .name  {margin-left:4mm;}
 #your_office .address {
-  font-size:3.5mm;
+  font-size:3.55mm;
   line-height:1em;
   margin-top:2mm;
 }
 #your_office .telfax  {
-  font-size:3.2mm;
+  font-size:3.15mm;
   line-height:1em;
   margin-top:1mm;
 }
 #your_office .fax {margin-left:2mm;}
 #your_office .email {
   font-size: 4mm;
-  line-height:1em;
-  margin-top:1mm;
+  line-height: 1em;
+  margin-top: 1mm;
 }
 #your_office .email span  {letter-spacing: 0.4mm;}
+
+#printdoc_cate_quo {
+  display: flex;
+  margin-top: 8mm;
+}
+#printdoc_cate_quo .quokind {
+  flex:1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#printdoc_cate_quo .quokind h2  {
+  width: 70mm;
+  height: 14mm;
+  border:2px solid #000;
+}
+#printdoc_cate_quo .stamp {
+  flex:1;
+  display: flex;
+  justify-content: flex-end;
+}
+#printdoc_cate_quo .stamp p {
+  border:1px solid #000;
+  border-width: 1px 1px 1px 0;
+  width:18mm;
+  height:18mm;
+}
+#printdoc_cate_quo .stamp p:first-child  {
+  border-width: 1px 1px 1px 1px;
+}
+#printdoc_cate_quo .stamp p:last-child  {
+  border-width: 1px 1px 1px 0;
+}
+
+
+#printdoc_main {
+  margin-top: 8mm;
+}
+#tbl_cnt  {
+  box-sizing: border-box;
+  width:100%;
+  border-collapse: collapse;
+  margin-bottom:0px;
+  border-spacing:0;
+  border-left:2px solid #000;
+  border-top:2px solid #000;
+
+}
+#tbl_cnt th  {
+  font-size: 4mm;
+  border-right:2px solid #000;
+  border-bottom:2px solid #000;
+}
+#tbl_cnt tr {
+  border-bottom:1px dashed #000;
+}
+#tbl_cnt tr:last-child  {
+  border-bottom:2px solid #000;
+}
+#tbl_cnt td  {
+  font-size: 4mm;
+  line-height: 4.5mm;
+  height: 10mm;
+  padding:0 3mm;
+  border-right:2px solid #000;
+}
+#tbl_cnt .w1 {width:15mm;}
+#tbl_cnt .w2 {width:5mm;}
+#tbl_cnt .w3 {width:25mm;}
+#tbl_cnt .w4 {width:10mm;}
+#tbl_cnt .w5 {width:20mm;}
+#tbl_cnt .w6 {width:30mm;}
+#tbl_cnt .w50p {width:50%;}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
