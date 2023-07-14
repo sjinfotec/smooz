@@ -6729,6 +6729,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 //import { dialogable } from "../mixins/dialogable.js";
@@ -40428,6 +40473,36 @@ var render = function () {
             _vm._v(" "),
             _vm._m(22),
             _vm._v(" "),
+            _c("div", { attrs: { id: "printdoc_main" } }, [
+              _c("table", { attrs: { id: "tbl_cnt" } }, [
+                _vm._m(23),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(10, function (ditem, drowIndex) {
+                    return _c("tr", { key: drowIndex }, [
+                      _c("td", {}, [
+                        _vm._v("20220000" + _vm._s(drowIndex + 11)),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("変数例オリジナルメモ帳")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ta_r" }, [_vm._v("8,000")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ta_c" }, [_vm._v("冊")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ta_r" }, [_vm._v("200.00")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ta_r" }, [_vm._v("1,600,000")]),
+                    ])
+                  }),
+                  0
+                ),
+              ]),
+              _vm._v(" "),
+              _vm._m(24),
+            ]),
+            _vm._v(" "),
             _c(
               "div",
               { staticClass: "print-none", attrs: { id: "print_btnzone" } },
@@ -40923,25 +40998,85 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "printdoc_main" } }, [
-      _c("div", { attrs: { id: "pd_cnt" } }, [
-        _c("dl", [
-          _c("dt", { staticClass: "em5" }, [_vm._v("得意先")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v("変数欄")]),
+    return _c(
+      "div",
+      { staticClass: "flex_jc_sb", attrs: { id: "printdoc_cate_quo" } },
+      [
+        _c("div", { staticClass: "quokind" }, [
+          _c("h2", { staticClass: "flex flex_ai_c flex_jc_c" }, [
+            _c("span", [_vm._v("単価見積")]),
+          ]),
         ]),
         _vm._v(" "),
-        _c("dl", [
-          _c("dt", { staticClass: "em5" }, [_vm._v("需要家")]),
+        _c("div", { staticClass: "stamp" }, [
+          _c("p", [_vm._v(" ")]),
           _vm._v(" "),
-          _c("dd", [_vm._v("変数欄")]),
+          _c("p", [_vm._v(" ")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ")]),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "ta_c w1" }, [_vm._v("見積No.")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "ta_c" }, [
+          _c("span", { staticClass: "inlineblock w50p ta_lj" }, [
+            _vm._v("品名"),
+          ]),
         ]),
         _vm._v(" "),
-        _c("dl", [
-          _c("dt", { staticClass: "em5" }, [_vm._v("製品名")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v("変数欄")]),
+        _c("th", { staticClass: "ta_c w3" }, [
+          _c("span", { staticClass: "inlineblock w50p ta_lj" }, [
+            _vm._v("数量"),
+          ]),
         ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "ta_c w4" }, [_vm._v("単位")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "ta_c w5" }, [
+          _c("span", { staticClass: "inlineblock w50p ta_lj" }, [
+            _vm._v("単価"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "ta_c w6" }, [
+          _c("span", { staticClass: "inlineblock w50p ta_lj" }, [
+            _vm._v("金額"),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "pd_cnt" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("得意先")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("需要家")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("製品名")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
       ]),
     ])
   },
