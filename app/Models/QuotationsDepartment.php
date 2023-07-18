@@ -57,13 +57,14 @@ class QuotationsDepartment extends Model
 	private $tape_process;					// テープ加工
 	private $peel;							// 剥離糊
 	private $press;							// プレス
-	private $sheetcut;						// シートカット
+	private $donko2;							// ドンコ
 	private $collator_cno;					// クラッシュNo.
 	private $collator_ana;					// 穴
 	private $collator_all_outsou;			// 外注先
 	private $collator_all_outsou_cost;		// 外注費
 	private $collator_subtotal;				// コレータ部工賃小計
 	private $collator_basic_fee;			// コレータ部基本料金
+	private $sheetcut;						// シートカット
 	private $nl_color;						// 名刺色
 	private $nl_hagaki;						// ハガキ
 	private $nl_hagaki_color;				// ハガキ色
@@ -175,7 +176,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setKatanukioutsoucostAttribute($value)
 	{
-		$this->katanuki_outsou_cost = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->katanuki_outsou_cost = (int)trim($value);
+		} else {
+			$this->katanuki_outsou_cost = null;
+		}
 	}
 
 	//カス取
@@ -205,7 +210,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setKasutorioutsoucostAttribute($value)
 	{
-		$this->kasutori_outsou_cost = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->kasutori_outsou_cost = (int)trim($value);
+		} else {
+			$this->kasutori_outsou_cost = null;
+		}
 	}
 
 	//ニス
@@ -225,7 +234,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setNisuthroughAttribute($value)
 	{
-		$this->nisu_through = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->nisu_through = (int)trim($value);
+		} else {
+			$this->nisu_through = null;
+		}
 	}
 
 	//ＴＳＲスキップ回
@@ -235,7 +248,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setTsrtimesAttribute($value)
 	{
-		$this->tsr_times = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->tsr_times = (int)trim($value);
+		} else {
+			$this->tsr_times = null;
+		}
 	}
 
 	//ＴＳＲスキップ通
@@ -245,7 +262,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setTsrthroughAttribute($value)
 	{
-		$this->tsr_through = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->tsr_through = (int)trim($value);
+		} else {
+			$this->tsr_through = null;
+		}
 	}
 
 	//色替
@@ -255,7 +276,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setFormcolorchangeAttribute($value)
 	{
-		$this->form_color_change = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->form_color_change = (int)trim($value);
+		} else {
+			$this->form_color_change = null;
+		}
 	}
 
 	//カーボン型
@@ -265,7 +290,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setFormcarbonmoldAttribute($value)
 	{
-		$this->form_carbon_mold = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->form_carbon_mold = (int)trim($value);
+		} else {
+			$this->form_carbon_mold = null;
+		}
 	}
 
 	//外注先
@@ -285,7 +314,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setFormalloutsoucostAttribute($value)
 	{
-		$this->form_all_outsou_cost = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->form_all_outsou_cost = (int)trim($value);
+		} else {
+			$this->form_all_outsou_cost = null;
+		}
 	}
 
 	//フォーム部工賃小計
@@ -295,7 +328,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setFormsubtotalAttribute($value)
 	{
-		$this->form_subtotal = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->form_subtotal = (int)trim($value);
+		} else {
+			$this->form_subtotal = null;
+		}
 	}
 
 	//色替
@@ -305,7 +342,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setOffsetcolorchangeAttribute($value)
 	{
-		$this->offset_color_change = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->offset_color_change = (int)trim($value);
+		} else {
+			$this->offset_color_change = null;
+		}
 	}
 
 	//カーボン型
@@ -315,7 +356,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setOffsetcarbonmoldAttribute($value)
 	{
-		$this->offset_carbon_mold = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->offset_carbon_mold = (int)trim($value);
+		} else {
+			$this->offset_carbon_mold = null;
+		}
 	}
 
 	//オフセット部工賃小計
@@ -325,7 +370,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setOffsetsubtotalAttribute($value)
 	{
-		$this->offset_subtotal = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->offset_subtotal = (int)trim($value);
+		} else {
+			$this->offset_subtotal = null;
+		}
 	}
 
 	//版下
@@ -375,7 +424,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setPlatemakingoutsoucostAttribute($value)
 	{
-		$this->plate_making_outsou_cost = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->plate_making_outsou_cost = (int)trim($value);
+		} else {
+			$this->plate_making_outsou_cost = null;
+		}
 	}
 
 	//ＣＴＰ
@@ -385,7 +438,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setCtpAttribute($value)
 	{
-		$this->ctp = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->ctp = (int)trim($value);
+		} else {
+			$this->ctp = null;
+		}
 	}
 
 	//インクジェット
@@ -405,7 +462,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setInkjetsheetAttribute($value)
 	{
-		$this->inkjet_sheet = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->inkjet_sheet = (int)trim($value);
+		} else {
+			$this->inkjet_sheet = null;
+		}
 	}
 
 	//オンデマンド 色数表
@@ -415,7 +476,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setOndemandcolorfrontAttribute($value)
 	{
-		$this->ondemand_color_front = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->ondemand_color_front = (int)trim($value);
+		} else {
+			$this->ondemand_color_front = null;
+		}
 	}
 
 	//オンデマンド 色数裏
@@ -425,7 +490,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setOndemandcolorbackAttribute($value)
 	{
-		$this->ondemand_color_back = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->ondemand_color_back = (int)trim($value);
+		} else {
+			$this->ondemand_color_back = null;
+		}
 	}
 
 	//オンデマンド 通し表
@@ -435,7 +504,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setOndemandthroughfrontAttribute($value)
 	{
-		$this->ondemand_through_front = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->ondemand_through_front = (int)trim($value);
+		} else {
+			$this->ondemand_through_front = null;
+		}
 	}
 
 	//オンデマンド 通し裏
@@ -445,7 +518,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setOndemandthroughbackAttribute($value)
 	{
-		$this->ondemand_through_back = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->ondemand_through_back = (int)trim($value);
+		} else {
+			$this->ondemand_through_back = null;
+		}
 	}
 
 	//組版・製版工賃小計
@@ -455,7 +532,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setPlatesubtotalAttribute($value)
 	{
-		$this->plate_subtotal = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->plate_subtotal = (int)trim($value);
+		} else {
+			$this->plate_subtotal = null;
+		}
 	}
 
 	//コレーター
@@ -465,7 +546,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setCollatorAttribute($value)
 	{
-		$this->collator = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->collator = (int)trim($value);
+		} else {
+			$this->collator = null;
+		}
 	}
 
 	//ベーベ
@@ -475,7 +560,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setBebeAttribute($value)
 	{
-		$this->bebe = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->bebe = (int)trim($value);
+		} else {
+			$this->bebe = null;
+		}
 	}
 
 	//封筒加工
@@ -518,14 +607,14 @@ class QuotationsDepartment extends Model
 		$this->press = $value;
 	}
 
-	//シートカット
-	public function getSheetcutAttribute()
+	//ドンコ
+	public function getDonko2Attribute()
 	{
-		return $this->sheetcut;
+		return $this->donko2;
 	}
-	public function setSheetcutAttribute($value)
+	public function setDonko2Attribute($value)
 	{
-		$this->sheetcut = $value;
+		$this->donko2 = $value;
 	}
 
 	//クラッシュNo.
@@ -535,7 +624,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setCollatorcnoAttribute($value)
 	{
-		$this->collator_cno = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->collator_cno = (int)trim($value);
+		} else {
+			$this->collator_cno = null;
+		}
 	}
 
 	//穴
@@ -545,7 +638,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setCollatoranaAttribute($value)
 	{
-		$this->collator_ana = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->collator_ana = (int)trim($value);
+		} else {
+			$this->collator_ana = null;
+		}
 	}
 
 	//外注先
@@ -565,7 +662,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setCollatoralloutsoucostAttribute($value)
 	{
-		$this->collator_all_outsou_cost = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->collator_all_outsou_cost = (int)trim($value);
+		} else {
+			$this->collator_all_outsou_cost = null;
+		}
 	}
 
 	//コレータ部工賃小計
@@ -575,7 +676,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setCollatorsubtotalAttribute($value)
 	{
-		$this->collator_subtotal = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->collator_subtotal = (int)trim($value);
+		} else {
+			$this->collator_subtotal = null;
+		}
 	}
 
 	//コレータ部基本料金
@@ -585,7 +690,21 @@ class QuotationsDepartment extends Model
 	}
 	public function setCollatorbasicfeeAttribute($value)
 	{
-		$this->collator_basic_fee = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->collator_basic_fee = (int)trim($value);
+		} else {
+			$this->collator_basic_fee = null;
+		}
+	}
+
+	//シートカット
+	public function getSheetcutAttribute()
+	{
+		return $this->sheetcut;
+	}
+	public function setSheetcutAttribute($value)
+	{
+		$this->sheetcut = $value;
 	}
 
 	//名刺色
@@ -595,7 +714,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setNlcolorAttribute($value)
 	{
-		$this->nl_color = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->nl_color = (int)trim($value);
+		} else {
+			$this->nl_color = null;
+		}
 	}
 
 	//ハガキ
@@ -615,7 +738,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setNlhagakicolorAttribute($value)
 	{
-		$this->nl_hagaki_color = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->nl_hagaki_color = (int)trim($value);
+		} else {
+			$this->nl_hagaki_color = null;
+		}
 	}
 
 	//封筒色
@@ -625,7 +752,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setNlenvelopecolorAttribute($value)
 	{
-		$this->nl_envelope_color = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->nl_envelope_color = (int)trim($value);
+		} else {
+			$this->nl_envelope_color = null;
+		}
 	}
 
 	//No.
@@ -635,7 +766,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setNlnumberpartAttribute($value)
 	{
-		$this->nl_number_part = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->nl_number_part = (int)trim($value);
+		} else {
+			$this->nl_number_part = null;
+		}
 	}
 
 	//ネームライナー工賃小計
@@ -645,7 +780,11 @@ class QuotationsDepartment extends Model
 	}
 	public function setNlsubtotalAttribute($value)
 	{
-		$this->nl_subtotal = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->nl_subtotal = (int)trim($value);
+		} else {
+			$this->nl_subtotal = null;
+		}
 	}
 
 	//作成ユーザー

@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class QuotationsCost extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $table = 'quotations_cost';
+	protected $table = 'quotations_cost';
 
 
 	private $id;							// ID

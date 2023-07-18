@@ -53,6 +53,8 @@ Route::post('/quotations/get', [QuotationsController::class,'getData'])->middlew
 Route::post('/quotations/getone', [QuotationsController::class,'getDataOne'])->middleware('auth');
 Route::post('/quotations/update', [QuotationsController::class,'fix'])->middleware('auth');
 Route::post('/quotations/insert', [QuotationsController::class,'store'])->middleware('auth');
+Route::get('/qsearch', [QuotationsController::class,'search'])->middleware('auth');
+Route::post('/qsearch/get', [QuotationsController::class,'getDataSearch'])->middleware('auth');
 Route::get('/quotations/binding', [QuotationsBindingController::class,'index'])->middleware('auth');
 Route::get('/quotations/cost', [QuotationsCostController::class,'index'])->middleware('auth');
 Route::get('/quotations/department', [QuotationsDepartmentController::class,'index'])->middleware('auth');
@@ -62,12 +64,6 @@ Route::get('/quotations/department', [QuotationsDepartmentController::class,'ind
 //Route::post('/parts/get', 'PartsController@getitem');
 Route::post('/parts/get', [PartsController::class,'getitem'])->middleware('auth');
 Route::post('/outsourcing/get', [OutsourcingController::class,'getRequest'])->middleware('auth');
-
-// 見積検索
-Route::get('/qsearch', [QuotationsController::class,'search'])->middleware('auth');
-Route::post('/qsearch/get', [QuotationsController::class,'getDataSearch'])->middleware('auth');
-
-
 
 // 見積書
 Route::get('/qdoc', [QuotationsDocController::class,'index'])->middleware('auth');
@@ -80,6 +76,7 @@ Route::post('/print_q/get', [QuotationsController::class,'getSeaDetail'])->middl
 
 // 管理
 Route::get('/maintenance/backup', [BackupLogsController::class,'index'])->middleware('auth');
+Route::post('/maintenance/backup/importmitumoridat', [BackupLogsController::class,'importMitumoridat'])->middleware('auth');
 
 
 

@@ -20,6 +20,7 @@ class QuotationsParts extends Model
 	private $parts_code;								// パーツコード
 	private $paper_code;								// 用紙コード
 	private $paper_name;								// 用紙名
+	private $p_supply;									// 支給受
 	private $size_w;									// サイズ横
 	private $size_h;									// サイズ縦
 	private $size_top;									// サイズ分子
@@ -27,14 +28,12 @@ class QuotationsParts extends Model
 	private $papertray;									// 紙取
 	private $imposition_w;								// 面付け横
 	private $imposition_h;								// 面付け縦
-	private $p_envelope;								// 封筒
-	private $p_supply;									// 支給受
+	private $p_color_front;								// 色数表
+	private $p_color_back;								// 色数裏
 	private $p_desensitization;							// 減感
 	private $p_carbon;									// カーボン
 	private $p_white;									// ホワイト
 	private $p_separate;								// セパレート
-	private $p_color_front;								// 色数表
-	private $p_color_back;								// 色数裏
 	private $p_through;									// 通し数
 	private $p_sheet;									// 実質・ｍ／枚・数
 	private $p_mm_apply;								// 巻・丸め摘要単位Ｍ数
@@ -45,89 +44,90 @@ class QuotationsParts extends Model
 	private $p_paper_price;								// 用紙代金
 	private $p_form_sewingmachine_w;					// ミシン横
 	private $p_form_sewingmachine_h;					// ミシン縦
-	private $p_form_sewingmachine_ks;					// ミシン基・セ
 	private $p_form_jump_sewingmachine_w;				// ジャンプミシン横
 	private $p_form_jump_sewingmachine_h;				// ジャンプミシン縦
-	private $p_form_jump_sewingmachine_ks;				// ジャンプミシン基・セ
 	private $p_form_micro_sewingmachine_w;				// マイクロミシン横
 	private $p_form_micro_sewingmachine_h;				// マイクロミシン縦
-	private $p_form_micro_sewingmachine_ks;				// マイクロミシン基・セ
 	private $p_form_jump_micro_sewingmachine_w;			// ジャンプマイクロミシン横
 	private $p_form_jump_micro_sewingmachine_h;			// ジャンプマイクロミシン縦
-	private $p_form_jump_micro_sewingmachine_ks;		// ジャンプマイクロミシン基・セ
 	private $p_form_linein_w;							// スジ入れ横
 	private $p_form_linein_h;							// スジ入れ縦
-	private $p_form_linein_ks;							// スジ入れ基・セ
 	private $p_form_slitter_w;							// スリッター横
 	private $p_form_slitter_h;							// スリッター縦
-	private $p_form_slitter_ks;							// スリッター基・セ
 	private $p_form_no;									// No.
+	private $p_form_sewingmachine_ks;					// ミシン基・セ
+	private $p_form_jump_sewingmachine_ks;				// ジャンプミシン基・セ
+	private $p_form_micro_sewingmachine_ks;				// マイクロミシン基・セ
+	private $p_form_jump_micro_sewingmachine_ks;		// ジャンプマイクロミシン基・セ
+	private $p_form_linein_ks;							// スジ入れ基・セ
+	private $p_form_slitter_ks;							// スリッター基・セ
 	private $p_form_no_ks;								// No.基・セ
-	private $p_form_cornercut;							// コーナーカット
-	private $p_form_replace;							// 差替
-	private $p_form_replace_color;						// カラー
 	private $p_form_subtotal;							// フォーム部工賃小計
 	private $p_offset_sewingmachine_w;					// ミシン
-	private $p_offset_sewingmachine_ks;					// 基・セ
 	private $p_offset_no;								// No.
+	private $p_offset_sewingmachine_ks;					// 基・セ
 	private $p_offset_no_ks;							// 基・セ
 	private $p_offset_subtotal;							// オフセット部工賃小計
 	private $p_letterpress_sewingmachine_hon;			// ミシン本
 	private $p_letterpress_sewingmachine_dai;			// ミシン台
-	private $p_letterpress_sewingmachine_ks;			// ミシン基・セ
 	private $p_letterpress_jump_sewingmachine_hon;		// ジャンプミシン本
 	private $p_letterpress_jump_sewingmachine_dai;		// ジャンプミシン台
-	private $p_letterpress_jump_sewingmachine_ks;		// ジャンプミシン基・セ
 	private $p_letterpress_micro_sewingmachine_hon;		// マイクロミシン本
 	private $p_letterpress_micro_sewingmachine_dai;		// マイクロミシン台
-	private $p_letterpress_micro_sewingmachine_ks;		// マイクロミシン基・セ
 	private $p_letterpress_jump_micro_sewingmachine_hon;// ジャンプマイクロミシン本
 	private $p_letterpress_jump_micro_sewingmachine_dai;// ジャンプマイクロミシン台
-	private $p_letterpress_jump_micro_sewingmachine_ks;	// ジャンプマイクロミシン基・セ
 	private $p_letterpress_linein_hon;					// スジ入れ本
 	private $p_letterpress_linein_dai;					// スジ入れ台
-	private $p_letterpress_linein_ks;					// スジ入れ基・セ
 	private $p_letterpress_slitter_hon;					// スリッター本
 	private $p_letterpress_slitter_dai;					// スリッター台
-	private $p_letterpress_slitter_ks;					// スリッター基・セ
 	private $p_letterpress_diecut;						// 型ヌキ
-	private $p_letterpress_diecut_ks;					// 型ヌキ基・セ
 	private $p_letterpress_pcno;						// 親子No.
-	private $p_letterpress_pcno_ks;						// 親子No.基・セ
 	private $p_letterpress_no;							// No.
+	private $p_letterpress_sewingmachine_ks;			// ミシン基・セ
+	private $p_letterpress_jump_sewingmachine_ks;		// ジャンプミシン基・セ
+	private $p_letterpress_micro_sewingmachine_ks;		// マイクロミシン基・セ
+	private $p_letterpress_jump_micro_sewingmachine_ks;	// ジャンプマイクロミシン基・セ
+	private $p_letterpress_linein_ks;					// スジ入れ基・セ
+	private $p_letterpress_slitter_ks;					// スリッター基・セ
+	private $p_letterpress_diecut_ks;					// 型ヌキ基・セ
+	private $p_letterpress_pcno_ks;						// 親子No.基・セ
 	private $p_letterpress_no_ks;						// No.基・セ
 	private $p_letterpress_subtotal;					// 活版部工賃小計
 	private $p_info_toray;								// 東レ
+	private $p_info_ijp;								// フォーム ＩＪＰ
 	private $p_info_dot_line;							// ドットライン
 	private $p_info_dot_dai;							// ドット台
-	private $p_info_ijp;								// フォーム ＩＪＰ
 	private $p_info_basic_fee;							// 基本料金
 	private $p_info_output;								// 宛名等出力件数
 	private $p_info_punching;							// パンチング
 	private $p_info_subtotal;							// 情報処理工賃小計
 	private $p_diecutter_sewingmachine_hon;				// ミシン本
 	private $p_diecutter_sewingmachine_dai;				// ミシン台
-	private $p_diecutter_sewingmachine_ks;				// ミシン基・セ
 	private $p_diecutter_jump_sewingmachine_hon;		// ジャンプミシン本
 	private $p_diecutter_jump_sewingmachine_dai;		// ジャンプミシン台
-	private $p_diecutter_jump_sewingmachine_ks;			// ジャンプミシン基・セ
 	private $p_diecutter_micro_sewingmachine_hon;		// マイクロミシン本
 	private $p_diecutter_micro_sewingmachine_dai;		// マイクロミシン台
-	private $p_diecutter_micro_sewingmachine_ks;		// マイクロミシン基・セ
 	private $p_diecutter_jump_micro_sewingmachine_hon;	// ジャンプマイクロミシン本
 	private $p_diecutter_jump_micro_sewingmachine_dai;	// ジャンプマイクロミシン台
-	private $p_diecutter_jump_micro_sewingmachine_ks;	// ジャンプマイクロミシン基・セ
 	private $p_diecutter_ana_hon;						// 穴本
 	private $p_diecutter_ana_dai;						// 穴台
-	private $p_diecutter_ana_ks;						// 穴基・セ
 	private $p_diecutter_cornercut;						// コーナーカットヶ所
 	private $p_diecutter_cornercut_dai;					// コーナーカット台
+	private $p_diecutter_sewingmachine_ks;				// ミシン基・セ
+	private $p_diecutter_jump_sewingmachine_ks;			// ジャンプミシン基・セ
+	private $p_diecutter_micro_sewingmachine_ks;		// マイクロミシン基・セ
+	private $p_diecutter_jump_micro_sewingmachine_ks;	// ジャンプマイクロミシン基・セ
+	private $p_diecutter_ana_ks;						// 穴基・セ
 	private $p_diecutter_cornercut_ks;					// コーナーカット基・セ
 	private $p_diecutter_subtotal;						// ダイカッタ工賃小計
 	private $outsource_paper;							// 紙の外注先
 	private $outsource_paper_cost;						// 外注費
 	private $outsource_paper_all;						// このP全部の外注先
 	private $outsource_paper_all_cost;					// 外注費
+	private $p_form_cornercut;							// コーナーカット
+	private $p_form_replace;							// 差替
+	private $p_form_replace_color;						// カラー
+	private $p_envelope;								// 封筒加工加算マーク
 	private $created_user;								// 作成ユーザー
 	private $updated_user;								// 修正ユーザー
 	private $created_at;								// 作成時間
@@ -213,7 +213,11 @@ class QuotationsParts extends Model
 	}
 	public function setSizewAttribute($value)
 	{
-		$this->size_w = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->size_w = (double)trim($value);
+		} else {
+			$this->size_w = null;
+		}
 	}
 
 	//サイズ縦
@@ -223,7 +227,11 @@ class QuotationsParts extends Model
 	}
 	public function setSizehAttribute($value)
 	{
-		$this->size_h = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->size_h = (double)trim($value);
+		} else {
+			$this->size_h = null;
+		}
 	}
 
 	//サイズ分子
@@ -403,7 +411,11 @@ class QuotationsParts extends Model
 	}
 	public function setPmmunitAttribute($value)
 	{
-		$this->p_mm_unit = $value;
+		if (strlen(trim($value) > 0)) {
+			$this->p_mm_unit = (double)trim($value);
+		} else {
+			$this->p_mm_unit = null;
+		}
 	}
 
 	//印刷原価

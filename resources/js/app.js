@@ -11,6 +11,9 @@ import toasted from "vue-toasted";
 import VModal from "vue-js-modal";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+
+Vue.use(VueSweetalert2);
+
 Vue.prototype.$axios = axios;
 //import { Dialog, Select, Option, TimePicker, Button } from "element-ui";
 //import "element-ui/lib/theme-chalk/index.css";

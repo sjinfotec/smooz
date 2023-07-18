@@ -5,13 +5,13 @@
     </div>
     <div id="backup_btnzone">
       <div class="btnitem">
-        <button type="button" id="act_imp_btn" @click="ImportButton('product_all_outsou3');">インポート<p><img src="/images/bak_im.png"></p></button>
+        <button type="button" id="act_imp_btn" @click="importButtonClick();">インポート<p><img src="/images/bak_im.png"></p></button>
       </div>
       <div class="btnitem">
-        <button type="button" id="act_exp_btn" @click="ExportButton('product_all_outsou3');">エクスポート<p><img src="/images/bak_ex.png"></p></button>
+        <button type="button" id="act_exp_btn" @click="exportButtonClick();">エクスポート<p><img src="/images/bak_ex.png"></p></button>
       </div>
       <div class="btnitem">
-        <button type="button" id="act_bak_btn" @click="BackupButton('product_all_outsou3');">バックアップ<p><img src="/images/bak_back.png"></p></button>
+        <button type="button" id="act_bak_btn" @click="backupButtonClick();">バックアップ<p><img src="/images/bak_back.png"></p></button>
       </div>
     </div>
     <!--end mnt_actionbtn-->
@@ -151,21 +151,22 @@
 </template>
 
 <script>
-//import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
-//import { requestable } from "../mixins/requestable.js";
+import moment from "moment";
+import { dialogable } from "../mixins/dialogable.js";
+import { checkable } from "../mixins/checkable.js";
+import { requestable } from "../mixins/requestable.js";
+
+// CONST
+const CONST_IMPORT_REG = '見積インポート';
+
 export default {
   name: 'BackupLogs',
-  //mixins: [dialogable, checkable, requestable],
+  mixins: [dialogable, checkable, requestable],
   props: {
-    /*
     authusers: {
       type: Array,
       default: []
-    
     }
-    */
   },
   data() {
     return {
@@ -174,6 +175,7 @@ export default {
       content: "",
       login_user_code: 0,
       login_user_role: 0,
+      phasecnt: 0,
       dialogVisible: false,
       messageshowsearch: false,
       infomationmessage: [],
@@ -183,16 +185,74 @@ export default {
   },
   // マウント時
   mounted() {
-    //this.login_user_code = this.authusers["code"];
-    //this.login_user_role = this.authusers["role"];
-    this.Test();
   },
   methods: {
+    // ------------------------ バリデーション ------------------------------------
+    // ------------------------ イベント処理 ------------------------------------
+    // インポートボタンの処理
+    importButtonClick: function(value) {
+      var messages = [];
+      messages.push("インポート処理開始しますか？");
+      this.htmlMessageSwal("インポート実行確認", messages, "info", true, true).then(
+        result => {
+          if (result) {
+            this.phasecnt = 1;
+            this.importDataMain();
+          }
+        }
+      );
+    },
     // ------------------------ サーバー処理 ----------------------------
-    Test(){
-      console.log('テストコンソール出力')
-    }
+    // インポートAPI
+    importDataMain() {
+      console.log('importDataMain in this.phasecnt = ' + this.phasecnt);
+      // 処理中メッセージ表示
+      this.$swal({
+        title: "処　理　中...",
+        html: "",
+        allowOutsideClick: false, //枠外をクリックしても画面を閉じない
+        showConfirmButton: false,
+        showCancelButton: true,
+        onBeforeOpen: () => {
+          this.$swal.showLoading();
+          var arrayParams = { mode: 'import', identification: this.phasecnt };
+          this.postRequest("/maintenance/backup/importmitumoridat", arrayParams)
+            .then(response => {
+              console.log('importDataMain in this.phasecnt end ' + this.phasecnt);
+              this.$swal.close();
+              this.importThen(response);
+            })
+            .catch(reason => {
+              this.$swal.close();
+              this.serverCatch("import/export", CONST_IMPORT_REG);
+          });
+        }
+      });
+    },
     // -------------------- 共通 ----------------------------
+    importThen(response) {
+      console.log('importThen in');
+      var res = response.data;
+      if (res.result) {
+        if (!res.procend) {
+          this.phasecnt++;
+          this.importDataMain();
+        }
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("import/export", "登録");
+        }
+      }
+    },
+    // 異常処理
+    serverCatch(kbn, eventtext) {
+      console.log('serverCatch in');
+      var messages = [];
+      messages.push(kbn + eventtext + "に失敗しました");
+      this.htmlMessageSwal("エラー", messages, "error", true, false);
+    },
   }
 };
 </script>
