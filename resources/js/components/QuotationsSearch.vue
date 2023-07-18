@@ -111,12 +111,12 @@
             </thead>
             <tbody>
               <tr v-for="(mitem,mrowIndex) in 68" :key="mrowIndex">
-                <td class="w2"><label style="display:block;"><input type="radio" name="m_codes" v-model="mcradio" :value="mrowIndex"></label></td>
+                <td class="w2"><label style="display:block;"><input type="radio" name="m_codes" :id="'sr_' + mrowIndex" v-model="mcradio" :value="mrowIndex"></label></td>
                 <td class="nrap">{{ mitem['m_code'] }}</td>
                 <td class="nrap">2022年5月24日</td>
                 <td class="nrap">23456</td>
-                <td class="nrap">ロイズコーポレーション</td>
-                <td class="">合同支援利用促進パンフレット　４色</td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex" style="display:block;">ロイズコーポレーション</label></td>
+                <td class=""><label :for="'sr_' + mrowIndex" style="display:block;">合同支援利用促進パンフレット　４色</label></td>
                 <td class="nrap">0P2000部</td>
                 <td class="nrap">1200000</td>
                 <td class="nrap">2022年05月31日</td>
@@ -130,13 +130,225 @@
     </div><!--end id cnt1-->
 
 
-    <div id="printzone" v-if="printview === true">
+    <div id="printzone" v-if="printview === '1'">
       <popup-print
        v-bind:m-code="m_code"
        v-bind:print-data="printdata"
        v-bind:print-title="printtitle"
        v-on:pricancel-event="Pricancel"
       ></popup-print>
+    </div>
+
+    <div id="printgaiyo"></div>
+
+
+
+
+    <div id="print2zone" v-if="printview === '2'">
+
+			<div id="print2_title">
+				<h1>三条印刷　製品便覧</h1>
+				<div class="abs_r">L06541</div>
+			</div>
+
+
+
+			<div id="print2_main">
+				<div id="p2_cnt">
+					<dl>
+						<dt class="em5">得意先</dt>
+						<dd>変数欄</dd>
+					</dl>
+					<dl>
+						<dt class="em5">需要家</dt>
+						<dd>変数欄</dd>
+					</dl>
+					<dl>
+						<dt class="em5">製品名</dt>
+						<dd>変数欄</dd>
+					</dl>
+				</div>
+
+				<div id="p2_cnt_flex" class="mgt20">
+						<dl>
+							<dt class="em5">サイズ</dt>
+							<dd>変数欄</dd>
+						</dl>
+						<dl>
+							<dt class="em3">姿</dt>
+							<dd>変数欄</dd>
+						</dl>
+						<dl>
+							<dt class="em4">印刷</dt>
+							<dd>変数欄</dd>
+						</dl>
+				</div>
+
+				<div id="p2_cnt_flex2" class="mgt20">
+					<div class="waku">
+						<dl>
+							<dt class="em3">数量</dt>
+							<dd>変数欄</dd>
+						</dl>
+						<dl>
+							<dt class="em4">総数量</dt>
+							<dd>変数欄</dd>
+						</dl>
+					</div>
+					<div class="waku">
+						<dl>
+							<dt class="em6">シリンダー</dt>
+							<dd>変数欄</dd>
+						</dl>
+					</div>
+				</div>
+
+        <!--✽  &#10045;-->
+				<div id="p2_tbl" class="mgt20">
+					<table>
+						<thead>
+							<tr>
+								<th class="w2">P</th>
+								<th class="nrap">用紙・紙質</th>
+								<th colspan="6" class="">オプション</th>
+								<th colspan="9" class="">フォーム</th>
+								<th colspan="2" class="">ＯＦ</th>
+								<th colspan="9" class="">活版</th>
+								<th colspan="6" class="">ダイカッタ</th>
+							</tr>
+							<tr>
+								<th class=""></th>
+								<th class=""></th>
+
+								<th class="w1">減感</th>
+								<th class="w1">カボン</th>
+								<th class="w1">ホワイ</th>
+								<th class="w1">セパレ</th>
+								<th class="w1">表色数</th>
+								<th class="w1">裏色数</th>
+
+								<th class="w1">ミシン</th>
+								<th class="w1">Ｊミン</th>
+								<th class="w1">Ｍミン</th>
+								<th class="w1">ＪＭミ</th>
+								<th class="w1">スジ入</th>
+								<th class="w1">スリト</th>
+								<th class="w1">ナンバ</th>
+								<th class="w1">コーナ</th>
+								<th class="w1">ＩＪＰ</th>
+
+								<th class="w1">ミシン</th>
+								<th class="w1">ナンバ</th>
+
+								<th class="w1">ミシン</th>
+								<th class="w1">Ｊミン</th>
+								<th class="w1">Ｍミン</th>
+								<th class="w1">ＪＭミ</th>
+								<th class="w1">スジ入</th>
+								<th class="w1">スリト</th>
+								<th class="w1">型抜き</th>
+								<th class="w1">親子№</th>
+								<th class="w1">ナンバ</th>
+
+								<th class="w1">ミシン</th>
+								<th class="w1">Ｊミン</th>
+								<th class="w1">Ｍミン</th>
+								<th class="w1">ＪＭミ</th>
+								<th class="w1">穴ヶ所</th>
+								<th class="w1">コーナ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(gitem,growIndex) in 15" :key="growIndex">
+								<td class="">{{growIndex + 1}}</td>
+								<td class="txtstyle">用紙名が入る</td>
+
+								<td class="">*</td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class="">*</td>
+								<td class="">4</td>
+								<td class="">1</td>
+
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+
+								<td class=""></td>
+								<td class=""></td>
+
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+
+				<div id="p2_cnt2" class="mgt20">
+					<dl>
+						<dt class="width_style">組版</dt>
+						<dd>変数欄</dd>
+					</dl>
+					<dl>
+						<dt class="width_style">フォーム部</dt>
+						<dd>変数欄</dd>
+					</dl>
+					<dl>
+						<dt class="width_style">オフセット部</dt>
+						<dd>変数欄</dd>
+					</dl>
+					<dl>
+						<dt class="width_style">情報処理</dt>
+						<dd>変数欄</dd>
+					</dl>
+					<dl>
+						<dt class="width_style">コレート</dt>
+						<dd>変数欄</dd>
+					</dl>
+					<dl>
+						<dt class="width_style">ネームライナ</dt>
+						<dd>変数欄</dd>
+					</dl>
+					<dl>
+						<dt class="width_style">製本</dt>
+						<dd>変数欄</dd>
+					</dl>
+				</div>
+
+
+				<div id="p2_cnt3">
+					<dl>
+						<dt>最終受注日</dt>
+						<dd>年月日</dd>
+					</dl>
+				</div>
+			</div>
+
+			<div id="print_btnzone" class="print-none">
+				<button type='button' onclick='window.print(); return false;'>印刷</button>
+				<button type='button' @click="Pricancel();">閉じる</button>
+			</div>
     </div>
 
 
@@ -177,6 +389,7 @@ export default {
       printdata: "",
       m_code: "",
       printtitle: "",
+      searchdetail: "",
 
     };
   },
@@ -290,7 +503,7 @@ export default {
           var nopriid = document.getElementById(nopri);
           //nopriid.style.visibility = "visible";
           nopriid.style.display = "none";
-          this.printview = true;
+          this.printview = '1';
           //console.log( vvmc ) ;
 
 
@@ -314,9 +527,102 @@ export default {
           alert('検索結果一覧より見積を選択して下さい。');
         } else {
 
-          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
-          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc);
+
+          /*
+          $.ajax({
+            url : 'm_101.php',
+            type: 'post',
+            dataType : 'html',
+            data : { "vvmc": vvmc, "name": "アイランドラビリンス", },
+            success : function(resultdata){
+                $('#printgaiyo').html(resultdata);
+                //ajaxJs();
+            },
+            error: function(data){
+                $('#printgaiyo').html(data);
+            }
+          });
+          */
+
+          const nopri = 'cnt1';
+          var nopriid = document.getElementById(nopri);
+          nopriid.style.display = "none";
+          this.printview = '2';
+          //printgaiyo.style.display = "block";
+
+
+
+          /*
+          // 基本的にはresponse.dataにデータが返る
+          function UPDATEcollect() {
+            var tn = document.getElementById('t_number').value;
+            var name = document.getElementById('name').value;
+            var namecode = document.getElementById('name_code').value;
+            console.log("t_number cn :" + tn);
+            const res = axios.post("input_update.php", {
+              t_number: tn,
+              name: name,
+              name_code: namecode,
+              mode: 'statusupdate',
+            })
+            .then(response => {
+              appendList(response.data);
+              
+            })
+            .catch(error => {
+              window.error(error.response.data);
+            });
+          }
+          */
+
+
+
+
+
+          const Str = "変数テスト";
+
+          this.searchdetail = `
+          <!DOCTYPE html>
+          <html lang="ja">
+          <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+          <meta http-equiv="Content-Language" content="ja" />
+          <title>TEST!</title>
+          <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+          <meta http-equiv="Content-Style-Type" content="text/css" />
+          <meta http-equiv="Content-Script-Type" content="text/javascript" />
+          <link rel="stylesheet" type="text/css" href="./css/site.css" media="screen,print" />
+          </head>
+          <body>
+
+          <button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button>
+          <div id="print_cnt_title">
+            <h1>三条印刷　製品便覧</h1>
+            <div class="abs_r">L06541</div>
+          </div>
+
+          <div id="print_cnt_main">
+            <div>得意先</div>
+
+
+          </div>
+                    <h3>文字列</h3>
+                    <div>
+                      ヒアドキュメント<br>
+                      テスト出力<br>
+                      ${Str}<br>
+                    </div>
+          ${vvmc}
+
+          </body>
+          </html>
+          `;
+
+          //var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
+          //myWindow.document.write(this.searchdetail);
+          //myWindow.document.write("<div id='popup_cnt'><div>見積内容！</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc);
           //console.log( vvmc ) ;
+
 
         }
       }
