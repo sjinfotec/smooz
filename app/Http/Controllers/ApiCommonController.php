@@ -52,7 +52,10 @@ class ApiCommonController extends Controller
             // $process->run();
             // $process = new Process(["sudo ".$command, $smooth_url, $targetfile, $targetpath, $dest_path, $log_path, $sh_keyword]);
             // $process->run();
+            $de = $command." ".$smooth_url." ".$targetfile." ".$targetpath." ".$dest_path." ".$log_path." ".$sh_keyword;
+            Log::debug('shExec $de = '.$de);
             
+            Log::debug('shExec $results = '.$results);
             Log::debug('shExec $run end');
             // $output = $process->getOutput() ?: $process->getErrorOutput();
             

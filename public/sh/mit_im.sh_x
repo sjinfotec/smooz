@@ -27,8 +27,8 @@ LOG_NAME=$FILE_NAME"_"$6"_$(date +'%Y%m%d').log"
 # LOG_OUT="/var/www/html/laravel/storage/logs/shlog/"$LOG_NAME
 LOG_OUT=$5$LOG_NAME
 
-echo "["$(date +'%Y-%m-%d_%H:%M:%S')"]" >>$LOG_OUT
-echo -e "[import-file]"$ORIGINAL_FILE_PATH | tee -a $LOG_OUT 2>>$LOG_OUT
+#echo "["$(date +'%Y-%m-%d_%H:%M:%S')"]" >>$LOG_OUT
+#echo -e "[import-file]"$ORIGINAL_FILE_PATH | tee -a $LOG_OUT 2>>$LOG_OUT
 #echo "root"
 #scp -i /root/.ssh/id_rsa $ORIGINAL_FILE_PATH $DESTINATION_FILE_PATH >>$LOG_OUT 2>>$LOG_OUT
 #sudo -S scp -i /root/.ssh/id_rsa $ORIGINAL_FILE_PATH $DESTINATION_FILE_PATH >>$LOG_OUT 2>>$LOG_OUT
