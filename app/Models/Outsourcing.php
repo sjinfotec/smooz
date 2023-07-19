@@ -193,6 +193,4 @@ class Outsourcing extends Model
 
     }
 
-
-
 }

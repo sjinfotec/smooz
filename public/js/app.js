@@ -1945,6 +1945,8 @@ var CONST_IMPORT_REG = '見積インポート';
       var res = response.data;
 
       if (res.result) {
+        console.log('importThen res.procend = ' + res.procend);
+
         if (!res.procend) {
           this.phasecnt++;
           this.importDataMain();

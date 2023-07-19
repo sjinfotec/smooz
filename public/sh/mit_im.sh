@@ -43,10 +43,6 @@ echo -e  $? >>$LOG_OUT 2>>$LOG_OUT
 #sudo -S scp -i /root/.ssh/id_rsa root@192.168.0.2:/home/httpd/data/3jyoDB/Mitumori.DAT /var/www/html/laravel/storage/app/public
 #scp -i /root/.ssh/id_rsa root@192.168.0.2:/home/httpd/data/3jyoDB/Mitumori.DAT /var/www/html/laravel/storage/app/public >>$LOG_OUT 2>>$LOG_OUT
 
-#MitWrk.DAT
-#Mitumori.DAT
-# >>$LOG_OUT 2>>$LOG_OUT
-
 #echo $ORIGINAL_FILE_PATH >>$LOG_OUT
 #echo $DESTINATION_FILE_PATH >>$LOG_OUT
 

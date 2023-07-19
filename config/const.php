@@ -9,11 +9,16 @@ return [
     'G001' => [
       'copy' => 1,
       'deploy' => 2,
-      'distribute_quotations' => 3,
-      'distribute_quotations_binding' => 4,
-      'distribute_quotations_cost' => 5,
-      'distribute_quotations_department' => 6,
-      'distribute_quotations_parts' => 7
+      'distribute_wrk_quotations' => 3,
+      'distribute_wrk_quotations_binding' => 4,
+      'distribute_wrk_quotations_cost' => 5,
+      'distribute_wrk_quotations_department' => 6,
+      'distribute_wrk_quotations_parts' => 7,
+      'distribute_quotations' => 8,
+      'distribute_quotations_binding' => 9,
+      'distribute_quotations_cost' => 10,
+      'distribute_quotations_department' => 11,
+      'distribute_quotations_parts' => 12
     ],
 
     'G001_WORD' => [

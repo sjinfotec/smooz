@@ -47,6 +47,8 @@ class ApiCommonController extends Controller
             Log::debug('shExec exec = '."sudo scp -i /root/.ssh/id_rsa ".$smooth_url.":".$targetpath.$targetfile." ".$dest_path);
             // exec("sudo scp -i /root/.ssh/id_rsa ".$smooth_url.":".$targetpath.$targetfile." ".$dest_path);
             $results = shell_exec($command." ".$smooth_url." ".$targetfile." ".$targetpath." ".$dest_path." ".$log_path." ".$sh_keyword);
+            Log::debug('shExec $results = '.$results);
+            Log::debug('shExec $$command." ".$smooth_url." ".$targetfile." ".$targetpath." ".$dest_path." ".$log_path." ".$sh_keyword = '.$command." ".$smooth_url." ".$targetfile." ".$targetpath." ".$dest_path." ".$log_path." ".$sh_keyword);
             // $results = shell_exec("echo 'root' | sudo -S ".$command." ".$smooth_url." ".$targetfile." ".$targetpath." ".$dest_path." ".$log_path." ".$sh_keyword);
             // $process = new Process(["echo", "'root'"]);
             // $process->run();
