@@ -5,12 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 class QuotationsParts extends Model
 {
     use HasFactory;
 
     protected $table = 'quotations_parts';
+    protected $table_wrk_quotations_parts = 'wrk_quotations_parts';
 
 
 	private $id;										// ID
@@ -1349,22 +1354,38 @@ class QuotationsParts extends Model
 	}
 
 
+		// ----------------------  メソッド ---------------------------------
 
+		/**
+     * import
+     *
+     * @return void
+     */
+    public function distributeIns(){
+			$message = "ログ出力 distributeIns";
+			try {
+				$sqlString = "";
+				$sqlString .= "insert into ".$this->table;
+				$sqlString .= "  select * ";
+				$sqlString .= "  from ".$this->table_wrk_quotations_parts." t1 ";
+				$sqlString .= "  where not exists (";
+				$sqlString .= "    select 1 ";
+				$sqlString .= "    from  ".$this->table." t2 ";
+				$sqlString .= "    where ";
+				$sqlString .= "      t1.m_code = t2.m_code ";
+				$sqlString .= "  ) ";
+				$array_setBindingsStr = array();
+				$result = DB::insert($sqlString, $array_setBindingsStr);
+				return true;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			}catch(\PDOException $pe){
+					Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+					Log::error($pe->getMessage());
+					throw $pe;
+			}catch(\Exception $e){
+					Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+					Log::error($e->getMessage());
+					throw $e;
+			}
+		}
 }

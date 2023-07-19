@@ -1945,6 +1945,8 @@ var CONST_IMPORT_REG = '見積インポート';
       var res = response.data;
 
       if (res.result) {
+        console.log('importThen res.procend = ' + res.procend);
+
         if (!res.procend) {
           this.phasecnt++;
           this.importDataMain();
@@ -6737,6 +6739,116 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 //import { dialogable } from "../mixins/dialogable.js";
@@ -6767,7 +6879,8 @@ __webpack_require__.r(__webpack_exports__);
       mcradio: "",
       printdata: "",
       m_code: "",
-      printtitle: ""
+      printtitle: "",
+      comment_1: ""
     };
   },
   // マウント時
@@ -6815,72 +6928,32 @@ __webpack_require__.r(__webpack_exports__);
       console.log('SearchClick  = ' + k);
     },
     MitGoBtn: function MitGoBtn(i, mcode) {},
-    ContentsClick: function ContentsClick() {
-      var element = document.getElementById("searchform");
-      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+    previewClick: function previewClick() {
+      //console.log( 'radioNodeList = ' + radioNodeList ) ;
       //if (typeof a === "undefined") {
 
-      if (radioNodeList == null) {
-        alert('見積の検索をして下さい。');
-      } else {
-        var vvmc = radioNodeList.value;
-
-        if (vvmc === "") {
-          alert('検索結果一覧より見積を選択して下さい。');
-        } else {
-          this.printtitle = "見積内容 ― 製品名 ―";
-          this.printdata = "【見積番号】D15689 【作成日】20120221 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";
-          this.printdata += "【得意先】 119  萬  谷（一 般）\n";
-          this.printdata += "【エンドユーザー】 すずらん商事\n";
-          this.printdata += "【製品名】 納品書（タイトルなし）\n";
-          this.printdata += "【数量】1Ｐ 100,000枚 【総数量】100,000 【総通し数】50,000\n";
-          this.printdata += "【規格】ミリ 【シリンダー】10.5インチ 3本 10.5インチ折\n";
-          this.printdata += "<hr>";
-          this.printdata += "【シリンダー】3 X 5000 = 15,000\n";
-          this.printdata += "【フォーム部】\n";
-          this.printdata += "【フォーム部合計】11,500 \n";
-          this.printdata += "【版下設定】範疇：新版, 種別：フォーム, 難度：Ａ, 面積:72インチ平方, 料金:3000 \n";
-          this.printdata += "       ＣＴＰ 3版 \n";
-          this.printdata += "【組版・製版合計】12,000 \n";
-          this.printdata += "【製　本】\n";
-          this.printdata += "      [断裁・イン] [バースター] \n";
-          this.printdata += "      [バラ] \n";
-          this.printdata += "【梱包等】 [Ａ式] 2,500入り  40箱 X @250 = 10,000, \n";
-          this.printdata += "【製本合計】66,000 \n";
-          this.printdata += "【発　送】市内 40個 X 150 = 6,000, 【送料合計】 6,000 \n";
-          this.printdata += "<hr>";
-          this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
-          this.printdata += "【提示額】245,000 単価 2.45-\n";
-          this.m_code = "D11999";
-          var nopri = 'cnt1';
-          var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
-
-          nopriid.style.display = "none";
-          this.printview = true; //console.log( vvmc ) ;
+      /*
+      $.ajax({
+        url : 'm_101.php',
+        type: 'post',
+        dataType : 'html',
+        data : { "vvmc": vvmc, "name": "アイランドラビリンス", },
+        success : function(resultdata){
+            $('#printgaiyo').html(resultdata);
+            //ajaxJs();
+        },
+        error: function(data){
+            $('#printgaiyo').html(data);
         }
-      }
-    },
-    OverviewClick: function OverviewClick() {
-      var element = document.getElementById("searchform");
-      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
-      //if (typeof a === "undefined") {
-
-      if (radioNodeList == null) {
-        alert('見積の検索をして下さい。');
-      } else {
-        var vvmc = radioNodeList.value;
-
-        if (vvmc === "") {
-          // 未選択状態
-          alert('検索結果一覧より見積を選択して下さい。');
-        } else {
-          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
-          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc); //console.log( vvmc ) ;
-        }
-      }
+      });
+      */
+      var nopri = 'cnt3';
+      var nopriid = document.getElementById(nopri);
+      nopriid.style.display = "none";
+      this.printview = '1'; //printgaiyo.style.display = "block";
     },
     Pricancel: function Pricancel() {
-      var tid = "cnt1";
+      var tid = "cnt3";
       var targetid = document.getElementById(tid); //targetid.style.visibility = "visible";
 
       targetid.style.display = "block";
@@ -7666,6 +7739,218 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 //import { dialogable } from "../mixins/dialogable.js";
@@ -7696,7 +7981,8 @@ __webpack_require__.r(__webpack_exports__);
       mcradio: "",
       printdata: "",
       m_code: "",
-      printtitle: ""
+      printtitle: "",
+      searchdetail: ""
     };
   },
   // マウント時
@@ -7785,7 +8071,7 @@ __webpack_require__.r(__webpack_exports__);
           var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
 
           nopriid.style.display = "none";
-          this.printview = true; //console.log( vvmc ) ;
+          this.printview = '1'; //console.log( vvmc ) ;
         }
       }
     },
@@ -7803,8 +8089,54 @@ __webpack_require__.r(__webpack_exports__);
           // 未選択状態
           alert('検索結果一覧より見積を選択して下さい。');
         } else {
-          var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
-          myWindow.document.write("<div id='popup_cnt'><div>見積内容</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc); //console.log( vvmc ) ;
+          /*
+          $.ajax({
+            url : 'm_101.php',
+            type: 'post',
+            dataType : 'html',
+            data : { "vvmc": vvmc, "name": "アイランドラビリンス", },
+            success : function(resultdata){
+                $('#printgaiyo').html(resultdata);
+                //ajaxJs();
+            },
+            error: function(data){
+                $('#printgaiyo').html(data);
+            }
+          });
+          */
+          var nopri = 'cnt1';
+          var nopriid = document.getElementById(nopri);
+          nopriid.style.display = "none";
+          this.printview = '2'; //printgaiyo.style.display = "block";
+
+          /*
+          // 基本的にはresponse.dataにデータが返る
+          function UPDATEcollect() {
+            var tn = document.getElementById('t_number').value;
+            var name = document.getElementById('name').value;
+            var namecode = document.getElementById('name_code').value;
+            console.log("t_number cn :" + tn);
+            const res = axios.post("input_update.php", {
+              t_number: tn,
+              name: name,
+              name_code: namecode,
+              mode: 'statusupdate',
+            })
+            .then(response => {
+              appendList(response.data);
+              
+            })
+            .catch(error => {
+              window.error(error.response.data);
+            });
+          }
+          */
+
+          var Str = "変数テスト";
+          this.searchdetail = "\n          <!DOCTYPE html>\n          <html lang=\"ja\">\n          <head>\n          <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n          <meta http-equiv=\"Content-Language\" content=\"ja\" />\n          <title>TEST!</title>\n          <meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\" />\n          <meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n          <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n          <link rel=\"stylesheet\" type=\"text/css\" href=\"./css/site.css\" media=\"screen,print\" />\n          </head>\n          <body>\n\n          <button id='popup_printbtn' type='button' onclick='window.print(); return false;'>\u5370\u5237</button>\n          <div id=\"print_cnt_title\">\n            <h1>\u4E09\u6761\u5370\u5237\u3000\u88FD\u54C1\u4FBF\u89A7</h1>\n            <div class=\"abs_r\">L06541</div>\n          </div>\n\n          <div id=\"print_cnt_main\">\n            <div>\u5F97\u610F\u5148</div>\n\n\n          </div>\n                    <h3>\u6587\u5B57\u5217</h3>\n                    <div>\n                      \u30D2\u30A2\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8<br>\n                      \u30C6\u30B9\u30C8\u51FA\u529B<br>\n                      ".concat(Str, "<br>\n                    </div>\n          ").concat(vvmc, "\n\n          </body>\n          </html>\n          "); //var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
+          //myWindow.document.write(this.searchdetail);
+          //myWindow.document.write("<div id='popup_cnt'><div>見積内容！</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc);
+          //console.log( vvmc ) ;
         }
       }
     },
@@ -61710,7 +62042,7 @@ var render = function () {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { attrs: { id: "cnt1" } }, [
+    _c("div", { attrs: { id: "cnt3" } }, [
       _vm._m(1),
       _vm._v(" "),
       _vm._m(2),
@@ -61723,15 +62055,15 @@ var render = function () {
       _vm._v(" "),
       _vm._m(6),
       _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
+      _c("div", { staticClass: "flex_jc_c", attrs: { id: "linezone" } }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c(
             "button",
             {
               attrs: { type: "button", id: "search_ovv_btn" },
               on: {
                 click: function ($event) {
-                  return _vm.OverviewClick()
+                  return _vm.Click()
                 },
               },
             },
@@ -61741,14 +62073,14 @@ var render = function () {
         _vm._v(" "),
         _vm._m(7),
         _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c(
             "button",
             {
               attrs: { type: "button", id: "search_cnt_btn" },
               on: {
                 click: function ($event) {
-                  return _vm.ContentsClick()
+                  return _vm.Click()
                 },
               },
             },
@@ -61757,8 +62089,8 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
+      _c("div", { staticClass: "columngap_10px", attrs: { id: "linezone" } }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c("span", {
             staticClass: "markzone mz_c2 v_hidden",
             attrs: { id: "doc_mark" },
@@ -61778,7 +62110,7 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c("span", {
             staticClass: "markzone mz_c2 v_hidden",
             attrs: { id: "doc_mark" },
@@ -61798,7 +62130,7 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
+        _c("div", { staticClass: "flexgroup2" }, [
           _c("span", {
             staticClass: "markzone mz_c2 v_hidden",
             attrs: { id: "mit_mark" },
@@ -61819,201 +62151,191 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
+      _c("div", { staticClass: "sect" }, [_vm._v("見積番号")]),
+      _vm._v(" "),
       _vm._m(8),
       _vm._v(" "),
       _vm._m(9),
       _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone mz_c2 v_hidden",
-            attrs: { id: "doc_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "search_doc_btn" },
+      _vm._m(10),
+      _vm._v(" "),
+      _vm._m(11),
+      _vm._v(" "),
+      _vm._m(12),
+      _vm._v(" "),
+      _vm._m(13),
+      _vm._v(" "),
+      _vm._m(14),
+      _vm._v(" "),
+      _vm._m(15),
+      _vm._v(" "),
+      _vm._m(16),
+      _vm._v(" "),
+      _vm._m(17),
+      _vm._v(" "),
+      _c("div", { staticClass: "sect inlineblock input_w5" }, [_vm._v("備考")]),
+      _c("span", [_vm._v(_vm._s(_vm.comment_1.length) + " / 200")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mgt0", attrs: { id: "linezone" } }, [
+        _c("div", { staticClass: "flexgroup" }, [
+          _c("label", [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.comment_1,
+                  expression: "comment_1",
+                },
+              ],
+              staticClass: "textarea1",
+              attrs: { name: "comment_1", rows: "4", maxlength: "200" },
+              domProps: { value: _vm.comment_1 },
               on: {
-                click: function ($event) {
-                  return _vm.SearchClick("doc", 0, "見積書")
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.comment_1 = $event.target.value
                 },
               },
-            },
-            [_vm._v("見積書を検索")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone mz_c2 v_hidden",
-            attrs: { id: "mit_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "search_mit_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SearchClick("mit", 0, "見積")
-                },
-              },
-            },
-            [_vm._v("見積を検索")]
-          ),
+            }),
+          ]),
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "cnt_search" } }, [
-        _c("form", { attrs: { id: "searchform" } }, [
-          _c("h4", [
-            _vm._v(_vm._s(_vm.sr_title)),
-            _c("span", {
-              staticClass: "v_hidden",
-              attrs: { id: "search_com" },
-            }),
+      _vm._m(18),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "columngap_10px mgt20", attrs: { id: "linezone" } },
+        [
+          _c("div", { staticClass: "inputgroup" }, [
+            _c(
+              "button",
+              {
+                attrs: { type: "button", id: "set_doc_btn" },
+                on: {
+                  click: function ($event) {
+                    return _vm.Click("doc", 0, "見積書")
+                  },
+                },
+              },
+              [_vm._v("採番")]
+            ),
+            _vm._v(" "),
+            _c("span", [_vm._v("20220812341234")]),
           ]),
           _vm._v(" "),
-          _vm.searchview === "doc"
-            ? _c("div", { attrs: { id: "search_result" } }, [
-                _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(10),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(45, function (ditem, drowIndex) {
-                      return _c("tr", { key: drowIndex }, [
-                        _c("td", { staticClass: "w2" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "srbtn",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function ($event) {
-                                  return _vm.MitGoBtn(
-                                    ditem["id"],
-                                    ditem["m_code"]
-                                  )
-                                },
-                              },
-                            },
-                            [
-                              _vm._v(
-                                "\n                  見積\n                "
-                              ),
-                            ]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("22060123")]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [
-                          _vm._v("2022年6月18日"),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("54321")]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("JR北海道")]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("通常")]),
-                        _vm._v(" "),
-                        _c("td", {}, [_vm._v("線路施設工事線区別日報")]),
-                      ])
-                    }),
-                    0
-                  ),
-                ]),
-              ])
-            : _vm._e(),
+          _c("div", { staticClass: "inputgroup" }, [
+            _c(
+              "button",
+              {
+                attrs: { type: "button", id: "search_ovv_btn" },
+                on: {
+                  click: function ($event) {
+                    return _vm.previewClick()
+                  },
+                },
+              },
+              [_vm._v("プレビュー")]
+            ),
+          ]),
           _vm._v(" "),
-          _vm.searchview === "mit"
-            ? _c("div", { attrs: { id: "search_result" } }, [
-                _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(11),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(68, function (mitem, mrowIndex) {
-                      return _c("tr", { key: mrowIndex }, [
-                        _c("td", { staticClass: "w2" }, [
-                          _c("label", { staticStyle: { display: "block" } }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.mcradio,
-                                  expression: "mcradio",
-                                },
-                              ],
-                              attrs: { type: "radio", name: "m_codes" },
-                              domProps: {
-                                value: mrowIndex,
-                                checked: _vm._q(_vm.mcradio, mrowIndex),
-                              },
-                              on: {
-                                change: function ($event) {
-                                  _vm.mcradio = mrowIndex
-                                },
-                              },
-                            }),
-                          ]),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [
-                          _vm._v(_vm._s(mitem["m_code"])),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [
-                          _vm._v("2022年5月24日"),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("23456")]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [
-                          _vm._v("ロイズコーポレーション"),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", {}, [
-                          _vm._v("合同支援利用促進パンフレット　４色"),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("0P2000部")]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("1200000")]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [
-                          _vm._v("2022年05月31日"),
-                        ]),
-                      ])
-                    }),
-                    0
-                  ),
-                ]),
-              ])
-            : _vm._e(),
-        ]),
-      ]),
+          _c("div", { staticClass: "inputgroup" }, [
+            _c(
+              "button",
+              {
+                attrs: { type: "button", id: "search_cnt_btn" },
+                on: {
+                  click: function ($event) {
+                    return _vm.ContentsClick()
+                  },
+                },
+              },
+              [_vm._v("内容")]
+            ),
+          ]),
+        ]
+      ),
     ]),
     _vm._v(" "),
-    _vm.printview === true
-      ? _c(
-          "div",
-          { attrs: { id: "printzone" } },
-          [
-            _c("popup-print", {
-              attrs: {
-                "m-code": _vm.m_code,
-                "print-data": _vm.printdata,
-                "print-title": _vm.printtitle,
-              },
-              on: { "pricancel-event": _vm.Pricancel },
-            }),
-          ],
-          1
-        )
+    _vm.printview === "1"
+      ? _c("div", { staticClass: "font_go", attrs: { id: "printdoczone" } }, [
+          _c("section", { staticClass: "page" }, [
+            _vm._m(19),
+            _vm._v(" "),
+            _c("div", { staticClass: "docdate" }, [
+              _vm._v("令和 4 年 8 月 12 日"),
+            ]),
+            _vm._v(" "),
+            _vm._m(20),
+            _vm._v(" "),
+            _vm._m(21),
+            _vm._v(" "),
+            _vm._m(22),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "printdoc_main" } }, [
+              _c("table", { attrs: { id: "tbl_cnt" } }, [
+                _vm._m(23),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(10, function (ditem, drowIndex) {
+                    return _c("tr", { key: drowIndex }, [
+                      _c("td", {}, [
+                        _vm._v("20220000" + _vm._s(drowIndex + 11)),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("変数例オリジナルメモ帳")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ta_r" }, [_vm._v("8,000")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ta_c" }, [_vm._v("冊")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ta_r" }, [_vm._v("200.00")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ta_r" }, [_vm._v("1,600,000")]),
+                    ])
+                  }),
+                  0
+                ),
+              ]),
+              _vm._v(" "),
+              _vm._m(24),
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "print-none", attrs: { id: "print_btnzone" } },
+              [
+                _c(
+                  "button",
+                  {
+                    attrs: {
+                      type: "button",
+                      onclick: "window.print(); return false;",
+                    },
+                  },
+                  [_vm._v("印刷")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.Pricancel()
+                      },
+                    },
+                  },
+                  [_vm._v("閉じる")]
+                ),
+              ]
+            ),
+          ]),
+        ])
       : _vm._e(),
   ])
 }
@@ -62030,12 +62352,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("発行日付")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("発行日付")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -62046,12 +62368,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先名")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("得意先名")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "customer" },
           }),
         ]),
@@ -62062,12 +62384,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("納期")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("納期")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -62078,12 +62400,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積期限")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("見積期限")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -62094,12 +62416,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("支払条件")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("支払条件")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -62110,12 +62432,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("納入場所")]),
+          _c("span", { staticClass: "spanwidth_10" }, [_vm._v("納入場所")]),
           _c("input", {
-            staticClass: "form_style input_w100p_m",
+            staticClass: "form_style input_w100p_10",
             attrs: { type: "text", name: "" },
           }),
         ]),
@@ -62126,10 +62448,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { staticClass: "flexgroup2" }, [
       _c("label", [
         _c("input", {
-          staticClass: "form_style input_w100p_m",
+          staticClass: "form_style input_w100p_1",
           attrs: { type: "text", name: "" },
         }),
       ]),
@@ -62139,33 +62461,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
+    return _c("div", { staticClass: "mgt0", attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
         _c("label", [
           _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "m_code" },
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_1" },
           }),
         ]),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "inputgroup3" }, [
+      _c("div", { staticClass: "flexgroup" }, [
         _c("label", [
           _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "product" },
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_1" },
           }),
         ]),
       ]),
@@ -62175,21 +62485,23 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "w2" }),
-        _vm._v(" "),
-        _c("th", { staticClass: "nrap" }, [_vm._v("見積書番号")]),
-        _vm._v(" "),
-        _c("th", {}, [_vm._v("作成日")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
-        _vm._v(" "),
-        _c("th", {}, [_vm._v("形態")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "w1" }, [_vm._v("製品名")]),
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_2" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_2" },
+          }),
+        ]),
       ]),
     ])
   },
@@ -62197,25 +62509,376 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_3" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_3" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_4" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_4" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_5" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_5" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_6" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_6" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_7" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_7" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_8" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_8" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_9" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_9" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "linezone" } }, [
+      _c("div", { staticClass: "flexgroup2 w1" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "m_code_10" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flexgroup" }, [
+        _c("label", [
+          _c("input", {
+            staticClass: "form_style input_w100p_1",
+            attrs: { type: "text", name: "product_10" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "columngap_10px mgt20", attrs: { id: "linezone" } },
+      [
+        _c("div", { staticClass: "flexgroup2 " }, [
+          _c("label", [
+            _c("span", [_vm._v("値引き額")]),
+            _c("input", {
+              staticClass: "form_style input_w7",
+              attrs: { type: "text", name: "discount_amount" },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flexgroup" }, [
+          _c("label", [
+            _c("span", [_vm._v("値引きコメント")]),
+            _c("input", {
+              staticClass: "form_style input_w50p",
+              attrs: { type: "text", name: "discount_comment" },
+            }),
+          ]),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "printdoc_title" } }, [
+      _c("h1", { staticClass: "font_min" }, [_vm._v("御見積書")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "abs_l" }, [_vm._v("No. 20220812345678")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "printdoc_customer" } }, [
+      _c("h2", [_vm._v("変数 株式会社 三条不動産 賃貸事業部 法人課　様")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "printdoc_primary" } }, [
+      _c("div", { staticClass: "parts1" }, [
+        _c("div", { attrs: { id: "pd_terms" } }, [
+          _c("ul", [
+            _c("li", [_vm._v("納期：変数")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("見積有効期限：変数")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("支払条件：変数")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("納入場所：変数")]),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "parts2" }, [
+        _c("div", { staticClass: "logo" }, [
+          _c("img", { attrs: { src: "images/logo_sanjyo.svg" } }),
+        ]),
+        _vm._v(" "),
+        _c("div", { attrs: { id: "your_office" } }, [
+          _c("h4", { staticClass: "company" }, [_vm._v("三条印刷株式会社")]),
+          _vm._v(" "),
+          _c("h5", { staticClass: "president" }, [
+            _c("span", { staticClass: "op" }, [_vm._v("代表取締役")]),
+            _c("span", { staticClass: "name font_min" }, [
+              _vm._v("川口 理一郎"),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "address" }, [
+            _vm._v("札幌市東区北１０条東１３丁目１４"),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "telfax" }, [
+            _c("span", [_vm._v("TEL:011-742-2769")]),
+            _c("span", { staticClass: "fax" }, [_vm._v("FAX:011-702-8197")]),
+          ]),
+          _vm._v(" "),
+          _c("h6", { staticClass: "email" }, [
+            _vm._v("E-Mail: "),
+            _c("span", [_vm._v("sanjyo@ssjjoo.com")]),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "flex_jc_sb", attrs: { id: "printdoc_cate_quo" } },
+      [
+        _c("div", { staticClass: "quokind" }, [
+          _c("h2", { staticClass: "flex flex_ai_c flex_jc_c" }, [
+            _c("span", [_vm._v("単価見積")]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "stamp" }, [
+          _c("p", [_vm._v(" ")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ")]),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { staticClass: "w2" }),
+        _c("th", { staticClass: "ta_c w1" }, [_vm._v("見積No.")]),
         _vm._v(" "),
-        _c("th", { staticClass: "nrap" }, [_vm._v("見積番号")]),
+        _c("th", { staticClass: "ta_c" }, [
+          _c("span", { staticClass: "inlineblock w50p ta_lj" }, [
+            _vm._v("品名"),
+          ]),
+        ]),
         _vm._v(" "),
-        _c("th", {}, [_vm._v("作成日")]),
+        _c("th", { staticClass: "ta_c w3" }, [
+          _c("span", { staticClass: "inlineblock w50p ta_lj" }, [
+            _vm._v("数量"),
+          ]),
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
+        _c("th", { staticClass: "ta_c w4" }, [_vm._v("単位")]),
         _vm._v(" "),
-        _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
+        _c("th", { staticClass: "ta_c w5" }, [
+          _c("span", { staticClass: "inlineblock w50p ta_lj" }, [
+            _vm._v("単価"),
+          ]),
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "w1" }, [_vm._v("製品名")]),
+        _c("th", { staticClass: "ta_c w6" }, [
+          _c("span", { staticClass: "inlineblock w50p ta_lj" }, [
+            _vm._v("金額"),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "pd_cnt" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("得意先")]),
         _vm._v(" "),
-        _c("th", {}, [_vm._v("制作数")]),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("需要家")]),
         _vm._v(" "),
-        _c("th", {}, [_vm._v("金額")]),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("製品名")]),
         _vm._v(" "),
-        _c("th", {}, [_vm._v("受注日")]),
+        _c("dd", [_vm._v("変数欄")]),
       ]),
     ])
   },
@@ -64766,7 +65429,7 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                  見積\n                "
+                                "\n                    見積\n                  "
                               ),
                             ]
                           ),
@@ -64813,7 +65476,11 @@ var render = function () {
                                   expression: "mcradio",
                                 },
                               ],
-                              attrs: { type: "radio", name: "m_codes" },
+                              attrs: {
+                                type: "radio",
+                                name: "m_codes",
+                                id: "sr_" + mrowIndex,
+                              },
                               domProps: {
                                 value: mrowIndex,
                                 checked: _vm._q(_vm.mcradio, mrowIndex),
@@ -64838,11 +65505,25 @@ var render = function () {
                         _c("td", { staticClass: "nrap" }, [_vm._v("23456")]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
-                          _vm._v("ロイズコーポレーション"),
+                          _c(
+                            "label",
+                            {
+                              staticStyle: { display: "block" },
+                              attrs: { for: "sr_" + mrowIndex },
+                            },
+                            [_vm._v("ロイズコーポレーション")]
+                          ),
                         ]),
                         _vm._v(" "),
                         _c("td", {}, [
-                          _vm._v("合同支援利用促進パンフレット　４色"),
+                          _c(
+                            "label",
+                            {
+                              staticStyle: { display: "block" },
+                              attrs: { for: "sr_" + mrowIndex },
+                            },
+                            [_vm._v("合同支援利用促進パンフレット　４色")]
+                          ),
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [_vm._v("0P2000部")]),
@@ -64863,7 +65544,7 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _vm.printview === true
+    _vm.printview === "1"
       ? _c(
           "div",
           { attrs: { id: "printzone" } },
@@ -64879,6 +65560,140 @@ var render = function () {
           ],
           1
         )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "printgaiyo" } }),
+    _vm._v(" "),
+    _vm.printview === "2"
+      ? _c("div", { attrs: { id: "print2zone" } }, [
+          _vm._m(8),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "print2_main" } }, [
+            _vm._m(9),
+            _vm._v(" "),
+            _vm._m(10),
+            _vm._v(" "),
+            _vm._m(11),
+            _vm._v(" "),
+            _c("div", { staticClass: "mgt20", attrs: { id: "p2_tbl" } }, [
+              _c("table", [
+                _vm._m(12),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(15, function (gitem, growIndex) {
+                    return _c("tr", { key: growIndex }, [
+                      _c("td", {}, [_vm._v(_vm._s(growIndex + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "txtstyle" }, [
+                        _vm._v("用紙名が入る"),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("*")]),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("*")]),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("4")]),
+                      _vm._v(" "),
+                      _c("td", {}, [_vm._v("1")]),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                      _vm._v(" "),
+                      _c("td", {}),
+                    ])
+                  }),
+                  0
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _vm._m(13),
+            _vm._v(" "),
+            _vm._m(14),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "print-none", attrs: { id: "print_btnzone" } },
+            [
+              _c(
+                "button",
+                {
+                  attrs: {
+                    type: "button",
+                    onclick: "window.print(); return false;",
+                  },
+                },
+                [_vm._v("印刷")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.Pricancel()
+                    },
+                  },
+                },
+                [_vm._v("閉じる")]
+              ),
+            ]
+          ),
+        ])
       : _vm._e(),
   ])
 }
@@ -65047,6 +65862,244 @@ var staticRenderFns = [
         _c("th", {}, [_vm._v("金額")]),
         _vm._v(" "),
         _c("th", {}, [_vm._v("受注日")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "print2_title" } }, [
+      _c("h1", [_vm._v("三条印刷　製品便覧")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "abs_r" }, [_vm._v("L06541")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "p2_cnt" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("得意先")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("需要家")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("製品名")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt_flex" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("サイズ")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em3" }, [_vm._v("姿")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em4" }, [_vm._v("印刷")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt_flex2" } }, [
+      _c("div", { staticClass: "waku" }, [
+        _c("dl", [
+          _c("dt", { staticClass: "em3" }, [_vm._v("数量")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+        _vm._v(" "),
+        _c("dl", [
+          _c("dt", { staticClass: "em4" }, [_vm._v("総数量")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "waku" }, [
+        _c("dl", [
+          _c("dt", { staticClass: "em6" }, [_vm._v("シリンダー")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }, [_vm._v("P")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("用紙・紙質")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "6" } }, [_vm._v("オプション")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "9" } }, [_vm._v("フォーム")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "2" } }, [_vm._v("ＯＦ")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "9" } }, [_vm._v("活版")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "6" } }, [_vm._v("ダイカッタ")]),
+      ]),
+      _vm._v(" "),
+      _c("tr", [
+        _c("th", {}),
+        _vm._v(" "),
+        _c("th", {}),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("減感")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("カボン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ホワイ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("セパレ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("表色数")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("裏色数")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スジ入")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スリト")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("コーナ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＩＪＰ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スジ入")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スリト")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("型抜き")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("親子№")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("穴ヶ所")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("コーナ")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt2" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("組版")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("フォーム部")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("オフセット部")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("情報処理")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("コレート")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("ネームライナ")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("製本")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "p2_cnt3" } }, [
+      _c("dl", [
+        _c("dt", [_vm._v("最終受注日")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("年月日")]),
       ]),
     ])
   },

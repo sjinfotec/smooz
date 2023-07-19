@@ -234,6 +234,7 @@ export default {
       console.log('importThen in');
       var res = response.data;
       if (res.result) {
+        console.log('importThen res.procend = '+res.procend);
         if (!res.procend) {
           this.phasecnt++;
           this.importDataMain();

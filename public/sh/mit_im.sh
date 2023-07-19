@@ -32,6 +32,7 @@ echo -e "[import-file]"$ORIGINAL_FILE_PATH | tee -a $LOG_OUT 2>>$LOG_OUT
 #echo "root"
 #scp -i /root/.ssh/id_rsa $ORIGINAL_FILE_PATH $DESTINATION_FILE_PATH >>$LOG_OUT 2>>$LOG_OUT
 sudo -S scp -i /root/.ssh/id_rsa $ORIGINAL_FILE_PATH $DESTINATION_FILE_PATH >>$LOG_OUT 2>>$LOG_OUT
+echo -e  $? >>$LOG_OUT 2>>$LOG_OUT
 #script -q -c 'scp -i /root/.ssh/id_rsa '$ORIGINAL_FILE_PATH' '$DESTINATION_FILE_PATH | tee -a $LOG_OUT 2>>$LOG_OUT
 
 
