@@ -33,7 +33,10 @@ LOG_OUT=$5$LOG_NAME
 #scp -i /root/.ssh/id_rsa $ORIGINAL_FILE_PATH $DESTINATION_FILE_PATH >>$LOG_OUT 2>>$LOG_OUT
 #sudo -S scp -i /root/.ssh/id_rsa $ORIGINAL_FILE_PATH $DESTINATION_FILE_PATH >>$LOG_OUT 2>>$LOG_OUT
 #sudo -S scp -i /root/.ssh/id_rsa $ORIGINAL_FILE_PATH $DESTINATION_FILE_PATH
-sudo -S scp -i /root/.ssh/id_rsa root@192.168.0.2:/home/httpd/data/3jyoDB/Mitumori.DAT /var/www/html/laravel/storage/app/public
+#sudo -S scp -i /root/.ssh/id_rsa root@192.168.0.2:/home/httpd/data/3jyoDB/Mitumori.DAT /var/www/html/laravel/storage/app/public
+scp -i /root/.ssh/id_rsa root@192.168.0.2:/home/httpd/data/3jyoDB/Mitumori.DAT /var/www/html/laravel/storage/app/public >>$LOG_OUT 2>>$LOG_OUT
+
+#MitWrk.DAT
 
 echo $ORIGINAL_FILE_PATH >>$LOG_OUT
 echo $DESTINATION_FILE_PATH >>$LOG_OUT
