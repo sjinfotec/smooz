@@ -387,6 +387,11 @@ class BackupAttribute extends Model
      */
     public function updData(){
         try {
+            Log::debug('updData in $this->param_identification_id = '.$this->param_identification_id);
+            Log::debug('updData in $this->param_identification_code = '.$this->param_identification_code);
+            Log::debug('updData in $this->work_table = '.$this->work_table);
+            Log::debug('updData in $this->target_table = '.$this->target_table);
+            Log::debug('updData in $this->status = '.$this->status);
             $query = DB::table($this->table.' AS t1');
             if ($this->param_identification_id != null && $this->param_identification_id != "") {
                 $query->where('t1.identification_id', $this->param_identification_id);
@@ -394,15 +399,62 @@ class BackupAttribute extends Model
             if ($this->param_identification_code != null && $this->param_identification_code != "") {
                 $query->where('t1.identification_code', $this->param_identification_code);
             }
-            $data  = $query->where('t1.is_deleted',0)
-            ->update([
-                't1.work_table' => $this->work_table,
-                't1.target_table' => $this->target_table,
-                't1.status' => $this->status,
-                't1.updated_user' => $this->updated_user,
-                't1.updated_at' => $this->updated_at,
-                't1.is_deleted' => $this->is_deleted
-            ]);
+            if ($this->param_identification_code != null && $this->param_identification_code != "") {
+                if ($this->param_identification_code == 8 && $this->status == 9) {
+                    Log::debug('updData in identification_code == 8 status == 9 ');
+                    $data  = $query->where('t1.is_deleted',0)
+                    ->update([
+                        't1.work_table' => $this->work_table,
+                        't1.target_table' => $this->target_table,
+                        't1.status' => $this->status,
+                        't1.updated_user' => $this->updated_user,
+                        't1.updated_at' => $this->updated_at,
+                        't1.is_deleted' => $this->is_deleted
+                    ]);
+                } elseif ($this->param_identification_code == 9 && $this->status == 9) {
+                    Log::debug('updData in identification_code == 9 status == 9 ');
+                    $data  = $query->where('t1.is_deleted',0)
+                    ->update([
+                        't1.work_table' => $this->work_table,
+                        't1.target_table' => $this->target_table,
+                        't1.status' => $this->status,
+                        't1.updated_user' => $this->updated_user,
+                        't1.updated_at' => $this->updated_at,
+                        't1.is_deleted' => $this->is_deleted
+                    ]);
+                } elseif ($this->param_identification_code == 10 && $this->status == 9) {
+                    Log::debug('updData in identification_code == 10 status == 9 ');
+                    $data  = $query->where('t1.is_deleted',0)
+                    ->update([
+                        't1.work_table' => $this->work_table,
+                        't1.target_table' => $this->target_table,
+                        't1.status' => $this->status,
+                        't1.updated_user' => $this->updated_user,
+                        't1.updated_at' => $this->updated_at,
+                        't1.is_deleted' => $this->is_deleted
+                    ]);
+                } else {
+                    $data  = $query->where('t1.is_deleted',0)
+                    ->update([
+                        't1.work_table' => $this->work_table,
+                        't1.target_table' => $this->target_table,
+                        't1.status' => $this->status,
+                        't1.updated_user' => $this->updated_user,
+                        't1.updated_at' => $this->updated_at,
+                        't1.is_deleted' => $this->is_deleted
+                    ]);
+                }
+            } else {
+                $data  = $query->where('t1.is_deleted',0)
+                ->update([
+                    't1.work_table' => $this->work_table,
+                    't1.target_table' => $this->target_table,
+                    't1.status' => $this->status,
+                    't1.updated_user' => $this->updated_user,
+                    't1.updated_at' => $this->updated_at,
+                    't1.is_deleted' => $this->is_deleted
+                ]);
+            }
             return true;
         }catch(\PDOException $pe){
             Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');

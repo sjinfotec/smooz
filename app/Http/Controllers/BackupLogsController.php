@@ -88,6 +88,7 @@ class BackupLogsController extends Controller
                         'login_user_code' => $login_user_code
                     );
                     $result_back = $this->putBackupResult($array_imple_putBackupResult);
+                    $item->status = Config::get('const.STATUS.start');
 
                     switch ($item->identification_code){
                         // 見積スムースデータ複写
@@ -103,54 +104,74 @@ class BackupLogsController extends Controller
                             $result = $this->deployG001($array_imple_deployG001);
                             break;
                         // 見積スムースデータ振分
+                        case Config::get('const.G001.distribute_wrk_quotations'):
+                            set_time_limit(300);
+                            $array_imple_distributeG001 = array(
+                                'item' => $item,
+                                'distribute' => Config::get('const.G001.distribute_wrk_quotations'),
+                                'login_user_code' => $login_user_code
+                            );
+                            $result = $this->distributeG001($array_imple_distributeG001);
+                            break;
+                        // 見積スムースデータ振分
+                        case Config::get('const.G001.distribute_wrk_quotations_binding'):
+                            set_time_limit(300);
+                            $array_imple_distributeG001 = array(
+                                'item' => $item,
+                                'distribute' => Config::get('const.G001.distribute_wrk_quotations_binding'),
+                                'login_user_code' => $login_user_code
+                            );
+                            $result = $this->distributeG001($array_imple_distributeG001);
+                            break;
+                        // 見積スムースデータ振分
+                        case Config::get('const.G001.distribute_wrk_quotations_cost'):
+                            set_time_limit(300);
+                            $array_imple_distributeG001 = array(
+                                'item' => $item,
+                                'distribute' => Config::get('const.G001.distribute_wrk_quotations_cost'),
+                                'login_user_code' => $login_user_code
+                            );
+                            $result = $this->distributeG001($array_imple_distributeG001);
+                            break;
+                        // 見積スムースデータ振分
+                        case Config::get('const.G001.distribute_wrk_quotations_department'):
+                            set_time_limit(300);
+                            $array_imple_distributeG001 = array(
+                                'item' => $item,
+                                'distribute' => Config::get('const.G001.distribute_wrk_quotations_department'),
+                                'login_user_code' => $login_user_code
+                            );
+                            $result = $this->distributeG001($array_imple_distributeG001);
+                            break;
+                        // 見積スムースデータ振分
+                        case Config::get('const.G001.distribute_wrk_quotations_parts'):
+                            set_time_limit(300);
+                            $array_imple_distributeG001 = array(
+                                'item' => $item,
+                                'distribute' => Config::get('const.G001.distribute_wrk_quotations_parts'),
+                                'login_user_code' => $login_user_code
+                            );
+                            $result = $this->distributeG001($array_imple_distributeG001);
+                            break;
+                        // 見積スムースデータ登録
                         case Config::get('const.G001.distribute_quotations'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_quotations'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
+                            $result = $this->putQuotations();
                             break;
-                        // 見積スムースデータ振分
+                        // 見積スムースデータ登録
                         case Config::get('const.G001.distribute_quotations_binding'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_quotations_binding'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
+                            $result = $this->putQuotationsBinding();
                             break;
-                        // 見積スムースデータ振分
+                        // 見積スムースデータ登録
                         case Config::get('const.G001.distribute_quotations_cost'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_quotations_cost'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
+                            $result = $this->putQuotationsCost();
                             break;
-                        // 見積スムースデータ振分
+                        // 見積スムースデータ登録
                         case Config::get('const.G001.distribute_quotations_department'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_quotations_department'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
+                            $result = $this->putQuotationsDepartment();
                             break;
-                        // 見積スムースデータ振分
+                        // 見積スムースデータ登録
                         case Config::get('const.G001.distribute_quotations_parts'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_quotations_parts'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
+                            $result = $this->putQuotationsParts();
                             break;
                         default:
                             break;
@@ -166,6 +187,7 @@ class BackupLogsController extends Controller
                         'login_user_code' => $login_user_code
                     );
                     $result_back = $this->putBackupResult($array_imple_putBackupResult);
+                    $item->status = Config::get('const.STATUS.end');
                     $result = true;
                 }
             }
@@ -179,7 +201,11 @@ class BackupLogsController extends Controller
                 $procend = false;
                 break;
             }
-            Log::debug('importMitumoridat end $procend = '.$procend);
+            if ($procend) {
+                Log::debug('importMitumoridat end $procend = true');
+            } else {
+                Log::debug('importMitumoridat end $procend = false');
+            }
             return response()->json(
                 ['result' => $result, 'procend' => $procend,
                 Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata]
@@ -284,7 +310,7 @@ class BackupLogsController extends Controller
                 $array_imp_data = array();
                 $rec_cnt = 0;
             }
-        Log::debug('deployG001 foreach end ');
+            Log::debug('deployG001 foreach end ');
             DB::commit();
 
             // // スムーズ営業担当を新システムのcodeに変換するためusers取得する
@@ -332,7 +358,7 @@ class BackupLogsController extends Controller
             $array_imp_data_quotations_department = $result[3];
             $array_imp_data_quotations_parts = $result[4];
             switch ($distribute){
-            case Config::get('const.G001.distribute_quotations'):
+            case Config::get('const.G001.distribute_wrk_quotations'):
                 DB::table($this->table_wrk_quotations)->truncate();
                 Log::debug('distributeG001 array_imp_data_quotations count = '.count($array_imp_data_quotations));
                 for ($i=0; $i<count($array_imp_data_quotations); $i++) {
@@ -396,7 +422,7 @@ class BackupLogsController extends Controller
                 Log::debug('distributeG001 table_wrk_quotations insert end');
                 DB::commit();
                 break;
-            case Config::get('const.G001.distribute_quotations_binding'):
+            case Config::get('const.G001.distribute_wrk_quotations_binding'):
                 DB::table($this->table_wrk_quotations_binding)->truncate();
                 DB::beginTransaction();
                 $convert =  mb_convert_variables('UTF-8','UTF-8',$array_imp_data_quotations_binding);
@@ -411,7 +437,7 @@ class BackupLogsController extends Controller
                 Log::debug('distributeG001 table_wrk_quotations_binding insert end');
                 DB::commit();
                 break;
-            case Config::get('const.G001.distribute_quotations_cost'):
+            case Config::get('const.G001.distribute_wrk_quotations_cost'):
                 DB::table($this->table_wrk_quotations_cost)->truncate();
                 Log::debug('distributeG001 array_imp_data_quotations_cost count = '.count($array_imp_data_quotations_cost));
                 for ($i=0; $i<count($array_imp_data_quotations_cost); $i++) {
@@ -442,7 +468,7 @@ class BackupLogsController extends Controller
                 Log::debug('distributeG001 table_wrk_quotations_cost insert end');
                 DB::commit();
                 break;
-            case Config::get('const.G001.distribute_quotations_department'):
+            case Config::get('const.G001.distribute_wrk_quotations_department'):
                 DB::table($this->table_wrk_quotations_department)->truncate();
                 Log::debug('distributeG001 array_imp_data_quotations_department count = '.count($array_imp_data_quotations_department));
                 for ($i=0; $i<count($array_imp_data_quotations_department); $i++) {
@@ -517,7 +543,7 @@ class BackupLogsController extends Controller
                 Log::debug('distributeG001 table_wrk_quotations_department insert end');
                 DB::commit();
                 break;
-            case Config::get('const.G001.distribute_quotations_parts'):
+            case Config::get('const.G001.distribute_wrk_quotations_parts'):
                 DB::table($this->table_wrk_quotations_parts)->truncate();
                 Log::debug('distributeG001 array_imp_data_quotations_parts count = '.count($array_imp_data_quotations_parts));
                 for ($i=0; $i<count($array_imp_data_quotations_parts); $i++) {
@@ -648,6 +674,20 @@ class BackupLogsController extends Controller
                     DB::table($this->table_wrk_quotations_parts)->insert( $chunk->toArray());
                 }
                 Log::debug('distributeG001 table_wrk_quotations_parts insert end');
+                DB::commit();
+                break;
+            case Config::get('const.G001.distribute_quotations'):
+                DB::beginTransaction();
+                $convert =  mb_convert_variables('UTF-8','UTF-8',$array_imp_data_quotations);
+                Log::debug('distributeG001 table_wrk_quotations insert start');
+                $insert_data = collect($array_imp_data_quotations);
+                $insert_cnt = 0;
+                foreach ($insert_data->chunk(1000) as $chunk) {
+                    $insert_cnt++;
+                    Log::debug('distributeG001 table_wrk_quotations insert_cnt = '.$insert_cnt);
+                    DB::table($this->table_wrk_quotations)->insert( $chunk->toArray());
+                }
+                Log::debug('distributeG001 table_wrk_quotations insert end');
                 DB::commit();
                 break;
             }
@@ -1675,6 +1715,101 @@ class BackupLogsController extends Controller
         }
     }
 
+    //
+    //  Quotations Ins
+    //
+    private function putQuotations()
+    {
+        $quotations_model = new Quotations();
+        try {
+            DB::beginTransaction();
+            $quotations_model->distributeIns();
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+
+    //
+    //  QuotationsBinding Ins
+    //
+    private function putQuotationsBinding()
+    {
+        $quotationsBinding_model = new QuotationsBinding();
+        try {
+            DB::beginTransaction();
+            $quotationsBinding_model->distributeIns();
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+
+    //
+    //  QuotationsCost Ins
+    //
+    private function putQuotationsCost()
+    {
+        $quotationsCost_model = new QuotationsCost();
+        try {
+            DB::beginTransaction();
+            $quotationsCost_model->distributeIns();
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+
+    //
+    //  QuotationsDepartment Ins
+    //
+    private function putQuotationsDepartment()
+    {
+        $quotationsDepartment_model = new QuotationsDepartment();
+        try {
+            DB::beginTransaction();
+            $quotationsDepartment_model->distributeIns();
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+
+    //
+    //  QuotationsParts Ins
+    //
+    private function putQuotationsParts()
+    {
+        $quotationsParts_model = new QuotationsParts();
+        try {
+            DB::beginTransaction();
+            $quotationsParts_model->distributeIns();
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+    
 
     //
     //  バックアップログ
@@ -1682,14 +1817,18 @@ class BackupLogsController extends Controller
     private function putBackupResult($params)
     {
         $item = $params['item'];
+        Log::debug('putBackupResult in  $item->status = '.$item->status);
         if (isset($item->status) && $item->status == Config::get('const.STATUS.end')) {
             return true;
         }
         try {
             DB::beginTransaction();
             // バックアップ属性
+            Log::debug('putBackupResult in  putBackupAtt start ');
             $result = $this->putBackupAtt($params);
+            Log::debug('putBackupResult in  putBackupAtt end ');
             // バックアップログ
+            Log::debug('putBackupResult in  $params[proc] = '.$params['proc']);
             if ($params['proc'] == Config::get('const.STATUS.end')) {
                 $result = $this->putBackupLog($params);
             }
@@ -1712,6 +1851,10 @@ class BackupLogsController extends Controller
         $item = $params['item'];
         $result = $params['result'];
         $login_user_code = $params['login_user_code'];
+        Log::debug('putBackupAtt in $proc = '.$proc);
+        Log::debug('putBackupAtt in $result = '.$result);
+        Log::debug('putBackupAtt in $item->identification_id = '.$item->identification_id);
+        Log::debug('putBackupAtt in $item->identification_code = '.$item->identification_code);
 
         $bkup_model = new BackupAttribute();
         try {
@@ -1732,10 +1875,12 @@ class BackupLogsController extends Controller
                 $bkup_model->setUpdateduserAttribute($login_user_code);
                 $bkup_model->setUpdatedatAttribute(Carbon::now());
                 $result = $bkup_model->updData();
+                Log::debug('putBackupAtt in updData ');
             } else {
                 $bkup_model->setCreateduserAttribute($login_user_code);
                 $bkup_model->setCreatedatAttribute(Carbon::now());
                 $result = $bkup_model->store();
+                Log::debug('putBackupAtt in store ');
             }
 
         } catch (Exception $e) {
@@ -1758,6 +1903,9 @@ class BackupLogsController extends Controller
         $login_user_code = $params['login_user_code'];
         $apicommon = new ApiCommonController();
         $bkuplog_model = new BackupLogs();
+        Log::debug('putBackupLog in $proc = '.$proc);
+        Log::debug('putBackupLog in $result = '.$result);
+        Log::debug('putBackupLog in $item->identification_code = '.$item->identification_code);
 
         try {
             // バックアップログ作成
@@ -1771,6 +1919,46 @@ class BackupLogsController extends Controller
             // 見積スムースデータ展開
             case Config::get('const.G001.deploy'):
                 $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.deploy'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_wrk_quotations'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_wrk_quotations_binding'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_wrk_quotations_cost'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_wrk_quotations_department'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_wrk_quotations_parts'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_quotations'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_quotations_binding'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_quotations_cost'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_quotations_department'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
+                break;
+            // 見積スムースデータ登録
+            case Config::get('const.G001.distribute_quotations_parts'):
+                $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.distribute'));
                 break;
             default:
                 $bkuplog_model->setKindAttribute(Config::get('const.G001_WORD.unknown'));
