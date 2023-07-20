@@ -53,11 +53,15 @@ Route::post('/quotations/get', [QuotationsController::class,'getData'])->middlew
 Route::post('/quotations/getone', [QuotationsController::class,'getDataOne'])->middleware('auth');
 Route::post('/quotations/update', [QuotationsController::class,'fix'])->middleware('auth');
 Route::post('/quotations/insert', [QuotationsController::class,'store'])->middleware('auth');
-Route::get('/qsearch', [QuotationsController::class,'search'])->middleware('auth');
-Route::post('/qsearch/get', [QuotationsController::class,'getDataSearch'])->middleware('auth');
 Route::get('/quotations/binding', [QuotationsBindingController::class,'index'])->middleware('auth');
 Route::get('/quotations/cost', [QuotationsCostController::class,'index'])->middleware('auth');
 Route::get('/quotations/department', [QuotationsDepartmentController::class,'index'])->middleware('auth');
+
+// 検索
+Route::get('/qsearch', [QSearchController::class,'search'])->middleware('auth');
+Route::post('/qsearch/get', [QSearchController::class,'getDataSearch'])->middleware('auth');
+
+
 
 //Route::get('/parts', [PartsController::class,'index'])->middleware('auth');
 //Route::post('/parts/get', [PartsController::class,'getitem']);

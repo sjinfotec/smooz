@@ -23,24 +23,24 @@
       </div>
       <div class="line">
         <div class="inputgroup3">
-          <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style input_w100p_m" name="m_code"></label>
+          <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style input_w100p_m" v-model="s_m_code" name="s_m_code"></label>
         </div>
         <div class="inputgroup3">
-          <label><span class="spanwidth_8">得意先コード</span><input type="text" class="form_style input_w100p_m" name="customer_code"></label>
+          <label><span class="spanwidth_8">得意先コード</span><input type="text" class="form_style input_w100p_m" v-model="s_customer_code" name="s_customer_code"></label>
         </div>
         <div class="inputgroup3">
-          <label><span class="spanwidth_8">得意先名<!--<span class="care">&#10045;</span>--></span><input type="text" class="form_style input_w100p_m" name="customer"></label>
+          <label><span class="spanwidth_8">得意先名<!--<span class="care">&#10045;</span>--></span><input type="text" class="form_style input_w100p_m" v-model="s_customer" name="s_customer"></label>
         </div>
       </div>
       <div class="line">
         <div class="inputgroup3">
-          <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w100p_m" name="enduser"></label>
+          <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w100p_m" v-model="s_enduser" name="s_enduser"></label>
         </div>
         <div class="inputgroup3">
-          <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w100p_m" name="product"></label>
+          <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w100p_m" v-model="s_product" name="s_product"></label>
         </div>
         <div class="inputgroup4">
-          <label><span class="spanwidth_8">作成年月（期間）</span><span class="spanblock1"><input type="text" class="form_style input_search_w1" name="date_start">～<input type="text" class="form_style input_search_w1" name="date_end"></span></label>
+          <label><span class="spanwidth_8">作成年月（期間）</span><span class="spanblock1"><input type="text" class="form_style input_search_w1" v-model="s_date_start" name="s_date_start">～<input type="text" class="form_style input_search_w1" v-model="s_date_end" name="s_date_end"></span></label>
         </div>
       </div>
 
@@ -110,16 +110,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(mitem,mrowIndex) in 68" :key="mrowIndex">
+              <tr v-for="(mitem,mrowIndex) in details" :key="mrowIndex">
                 <td class="w2"><label style="display:block;"><input type="radio" name="m_codes" :id="'sr_' + mrowIndex" v-model="mcradio" :value="mrowIndex"></label></td>
                 <td class="nrap">{{ mitem['m_code'] }}</td>
-                <td class="nrap">2022年5月24日</td>
-                <td class="nrap">23456</td>
-                <td class="nrap"><label :for="'sr_' + mrowIndex" style="display:block;">ロイズコーポレーション</label></td>
-                <td class=""><label :for="'sr_' + mrowIndex" style="display:block;">合同支援利用促進パンフレット　４色</label></td>
-                <td class="nrap">0P2000部</td>
-                <td class="nrap">1200000</td>
-                <td class="nrap">2022年05月31日</td>
+                <td class="nrap">{{ mitem['f_create_date'] }}</td>
+                <td class="nrap">{{ mitem['customer_code'] }}</td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['customer'] }}</label></td>
+                <td class=""><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['product'] }}</label></td>
+                <td class="nrap">{{ mitem['production_volnum'] }} {{ mitem['production_volnum_unit'] }}</td>
+                <td class="nrap">{{ mitem['estimate_amount'] }} 円</td>
+                <td class="nrap">{{ mitem['f_lastorder_date'] }}</td>
               </tr>
             </tbody>
           </table>
@@ -382,6 +382,14 @@ export default {
       dialogVisible: false,
       messageshowsearch: false,
 
+      s_m_code: "",
+      s_customer_code: "",
+      s_customer: "",
+      s_enduser: "",
+      s_product: "",
+      s_date_start: "",
+      s_date_end: "",
+
       searchview: "",
       printview: "",
       sr_title: "",
@@ -404,7 +412,7 @@ export default {
 
 
 
-
+    // 検索処理
     SearchClick(k,arr,str) {
       let idname_array = new Object(); 
       idname_array[0] = ['doc', 'mit'];
@@ -431,19 +439,25 @@ export default {
         } 
       }
 
-      
+      var motion_msg = "検索";
       var arrayParams = { 
-        kind : k
+        kind : k,
+        s_m_code : this.s_m_code , 
+        s_customer_code : this.s_customer_code , 
+        s_customer : this.s_customer , 
+        s_enduser : this.s_enduser , 
+        s_product : this.s_product , 
+        s_date_start : this.s_date_start , 
+        s_date_end : this.s_date_end , 
+
       };
-      /*
-      this.postRequest("/search/get", arrayParams)
+      this.postRequest("/qsearch/get", arrayParams)
         .then(response  => {
-          this.getThen(response);
+          this.putThenSearch(response, motion_msg);
         })
         .catch(reason => {
           this.serverCatch("取得");
         });
-      */
 
       this.sr_title = "検索結果";
       this.searchview = k;
@@ -646,6 +660,33 @@ export default {
     getThen(response) {
       console.log('正常');
     },
+    // 検索系正常処理
+    putThenSearch(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+      //if (res.result) {
+      if (res.details.length > 0) {
+          this.details = res.details;
+          //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
+          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+          //if (res.search_totals) {
+          //  this.search_totals = res.search_totals[0].total_s;
+          //}
+
+          this.product_title = res.s_m_code + ' ' + res.s_customer + ' ';
+          //console.log("putThenSearch in res.s_product_name = " + res.s_product_name);
+          this.$toasted.show(this.product_title + " " + eventtext + "しました");
+          this.actionmsgArr.push(this.product_title + " を検索しました。");
+      } else {
+          this.actionmsgArr.push(this.s_department + this.s_charge + this.s_product_name + this.s_product_number + " が見つかりませんでした。","");
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+
     // 異常処理
     serverCatch(eventtext) {
       console.log('異常処理');
