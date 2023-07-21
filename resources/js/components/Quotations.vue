@@ -68,13 +68,13 @@
           <label>制作冊数<input type="text" class="form_style input_w5" name="production_volnum">
           <select name="production_volnum_unit" class="form_style">
           <option value=""></option>
-          <option value="S">S</option>
-          <option value="冊">冊</option>
-          <option value="束">束</option>
-          <option value="箱">箱</option>
-          <option value="枚">枚</option>
-          <option value="部">部</option>
-          <option value="個">個</option>
+          <option value="1">S</option>
+          <option value="2">冊</option>
+          <option value="3">束</option>
+          <option value="4">箱</option>
+          <option value="5">枚</option>
+          <option value="6">部</option>
+          <option value="7">個</option>
           </select>
           </label>
         </div>

@@ -656,42 +656,46 @@ class QSearch extends Model
             )
             ->selectRaw('DATE_FORMAT(create_date, "%Y年%m月%d日") AS f_create_date')
             ->selectRaw('DATE_FORMAT(lastorder_date, "%Y年%m月%d日") AS f_lastorder_date')
+            ->selectRaw('FORMAT(production_volnum, 0) AS f_production_volnum')
+            ->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
             ;
             if(!empty($this->param_m_code)){
                 //Log::info("getSearchA this->params_order_no -- ".$this->params_order_no);
                 //Log::info("getSearchA this->param_order_no -- ".$this->param_order_no);
                 $data->where('m_code', $this->param_m_code)
                 //->where('status','newest')
-                ->orderBy('id', 'DESC');
-            
-                $result = $data
-                ->get();
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_customer_code)){
+                $data->where('customer_code', $this->param_customer_code)
+                ->orderBy('create_date', 'DESC');
             }
             if(!empty($this->param_customer)){
                 $str = "%".$this->param_customer."%";
                 $data->where('customer','LIKE', $str)
-                ->orderBy('id');
-            
-                $result = $data
-                ->get();
+                ->orderBy('create_date', 'DESC');
             }
             if(!empty($this->param_enduser)){
                 $str = "%".$this->param_enduser."%";
                 $data->where('enduser','LIKE', $str)
-                ->orderBy('id');
-            
-                $result = $data
-                ->get();
+                ->orderBy('create_date', 'DESC');
             }
             if(!empty($this->param_product)){
                 $str = "%".$this->param_product."%";
                 //Log::info("getSearchA this->param_company_name -- ".$str);
                 $data->where('product','LIKE', $str)
                 //->where('status','newest')
-                ->orderBy('id');
-            
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_date_start)){
+                $data->where('date_start', $this->param_date_start)
+                ->orderBy('create_date', 'DESC');
+            }
+
+            if($searchgo) {
                 $result = $data
                 ->get();
+
             }
 
             /*

@@ -7594,7 +7594,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
+/* harmony import */ var _mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/dialogable.js */ "./resources/js/mixins/dialogable.js");
+/* harmony import */ var _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/checkable.js */ "./resources/js/mixins/checkable.js");
+/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7953,13 +7960,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "QuotationsSearch",
-  //mixins: [dialogable, checkable, requestable],
-  mixins: [_mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__["requestable"]],
+  mixins: [_mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__["dialogable"], _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__["checkable"], _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__["requestable"]],
+  //mixins: [requestable],
   props: {
     /*
       authusers: {
@@ -7989,7 +7996,10 @@ __webpack_require__.r(__webpack_exports__);
       printdata: "",
       m_code: "",
       printtitle: "",
-      searchdetail: ""
+      searchdetail: "",
+      event_title: "",
+      actionmsgArr: [],
+      select_arr: []
     };
   },
   // マウント時
@@ -8170,7 +8180,7 @@ __webpack_require__.r(__webpack_exports__);
     // 検索系正常処理
     putThenSearch: function putThenSearch(response, eventtext) {
       var messages = [];
-      var res = response.data; //if (res.result) {
+      var res = response.data;
 
       if (res.details.length > 0) {
         this.details = res.details; //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
@@ -8179,12 +8189,14 @@ __webpack_require__.r(__webpack_exports__);
         //  this.search_totals = res.search_totals[0].total_s;
         //}
 
-        this.product_title = res.s_m_code + ' ' + res.s_customer + ' '; //console.log("putThenSearch in res.s_product_name = " + res.s_product_name);
+        this.select_arr = res.select_arr;
+        this.event_title = res.s_m_code + ' ' + res.s_customer_code + ' ' + res.s_customer + ' ' + res.s_enduser + ' ' + res.s_product + ' ' + res.s_date_start + ' ' + res.s_date_end; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
 
-        this.$toasted.show(this.product_title + " " + eventtext + "しました");
-        this.actionmsgArr.push(this.product_title + " を検索しました。");
+        this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        this.actionmsgArr.push(this.event_title + " を検索しました。", " 検索数 : " + res.details.length + " 件");
       } else {
-        this.actionmsgArr.push(this.s_department + this.s_charge + this.s_product_name + this.s_product_number + " が見つかりませんでした。", "");
+        this.actionmsgArr.push(this.s_m_code + this.s_customer_code + this.s_customer + this.s_enduser + this.s_product + this.s_date_start + this.s_date_end + " が見つかりませんでした。");
+        this.details = [];
 
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
@@ -8195,7 +8207,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 異常処理
     serverCatch: function serverCatch(eventtext) {
-      console.log('異常処理');
+      console.log('異常処理 -> ' + eventtext);
     }
   }
 });
@@ -58878,19 +58890,19 @@ var staticRenderFns = [
           [
             _c("option", { attrs: { value: "" } }),
             _vm._v(" "),
-            _c("option", { attrs: { value: "S" } }, [_vm._v("S")]),
+            _c("option", { attrs: { value: "1" } }, [_vm._v("S")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "冊" } }, [_vm._v("冊")]),
+            _c("option", { attrs: { value: "2" } }, [_vm._v("冊")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "束" } }, [_vm._v("束")]),
+            _c("option", { attrs: { value: "3" } }, [_vm._v("束")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "箱" } }, [_vm._v("箱")]),
+            _c("option", { attrs: { value: "4" } }, [_vm._v("箱")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "枚" } }, [_vm._v("枚")]),
+            _c("option", { attrs: { value: "5" } }, [_vm._v("枚")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "部" } }, [_vm._v("部")]),
+            _c("option", { attrs: { value: "6" } }, [_vm._v("部")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "個" } }, [_vm._v("個")]),
+            _c("option", { attrs: { value: "7" } }, [_vm._v("個")]),
           ]
         ),
       ]),
@@ -65634,6 +65646,19 @@ var render = function () {
             }),
           ]),
           _vm._v(" "),
+          _vm.actionmsgArr.length
+            ? _c("div", { staticClass: "actionmsg_array mgt10 print-none" }, [
+                _c(
+                  "ul",
+                  {},
+                  _vm._l(_vm.actionmsgArr, function (actionmsg, index) {
+                    return _c("li", { key: index }, [_vm._v(_vm._s(actionmsg))])
+                  }),
+                  0
+                ),
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _vm.searchview === "doc"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
@@ -65671,7 +65696,7 @@ var render = function () {
                         _c("td", { staticClass: "nrap" }, [
                           _vm._v("2022年6月18日"),
                         ]),
-                        _vm._v(" "),
+                        _vm._v("h_com\n                "),
                         _c("td", { staticClass: "nrap" }, [_vm._v("54321")]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [_vm._v("JR北海道")]),
@@ -65759,16 +65784,18 @@ var render = function () {
                           ),
                         ]),
                         _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [
+                        _c("td", { staticClass: "nrap ta_r" }, [
                           _vm._v(
-                            _vm._s(mitem["production_volnum"]) +
+                            _vm._s(mitem["f_production_volnum"]) +
                               " " +
-                              _vm._s(mitem["production_volnum_unit"])
+                              _vm._s(mitem["production_volnum_unit"]) +
+                              " " +
+                              _vm._s(_vm.select_arr[5]["code_name"])
                           ),
                         ]),
                         _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [
-                          _vm._v(_vm._s(mitem["estimate_amount"]) + " 円"),
+                        _c("td", { staticClass: "nrap ta_r" }, [
+                          _vm._v(_vm._s(mitem["f_estimate_amount"]) + " 円"),
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
@@ -81740,6 +81767,13 @@ window.Vue = __webpack_require__(/*! vue/dist/vue.js */ "./node_modules/vue/dist
 
 
 
+var options = {
+  position: "bottom-center",
+  duration: 3000,
+  fullWidth: false,
+  type: "info"
+};
+vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_toasted__WEBPACK_IMPORTED_MODULE_3___default.a, options);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_5__["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$axios = axios__WEBPACK_IMPORTED_MODULE_1___default.a; //import { Dialog, Select, Option, TimePicker, Button } from "element-ui";
 //import "element-ui/lib/theme-chalk/index.css";

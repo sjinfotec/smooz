@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\QSearch;
+use App\Models\Generalcode;
+
 
 class QSearchController extends Controller
 {
@@ -67,12 +69,22 @@ class QSearchController extends Controller
             if(isset($s_date_end))      $q_search->setParamDate_endAttribute($s_date_end);
             $details =  $q_search->getSearch();
 
+            $general_code = new Generalcode();
+            $general_code->setParamIdentificationidAttribute('S002');
+            $select_arr =  $general_code->getItem();
+
             return response()->json(
                 [
                     'result' => $result, 
                     'details' => $details, 
                     's_m_code' => $s_m_code, 
-                    's_customer' => $s_customer,
+                    's_customer_code' => $s_customer_code, 
+                    's_customer' => $s_customer, 
+                    's_enduser' => $s_enduser, 
+                    's_product' => $s_product, 
+                    's_date_start' => $s_date_start, 
+                    's_date_end' => $s_date_end, 
+                    'select_arr' => $select_arr,
                     Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
                 ]
             );

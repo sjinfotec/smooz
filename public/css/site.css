@@ -304,6 +304,7 @@ header .header_login_info a {
 .mgl20  {margin-left:20px;}
 .mgl40  {margin-left:40px;}
 .mgt0   {margin-top:0px !important;}
+.mgt10  {margin-top:10px !important;}
 .mgt20  {margin-top:20px !important;}
 .mgt40  {margin-top:40px !important;}
 
@@ -717,6 +718,20 @@ header .header_login_info a {
 #cnt_search h4  {
   color:#555;  
 }
+.actionmsg_array  {
+  background: #DDD;
+}
+.actionmsg_array ul  {
+  list-style: none;
+}
+.actionmsg_array ul li  {
+  position: relative;
+  font-size: 1em;
+  font-weight: normal;
+  line-height: 1.2em;
+
+}
+
 #search_com {
   margin-left:20px;
   padding:0 0px;
@@ -738,8 +753,7 @@ header .header_login_info a {
   border-collapse: collapse;
   margin-bottom:0px;
   border-spacing:0;
-  border-left:1px solid #888888;
-  border-top:1px solid #888888;
+  border:1px solid #888888;
   box-sizing: border-box;
 }
 #search_result thead th{

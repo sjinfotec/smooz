@@ -63,6 +63,11 @@
       <div id="cnt_search">
         <form id="searchform">
         <h4>{{ sr_title }}<span id="search_com" class="v_hidden"></span></h4>
+        <div class="actionmsg_array mgt10 print-none" v-if="actionmsgArr.length">
+          <ul class="">
+            <li v-for="(actionmsg,index) in actionmsgArr" v-bind:key="index">{{ actionmsg }}</li>
+          </ul>
+        </div>
         <div id="search_result" v-if="searchview === 'doc'">
           <table id="quodoc">
             <thead>
@@ -85,7 +90,7 @@
                   </button>
                 </td>
                 <td class="nrap">22060123</td>
-                <td class="nrap">2022年6月18日</td>
+                <td class="nrap">2022年6月18日</td>h_com
                 <td class="nrap">54321</td>
                 <td class="nrap">JR北海道</td>
                 <td class="nrap">通常</td>
@@ -117,8 +122,8 @@
                 <td class="nrap">{{ mitem['customer_code'] }}</td>
                 <td class="nrap"><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['customer'] }}</label></td>
                 <td class=""><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['product'] }}</label></td>
-                <td class="nrap">{{ mitem['production_volnum'] }} {{ mitem['production_volnum_unit'] }}</td>
-                <td class="nrap">{{ mitem['estimate_amount'] }} 円</td>
+                <td class="nrap ta_r">{{ mitem['f_production_volnum'] }} {{ mitem['production_volnum_unit'] }} {{ select_arr[5]['code_name'] }}</td>
+                <td class="nrap ta_r">{{ mitem['f_estimate_amount'] }} 円</td>
                 <td class="nrap">{{ mitem['f_lastorder_date'] }}</td>
               </tr>
             </tbody>
@@ -357,15 +362,14 @@
 <script>
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
+import { dialogable } from "../mixins/dialogable.js";
+import { checkable } from "../mixins/checkable.js";
 import { requestable } from "../mixins/requestable.js";
-
 
 export default {
   name: "QuotationsSearch",
-  //mixins: [dialogable, checkable, requestable],
-  mixins: [requestable],
+  mixins: [dialogable, checkable, requestable],
+  //mixins: [requestable],
   props: {
   /*
     authusers: {
@@ -398,6 +402,10 @@ export default {
       m_code: "",
       printtitle: "",
       searchdetail: "",
+
+      event_title: "",
+      actionmsgArr: [],
+      select_arr: [],
 
     };
   },
@@ -664,7 +672,6 @@ export default {
     putThenSearch(response, eventtext) {
       var messages = [];
       var res = response.data;
-      //if (res.result) {
       if (res.details.length > 0) {
           this.details = res.details;
           //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
@@ -672,13 +679,15 @@ export default {
           //if (res.search_totals) {
           //  this.search_totals = res.search_totals[0].total_s;
           //}
+          this.select_arr = res.select_arr;
 
-          this.product_title = res.s_m_code + ' ' + res.s_customer + ' ';
-          //console.log("putThenSearch in res.s_product_name = " + res.s_product_name);
-          this.$toasted.show(this.product_title + " " + eventtext + "しました");
-          this.actionmsgArr.push(this.product_title + " を検索しました。");
+          this.event_title = res.s_m_code + ' ' + res.s_customer_code + ' ' + res.s_customer + ' ' + res.s_enduser + ' ' + res.s_product + ' ' + res.s_date_start + ' ' + res.s_date_end;
+          //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+          this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
       } else {
-          this.actionmsgArr.push(this.s_department + this.s_charge + this.s_product_name + this.s_product_number + " が見つかりませんでした。","");
+          this.actionmsgArr.push(this.s_m_code + this.s_customer_code + this.s_customer + this.s_enduser + this.s_product + this.s_date_start + this.s_date_end + " が見つかりませんでした。");
+          this.details = [];
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
         } else {
@@ -689,7 +698,7 @@ export default {
 
     // 異常処理
     serverCatch(eventtext) {
-      console.log('異常処理');
+      console.log('異常処理 -> ' + eventtext);
     },
   }
 };
