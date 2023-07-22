@@ -68,10 +68,13 @@ class QSearchController extends Controller
             if(isset($s_date_start))      $q_search->setParamDate_startAttribute($s_date_start);
             if(isset($s_date_end))      $q_search->setParamDate_endAttribute($s_date_end);
             $details =  $q_search->getSearch();
+            $pvu = $q_search->getPvu();
 
             $general_code = new Generalcode();
             $general_code->setParamIdentificationidAttribute('S002');
-            $select_arr =  $general_code->getItem();
+            $select_arr_s002 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S001');
+            $select_arr_s001 =  $general_code->getItem();
 
             return response()->json(
                 [
@@ -84,7 +87,9 @@ class QSearchController extends Controller
                     's_product' => $s_product, 
                     's_date_start' => $s_date_start, 
                     's_date_end' => $s_date_end, 
-                    'select_arr' => $select_arr,
+                    'select_arr_s002' => $select_arr_s002,
+                    'select_arr_s001' => $select_arr_s001,
+                    'pvu' => $pvu,
                     Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
                 ]
             );

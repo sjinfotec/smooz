@@ -18,7 +18,7 @@
           <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
         </div>
         <div class="inputgroup">
-          <button>クリア</button>
+          <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
         </div>
       </div>
       <div class="line">
@@ -122,7 +122,7 @@
                 <td class="nrap">{{ mitem['customer_code'] }}</td>
                 <td class="nrap"><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['customer'] }}</label></td>
                 <td class=""><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['product'] }}</label></td>
-                <td class="nrap ta_r">{{ mitem['f_production_volnum'] }} {{ mitem['production_volnum_unit'] }} {{ select_arr[5]['code_name'] }}</td>
+                <td class="nrap ta_r">{{ mitem['f_production_volnum'] }} {{ select_arr_s002[mitem['production_volnum_unit']-1]['code_name'] }} {{ pvu[mrowIndex]['production_volnum_unit'] }}</td>
                 <td class="nrap ta_r">{{ mitem['f_estimate_amount'] }} 円</td>
                 <td class="nrap">{{ mitem['f_lastorder_date'] }}</td>
               </tr>
@@ -142,6 +142,7 @@
        v-bind:print-title="printtitle"
        v-on:pricancel-event="Pricancel"
       ></popup-print>
+      <div id="php_item">デフォルト文字</div>
     </div>
 
     <div id="printgaiyo"></div>
@@ -360,6 +361,7 @@
   </div>
 </template>
 <script>
+
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 import { dialogable } from "../mixins/dialogable.js";
@@ -376,6 +378,9 @@ export default {
       type: Array,
       default: []
     }
+  pvu: {
+    default: details[]['production_volnum_unit']
+  }
   */
   },
   data() {
@@ -403,9 +408,13 @@ export default {
       printtitle: "",
       searchdetail: "",
 
+
+
+      pvu: [],
+
       event_title: "",
       actionmsgArr: [],
-      select_arr: [],
+      select_arr_s002: [],
 
     };
   },
@@ -417,6 +426,89 @@ export default {
   methods: {
     // -------------------- イベント処理 --------------------
 
+    clickEvent(fname,val1,val2,cf,com1,md,smd) {
+      var fm = document.getElementById(fname);
+      //var tname = document.getElementsByName(val1);
+      //Submit値を操作
+      //fm.edit_id.value = val;
+      //fm.tname.value = val;
+      //tname[0].value = val;	//[0]を付けないとundefind
+
+      //alert('clickEvent 引数 = ' + fname + ' 、 ' + tn + ' 、 ' + val + ' 、 ' + cf);
+
+        if(cf == 'clear') {
+          //var Jname = fm.name.value;
+          //var Js_product_code = fm.s_product_code.value;
+          //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+          //var result = window.confirm(Jproduct_id + ' ' + com1 + 'します');
+          this.s_m_code = "";
+          this.s_customer_code = "";
+          this.s_customer = "";
+          this.s_enduser = "";
+          this.s_product = "";
+          this.s_date_start = "";
+          this.s_date_end = "";
+          this.actionmsgArr = [];
+          this.details = [];
+
+          console.log('クリアしました');
+        }
+        else if(cf == 'confirm_work_update') {
+          var Jperformance = document.getElementById('performance_' + val1).value;
+          //var Jstatus = fm.status.value;
+          //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
+          var result = window.confirm( com1 +'\n'+ Jperformance +'');
+          if( result ) {
+            //fm.s_id.value = val1;
+            //fm.s_performance.value = Jperformance;
+            //fm.action = '/w';
+            //fm.submit();
+            this.ListUpdate(val1);
+          }
+          else {
+            console.log('キャンセルがクリックされました');
+          }
+
+        }
+        else if(cf == 'confirm_update') {
+          var Jwork_name = fm.work_name.value;
+          var Jdepartments_name = fm.departments_name.value;
+          //var Js_product_code = fm.s_product_code.value;
+          //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+          var result = window.confirm('部署名 : ' + Jdepartments_name + '\n工程 : ' + Jwork_name + '\n' + com1 + 'します');
+          if( result ) {
+            //fm.mode.value = md;
+            fm.motion.value = 'reload';
+            fm.action = '/process/insert';
+            fm.submit();
+          }
+          else {
+            console.log('キャンセルがクリックされました');
+          }
+        }
+        else if(cf == 'select_del') {
+          //var Jwork_name = fm.work_name.value;
+          //var Jdepartments_name = fm.departments_name.value;
+          //var Js_product_code = fm.s_product_code.value;
+          //value="DEL" id="work_code_del"
+          //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+          var result = window.confirm('部署名 : ' + val1 + '\n' + com1 + 'します');
+          if( result ) {
+            //fm.work_code.value = 'DEL';
+            fm.mode.value = md;
+            fm.action = '/process/insert';
+            fm.submit();
+          }
+          else {
+            console.log('キャンセルがクリックされました');
+          }
+
+
+        }
+        else {
+          //fm.submit();
+        }
+    },
 
 
 
@@ -489,9 +581,11 @@ export default {
         var vvmc = radioNodeList.value ;
         if ( vvmc === "" ) {
           alert('検索結果一覧より見積を選択して下さい。');
+          
         } else {
+          
           this.printtitle = "見積内容 ― 製品名 ―";
-          this.printdata = "【見積番号】D15689 【作成日】20120221 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";    
+          this.printdata = "【見積番号】" + this.details[vvmc]['m_code'] + "【作成日】" + this.details[vvmc]['create_date'] + " 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";    
           this.printdata += "【得意先】 119  萬  谷（一 般）\n";
           this.printdata += "【エンドユーザー】 すずらん商事\n";
           this.printdata += "【製品名】 納品書（タイトルなし）\n";
@@ -518,6 +612,7 @@ export default {
           this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
           this.printdata += "【提示額】245,000 単価 2.45-\n";
 
+          this.printdata += "vvmc -> " + vvmc;
 
 
           this.m_code = "D11999";
@@ -527,6 +622,45 @@ export default {
           nopriid.style.display = "none";
           this.printview = '1';
           //console.log( vvmc ) ;
+
+          let xhr = new XMLHttpRequest();
+          xhr.open('POST', `test.php`, true);
+          xhr.addEventListener('load', function () {
+            //console.log(this.response);
+            //window.open(this.response);
+            var phpitem = document.getElementById("php_item") ;
+            phpitem.innerHTML = "" + this.response;
+          });
+
+          //var details_arr = JSON.parse(this.details);
+          var details_arr = JSON.stringify(this.details[vvmc]);
+          //var details_arr = this.details[vvmc].m_code;
+          console.log('details_arr:' + details_arr);
+          //var elA = JSON.parse(details_arr);
+
+          let post_data = new FormData();
+          post_data.append('details_arr', details_arr);
+          post_data.append('m_code', this.details[vvmc]['m_code']);
+          post_data.append('create_date', this.details[vvmc]['create_date']);
+          //post_data.append('select_arr_s002', this.select_arr_s002);
+          this.details.forEach(function(elements, index, array){
+            //var elJ = JSON.stringify(elements);
+            //var elA = JSON.parse(elJ);
+
+            post_data.append('details[' + index + ']', elements.m_code);
+            console.log('D-Index:' + index);
+            console.log('D-Element:' + elements.m_code);
+            //console.log('Array:' + array);
+          });
+          this.select_arr_s002.forEach(function(element, index, array){
+            post_data.append('select_arr_s002[' + (index + 1) + ']', element['code_name']);
+
+            console.log('Index:' + index);
+            console.log('Element:' + element['code_name']);
+            //console.log('Array:' + array);
+          });
+          xhr.send(post_data);
+          //xhr.send();
 
 
         }
@@ -679,9 +813,22 @@ export default {
           //if (res.search_totals) {
           //  this.search_totals = res.search_totals[0].total_s;
           //}
-          this.select_arr = res.select_arr;
+          this.select_arr_s002 = res.select_arr_s002;
+          this.pvu = res.pvu;
+          //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
 
-          this.event_title = res.s_m_code + ' ' + res.s_customer_code + ' ' + res.s_customer + ' ' + res.s_enduser + ' ' + res.s_product + ' ' + res.s_date_start + ' ' + res.s_date_end;
+          var date_se = '';
+          if(res.s_date_start && res.s_date_end) {
+            date_se = res.s_date_start + '～' + res.s_date_end;
+          }
+          else if(res.s_date_start){
+            date_se = res.s_date_start + '～';
+          }
+          else if(res.s_date_end) {
+            date_se = '～' + res.s_date_end;
+          }
+
+          this.event_title = res.s_m_code + ' ' + res.s_customer_code + ' ' + res.s_customer + ' ' + res.s_enduser + ' ' + res.s_product + ' ' + date_se;
           //console.log("putThenSearch in res.s_customer = " + res.s_customer);
           this.$toasted.show(this.event_title + " " + eventtext + "しました");
           this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");

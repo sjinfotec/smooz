@@ -7958,6 +7958,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 
@@ -7973,6 +7974,9 @@ __webpack_require__.r(__webpack_exports__);
         type: Array,
         default: []
       }
+    pvu: {
+      default: details[]['production_volnum_unit']
+    }
     */
   },
   data: function data() {
@@ -7997,9 +8001,10 @@ __webpack_require__.r(__webpack_exports__);
       m_code: "",
       printtitle: "",
       searchdetail: "",
+      pvu: [],
       event_title: "",
       actionmsgArr: [],
-      select_arr: []
+      select_arr_s002: []
     };
   },
   // マウント時
@@ -8008,6 +8013,78 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // -------------------- イベント処理 --------------------
+    clickEvent: function clickEvent(fname, val1, val2, cf, com1, md, smd) {
+      var fm = document.getElementById(fname); //var tname = document.getElementsByName(val1);
+      //Submit値を操作
+      //fm.edit_id.value = val;
+      //fm.tname.value = val;
+      //tname[0].value = val;	//[0]を付けないとundefind
+      //alert('clickEvent 引数 = ' + fname + ' 、 ' + tn + ' 、 ' + val + ' 、 ' + cf);
+
+      if (cf == 'clear') {
+        //var Jname = fm.name.value;
+        //var Js_product_code = fm.s_product_code.value;
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+        //var result = window.confirm(Jproduct_id + ' ' + com1 + 'します');
+        this.s_m_code = "";
+        this.s_customer_code = "";
+        this.s_customer = "";
+        this.s_enduser = "";
+        this.s_product = "";
+        this.s_date_start = "";
+        this.s_date_end = "";
+        this.actionmsgArr = [];
+        this.details = [];
+        console.log('クリアしました');
+      } else if (cf == 'confirm_work_update') {
+        var Jperformance = document.getElementById('performance_' + val1).value; //var Jstatus = fm.status.value;
+        //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
+
+        var result = window.confirm(com1 + '\n' + Jperformance + '');
+
+        if (result) {
+          //fm.s_id.value = val1;
+          //fm.s_performance.value = Jperformance;
+          //fm.action = '/w';
+          //fm.submit();
+          this.ListUpdate(val1);
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else if (cf == 'confirm_update') {
+        var Jwork_name = fm.work_name.value;
+        var Jdepartments_name = fm.departments_name.value; //var Js_product_code = fm.s_product_code.value;
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+
+        var result = window.confirm('部署名 : ' + Jdepartments_name + '\n工程 : ' + Jwork_name + '\n' + com1 + 'します');
+
+        if (result) {
+          //fm.mode.value = md;
+          fm.motion.value = 'reload';
+          fm.action = '/process/insert';
+          fm.submit();
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else if (cf == 'select_del') {
+        //var Jwork_name = fm.work_name.value;
+        //var Jdepartments_name = fm.departments_name.value;
+        //var Js_product_code = fm.s_product_code.value;
+        //value="DEL" id="work_code_del"
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+        var result = window.confirm('部署名 : ' + val1 + '\n' + com1 + 'します');
+
+        if (result) {
+          //fm.work_code.value = 'DEL';
+          fm.mode.value = md;
+          fm.action = '/process/insert';
+          fm.submit();
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else {//fm.submit();
+      }
+    },
     // 検索処理
     SearchClick: function SearchClick(k, arr, str) {
       var _this = this;
@@ -8067,7 +8144,7 @@ __webpack_require__.r(__webpack_exports__);
           alert('検索結果一覧より見積を選択して下さい。');
         } else {
           this.printtitle = "見積内容 ― 製品名 ―";
-          this.printdata = "【見積番号】D15689 【作成日】20120221 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";
+          this.printdata = "【見積番号】" + this.details[vvmc]['m_code'] + "【作成日】" + this.details[vvmc]['create_date'] + " 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";
           this.printdata += "【得意先】 119  萬  谷（一 般）\n";
           this.printdata += "【エンドユーザー】 すずらん商事\n";
           this.printdata += "【製品名】 納品書（タイトルなし）\n";
@@ -8089,12 +8166,45 @@ __webpack_require__.r(__webpack_exports__);
           this.printdata += "<hr>";
           this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
           this.printdata += "【提示額】245,000 単価 2.45-\n";
+          this.printdata += "vvmc -> " + vvmc;
           this.m_code = "D11999";
           var nopri = 'cnt1';
           var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
 
           nopriid.style.display = "none";
           this.printview = '1'; //console.log( vvmc ) ;
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', "test.php", true);
+          xhr.addEventListener('load', function () {
+            //console.log(this.response);
+            //window.open(this.response);
+            var phpitem = document.getElementById("php_item");
+            phpitem.innerHTML = "" + this.response;
+          }); //var details_arr = JSON.parse(this.details);
+
+          var details_arr = JSON.stringify(this.details[vvmc]); //var details_arr = this.details[vvmc].m_code;
+
+          console.log('details_arr:' + details_arr); //var elA = JSON.parse(details_arr);
+
+          var post_data = new FormData();
+          post_data.append('details_arr', details_arr);
+          post_data.append('m_code', this.details[vvmc]['m_code']);
+          post_data.append('create_date', this.details[vvmc]['create_date']); //post_data.append('select_arr_s002', this.select_arr_s002);
+
+          this.details.forEach(function (elements, index, array) {
+            //var elJ = JSON.stringify(elements);
+            //var elA = JSON.parse(elJ);
+            post_data.append('details[' + index + ']', elements.m_code);
+            console.log('D-Index:' + index);
+            console.log('D-Element:' + elements.m_code); //console.log('Array:' + array);
+          });
+          this.select_arr_s002.forEach(function (element, index, array) {
+            post_data.append('select_arr_s002[' + (index + 1) + ']', element['code_name']);
+            console.log('Index:' + index);
+            console.log('Element:' + element['code_name']); //console.log('Array:' + array);
+          });
+          xhr.send(post_data); //xhr.send();
         }
       }
     },
@@ -8189,8 +8299,20 @@ __webpack_require__.r(__webpack_exports__);
         //  this.search_totals = res.search_totals[0].total_s;
         //}
 
-        this.select_arr = res.select_arr;
-        this.event_title = res.s_m_code + ' ' + res.s_customer_code + ' ' + res.s_customer + ' ' + res.s_enduser + ' ' + res.s_product + ' ' + res.s_date_start + ' ' + res.s_date_end; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+        this.select_arr_s002 = res.select_arr_s002;
+        this.pvu = res.pvu; //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+        var date_se = '';
+
+        if (res.s_date_start && res.s_date_end) {
+          date_se = res.s_date_start + '～' + res.s_date_end;
+        } else if (res.s_date_start) {
+          date_se = res.s_date_start + '～';
+        } else if (res.s_date_end) {
+          date_se = '～' + res.s_date_end;
+        }
+
+        this.event_title = res.s_m_code + ' ' + res.s_customer_code + ' ' + res.s_customer + ' ' + res.s_enduser + ' ' + res.s_product + ' ' + date_se; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
 
         this.$toasted.show(this.event_title + " " + eventtext + "しました");
         this.actionmsgArr.push(this.event_title + " を検索しました。", " 検索数 : " + res.details.length + " 件");
@@ -65395,7 +65517,20 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _vm._m(3),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button" },
+              on: {
+                click: function ($event) {
+                  return _vm.clickEvent("", "", "", "clear", "クリア", "", "")
+                },
+              },
+            },
+            [_vm._v("クリア")]
+          ),
+        ]),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "line" }, [
@@ -65662,7 +65797,7 @@ var render = function () {
           _vm.searchview === "doc"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(4),
+                  _vm._m(3),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -65715,7 +65850,7 @@ var render = function () {
           _vm.searchview === "mit"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(5),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -65788,9 +65923,15 @@ var render = function () {
                           _vm._v(
                             _vm._s(mitem["f_production_volnum"]) +
                               " " +
-                              _vm._s(mitem["production_volnum_unit"]) +
+                              _vm._s(
+                                _vm.select_arr_s002[
+                                  mitem["production_volnum_unit"] - 1
+                                ]["code_name"]
+                              ) +
                               " " +
-                              _vm._s(_vm.select_arr[5]["code_name"])
+                              _vm._s(
+                                _vm.pvu[mrowIndex]["production_volnum_unit"]
+                              )
                           ),
                         ]),
                         _vm._v(" "),
@@ -65825,6 +65966,10 @@ var render = function () {
               },
               on: { "pricancel-event": _vm.Pricancel },
             }),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "php_item" } }, [
+              _vm._v("デフォルト文字"),
+            ]),
           ],
           1
         )
@@ -65834,18 +65979,18 @@ var render = function () {
     _vm._v(" "),
     _vm.printview === "2"
       ? _c("div", { attrs: { id: "print2zone" } }, [
-          _vm._m(6),
+          _vm._m(5),
           _vm._v(" "),
           _c("div", { attrs: { id: "print2_main" } }, [
+            _vm._m(6),
+            _vm._v(" "),
             _vm._m(7),
             _vm._v(" "),
             _vm._m(8),
             _vm._v(" "),
-            _vm._m(9),
-            _vm._v(" "),
             _c("div", { staticClass: "mgt20", attrs: { id: "p2_tbl" } }, [
               _c("table", [
-                _vm._m(10),
+                _vm._m(9),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -65927,9 +66072,9 @@ var render = function () {
               ]),
             ]),
             _vm._v(" "),
-            _vm._m(11),
+            _vm._m(10),
             _vm._v(" "),
-            _vm._m(12),
+            _vm._m(11),
           ]),
           _vm._v(" "),
           _c(
@@ -65992,14 +66137,6 @@ var staticRenderFns = [
         { staticStyle: { "pointer-events": "none" }, attrs: { disabled: "" } },
         [_vm._v("受注")]
       ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _c("button", [_vm._v("クリア")]),
     ])
   },
   function () {

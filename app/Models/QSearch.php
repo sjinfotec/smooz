@@ -688,7 +688,11 @@ class QSearch extends Model
                 ->orderBy('create_date', 'DESC');
             }
             if(!empty($this->param_date_start)){
-                $data->where('date_start', $this->param_date_start)
+                $data->where('create_date', '>=', $this->param_date_start)
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_date_end)){
+                $data->where('create_date', '<=', $this->param_date_end)
                 ->orderBy('create_date', 'DESC');
             }
 
@@ -716,5 +720,85 @@ class QSearch extends Model
         }
 
     }
+
+    public function getPvu(){
+
+        $searchgo = false;
+        if(!empty($this->param_m_code)) $searchgo = true;
+        if(!empty($this->param_customer_code)) $searchgo = true;
+        if(!empty($this->param_customer)) $searchgo = true;
+        if(!empty($this->param_enduser)) $searchgo = true;
+        if(!empty($this->param_product)) $searchgo = true;
+        if(!empty($this->param_date_start)) $searchgo = true;
+        if(!empty($this->param_date_end)) $searchgo = true;
+
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ->select('production_volnum_unit');
+            //->pluck('production_volnum_unit');
+            if(!empty($this->param_m_code)){
+                //Log::info("getSearchA this->params_order_no -- ".$this->params_order_no);
+                //Log::info("getSearchA this->param_order_no -- ".$this->param_order_no);
+                $data->where('m_code', $this->param_m_code)
+                //->where('status','newest')
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_customer_code)){
+                $data->where('customer_code', $this->param_customer_code)
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_customer)){
+                $str = "%".$this->param_customer."%";
+                $data->where('customer','LIKE', $str)
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_enduser)){
+                $str = "%".$this->param_enduser."%";
+                $data->where('enduser','LIKE', $str)
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_product)){
+                $str = "%".$this->param_product."%";
+                //Log::info("getSearchA this->param_company_name -- ".$str);
+                $data->where('product','LIKE', $str)
+                //->where('status','newest')
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_date_start)){
+                $data->where('create_date', '>=', $this->param_date_start)
+                ->orderBy('create_date', 'DESC');
+            }
+            if(!empty($this->param_date_end)){
+                $data->where('create_date', '<=', $this->param_date_end)
+                ->orderBy('create_date', 'DESC');
+            }
+
+            if($searchgo) {
+                $result = $data
+                ->get();
+
+            }
+
+            /*
+            if ($result->isEmpty()) {
+                $result = "";
+            } 
+            */
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+
+    }
+
+
 
 }
