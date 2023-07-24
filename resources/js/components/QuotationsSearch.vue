@@ -142,7 +142,7 @@
        v-bind:print-title="printtitle"
        v-on:pricancel-event="Pricancel"
       ></popup-print>
-      <div id="php_item">デフォルト文字</div>
+      <div id="php_view">ファイル読み込み中...</div>
     </div>
 
     <div id="printgaiyo"></div>
@@ -414,7 +414,11 @@ export default {
 
       event_title: "",
       actionmsgArr: [],
+      select_arr_s001: [],
       select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: [],
 
     };
   },
@@ -623,13 +627,14 @@ export default {
           this.printview = '1';
           //console.log( vvmc ) ;
 
+
           let xhr = new XMLHttpRequest();
-          xhr.open('POST', `test.php`, true);
+          xhr.open('POST', `openview.php`, true);
           xhr.addEventListener('load', function () {
             //console.log(this.response);
             //window.open(this.response);
-            var phpitem = document.getElementById("php_item") ;
-            phpitem.innerHTML = "" + this.response;
+            var phpview = document.getElementById("php_view") ;
+            phpview.innerHTML = "" + this.response;
           });
 
           //var details_arr = JSON.parse(this.details);
@@ -642,7 +647,7 @@ export default {
           post_data.append('details_arr', details_arr);
           post_data.append('m_code', this.details[vvmc]['m_code']);
           post_data.append('create_date', this.details[vvmc]['create_date']);
-          //post_data.append('select_arr_s002', this.select_arr_s002);
+          /*
           this.details.forEach(function(elements, index, array){
             //var elJ = JSON.stringify(elements);
             //var elA = JSON.parse(elJ);
@@ -652,12 +657,27 @@ export default {
             console.log('D-Element:' + elements.m_code);
             //console.log('Array:' + array);
           });
+          */
+          this.select_arr_s001.forEach(function(element, index, array){
+            post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
+            //console.log('s001 Index:' + index);
+            //console.log('s001 Element:' + element['code_name']);
+          });
           this.select_arr_s002.forEach(function(element, index, array){
             post_data.append('select_arr_s002[' + (index + 1) + ']', element['code_name']);
 
-            console.log('Index:' + index);
-            console.log('Element:' + element['code_name']);
+            //console.log('s002 Index:' + index);
+            //console.log('s002 Element:' + element['code_name']);
             //console.log('Array:' + array);
+          });
+          this.select_arr_s003.forEach(function(element, index, array){
+            post_data.append('select_arr_s003[' + (index + 1) + ']', element['code_name']);
+          });
+          this.select_arr_s004.forEach(function(element, index, array){
+            post_data.append('select_arr_s004[' + (index + 1) + ']', element['code_name']);
+          });
+          this.select_arr_s005.forEach(function(element, index, array){
+            post_data.append('select_arr_s005[' + (index + 1) + ']', element['code_name']);
           });
           xhr.send(post_data);
           //xhr.send();
@@ -813,7 +833,11 @@ export default {
           //if (res.search_totals) {
           //  this.search_totals = res.search_totals[0].total_s;
           //}
+          this.select_arr_s001 = res.select_arr_s001;
           this.select_arr_s002 = res.select_arr_s002;
+          this.select_arr_s003 = res.select_arr_s003;
+          this.select_arr_s004 = res.select_arr_s004;
+          this.select_arr_s005 = res.select_arr_s005;
           this.pvu = res.pvu;
           //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
 

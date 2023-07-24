@@ -8004,7 +8004,11 @@ __webpack_require__.r(__webpack_exports__);
       pvu: [],
       event_title: "",
       actionmsgArr: [],
-      select_arr_s002: []
+      select_arr_s001: [],
+      select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: []
     };
   },
   // マウント時
@@ -8175,12 +8179,12 @@ __webpack_require__.r(__webpack_exports__);
           this.printview = '1'; //console.log( vvmc ) ;
 
           var xhr = new XMLHttpRequest();
-          xhr.open('POST', "test.php", true);
+          xhr.open('POST', "openview.php", true);
           xhr.addEventListener('load', function () {
             //console.log(this.response);
             //window.open(this.response);
-            var phpitem = document.getElementById("php_item");
-            phpitem.innerHTML = "" + this.response;
+            var phpview = document.getElementById("php_view");
+            phpview.innerHTML = "" + this.response;
           }); //var details_arr = JSON.parse(this.details);
 
           var details_arr = JSON.stringify(this.details[vvmc]); //var details_arr = this.details[vvmc].m_code;
@@ -8190,19 +8194,35 @@ __webpack_require__.r(__webpack_exports__);
           var post_data = new FormData();
           post_data.append('details_arr', details_arr);
           post_data.append('m_code', this.details[vvmc]['m_code']);
-          post_data.append('create_date', this.details[vvmc]['create_date']); //post_data.append('select_arr_s002', this.select_arr_s002);
-
-          this.details.forEach(function (elements, index, array) {
+          post_data.append('create_date', this.details[vvmc]['create_date']);
+          /*
+          this.details.forEach(function(elements, index, array){
             //var elJ = JSON.stringify(elements);
             //var elA = JSON.parse(elJ);
-            post_data.append('details[' + index + ']', elements.m_code);
+             post_data.append('details[' + index + ']', elements.m_code);
             console.log('D-Index:' + index);
-            console.log('D-Element:' + elements.m_code); //console.log('Array:' + array);
+            console.log('D-Element:' + elements.m_code);
+            //console.log('Array:' + array);
+          });
+          */
+
+          this.select_arr_s001.forEach(function (element, index, array) {
+            post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']); //console.log('s001 Index:' + index);
+            //console.log('s001 Element:' + element['code_name']);
           });
           this.select_arr_s002.forEach(function (element, index, array) {
-            post_data.append('select_arr_s002[' + (index + 1) + ']', element['code_name']);
-            console.log('Index:' + index);
-            console.log('Element:' + element['code_name']); //console.log('Array:' + array);
+            post_data.append('select_arr_s002[' + (index + 1) + ']', element['code_name']); //console.log('s002 Index:' + index);
+            //console.log('s002 Element:' + element['code_name']);
+            //console.log('Array:' + array);
+          });
+          this.select_arr_s003.forEach(function (element, index, array) {
+            post_data.append('select_arr_s003[' + (index + 1) + ']', element['code_name']);
+          });
+          this.select_arr_s004.forEach(function (element, index, array) {
+            post_data.append('select_arr_s004[' + (index + 1) + ']', element['code_name']);
+          });
+          this.select_arr_s005.forEach(function (element, index, array) {
+            post_data.append('select_arr_s005[' + (index + 1) + ']', element['code_name']);
           });
           xhr.send(post_data); //xhr.send();
         }
@@ -8299,7 +8319,11 @@ __webpack_require__.r(__webpack_exports__);
         //  this.search_totals = res.search_totals[0].total_s;
         //}
 
+        this.select_arr_s001 = res.select_arr_s001;
         this.select_arr_s002 = res.select_arr_s002;
+        this.select_arr_s003 = res.select_arr_s003;
+        this.select_arr_s004 = res.select_arr_s004;
+        this.select_arr_s005 = res.select_arr_s005;
         this.pvu = res.pvu; //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
 
         var date_se = '';
@@ -59082,29 +59106,29 @@ var staticRenderFns = [
             [
               _c("option", { attrs: { value: "" } }),
               _vm._v(" "),
-              _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+              _c("option", { attrs: { value: "1" } }, [_vm._v("10")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "10.5" } }, [_vm._v("10.5")]),
+              _c("option", { attrs: { value: "2" } }, [_vm._v("10.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "11" } }, [_vm._v("11")]),
+              _c("option", { attrs: { value: "3" } }, [_vm._v("11")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "11.5" } }, [_vm._v("11.5")]),
+              _c("option", { attrs: { value: "4" } }, [_vm._v("11.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "12" } }, [_vm._v("12")]),
+              _c("option", { attrs: { value: "5" } }, [_vm._v("12")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "13" } }, [_vm._v("13")]),
+              _c("option", { attrs: { value: "6" } }, [_vm._v("13")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "13.5" } }, [_vm._v("13.5")]),
+              _c("option", { attrs: { value: "7" } }, [_vm._v("13.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "14" } }, [_vm._v("14")]),
+              _c("option", { attrs: { value: "8" } }, [_vm._v("14")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "15" } }, [_vm._v("15")]),
+              _c("option", { attrs: { value: "9" } }, [_vm._v("15")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "16" } }, [_vm._v("16")]),
+              _c("option", { attrs: { value: "10" } }, [_vm._v("16")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "17" } }, [_vm._v("17")]),
+              _c("option", { attrs: { value: "11" } }, [_vm._v("17")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "18" } }, [_vm._v("18")]),
+              _c("option", { attrs: { value: "12" } }, [_vm._v("18")]),
             ]
           ),
         ]),
@@ -59153,51 +59177,51 @@ var staticRenderFns = [
             [
               _c("option", { attrs: { value: "" } }),
               _vm._v(" "),
-              _c("option", { attrs: { value: "4" } }, [_vm._v("4")]),
+              _c("option", { attrs: { value: "1" } }, [_vm._v("4")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "4.5" } }, [_vm._v("4.5")]),
+              _c("option", { attrs: { value: "2" } }, [_vm._v("4.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "5" } }, [_vm._v("5")]),
+              _c("option", { attrs: { value: "3" } }, [_vm._v("5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "5.5" } }, [_vm._v("5.5")]),
+              _c("option", { attrs: { value: "4" } }, [_vm._v("5.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "6" } }, [_vm._v("6")]),
+              _c("option", { attrs: { value: "5" } }, [_vm._v("6")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "6.5" } }, [_vm._v("6.5")]),
+              _c("option", { attrs: { value: "6" } }, [_vm._v("6.5")]),
               _vm._v(" "),
               _c("option", { attrs: { value: "7" } }, [_vm._v("7")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "7.5" } }, [_vm._v("7.5")]),
+              _c("option", { attrs: { value: "8" } }, [_vm._v("7.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "8" } }, [_vm._v("8")]),
+              _c("option", { attrs: { value: "9" } }, [_vm._v("8")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "8.5" } }, [_vm._v("8.5")]),
+              _c("option", { attrs: { value: "10" } }, [_vm._v("8.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "9" } }, [_vm._v("9")]),
+              _c("option", { attrs: { value: "11" } }, [_vm._v("9")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+              _c("option", { attrs: { value: "12" } }, [_vm._v("10")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "10.5" } }, [_vm._v("10.5")]),
+              _c("option", { attrs: { value: "13" } }, [_vm._v("10.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "11" } }, [_vm._v("11")]),
+              _c("option", { attrs: { value: "14" } }, [_vm._v("11")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "11.5" } }, [_vm._v("11.5")]),
+              _c("option", { attrs: { value: "15" } }, [_vm._v("11.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "12" } }, [_vm._v("12")]),
+              _c("option", { attrs: { value: "16" } }, [_vm._v("12")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "13" } }, [_vm._v("13")]),
+              _c("option", { attrs: { value: "17" } }, [_vm._v("13")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "13.5" } }, [_vm._v("13.5")]),
+              _c("option", { attrs: { value: "18" } }, [_vm._v("13.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "14" } }, [_vm._v("14")]),
+              _c("option", { attrs: { value: "19" } }, [_vm._v("14")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "15" } }, [_vm._v("15")]),
+              _c("option", { attrs: { value: "20" } }, [_vm._v("15")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "16" } }, [_vm._v("16")]),
+              _c("option", { attrs: { value: "21" } }, [_vm._v("16")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "17" } }, [_vm._v("17")]),
+              _c("option", { attrs: { value: "22" } }, [_vm._v("17")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "18" } }, [_vm._v("18")]),
+              _c("option", { attrs: { value: "23" } }, [_vm._v("18")]),
             ]
           ),
           _vm._v("\n        インチ折\n        "),
@@ -65967,8 +65991,8 @@ var render = function () {
               on: { "pricancel-event": _vm.Pricancel },
             }),
             _vm._v(" "),
-            _c("div", { attrs: { id: "php_item" } }, [
-              _vm._v("デフォルト文字"),
+            _c("div", { attrs: { id: "php_view" } }, [
+              _vm._v("ファイル読み込み中..."),
             ]),
           ],
           1

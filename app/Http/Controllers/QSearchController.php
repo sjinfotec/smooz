@@ -71,10 +71,16 @@ class QSearchController extends Controller
             $pvu = $q_search->getPvu();
 
             $general_code = new Generalcode();
-            $general_code->setParamIdentificationidAttribute('S002');
-            $select_arr_s002 =  $general_code->getItem();
             $general_code->setParamIdentificationidAttribute('S001');
             $select_arr_s001 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S002');
+            $select_arr_s002 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S003');
+            $select_arr_s003 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S004');
+            $select_arr_s004 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S005');
+            $select_arr_s005 =  $general_code->getItem();
 
             return response()->json(
                 [
@@ -87,8 +93,11 @@ class QSearchController extends Controller
                     's_product' => $s_product, 
                     's_date_start' => $s_date_start, 
                     's_date_end' => $s_date_end, 
-                    'select_arr_s002' => $select_arr_s002,
                     'select_arr_s001' => $select_arr_s001,
+                    'select_arr_s002' => $select_arr_s002,
+                    'select_arr_s003' => $select_arr_s003,
+                    'select_arr_s004' => $select_arr_s004,
+                    'select_arr_s005' => $select_arr_s005,
                     'pvu' => $pvu,
                     Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
                 ]
