@@ -4120,6 +4120,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/dialogable.js */ "./resources/js/mixins/dialogable.js");
+/* harmony import */ var _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/checkable.js */ "./resources/js/mixins/checkable.js");
+/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
 //
 //
 //
@@ -4136,8 +4139,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Base",
+  name: "PopupPrint",
+  mixins: [_mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__["dialogable"], _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__["checkable"], _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__["requestable"]],
   props: {
     mCode: {
       type: String,
@@ -4155,12 +4200,21 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       details: [],
+      details_parts: [],
       pagename: "",
-      RePrintData: ""
+      RePrintData: "",
+      event_title: "",
+      actionmsgArr: [],
+      select_arr_s001: [],
+      select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: []
     };
   },
   mounted: function mounted() {
-    //this.getItem();
+    this.getItem(); //this.getParts();
+
     this.ReplacePrintData();
   },
   methods: {
@@ -4174,13 +4228,39 @@ __webpack_require__.r(__webpack_exports__);
     getItem: function getItem() {
       var _this = this;
 
+      var motion_msg = "見積取得";
       var arrayParams = {
-        m_code: mCode
+        s_m_code: this.mCode
       };
-      this.postRequest("/print_q/get", arrayParams).then(function (response) {
-        _this.getThen(response);
+      this.postRequest("/qsearch/get", arrayParams).then(function (response) {
+        _this.putThenSearch(response, motion_msg);
       })["catch"](function (reason) {
-        _this.serverCatch("取得");
+        _this.serverCatch("getItem取得");
+      });
+      /*
+      var arrayParams = { 
+      m_code: this.mCode
+      };
+      this.postRequest("/print_q/get", arrayParams)
+      .then(response  => {
+        this.getThen(response);
+      })
+      .catch(reason => {
+        this.serverCatch("取得");
+      });
+      */
+    },
+    getParts: function getParts() {
+      var _this2 = this;
+
+      var motion_msg = "popupprint getparts";
+      var arrayParams = {
+        s_m_code: this.mCode
+      };
+      this.postRequest("/qparts/get", arrayParams).then(function (response) {
+        _this2.putThenParts(response, motion_msg);
+      })["catch"](function (reason) {
+        _this2.serverCatch("popupパーツget");
       });
     },
     // -------------------- 共通 ----------------------------
@@ -4199,6 +4279,62 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       console.log('取得正常処理');
+    },
+    // 検索系正常処理
+    putThenSearch: function putThenSearch(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details.length > 0) {
+        this.details = res.details;
+        this.details_parts = res.details_parts; //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
+        //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+        //if (res.search_totals) {
+        //  this.search_totals = res.search_totals[0].total_s;
+        //}
+
+        this.select_arr_s001 = res.select_arr_s001;
+        this.select_arr_s002 = res.select_arr_s002;
+        this.select_arr_s003 = res.select_arr_s003;
+        this.select_arr_s004 = res.select_arr_s004;
+        this.select_arr_s005 = res.select_arr_s005; //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+        this.event_title = res.s_m_code; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+
+        this.$toasted.show(this.event_title + " " + eventtext + "しました"); //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+        //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+        this.details = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+    // パーツ取得正常処理
+    putThenParts: function putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details_parts.length > 0) {
+        this.details_parts = res.details_parts; //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+
+        console.log("putThenParts in" + this.details_parts); //this.event_title = res.s_m_code + ' ';
+        //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+        //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+        //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+        this.details_parts = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
     },
     // 異常処理
     serverCatch: function serverCatch(eventtext) {
@@ -7959,6 +8095,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 
@@ -7983,6 +8120,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       details: [],
       details_parts: [],
+      details_body: "",
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
@@ -8136,8 +8274,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     MitGoBtn: function MitGoBtn(i, mcode) {},
     ContentsClick: function ContentsClick() {
-      var _this2 = this;
-
       var element = document.getElementById("searchform");
       var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
       //if (typeof a === "undefined") {
@@ -8173,24 +8309,52 @@ __webpack_require__.r(__webpack_exports__);
           this.printdata += "<hr>";
           this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
           this.printdata += "【提示額】245,000 単価 2.45-\n";
-          this.printdata += "vvmc -> " + vvmc;
-          this.m_code = "D11999";
+          this.printdata += "vvmc -> " + vvmc; //this.m_code = "D11999";
+
+          this.m_code = this.details[vvmc]['m_code'];
+          console.log('m_code:' + this.m_code);
           var nopri = 'cnt1';
           var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
 
           nopriid.style.display = "none";
           this.printview = '1'; //console.log( vvmc ) ;
 
+          var post_data = new FormData();
           var pmcode = this.details[vvmc]['m_code'];
           var motion_msg = "パーツ検索";
-          var arrayParams = {
-            s_m_code: pmcode
-          };
-          this.postRequest("/qparts/get", arrayParams).then(function (response) {
-            _this2.putThenSearch(response, motion_msg);
-          })["catch"](function (reason) {
-            _this2.serverCatch("パーツ取得");
-          });
+          /*
+          var arrayParams = { 
+            s_m_code : pmcode , 
+           };
+          this.postRequest("/qparts/get", arrayParams)
+            .then(response  => {
+              this.putThenParts(response, motion_msg);
+            })
+            .catch(reason => {
+              this.serverCatch("パーツget");
+            });
+            */
+
+          /*
+          function sleep(ms, generator) {
+            setTimeout(() => generator.next(), ms);
+          }
+            var main = (function*() {
+            console.log(`停止前: ${getDisplayDate()} 秒`);
+            yield sleep(5*1000, main);
+             console.log(`停止後: ${getDisplayDate()} 秒`);
+          })();
+          main.next();
+           //現在時刻を取得
+          function getDisplayDate(){
+            let date = new Date();
+            let Hour = ('0' + date.getHours()).slice(-2)
+            let Minute = ('0' + date.getMinutes()).slice(-2)
+            let Second = ('0' + date.getSeconds()).slice(-2)
+             return Hour + ':' + Minute + ':' + Second
+          }
+          */
+
           var xhr = new XMLHttpRequest();
           xhr.open('POST', "openview.php", true);
           xhr.addEventListener('load', function () {
@@ -8204,10 +8368,10 @@ __webpack_require__.r(__webpack_exports__);
 
           console.log('details_arr:' + details_arr); //var elA = JSON.parse(details_arr);
 
-          var parts_arr = JSON.stringify(this.details_parts);
-          console.log('parts_arr:' + parts_arr);
-          console.log('parts_arr2:' + this.details_parts);
-          var post_data = new FormData();
+          var parts_arr = JSON.stringify(this.details_parts); //console.log('parts_arr:' + parts_arr);
+          //console.log('parts_arr2:' + this.details_parts);
+          //let post_data = new FormData();
+
           post_data.append('details_arr', details_arr);
           post_data.append('parts_arr', parts_arr);
           post_data.append('m_code', this.details[vvmc]['m_code']);
@@ -8223,6 +8387,11 @@ __webpack_require__.r(__webpack_exports__);
           });
           */
 
+          this.details_parts.forEach(function (element, index, array) {
+            //post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
+            console.log('details_parts Index:' + index);
+            console.log('details_parts Element:' + element);
+          });
           this.select_arr_s001.forEach(function (element, index, array) {
             post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']); //console.log('s001 Index:' + index);
             //console.log('s001 Element:' + element['code_name']);
@@ -8330,12 +8499,7 @@ __webpack_require__.r(__webpack_exports__);
       var res = response.data;
 
       if (res.details.length > 0) {
-        this.details = res.details; //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
-        //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
-        //if (res.search_totals) {
-        //  this.search_totals = res.search_totals[0].total_s;
-        //}
-
+        this.details = res.details;
         this.select_arr_s001 = res.select_arr_s001;
         this.select_arr_s002 = res.select_arr_s002;
         this.select_arr_s003 = res.select_arr_s003;
@@ -8373,17 +8537,16 @@ __webpack_require__.r(__webpack_exports__);
       var messages = [];
       var res = response.data;
 
-      if (res.details.length > 0) {
+      if (res.details_parts.length > 0) {
         this.details_parts = res.details_parts; //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
-        //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
 
-        this.event_title = res.s_m_code + ' '; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
-
-        this.$toasted.show(this.event_title + " " + eventtext + "しました");
-        this.actionmsgArr.push(this.event_title + " を検索しました。", " 検索数 : " + res.details.length + " 件");
+        console.log("putThenParts in" + this.details_parts); //this.event_title = res.s_m_code + ' ';
+        //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+        //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
       } else {
-        this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
-        this.details = [];
+        //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+        this.details_parts = [];
 
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
@@ -58321,37 +58484,103 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { attrs: { id: "cnt2" } }, [
-      _c("h3", {}, [_vm._v(_vm._s(_vm.printTitle))]),
-      _vm._v(" "),
-      _c("div", {
-        attrs: { id: "pdatazone" },
-        domProps: { innerHTML: _vm._s(_vm.RePrintData) },
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "print-none", attrs: { id: "print_btnzone" } }, [
-        _c(
-          "button",
-          {
-            attrs: { type: "button", onclick: "window.print(); return false;" },
-          },
-          [_vm._v("印刷")]
-        ),
+    _c(
+      "div",
+      { attrs: { id: "cnt2" } },
+      [
+        _c("h3", {}, [_vm._v(_vm._s(_vm.printTitle))]),
+        _vm._v(" "),
+        _c("div", {
+          attrs: { id: "pdatazone" },
+          domProps: { innerHTML: _vm._s(_vm.RePrintData) },
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.details, function (item, rowIndex) {
+          return _c("div", { key: rowIndex }, [
+            _c("div", [
+              _c("div", [_vm._v("details " + _vm._s(rowIndex))]),
+              _vm._v(" "),
+              _c("div", [_vm._v("customer -> " + _vm._s(item["customer"]))]),
+              _vm._v(" "),
+              _c("div", [_vm._v("enduser -> " + _vm._s(item["enduser"]))]),
+              _vm._v(" "),
+              _c("div", [_vm._v("product -> " + _vm._s(item["product"]))]),
+            ]),
+          ])
+        }),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _vm._l(_vm.details_parts, function (pitem, prowIndex) {
+          return _c("div", [
+            _c("div", [
+              _c("div", [_vm._v("details_parts")]),
+              _vm._v(" "),
+              _c("div", [
+                _vm._v("paper_name -> " + _vm._s(pitem["paper_name"])),
+              ]),
+              _vm._v(" "),
+              _c("div", [_vm._v("size_w -> " + _vm._s(pitem["size_w"]))]),
+              _vm._v(" "),
+              _c("div", [_vm._v("soze_h -> " + _vm._s(pitem["size_h"]))]),
+            ]),
+          ])
+        }),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _vm._l(_vm.details, function (item, rowIndex) {
+          return _c("div", [
+            _c("div", [
+              _c("div", [_vm._v("details " + _vm._s(rowIndex))]),
+              _vm._v(" "),
+              _c("div", [
+                _vm._v("paper_amount -> " + _vm._s(item["paper_amount"])),
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _vm._v("wages_amount -> " + _vm._s(item["wages_amount"])),
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _vm._v("cost_amount -> " + _vm._s(item["cost_amount"])),
+              ]),
+            ]),
+          ])
+        }),
         _vm._v(" "),
         _c(
-          "button",
-          {
-            attrs: { type: "button" },
-            on: {
-              click: function ($event) {
-                return _vm.cancelClickBtn()
+          "div",
+          { staticClass: "print-none", attrs: { id: "print_btnzone" } },
+          [
+            _c(
+              "button",
+              {
+                attrs: {
+                  type: "button",
+                  onclick: "window.print(); return false;",
+                },
               },
-            },
-          },
-          [_vm._v("閉じる")]
+              [_vm._v("印刷")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    return _vm.cancelClickBtn()
+                  },
+                },
+              },
+              [_vm._v("閉じる")]
+            ),
+          ]
         ),
-      ]),
-    ]),
+      ],
+      2
+    ),
   ])
 }
 var staticRenderFns = []

@@ -23,6 +23,14 @@ class QSearchController extends Controller
         );
     }
 
+    public function printview()
+    {
+        $authusers = Auth::user();
+        return view('qview', compact('authusers')
+        );
+    }
+
+
     /** 検索SEARCH取得
      *
      * @return list results

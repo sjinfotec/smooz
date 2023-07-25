@@ -10,7 +10,7 @@ echo "m_code -> ".$_POST['m_code']."<br>\n";
 echo "create_date -> ".$_POST['create_date']."<br>\n";
 echo "<br><br>\n";
 //echo "<pre>\n";
-//var_dump($_POST['select_arr_s002']);
+//var_dump($_POST['parts_arr']);
 //echo "</pre>\n<br>\n";
 echo "";
 
@@ -28,17 +28,18 @@ $select_arr_s003 = $_POST['select_arr_s003'] ?: "";
 $select_arr_s004 = $_POST['select_arr_s004'] ?: "";
 $select_arr_s005 = $_POST['select_arr_s005'] ?: "";
 
-//echo "<pre>\n";
-//var_dump($darr);
-//echo "</pre>\n<br>\n";
+echo "<pre>\n";
+var_dump($parr);
+echo "</pre>\n<br>\n";
 
 foreach($darr AS $key => $val) {
     $action_msg .= $key."->".$val."<br>\n";
     $$key = $val;
 }
 echo "foreach まえ...<br>\n";
+
 foreach($parr AS $key => $val) {
-    $action_msg .= $key."->".$val."<br>\n";
+    //$action_msg .= $key."->".$val."<br>\n";
     echo "key...".$key."<br>\n";
     //$p_.$$key = $val;
 }

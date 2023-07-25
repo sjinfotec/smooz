@@ -136,6 +136,7 @@
 
 
     <div id="printzone" v-if="printview === '1'">
+
       <popup-print
        v-bind:m-code="m_code"
        v-bind:print-data="printdata"
@@ -387,6 +388,7 @@ export default {
     return {
       details: [],
       details_parts: [],
+      details_body: "",
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
@@ -620,7 +622,9 @@ export default {
           this.printdata += "vvmc -> " + vvmc;
 
 
-          this.m_code = "D11999";
+          //this.m_code = "D11999";
+          this.m_code = this.details[vvmc]['m_code'];
+          console.log('m_code:' + this.m_code);
           const nopri = 'cnt1';
           var nopriid = document.getElementById(nopri);
           //nopriid.style.visibility = "visible";
@@ -629,20 +633,55 @@ export default {
           //console.log( vvmc ) ;
 
 
-
+          let post_data = new FormData();
           var pmcode = this.details[vvmc]['m_code'];
           var motion_msg = "パーツ検索";
+          /*
           var arrayParams = { 
             s_m_code : pmcode , 
 
           };
           this.postRequest("/qparts/get", arrayParams)
             .then(response  => {
-              this.putThenSearch(response, motion_msg);
+              this.putThenParts(response, motion_msg);
             })
             .catch(reason => {
-              this.serverCatch("パーツ取得");
+              this.serverCatch("パーツget");
             });
+            */
+
+
+            /*
+            function sleep(ms, generator) {
+              setTimeout(() => generator.next(), ms);
+            }
+
+
+            var main = (function*() {
+              console.log(`停止前: ${getDisplayDate()} 秒`);
+              yield sleep(5*1000, main);
+
+              console.log(`停止後: ${getDisplayDate()} 秒`);
+            })();
+            main.next();
+
+            //現在時刻を取得
+            function getDisplayDate(){
+              let date = new Date();
+              let Hour = ('0' + date.getHours()).slice(-2)
+              let Minute = ('0' + date.getMinutes()).slice(-2)
+              let Second = ('0' + date.getSeconds()).slice(-2)
+
+              return Hour + ':' + Minute + ':' + Second
+            }
+            */
+
+
+
+
+
+
+
 
 
           let xhr = new XMLHttpRequest();
@@ -659,11 +698,12 @@ export default {
           //var details_arr = this.details[vvmc].m_code;
           console.log('details_arr:' + details_arr);
           //var elA = JSON.parse(details_arr);
+          
           var parts_arr = JSON.stringify(this.details_parts);
-          console.log('parts_arr:' + parts_arr);
-          console.log('parts_arr2:' + this.details_parts);
+          //console.log('parts_arr:' + parts_arr);
+          //console.log('parts_arr2:' + this.details_parts);
 
-          let post_data = new FormData();
+          //let post_data = new FormData();
           post_data.append('details_arr', details_arr);
           post_data.append('parts_arr', parts_arr);
           post_data.append('m_code', this.details[vvmc]['m_code']);
@@ -679,6 +719,14 @@ export default {
             //console.log('Array:' + array);
           });
           */
+
+          this.details_parts.forEach(function(element, index, array){
+            //post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
+            console.log('details_parts Index:' + index);
+            console.log('details_parts Element:' + element);
+          });
+
+
           this.select_arr_s001.forEach(function(element, index, array){
             post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
             //console.log('s001 Index:' + index);
@@ -849,11 +897,6 @@ export default {
       var res = response.data;
       if (res.details.length > 0) {
           this.details = res.details;
-          //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
-          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
-          //if (res.search_totals) {
-          //  this.search_totals = res.search_totals[0].total_s;
-          //}
           this.select_arr_s001 = res.select_arr_s001;
           this.select_arr_s002 = res.select_arr_s002;
           this.select_arr_s003 = res.select_arr_s003;
@@ -892,18 +935,18 @@ export default {
     putThenParts(response, eventtext) {
       var messages = [];
       var res = response.data;
-      if (res.details.length > 0) {
+      if (res.details_parts.length > 0) {
           this.details_parts = res.details_parts;
           //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
-          //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+          console.log("putThenParts in" + this.details_parts );
 
-          this.event_title = res.s_m_code + ' ';
+          //this.event_title = res.s_m_code + ' ';
           //console.log("putThenSearch in res.s_customer = " + res.s_customer);
-          this.$toasted.show(this.event_title + " " + eventtext + "しました");
-          this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+          //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
       } else {
-          this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
-          this.details = [];
+          //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details_parts = [];
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
         } else {
