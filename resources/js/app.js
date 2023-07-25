@@ -12,6 +12,14 @@ import VModal from "vue-js-modal";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
+var options = {
+  position: "bottom-center",
+  duration: 3000,
+  fullWidth: false,
+  type: "info"
+};
+Vue.use(toasted, options);
+
 Vue.use(VueSweetalert2);
 
 Vue.prototype.$axios = axios;

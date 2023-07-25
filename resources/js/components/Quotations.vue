@@ -68,13 +68,13 @@
           <label>制作冊数<input type="text" class="form_style input_w5" name="production_volnum">
           <select name="production_volnum_unit" class="form_style">
           <option value=""></option>
-          <option value="S">S</option>
-          <option value="冊">冊</option>
-          <option value="束">束</option>
-          <option value="箱">箱</option>
-          <option value="枚">枚</option>
-          <option value="部">部</option>
-          <option value="個">個</option>
+          <option value="1">S</option>
+          <option value="2">冊</option>
+          <option value="3">束</option>
+          <option value="4">箱</option>
+          <option value="5">枚</option>
+          <option value="6">部</option>
+          <option value="7">個</option>
           </select>
           </label>
         </div>
@@ -109,18 +109,18 @@
           <label>シリンダー
           <select name="cylinder" class="form_style">
           <option value=""></option>
-          <option value="10">10</option>
-          <option value="10.5">10.5</option>
-          <option value="11">11</option>
-          <option value="11.5">11.5</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="13.5">13.5</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
+          <option value="1">10</option>
+          <option value="2">10.5</option>
+          <option value="3">11</option>
+          <option value="4">11.5</option>
+          <option value="5">12</option>
+          <option value="6">13</option>
+          <option value="7">13.5</option>
+          <option value="8">14</option>
+          <option value="9">15</option>
+          <option value="10">16</option>
+          <option value="11">17</option>
+          <option value="12">18</option>
           </select>
           </label>
           <label><input type="text" class="form_style input_w2" name="cylinder_num">本</label>
@@ -134,29 +134,29 @@
           <label>
           <select name="inch_fold" class="form_style">
           <option value=""></option>
-          <option value="4">4</option>
-          <option value="4.5">4.5</option>
-          <option value="5">5</option>
-          <option value="5.5">5.5</option>
-          <option value="6">6</option>
-          <option value="6.5">6.5</option>
+          <option value="1">4</option>
+          <option value="2">4.5</option>
+          <option value="3">5</option>
+          <option value="4">5.5</option>
+          <option value="5">6</option>
+          <option value="6">6.5</option>
           <option value="7">7</option>
-          <option value="7.5">7.5</option>
-          <option value="8">8</option>
-          <option value="8.5">8.5</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="10.5">10.5</option>
-          <option value="11">11</option>
-          <option value="11.5">11.5</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="13.5">13.5</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
+          <option value="8">7.5</option>
+          <option value="9">8</option>
+          <option value="10">8.5</option>
+          <option value="11">9</option>
+          <option value="12">10</option>
+          <option value="13">10.5</option>
+          <option value="14">11</option>
+          <option value="15">11.5</option>
+          <option value="16">12</option>
+          <option value="17">13</option>
+          <option value="18">13.5</option>
+          <option value="19">14</option>
+          <option value="20">15</option>
+          <option value="21">16</option>
+          <option value="22">17</option>
+          <option value="23">18</option>
           </select>
           インチ折
           </label>

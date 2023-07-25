@@ -7594,7 +7594,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
+/* harmony import */ var _mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/dialogable.js */ "./resources/js/mixins/dialogable.js");
+/* harmony import */ var _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/checkable.js */ "./resources/js/mixins/checkable.js");
+/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7953,28 +7961,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "QuotationsSearch",
-  //mixins: [dialogable, checkable, requestable],
-  mixins: [_mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__["requestable"]],
+  mixins: [_mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__["dialogable"], _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__["checkable"], _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__["requestable"]],
+  //mixins: [requestable],
   props: {
     /*
       authusers: {
         type: Array,
         default: []
       }
+    pvu: {
+      default: details[]['production_volnum_unit']
+    }
     */
   },
   data: function data() {
     return {
       details: [],
+      details_parts: [],
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
       messageshowsearch: false,
+      s_m_code: "",
+      s_customer_code: "",
+      s_customer: "",
+      s_enduser: "",
+      s_product: "",
+      s_date_start: "",
+      s_date_end: "",
       searchview: "",
       printview: "",
       sr_title: "",
@@ -7982,7 +8001,15 @@ __webpack_require__.r(__webpack_exports__);
       printdata: "",
       m_code: "",
       printtitle: "",
-      searchdetail: ""
+      searchdetail: "",
+      pvu: [],
+      event_title: "",
+      actionmsgArr: [],
+      select_arr_s001: [],
+      select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: []
     };
   },
   // マウント時
@@ -7991,7 +8018,82 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // -------------------- イベント処理 --------------------
+    clickEvent: function clickEvent(fname, val1, val2, cf, com1, md, smd) {
+      var fm = document.getElementById(fname); //var tname = document.getElementsByName(val1);
+      //Submit値を操作
+      //fm.edit_id.value = val;
+      //fm.tname.value = val;
+      //tname[0].value = val;	//[0]を付けないとundefind
+      //alert('clickEvent 引数 = ' + fname + ' 、 ' + tn + ' 、 ' + val + ' 、 ' + cf);
+
+      if (cf == 'clear') {
+        //var Jname = fm.name.value;
+        //var Js_product_code = fm.s_product_code.value;
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+        //var result = window.confirm(Jproduct_id + ' ' + com1 + 'します');
+        this.s_m_code = "";
+        this.s_customer_code = "";
+        this.s_customer = "";
+        this.s_enduser = "";
+        this.s_product = "";
+        this.s_date_start = "";
+        this.s_date_end = "";
+        this.actionmsgArr = [];
+        this.details = [];
+        console.log('クリアしました');
+      } else if (cf == 'confirm_work_update') {
+        var Jperformance = document.getElementById('performance_' + val1).value; //var Jstatus = fm.status.value;
+        //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
+
+        var result = window.confirm(com1 + '\n' + Jperformance + '');
+
+        if (result) {
+          //fm.s_id.value = val1;
+          //fm.s_performance.value = Jperformance;
+          //fm.action = '/w';
+          //fm.submit();
+          this.ListUpdate(val1);
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else if (cf == 'confirm_update') {
+        var Jwork_name = fm.work_name.value;
+        var Jdepartments_name = fm.departments_name.value; //var Js_product_code = fm.s_product_code.value;
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+
+        var result = window.confirm('部署名 : ' + Jdepartments_name + '\n工程 : ' + Jwork_name + '\n' + com1 + 'します');
+
+        if (result) {
+          //fm.mode.value = md;
+          fm.motion.value = 'reload';
+          fm.action = '/process/insert';
+          fm.submit();
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else if (cf == 'select_del') {
+        //var Jwork_name = fm.work_name.value;
+        //var Jdepartments_name = fm.departments_name.value;
+        //var Js_product_code = fm.s_product_code.value;
+        //value="DEL" id="work_code_del"
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+        var result = window.confirm('部署名 : ' + val1 + '\n' + com1 + 'します');
+
+        if (result) {
+          //fm.work_code.value = 'DEL';
+          fm.mode.value = md;
+          fm.action = '/process/insert';
+          fm.submit();
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else {//fm.submit();
+      }
+    },
+    // 検索処理
     SearchClick: function SearchClick(k, arr, str) {
+      var _this = this;
+
       var idname_array = new Object();
       idname_array[0] = ['doc', 'mit'];
 
@@ -8012,25 +8114,30 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      var motion_msg = "検索";
       var arrayParams = {
-        kind: k
+        kind: k,
+        s_m_code: this.s_m_code,
+        s_customer_code: this.s_customer_code,
+        s_customer: this.s_customer,
+        s_enduser: this.s_enduser,
+        s_product: this.s_product,
+        s_date_start: this.s_date_start,
+        s_date_end: this.s_date_end
       };
-      /*
-      this.postRequest("/search/get", arrayParams)
-        .then(response  => {
-          this.getThen(response);
-        })
-        .catch(reason => {
-          this.serverCatch("取得");
-        });
-      */
-
+      this.postRequest("/qsearch/get", arrayParams).then(function (response) {
+        _this.putThenSearch(response, motion_msg);
+      })["catch"](function (reason) {
+        _this.serverCatch("取得");
+      });
       this.sr_title = "検索結果";
       this.searchview = k;
       console.log('SearchClick  = ' + k);
     },
     MitGoBtn: function MitGoBtn(i, mcode) {},
     ContentsClick: function ContentsClick() {
+      var _this2 = this;
+
       var element = document.getElementById("searchform");
       var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
       //if (typeof a === "undefined") {
@@ -8044,7 +8151,7 @@ __webpack_require__.r(__webpack_exports__);
           alert('検索結果一覧より見積を選択して下さい。');
         } else {
           this.printtitle = "見積内容 ― 製品名 ―";
-          this.printdata = "【見積番号】D15689 【作成日】20120221 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";
+          this.printdata = "【見積番号】" + this.details[vvmc]['m_code'] + "【作成日】" + this.details[vvmc]['create_date'] + " 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";
           this.printdata += "【得意先】 119  萬  谷（一 般）\n";
           this.printdata += "【エンドユーザー】 すずらん商事\n";
           this.printdata += "【製品名】 納品書（タイトルなし）\n";
@@ -8066,12 +8173,75 @@ __webpack_require__.r(__webpack_exports__);
           this.printdata += "<hr>";
           this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
           this.printdata += "【提示額】245,000 単価 2.45-\n";
+          this.printdata += "vvmc -> " + vvmc;
           this.m_code = "D11999";
           var nopri = 'cnt1';
           var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
 
           nopriid.style.display = "none";
           this.printview = '1'; //console.log( vvmc ) ;
+
+          var pmcode = this.details[vvmc]['m_code'];
+          var motion_msg = "パーツ検索";
+          var arrayParams = {
+            s_m_code: pmcode
+          };
+          this.postRequest("/qparts/get", arrayParams).then(function (response) {
+            _this2.putThenSearch(response, motion_msg);
+          })["catch"](function (reason) {
+            _this2.serverCatch("パーツ取得");
+          });
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', "openview.php", true);
+          xhr.addEventListener('load', function () {
+            //console.log(this.response);
+            //window.open(this.response);
+            var phpview = document.getElementById("php_view");
+            phpview.innerHTML = "" + this.response;
+          }); //var details_arr = JSON.parse(this.details);
+
+          var details_arr = JSON.stringify(this.details[vvmc]); //var details_arr = this.details[vvmc].m_code;
+
+          console.log('details_arr:' + details_arr); //var elA = JSON.parse(details_arr);
+
+          var parts_arr = JSON.stringify(this.details_parts);
+          console.log('parts_arr:' + parts_arr);
+          console.log('parts_arr2:' + this.details_parts);
+          var post_data = new FormData();
+          post_data.append('details_arr', details_arr);
+          post_data.append('parts_arr', parts_arr);
+          post_data.append('m_code', this.details[vvmc]['m_code']);
+          post_data.append('create_date', this.details[vvmc]['create_date']);
+          /*
+          this.details.forEach(function(elements, index, array){
+            //var elJ = JSON.stringify(elements);
+            //var elA = JSON.parse(elJ);
+             post_data.append('details[' + index + ']', elements.m_code);
+            console.log('D-Index:' + index);
+            console.log('D-Element:' + elements.m_code);
+            //console.log('Array:' + array);
+          });
+          */
+
+          this.select_arr_s001.forEach(function (element, index, array) {
+            post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']); //console.log('s001 Index:' + index);
+            //console.log('s001 Element:' + element['code_name']);
+          });
+          this.select_arr_s002.forEach(function (element, index, array) {
+            post_data.append('select_arr_s002[' + (index + 1) + ']', element['code_name']); //console.log('s002 Index:' + index);
+            //console.log('s002 Element:' + element['code_name']);
+            //console.log('Array:' + array);
+          });
+          this.select_arr_s003.forEach(function (element, index, array) {
+            post_data.append('select_arr_s003[' + (index + 1) + ']', element['code_name']);
+          });
+          this.select_arr_s004.forEach(function (element, index, array) {
+            post_data.append('select_arr_s004[' + (index + 1) + ']', element['code_name']);
+          });
+          this.select_arr_s005.forEach(function (element, index, array) {
+            post_data.append('select_arr_s005[' + (index + 1) + ']', element['code_name']);
+          });
+          xhr.send(post_data); //xhr.send();
         }
       }
     },
@@ -8154,9 +8324,77 @@ __webpack_require__.r(__webpack_exports__);
     getThen: function getThen(response) {
       console.log('正常');
     },
+    // 検索系正常処理
+    putThenSearch: function putThenSearch(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details.length > 0) {
+        this.details = res.details; //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
+        //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+        //if (res.search_totals) {
+        //  this.search_totals = res.search_totals[0].total_s;
+        //}
+
+        this.select_arr_s001 = res.select_arr_s001;
+        this.select_arr_s002 = res.select_arr_s002;
+        this.select_arr_s003 = res.select_arr_s003;
+        this.select_arr_s004 = res.select_arr_s004;
+        this.select_arr_s005 = res.select_arr_s005;
+        this.pvu = res.pvu; //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+        var date_se = '';
+
+        if (res.s_date_start && res.s_date_end) {
+          date_se = res.s_date_start + '～' + res.s_date_end;
+        } else if (res.s_date_start) {
+          date_se = res.s_date_start + '～';
+        } else if (res.s_date_end) {
+          date_se = '～' + res.s_date_end;
+        }
+
+        this.event_title = res.s_m_code + ' ' + res.s_customer_code + ' ' + res.s_customer + ' ' + res.s_enduser + ' ' + res.s_product + ' ' + date_se; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+
+        this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        this.actionmsgArr.push(this.event_title + " を検索しました。", " 検索数 : " + res.details.length + " 件");
+      } else {
+        this.actionmsgArr.push(this.s_m_code + this.s_customer_code + this.s_customer + this.s_enduser + this.s_product + this.s_date_start + this.s_date_end + " が見つかりませんでした。");
+        this.details = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+    // パーツ取得正常処理
+    putThenParts: function putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details.length > 0) {
+        this.details_parts = res.details_parts; //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+        //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+        this.event_title = res.s_m_code + ' '; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+
+        this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        this.actionmsgArr.push(this.event_title + " を検索しました。", " 検索数 : " + res.details.length + " 件");
+      } else {
+        this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+        this.details = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
     // 異常処理
     serverCatch: function serverCatch(eventtext) {
-      console.log('異常処理');
+      console.log('異常処理 -> ' + eventtext);
     }
   }
 });
@@ -8213,7 +8451,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.app  {color:red;}\n", ""]);
+exports.push([module.i, "\n.app  {color:red;}\r\n", ""]);
 
 // exports
 
@@ -58839,19 +59077,19 @@ var staticRenderFns = [
           [
             _c("option", { attrs: { value: "" } }),
             _vm._v(" "),
-            _c("option", { attrs: { value: "S" } }, [_vm._v("S")]),
+            _c("option", { attrs: { value: "1" } }, [_vm._v("S")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "冊" } }, [_vm._v("冊")]),
+            _c("option", { attrs: { value: "2" } }, [_vm._v("冊")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "束" } }, [_vm._v("束")]),
+            _c("option", { attrs: { value: "3" } }, [_vm._v("束")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "箱" } }, [_vm._v("箱")]),
+            _c("option", { attrs: { value: "4" } }, [_vm._v("箱")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "枚" } }, [_vm._v("枚")]),
+            _c("option", { attrs: { value: "5" } }, [_vm._v("枚")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "部" } }, [_vm._v("部")]),
+            _c("option", { attrs: { value: "6" } }, [_vm._v("部")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "個" } }, [_vm._v("個")]),
+            _c("option", { attrs: { value: "7" } }, [_vm._v("個")]),
           ]
         ),
       ]),
@@ -58909,29 +59147,29 @@ var staticRenderFns = [
             [
               _c("option", { attrs: { value: "" } }),
               _vm._v(" "),
-              _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+              _c("option", { attrs: { value: "1" } }, [_vm._v("10")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "10.5" } }, [_vm._v("10.5")]),
+              _c("option", { attrs: { value: "2" } }, [_vm._v("10.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "11" } }, [_vm._v("11")]),
+              _c("option", { attrs: { value: "3" } }, [_vm._v("11")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "11.5" } }, [_vm._v("11.5")]),
+              _c("option", { attrs: { value: "4" } }, [_vm._v("11.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "12" } }, [_vm._v("12")]),
+              _c("option", { attrs: { value: "5" } }, [_vm._v("12")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "13" } }, [_vm._v("13")]),
+              _c("option", { attrs: { value: "6" } }, [_vm._v("13")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "13.5" } }, [_vm._v("13.5")]),
+              _c("option", { attrs: { value: "7" } }, [_vm._v("13.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "14" } }, [_vm._v("14")]),
+              _c("option", { attrs: { value: "8" } }, [_vm._v("14")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "15" } }, [_vm._v("15")]),
+              _c("option", { attrs: { value: "9" } }, [_vm._v("15")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "16" } }, [_vm._v("16")]),
+              _c("option", { attrs: { value: "10" } }, [_vm._v("16")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "17" } }, [_vm._v("17")]),
+              _c("option", { attrs: { value: "11" } }, [_vm._v("17")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "18" } }, [_vm._v("18")]),
+              _c("option", { attrs: { value: "12" } }, [_vm._v("18")]),
             ]
           ),
         ]),
@@ -58980,51 +59218,51 @@ var staticRenderFns = [
             [
               _c("option", { attrs: { value: "" } }),
               _vm._v(" "),
-              _c("option", { attrs: { value: "4" } }, [_vm._v("4")]),
+              _c("option", { attrs: { value: "1" } }, [_vm._v("4")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "4.5" } }, [_vm._v("4.5")]),
+              _c("option", { attrs: { value: "2" } }, [_vm._v("4.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "5" } }, [_vm._v("5")]),
+              _c("option", { attrs: { value: "3" } }, [_vm._v("5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "5.5" } }, [_vm._v("5.5")]),
+              _c("option", { attrs: { value: "4" } }, [_vm._v("5.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "6" } }, [_vm._v("6")]),
+              _c("option", { attrs: { value: "5" } }, [_vm._v("6")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "6.5" } }, [_vm._v("6.5")]),
+              _c("option", { attrs: { value: "6" } }, [_vm._v("6.5")]),
               _vm._v(" "),
               _c("option", { attrs: { value: "7" } }, [_vm._v("7")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "7.5" } }, [_vm._v("7.5")]),
+              _c("option", { attrs: { value: "8" } }, [_vm._v("7.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "8" } }, [_vm._v("8")]),
+              _c("option", { attrs: { value: "9" } }, [_vm._v("8")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "8.5" } }, [_vm._v("8.5")]),
+              _c("option", { attrs: { value: "10" } }, [_vm._v("8.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "9" } }, [_vm._v("9")]),
+              _c("option", { attrs: { value: "11" } }, [_vm._v("9")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+              _c("option", { attrs: { value: "12" } }, [_vm._v("10")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "10.5" } }, [_vm._v("10.5")]),
+              _c("option", { attrs: { value: "13" } }, [_vm._v("10.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "11" } }, [_vm._v("11")]),
+              _c("option", { attrs: { value: "14" } }, [_vm._v("11")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "11.5" } }, [_vm._v("11.5")]),
+              _c("option", { attrs: { value: "15" } }, [_vm._v("11.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "12" } }, [_vm._v("12")]),
+              _c("option", { attrs: { value: "16" } }, [_vm._v("12")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "13" } }, [_vm._v("13")]),
+              _c("option", { attrs: { value: "17" } }, [_vm._v("13")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "13.5" } }, [_vm._v("13.5")]),
+              _c("option", { attrs: { value: "18" } }, [_vm._v("13.5")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "14" } }, [_vm._v("14")]),
+              _c("option", { attrs: { value: "19" } }, [_vm._v("14")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "15" } }, [_vm._v("15")]),
+              _c("option", { attrs: { value: "20" } }, [_vm._v("15")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "16" } }, [_vm._v("16")]),
+              _c("option", { attrs: { value: "21" } }, [_vm._v("16")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "17" } }, [_vm._v("17")]),
+              _c("option", { attrs: { value: "22" } }, [_vm._v("17")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "18" } }, [_vm._v("18")]),
+              _c("option", { attrs: { value: "23" } }, [_vm._v("18")]),
             ]
           ),
           _vm._v("\n        インチ折\n        "),
@@ -65344,12 +65582,217 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _vm._m(3),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button" },
+              on: {
+                click: function ($event) {
+                  return _vm.clickEvent("", "", "", "clear", "クリア", "", "")
+                },
+              },
+            },
+            [_vm._v("クリア")]
+          ),
+        ]),
       ]),
       _vm._v(" "),
-      _vm._m(4),
+      _c("div", { staticClass: "line" }, [
+        _c("div", { staticClass: "inputgroup3" }, [
+          _c("label", [
+            _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.s_m_code,
+                  expression: "s_m_code",
+                },
+              ],
+              staticClass: "form_style input_w100p_m",
+              attrs: { type: "text", name: "s_m_code" },
+              domProps: { value: _vm.s_m_code },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.s_m_code = $event.target.value
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup3" }, [
+          _c("label", [
+            _c("span", { staticClass: "spanwidth_8" }, [
+              _vm._v("得意先コード"),
+            ]),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.s_customer_code,
+                  expression: "s_customer_code",
+                },
+              ],
+              staticClass: "form_style input_w100p_m",
+              attrs: { type: "text", name: "s_customer_code" },
+              domProps: { value: _vm.s_customer_code },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.s_customer_code = $event.target.value
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup3" }, [
+          _c("label", [
+            _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先名")]),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.s_customer,
+                  expression: "s_customer",
+                },
+              ],
+              staticClass: "form_style input_w100p_m",
+              attrs: { type: "text", name: "s_customer" },
+              domProps: { value: _vm.s_customer },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.s_customer = $event.target.value
+                },
+              },
+            }),
+          ]),
+        ]),
+      ]),
       _vm._v(" "),
-      _vm._m(5),
+      _c("div", { staticClass: "line" }, [
+        _c("div", { staticClass: "inputgroup3" }, [
+          _c("label", [
+            _c("span", { staticClass: "spanwidth_8" }, [
+              _vm._v("エンドユーザー"),
+            ]),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.s_enduser,
+                  expression: "s_enduser",
+                },
+              ],
+              staticClass: "form_style input_w100p_m",
+              attrs: { type: "text", name: "s_enduser" },
+              domProps: { value: _vm.s_enduser },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.s_enduser = $event.target.value
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup3" }, [
+          _c("label", [
+            _c("span", { staticClass: "spanwidth_8" }, [_vm._v("製品名")]),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.s_product,
+                  expression: "s_product",
+                },
+              ],
+              staticClass: "form_style input_w100p_m",
+              attrs: { type: "text", name: "s_product" },
+              domProps: { value: _vm.s_product },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.s_product = $event.target.value
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup4" }, [
+          _c("label", [
+            _c("span", { staticClass: "spanwidth_8" }, [
+              _vm._v("作成年月（期間）"),
+            ]),
+            _c("span", { staticClass: "spanblock1" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.s_date_start,
+                    expression: "s_date_start",
+                  },
+                ],
+                staticClass: "form_style input_search_w1",
+                attrs: { type: "text", name: "s_date_start" },
+                domProps: { value: _vm.s_date_start },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.s_date_start = $event.target.value
+                  },
+                },
+              }),
+              _vm._v("～"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.s_date_end,
+                    expression: "s_date_end",
+                  },
+                ],
+                staticClass: "form_style input_search_w1",
+                attrs: { type: "text", name: "s_date_end" },
+                domProps: { value: _vm.s_date_end },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.s_date_end = $event.target.value
+                  },
+                },
+              }),
+            ]),
+          ]),
+        ]),
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "line" }, [
         _c("div", { staticClass: "inputgroup" }, [
@@ -65403,10 +65846,23 @@ var render = function () {
             }),
           ]),
           _vm._v(" "),
+          _vm.actionmsgArr.length
+            ? _c("div", { staticClass: "actionmsg_array mgt10 print-none" }, [
+                _c(
+                  "ul",
+                  {},
+                  _vm._l(_vm.actionmsgArr, function (actionmsg, index) {
+                    return _c("li", { key: index }, [_vm._v(_vm._s(actionmsg))])
+                  }),
+                  0
+                ),
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _vm.searchview === "doc"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(6),
+                  _vm._m(3),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -65440,7 +65896,7 @@ var render = function () {
                         _c("td", { staticClass: "nrap" }, [
                           _vm._v("2022年6月18日"),
                         ]),
-                        _vm._v(" "),
+                        _vm._v("h_com\n                "),
                         _c("td", { staticClass: "nrap" }, [_vm._v("54321")]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [_vm._v("JR北海道")]),
@@ -65459,11 +65915,11 @@ var render = function () {
           _vm.searchview === "mit"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(7),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(68, function (mitem, mrowIndex) {
+                    _vm._l(_vm.details, function (mitem, mrowIndex) {
                       return _c("tr", { key: mrowIndex }, [
                         _c("td", { staticClass: "w2" }, [
                           _c("label", { staticStyle: { display: "block" } }, [
@@ -65499,10 +65955,12 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
-                          _vm._v("2022年5月24日"),
+                          _vm._v(_vm._s(mitem["f_create_date"])),
                         ]),
                         _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("23456")]),
+                        _c("td", { staticClass: "nrap" }, [
+                          _vm._v(_vm._s(mitem["customer_code"])),
+                        ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
                           _c(
@@ -65511,7 +65969,7 @@ var render = function () {
                               staticStyle: { display: "block" },
                               attrs: { for: "sr_" + mrowIndex },
                             },
-                            [_vm._v("ロイズコーポレーション")]
+                            [_vm._v(_vm._s(mitem["customer"]))]
                           ),
                         ]),
                         _vm._v(" "),
@@ -65522,16 +65980,32 @@ var render = function () {
                               staticStyle: { display: "block" },
                               attrs: { for: "sr_" + mrowIndex },
                             },
-                            [_vm._v("合同支援利用促進パンフレット　４色")]
+                            [_vm._v(_vm._s(mitem["product"]))]
                           ),
                         ]),
                         _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("0P2000部")]),
+                        _c("td", { staticClass: "nrap ta_r" }, [
+                          _vm._v(
+                            _vm._s(mitem["f_production_volnum"]) +
+                              " " +
+                              _vm._s(
+                                _vm.select_arr_s002[
+                                  mitem["production_volnum_unit"] - 1
+                                ]["code_name"]
+                              ) +
+                              " " +
+                              _vm._s(
+                                _vm.pvu[mrowIndex]["production_volnum_unit"]
+                              )
+                          ),
+                        ]),
                         _vm._v(" "),
-                        _c("td", { staticClass: "nrap" }, [_vm._v("1200000")]),
+                        _c("td", { staticClass: "nrap ta_r" }, [
+                          _vm._v(_vm._s(mitem["f_estimate_amount"]) + " 円"),
+                        ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
-                          _vm._v("2022年05月31日"),
+                          _vm._v(_vm._s(mitem["f_lastorder_date"])),
                         ]),
                       ])
                     }),
@@ -65557,6 +66031,10 @@ var render = function () {
               },
               on: { "pricancel-event": _vm.Pricancel },
             }),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "php_view" } }, [
+              _vm._v("ファイル読み込み中..."),
+            ]),
           ],
           1
         )
@@ -65566,18 +66044,18 @@ var render = function () {
     _vm._v(" "),
     _vm.printview === "2"
       ? _c("div", { attrs: { id: "print2zone" } }, [
-          _vm._m(8),
+          _vm._m(5),
           _vm._v(" "),
           _c("div", { attrs: { id: "print2_main" } }, [
-            _vm._m(9),
+            _vm._m(6),
             _vm._v(" "),
-            _vm._m(10),
+            _vm._m(7),
             _vm._v(" "),
-            _vm._m(11),
+            _vm._m(8),
             _vm._v(" "),
             _c("div", { staticClass: "mgt20", attrs: { id: "p2_tbl" } }, [
               _c("table", [
-                _vm._m(12),
+                _vm._m(9),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -65659,9 +66137,9 @@ var render = function () {
               ]),
             ]),
             _vm._v(" "),
-            _vm._m(13),
+            _vm._m(10),
             _vm._v(" "),
-            _vm._m(14),
+            _vm._m(11),
           ]),
           _vm._v(" "),
           _c(
@@ -65724,97 +66202,6 @@ var staticRenderFns = [
         { staticStyle: { "pointer-events": "none" }, attrs: { disabled: "" } },
         [_vm._v("受注")]
       ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _c("button", [_vm._v("クリア")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
-          _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "m_code" },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "inputgroup3" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先コード")]),
-          _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "customer_code" },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "inputgroup3" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先名")]),
-          _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "customer" },
-          }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup3" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [
-            _vm._v("エンドユーザー"),
-          ]),
-          _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "enduser" },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "inputgroup3" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("製品名")]),
-          _c("input", {
-            staticClass: "form_style input_w100p_m",
-            attrs: { type: "text", name: "product" },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "inputgroup4" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [
-            _vm._v("作成年月（期間）"),
-          ]),
-          _c("span", { staticClass: "spanblock1" }, [
-            _c("input", {
-              staticClass: "form_style input_search_w1",
-              attrs: { type: "text", name: "date_start" },
-            }),
-            _vm._v("～"),
-            _c("input", {
-              staticClass: "form_style input_search_w1",
-              attrs: { type: "text", name: "date_end" },
-            }),
-          ]),
-        ]),
-      ]),
     ])
   },
   function () {
@@ -81582,6 +81969,13 @@ window.Vue = __webpack_require__(/*! vue/dist/vue.js */ "./node_modules/vue/dist
 
 
 
+var options = {
+  position: "bottom-center",
+  duration: 3000,
+  fullWidth: false,
+  type: "info"
+};
+vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_toasted__WEBPACK_IMPORTED_MODULE_3___default.a, options);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_5__["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$axios = axios__WEBPACK_IMPORTED_MODULE_1___default.a; //import { Dialog, Select, Option, TimePicker, Button } from "element-ui";
 //import "element-ui/lib/theme-chalk/index.css";

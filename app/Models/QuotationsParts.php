@@ -1354,6 +1354,15 @@ class QuotationsParts extends Model
 	}
 
 
+    // ------------- 検索 --------------
+
+    // 見積番号
+    private $param_m_code;
+    public function getParamM_codeAttribute(){ return $this->param_m_code;}
+    public function setParamM_codeAttribute($value){  $this->param_m_code = $value;}
+
+
+
 		// ----------------------  メソッド ---------------------------------
 
 		/**
@@ -1388,4 +1397,173 @@ class QuotationsParts extends Model
 					throw $e;
 			}
 		}
+
+
+
+	public function getParts(){
+
+		$searchgo = false;
+		if(!empty($this->param_m_code)) $searchgo = true;
+
+		try {
+			$result = "";
+			$data = DB::table($this->table)
+			->select(
+
+				'id',
+				'user_code',
+				'm_code',
+				'seq',
+				'parts_code',
+				'paper_code',
+				'paper_name',
+				'size_w',
+				'size_h',
+				'size_top',
+				'size_bottom',
+				'papertray',
+				'imposition_w',
+				'imposition_h',
+				'p_envelope',
+				'p_supply',
+				'p_desensitization',
+				'p_carbon',
+				'p_white',
+				'p_separate',
+				'p_color_front',
+				'p_color_back',
+				'p_through',
+				'p_sheet',
+				'p_mm_apply',
+				'p_mm_dispose',
+				'p_mm_unit',
+				'p_printing_cost',
+				'p_necessary_sheet',
+				'p_paper_price',
+				'p_form_sewingmachine_w',
+				'p_form_sewingmachine_h',
+				'p_form_sewingmachine_ks',
+				'p_form_jump_sewingmachine_w',
+				'p_form_jump_sewingmachine_h',
+				'p_form_jump_sewingmachine_ks',
+				'p_form_micro_sewingmachine_w',
+				'p_form_micro_sewingmachine_h',
+				'p_form_micro_sewingmachine_ks',
+				'p_form_jump_micro_sewingmachine_w',
+				'p_form_jump_micro_sewingmachine_h',
+				'p_form_jump_micro_sewingmachine_ks',
+				'p_form_linein_w',
+				'p_form_linein_h',
+				'p_form_linein_ks',
+				'p_form_slitter_w',
+				'p_form_slitter_h',
+				'p_form_slitter_ks',
+				'p_form_no',
+				'p_form_no_ks',
+				'p_form_cornercut',
+				'p_form_replace',
+				'p_form_replace_color',
+				'p_form_subtotal',
+				'p_offset_sewingmachine_w',
+				'p_offset_sewingmachine_ks',
+				'p_offset_no',
+				'p_offset_no_ks',
+				'p_offset_subtotal',
+				'p_letterpress_sewingmachine_hon',
+				'p_letterpress_sewingmachine_dai',
+				'p_letterpress_sewingmachine_ks',
+				'p_letterpress_jump_sewingmachine_hon',
+				'p_letterpress_jump_sewingmachine_dai',
+				'p_letterpress_jump_sewingmachine_ks',
+				'p_letterpress_micro_sewingmachine_hon',
+				'p_letterpress_micro_sewingmachine_dai',
+				'p_letterpress_micro_sewingmachine_ks',
+				'p_letterpress_jump_micro_sewingmachine_hon',
+				'p_letterpress_jump_micro_sewingmachine_dai',
+				'p_letterpress_jump_micro_sewingmachine_ks',
+				'p_letterpress_linein_hon',
+				'p_letterpress_linein_dai',
+				'p_letterpress_linein_ks',
+				'p_letterpress_slitter_hon',
+				'p_letterpress_slitter_dai',
+				'p_letterpress_slitter_ks',
+				'p_letterpress_diecut',
+				'p_letterpress_diecut_ks',
+				'p_letterpress_pcno',
+				'p_letterpress_pcno_ks',
+				'p_letterpress_no',
+				'p_letterpress_no_ks',
+				'p_letterpress_subtotal',
+				'p_info_toray',
+				'p_info_dot_line',
+				'p_info_dot_dai',
+				'p_info_ijp',
+				'p_info_basic_fee',
+				'p_info_output',
+				'p_info_punching',
+				'p_info_subtotal',
+				'p_diecutter_sewingmachine_hon',
+				'p_diecutter_sewingmachine_dai',
+				'p_diecutter_sewingmachine_ks',
+				'p_diecutter_jump_sewingmachine_hon',
+				'p_diecutter_jump_sewingmachine_dai',
+				'p_diecutter_jump_sewingmachine_ks',
+				'p_diecutter_micro_sewingmachine_hon',
+				'p_diecutter_micro_sewingmachine_dai',
+				'p_diecutter_micro_sewingmachine_ks',
+				'p_diecutter_jump_micro_sewingmachine_hon',
+				'p_diecutter_jump_micro_sewingmachine_dai',
+				'p_diecutter_jump_micro_sewingmachine_ks',
+				'p_diecutter_ana_hon',
+				'p_diecutter_ana_dai',
+				'p_diecutter_ana_ks',
+				'p_diecutter_cornercut',
+				'p_diecutter_cornercut_dai',
+				'p_diecutter_cornercut_ks',
+				'p_diecutter_subtotal',
+				'outsource_paper',
+				'outsource_paper_cost',
+				'outsource_paper_all',
+				'outsource_paper_all_cost',
+				'created_user',
+				'updated_user',
+				'created_at',
+				'updated_at',
+				'is_deleted'
+
+			)
+			//->selectRaw('DATE_FORMAT(create_date, "%Y年%m月%d日") AS f_create_date')
+			//->selectRaw('FORMAT(production_volnum, 0) AS f_production_volnum')
+			//->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
+			;
+			if(!empty($this->param_m_code)){
+				//Log::info("getSearchA this->params_order_no -- ".$this->params_order_no);
+				$data->where('m_code', $this->param_m_code)
+				->orderBy('parts_code', 'asc');
+			}
+
+			if($searchgo) {
+				$result = $data
+				->get();
+
+			}
+
+			return $result;
+
+		}catch(\PDOException $pe){
+			Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+			Log::error($pe->getMessage());
+			throw $pe;
+		}catch(\Exception $e){
+			Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+			Log::error($e->getMessage());
+			throw $e;
+		}
+
+	}
+
+	
+
+
+
 }

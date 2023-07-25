@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\Quotations;
 
 class QuotationsController extends Controller
 {
@@ -23,6 +25,9 @@ class QuotationsController extends Controller
         return view('quotationssearch', compact('authusers')
         );
     }
+
+
+
 
 
 }
