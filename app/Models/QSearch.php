@@ -14,6 +14,7 @@ class QSearch extends Model
     use HasFactory;
 
     protected $table = 'quotations';
+    protected $table_parts = 'quotations_parts';
 
     private $id;							// ID
     private $user_code;						// オペレータＩＤ
@@ -720,6 +721,7 @@ class QSearch extends Model
         }
 
     }
+
 
     public function getPvu(){
 

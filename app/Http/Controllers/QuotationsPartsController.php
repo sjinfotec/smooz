@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\QuotationsParts;
 
 class QuotationsPartsController extends Controller
 {
@@ -48,4 +49,49 @@ class QuotationsPartsController extends Controller
                 'partsview'
             ));
     }
+
+
+    /** Parts取得
+     *
+     * @return list results
+     */
+    public function getPartsData(Request $request){
+        $this->array_messagedata = array();
+        $result = true;
+        try {
+
+            // パラメータチェック
+            $params = array();
+            $params = $request->keyparams;
+            //Log::debug("getDataSearch params[s_order_no] = ".$params['s_order_no']);
+            $s_m_code = isset($params['s_m_code']) ? $params['s_m_code'] : "";
+            //Log::debug("getDataSearch s_company_name = ".$s_company_name);
+
+            $quotationsparts = new QuotationsParts();
+            if(isset($s_m_code))      $quotationsparts->setParamM_codeAttribute($s_m_code);
+            $details_parts =  $quotationsparts->getParts();
+
+
+            return response()->json(
+                [
+                    'result' => $result, 
+                    's_m_code' => $s_m_code, 
+                    'details_parts' => $details_parts,
+                    Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
+                ]
+            );
+
+
+        }catch(\PDOException $pe){
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.Config::get('const.LOG_MSG.unknown_error'));
+            Log::error($e->getMessage());
+            throw $e;
+        }
+
+    }
+
+
+
 }

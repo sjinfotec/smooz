@@ -18,6 +18,9 @@ echo "";
 $darr = Array();
 $json = $_POST['details_arr'] ?: "";
 $darr = json_decode($json,true);
+$parr = Array();
+$pjson = $_POST['parts_arr'] ?: "";
+$parr = json_decode($pjson,true);
 
 $select_arr_s001 = $_POST['select_arr_s001'] ?: "";
 $select_arr_s002 = $_POST['select_arr_s002'] ?: "";
@@ -28,41 +31,46 @@ $select_arr_s005 = $_POST['select_arr_s005'] ?: "";
 //echo "<pre>\n";
 //var_dump($darr);
 //echo "</pre>\n<br>\n";
-$ids = "値あります";
 
 foreach($darr AS $key => $val) {
     $action_msg .= $key."->".$val."<br>\n";
     $$key = $val;
 }
-$id = $id ?:"値なし";
-$ids = isset($ids) ? $ids :"値なし";
+echo "foreach まえ...<br>\n";
+foreach($parr AS $key => $val) {
+    $action_msg .= $key."->".$val."<br>\n";
+    echo "key...".$key."<br>\n";
+    //$p_.$$key = $val;
+}
 
+
+$id = $id ?:"値なし";
 
 echo "id->".$id."<br>\n";
-echo "ids->".$ids."<br>\n";
 echo "create_date->".$create_date."<br>\n";
 
 if(!empty($create_date)) {
     $cdate = date_create($create_date);
-    $c_create_date = isset($cdate) ? date_format($cdate, 'Y-m-d H:i:s') : "登録なし";
+    $c_create_date = date_format($cdate, 'Y-m-d H:i:s');
 
-    $date = new DateTimeImmutable($create_date);
-    $im_create_date = $date->format('Y-m-d H:i:s');
+    $dti_cdate = new DateTimeImmutable($create_date);
+    $dti_create_date = $dti_cdate->format('Y年m月d月');
 }
 else {
-    $im_create_date = "作成日未登録";
     $c_create_date = "作成日未登録";
+    $dti_create_date = "作成日未登録";
 }
 
 $m_code_html = "<div>【見積番号】".$darr['m_code']."</div>";
-$f_create_date_html = "<div>【作成日】".$im_create_date."".$f_create_date."".$c_create_date."</div>";
-$manager_html = "<div>【担当者】".$manager_code." ".$manager."</div>";
-$user_code_html = "<div>【OPRT】".$user_code."</div>"; 
-$reference_num_html = "<div>【素見積】".$reference_num."</div>";
+//$f_create_date_html = "<div>【作成日】".$dti_create_date."".$f_create_date."".$c_create_date."</div>";
+$f_create_date_html = "<div>【作成日】".$dti_create_date."</div>";
+$manager_html = $manager ? "<div>【担当者】".$manager_code." ".$manager."</div>": "";
+$user_code_html = $user_code ? "<div>【OPRT】".$user_code."</div>": ""; 
+$reference_num_html = $reference_num ? "<div>【素見積】".$reference_num."</div>": "";
 
-$customer_html = "<div>【得意先】".$customer_code." ".$customer."</div>";
-$enduser_html = "<div>【エンドユーザー】".$enduser."</div>";
-$product_html = "<div>【製品名】".$product."</div>";
+$customer_html = $customer ? "<div>【得意先】".$customer_code." ".$customer."</div>": "";
+$enduser_html = $enduser ? "<div>【エンドユーザー】".$enduser."</div>": "";
+$product_html = $product ? "<div>【製品名】".$product."</div>": "";
 
 // number_format($production_setnum) 制作組数（束ね内数） $select_arr_s001 組/帯の配列 [$production_setnum_unit  組/帯の区分int]
 // number_format($production_volnum) 制作冊数 $select_arr_s002 S/冊/束/箱/枚/部/個の配列 [$production_volnum_unit 制作形態int]
@@ -70,8 +78,8 @@ $product_html = "<div>【製品名】".$product."</div>";
 $production_setnum_item = $production_setnum ? number_format($production_setnum)." ".$select_arr_s001[$production_setnum_unit]." × " : "";
 $production_volnum_item = $production_volnum ? number_format($production_volnum)." ".$select_arr_s002[$production_volnum_unit] : "";
 $ppp_html = "<div>【数量】".$parts_num." P &emsp;".$production_setnum_item.$production_volnum_item;
-$production_all_html = "<div>【総数量】".number_format($production_all)."</div>";
-$all_through_html = "<div>【総通し数】".number_format($all_through)."</div>";
+$production_all_html = $production_all ? "<div>【総数量】".number_format($production_all)."</div>": "";
+$all_through_html = $all_through ? "<div>【総通し数】".number_format($all_through)."</div>": "";
 
 
 //【規格】ミリ 【シリンダー】10.5インチ 3本 10.5インチ折

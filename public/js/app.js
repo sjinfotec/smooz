@@ -7982,6 +7982,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       details: [],
+      details_parts: [],
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
@@ -8135,6 +8136,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     MitGoBtn: function MitGoBtn(i, mcode) {},
     ContentsClick: function ContentsClick() {
+      var _this2 = this;
+
       var element = document.getElementById("searchform");
       var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
       //if (typeof a === "undefined") {
@@ -8178,6 +8181,16 @@ __webpack_require__.r(__webpack_exports__);
           nopriid.style.display = "none";
           this.printview = '1'; //console.log( vvmc ) ;
 
+          var pmcode = this.details[vvmc]['m_code'];
+          var motion_msg = "パーツ検索";
+          var arrayParams = {
+            s_m_code: pmcode
+          };
+          this.postRequest("/qparts/get", arrayParams).then(function (response) {
+            _this2.putThenSearch(response, motion_msg);
+          })["catch"](function (reason) {
+            _this2.serverCatch("パーツ取得");
+          });
           var xhr = new XMLHttpRequest();
           xhr.open('POST', "openview.php", true);
           xhr.addEventListener('load', function () {
@@ -8191,8 +8204,12 @@ __webpack_require__.r(__webpack_exports__);
 
           console.log('details_arr:' + details_arr); //var elA = JSON.parse(details_arr);
 
+          var parts_arr = JSON.stringify(this.details_parts);
+          console.log('parts_arr:' + parts_arr);
+          console.log('parts_arr2:' + this.details_parts);
           var post_data = new FormData();
           post_data.append('details_arr', details_arr);
+          post_data.append('parts_arr', parts_arr);
           post_data.append('m_code', this.details[vvmc]['m_code']);
           post_data.append('create_date', this.details[vvmc]['create_date']);
           /*
@@ -8342,6 +8359,30 @@ __webpack_require__.r(__webpack_exports__);
         this.actionmsgArr.push(this.event_title + " を検索しました。", " 検索数 : " + res.details.length + " 件");
       } else {
         this.actionmsgArr.push(this.s_m_code + this.s_customer_code + this.s_customer + this.s_enduser + this.s_product + this.s_date_start + this.s_date_end + " が見つかりませんでした。");
+        this.details = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+    // パーツ取得正常処理
+    putThenParts: function putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details.length > 0) {
+        this.details_parts = res.details_parts; //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+        //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+        this.event_title = res.s_m_code + ' '; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+
+        this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        this.actionmsgArr.push(this.event_title + " を検索しました。", " 検索数 : " + res.details.length + " 件");
+      } else {
+        this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
         this.details = [];
 
         if (res.messagedata.length > 0) {

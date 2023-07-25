@@ -386,6 +386,7 @@ export default {
   data() {
     return {
       details: [],
+      details_parts: [],
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
@@ -628,6 +629,22 @@ export default {
           //console.log( vvmc ) ;
 
 
+
+          var pmcode = this.details[vvmc]['m_code'];
+          var motion_msg = "パーツ検索";
+          var arrayParams = { 
+            s_m_code : pmcode , 
+
+          };
+          this.postRequest("/qparts/get", arrayParams)
+            .then(response  => {
+              this.putThenSearch(response, motion_msg);
+            })
+            .catch(reason => {
+              this.serverCatch("パーツ取得");
+            });
+
+
           let xhr = new XMLHttpRequest();
           xhr.open('POST', `openview.php`, true);
           xhr.addEventListener('load', function () {
@@ -642,9 +659,13 @@ export default {
           //var details_arr = this.details[vvmc].m_code;
           console.log('details_arr:' + details_arr);
           //var elA = JSON.parse(details_arr);
+          var parts_arr = JSON.stringify(this.details_parts);
+          console.log('parts_arr:' + parts_arr);
+          console.log('parts_arr2:' + this.details_parts);
 
           let post_data = new FormData();
           post_data.append('details_arr', details_arr);
+          post_data.append('parts_arr', parts_arr);
           post_data.append('m_code', this.details[vvmc]['m_code']);
           post_data.append('create_date', this.details[vvmc]['create_date']);
           /*
@@ -866,6 +887,31 @@ export default {
         }
       }
     },
+
+    // パーツ取得正常処理
+    putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+      if (res.details.length > 0) {
+          this.details_parts = res.details_parts;
+          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+          //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+          this.event_title = res.s_m_code + ' ';
+          //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+          this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+          this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details = [];
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+
 
     // 異常処理
     serverCatch(eventtext) {

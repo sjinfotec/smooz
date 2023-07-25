@@ -61,6 +61,8 @@ Route::get('/quotations/department', [QuotationsDepartmentController::class,'ind
 Route::get('/qsearch', [QSearchController::class,'search'])->middleware('auth');
 Route::post('/qsearch/get', [QSearchController::class,'getDataSearch'])->middleware('auth');
 
+// パーツ
+Route::post('/qparts/get', [QuotationsPartsController::class,'getPartsData'])->middleware('auth');
 
 
 //Route::get('/parts', [PartsController::class,'index'])->middleware('auth');
