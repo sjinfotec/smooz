@@ -40,6 +40,8 @@ class BackupLogsController extends Controller
     protected $table_wrk_quotations_department = 'wrk_quotations_department';
     protected $table_wrk_quotations_parts = 'wrk_quotations_parts';
 
+    protected $import_user_code = 'import';
+
     private $array_messagedata = array();
 
     public function index()
@@ -237,6 +239,14 @@ class BackupLogsController extends Controller
             Log::debug('importMitumoridat $shname = '.$shname);
             Log::debug('importMitumoridat $targetpath = '.$targetpath);
             Log::debug('importMitumoridat $targetfile = '.$targetfile);
+            // すでにある場合はrename
+            $path_smooth_dest = Config::get('const.FILE_PATH.path_smooth_dest');
+            $old_targetfile = Config::get('const.FILE_NAME.file_old_mitumoridat_dat');
+            if (file_exists($path_smooth_dest.$targetfile)) {
+                unlink($path_smooth_dest.$old_targetfile);
+                rename($path_smooth_dest.$targetfile, $path_smooth_dest.$old_targetfile);
+            }
+            // xdiff_file_diff($path_smooth_dest.$old_targetfile, $path_smooth_dest.$targetfile, $path_smooth_dest.$file_imp_mitumoridat, 2);
             $result = $apicommon->shExec($shname, $targetpath, $targetfile, $sh_keyword);
             return $result;
         } catch (ProcessFailedException $pe) {
@@ -429,7 +439,7 @@ class BackupLogsController extends Controller
                 Log::debug('distributeG001 table_wrk_quotations_binding insert start');
                 $insert_data = collect($array_imp_data_quotations_binding);
                 $insert_cnt = 0;
-                foreach ($insert_data->chunk(1000) as $chunk) {
+                foreach ($insert_data->chunk(500) as $chunk) {
                     $insert_cnt++;
                     Log::debug('distributeG001 table_wrk_quotations_binding insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations_binding)->insert( $chunk->toArray());
@@ -460,7 +470,7 @@ class BackupLogsController extends Controller
                 Log::debug('distributeG001 table_wrk_quotations_cost insert start');
                 $insert_data = collect($array_imp_data_quotations_cost);
                 $insert_cnt = 0;
-                foreach ($insert_data->chunk(1000) as $chunk) {
+                foreach ($insert_data->chunk(500) as $chunk) {
                     $insert_cnt++;
                     Log::debug('distributeG001 table_wrk_quotations_cost insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations_cost)->insert( $chunk->toArray());
@@ -535,7 +545,7 @@ class BackupLogsController extends Controller
                 Log::debug('distributeG001 table_wrk_quotations_department insert start');
                 $insert_data = collect($array_imp_data_quotations_department);
                 $insert_cnt = 0;
-                foreach ($insert_data->chunk(1000) as $chunk) {
+                foreach ($insert_data->chunk(500) as $chunk) {
                     $insert_cnt++;
                     Log::debug('distributeG001 table_wrk_quotations_department insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations_department)->insert( $chunk->toArray());
@@ -682,7 +692,7 @@ class BackupLogsController extends Controller
                 Log::debug('distributeG001 table_wrk_quotations insert start');
                 $insert_data = collect($array_imp_data_quotations);
                 $insert_cnt = 0;
-                foreach ($insert_data->chunk(1000) as $chunk) {
+                foreach ($insert_data->chunk(500) as $chunk) {
                     $insert_cnt++;
                     Log::debug('distributeG001 table_wrk_quotations insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations)->insert( $chunk->toArray());
@@ -975,7 +985,7 @@ class BackupLogsController extends Controller
             // $quotations_model->setOfferedamountAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.rec_id') - $arrange_index]);
             // $quotations_model->setPrintcostmaxAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.rec_id') - $arrange_index]);
             // $quotations_model->setPapercostAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.rec_id') - $arrange_index]);
-            $quotations_model->setCreateduserAttribute($login_user_code);
+            $quotations_model->setCreateduserAttribute($this->import_user_code);
             $quotations_model->setCreatedatAttribute(Carbon::now());
 
             $quotationsdepartment_model->setKatanukiAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.model_pullout_mark') - $arrange_index]);
@@ -1031,6 +1041,8 @@ class BackupLogsController extends Controller
             if (count($array_item) > (int)Config::get('const.MITUMORI_DAT_POS_00.sheetcut')) {
                 $quotationsdepartment_model->setSheetcutAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.sheetcut') - $arrange_index]);
             }
+            $quotationsdepartment_model->setCreateduserAttribute($this->import_user_code);
+            $quotationsdepartment_model->setCreatedatAttribute(Carbon::now());
         } catch (Exception $e) {
             DB::rollback();
             Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$e');
@@ -1108,6 +1120,8 @@ class BackupLogsController extends Controller
             $quotationsbinding_model->setSeialloutsouAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.sei_all_outsou') - $arrange_index]);
             $quotationsbinding_model->setSeialloutsoucostAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.sei_all_outsou_cost') - $arrange_index]);
             $quotationsbinding_model->setSeisubtotalAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.sei_subtotal') - $arrange_index]);
+            $quotationsbinding_model->setCreateduserAttribute($this->import_user_code);
+            $quotationsbinding_model->setCreatedatAttribute(Carbon::now());
             // quotationscost_model
             $quotationscost_model->setMcodeAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.m_code') - $arrange_index]);
             $quotationscost_model->setSendcityAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.send_city') - $arrange_index]);
@@ -1143,6 +1157,8 @@ class BackupLogsController extends Controller
             $quotationscost_model->setProductalloutsou3Attribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.product_all_outsou3') - $arrange_index]);
             $quotationscost_model->setProductalloutsou3CostAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.product_all_outsou3_cost') - $arrange_index]);
             $quotationscost_model->setProductallsubtotalAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.product_all_subtotal') - $arrange_index]);
+            $quotationscost_model->setCreateduserAttribute($this->import_user_code);
+            $quotationscost_model->setCreatedatAttribute(Carbon::now());
             // quotations_model
             $quotations_model->setPaperamountAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.paper_amount') - $arrange_index]);
             $quotations_model->setWagesamountAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_99.wages_amount') - $arrange_index]);
@@ -1313,6 +1329,8 @@ class BackupLogsController extends Controller
             if (count($array_item) > (int)Config::get('const.MITUMORI_DAT_LEN_PARTS.p_envelope') - $arrange_index) {
                 $quotationsparts_model->setPenvelopeAttribute(substr($array_item[(int)Config::get('const.MITUMORI_DAT_LEN_PARTS.p_envelope') - $arrange_index],2,1));
             }
+            $quotationsparts_model->setCreateduserAttribute($this->import_user_code);
+            $quotationsparts_model->setCreatedatAttribute(Carbon::now());
         } catch (Exception $e) {
             DB::rollback();
             Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$e');
@@ -1722,6 +1740,7 @@ class BackupLogsController extends Controller
     {
         $quotations_model = new Quotations();
         try {
+            DB::table($this->table_quotations)->truncate();
             DB::beginTransaction();
             $quotations_model->distributeIns();
             DB::commit();
@@ -1741,6 +1760,7 @@ class BackupLogsController extends Controller
     {
         $quotationsBinding_model = new QuotationsBinding();
         try {
+            DB::table($this->table_binding)->truncate();
             DB::beginTransaction();
             $quotationsBinding_model->distributeIns();
             DB::commit();
@@ -1760,6 +1780,7 @@ class BackupLogsController extends Controller
     {
         $quotationsCost_model = new QuotationsCost();
         try {
+            DB::table($this->table_quotations_cost)->truncate();
             DB::beginTransaction();
             $quotationsCost_model->distributeIns();
             DB::commit();
@@ -1779,6 +1800,7 @@ class BackupLogsController extends Controller
     {
         $quotationsDepartment_model = new QuotationsDepartment();
         try {
+            DB::table($this->table_quotations_department)->truncate();
             DB::beginTransaction();
             $quotationsDepartment_model->distributeIns();
             DB::commit();
@@ -1798,6 +1820,7 @@ class BackupLogsController extends Controller
     {
         $quotationsParts_model = new QuotationsParts();
         try {
+            DB::table($this->table_quotations_parts)->truncate();
             DB::beginTransaction();
             $quotationsParts_model->distributeIns();
             DB::commit();
