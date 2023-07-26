@@ -41,7 +41,7 @@
           <div class="caretxt">&#10045; 部分一致可</div>
         </div>
         -->
-        <div class="inputgroup" style="margin-left:50px;">
+        <div class="inputgroup mgl_auto">
           <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
         </div>
       </div>
@@ -118,10 +118,10 @@
             </thead>
             <tbody>
               <tr v-for="(mitem,mrowIndex) in details" :key="mrowIndex">
-                <td class="w2"><label style="display:block;"><input type="radio" name="m_codes" :id="'sr_' + mrowIndex" v-model="mcradio" :value="mrowIndex"></label></td>
-                <td class="nrap">{{ mitem['m_code'] }}</td>
-                <td class="nrap">{{ mitem['f_create_date'] }}</td>
-                <td class="nrap">{{ mitem['customer_code'] }}</td>
+                <td class="w2"><label><input type="radio" name="m_codes" :id="'sr_' + mrowIndex" v-model="mcradio" :value="mrowIndex"></label></td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['m_code'] }}</label></td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['f_create_date'] }}</label></td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer_code'] }}</label></td>
                 <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer'] }}</label></td>
                 <td class=""><label :for="'sr_' + mrowIndex">{{ mitem['product'] }}</label></td>
                 <td class="nrap ta_r">{{ mitem['f_production_volnum'] }} {{ select_arr_s002[mitem['production_volnum_unit']-1]['code_name'] }} {{ pvu[mrowIndex]['production_volnum_unit'] }}</td>

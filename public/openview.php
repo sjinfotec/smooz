@@ -28,6 +28,15 @@ $select_arr_s003 = $_POST['select_arr_s003'] ?: "";
 $select_arr_s004 = $_POST['select_arr_s004'] ?: "";
 $select_arr_s005 = $_POST['select_arr_s005'] ?: "";
 
+
+
+
+
+
+
+
+
+
 echo "<pre>\n";
 var_dump($parr);
 echo "</pre>\n<br>\n";

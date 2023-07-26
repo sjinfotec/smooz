@@ -303,6 +303,7 @@ header .header_login_info a {
 .mgl10  {margin-left:10px;}
 .mgl20  {margin-left:20px;}
 .mgl40  {margin-left:40px;}
+.mglauto  {margin-left: auto;}
 .mgt0   {margin-top:0px !important;}
 .mgt10  {margin-top:10px !important;}
 .mgt20  {margin-top:20px !important;}
@@ -359,6 +360,7 @@ header .header_login_info a {
 .ta_l {text-align: left;}
 .ta_c {text-align: center;}
 .ta_r {text-align: right;}
+
 
 .ta_j{text-align: justify}
 .ta_lj{text-align-last: justify}
@@ -699,6 +701,9 @@ header .header_login_info a {
   margin:5px 0 0 20px;
   font-size:1.2rem;
 }
+#cnt1 .mgl_auto {
+  margin-left: auto;
+}
 
 
 .input_w100p_m  {width:calc(100% - 8em);}  /*spanの幅分をマイナス*/
@@ -780,11 +785,11 @@ header .header_login_info a {
   background:rgba(136, 144, 187, 0.5);
 }
 #search_result td label {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   width: 100%;
-  /*min-height: 50px;*/
   height: 100%;
-  border: 1px dashed #F00;
+  /*border: 1px dashed #F00;*/
 }
 
 

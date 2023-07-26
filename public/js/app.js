@@ -66097,24 +66097,20 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "inputgroup", staticStyle: { "margin-left": "50px" } },
-          [
-            _c(
-              "button",
-              {
-                attrs: { type: "button" },
-                on: {
-                  click: function ($event) {
-                    return _vm.clickEvent("", "", "", "clear", "クリア", "", "")
-                  },
+        _c("div", { staticClass: "inputgroup mgl_auto" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button" },
+              on: {
+                click: function ($event) {
+                  return _vm.clickEvent("", "", "", "clear", "クリア", "", "")
                 },
               },
-              [_vm._v("クリア")]
-            ),
-          ]
-        ),
+            },
+            [_vm._v("クリア")]
+          ),
+        ]),
       ]),
       _vm._v(" "),
       _vm.searchview === "mit"
@@ -66241,7 +66237,7 @@ var render = function () {
                     _vm._l(_vm.details, function (mitem, mrowIndex) {
                       return _c("tr", { key: mrowIndex }, [
                         _c("td", { staticClass: "w2" }, [
-                          _c("label", { staticStyle: { display: "block" } }, [
+                          _c("label", [
                             _c("input", {
                               directives: [
                                 {
@@ -66270,15 +66266,21 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
-                          _vm._v(_vm._s(mitem["m_code"])),
+                          _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                            _vm._v(_vm._s(mitem["m_code"])),
+                          ]),
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
-                          _vm._v(_vm._s(mitem["f_create_date"])),
+                          _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                            _vm._v(_vm._s(mitem["f_create_date"])),
+                          ]),
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
-                          _vm._v(_vm._s(mitem["customer_code"])),
+                          _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                            _vm._v(_vm._s(mitem["customer_code"])),
+                          ]),
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
