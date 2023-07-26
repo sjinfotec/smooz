@@ -5,23 +5,6 @@
     </div>
     <div id="cnt1" >
       <div class="line">
-        <div class="inputgroup">
-          <button>見積編集</button>
-        </div>
-        <div class="inputgroup">
-          <button style="pointer-events: none;" disabled>受注</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="search_ovv_btn" @click="OverviewClick();">製品概要</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
-        </div>
-      </div>
-      <div class="line">
         <div class="inputgroup3">
           <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style input_w100p_m" v-model="s_m_code" name="s_m_code"></label>
         </div>
@@ -58,7 +41,26 @@
           <div class="caretxt">&#10045; 部分一致可</div>
         </div>
         -->
+        <div class="inputgroup" style="margin-left:50px;">
+          <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
+        </div>
       </div>
+
+      <div class="line mgt20" v-if="searchview === 'mit'">
+        <div class="inputgroup">
+          <button>見積編集</button>
+        </div>
+        <div class="inputgroup">
+          <button style="pointer-events: none;" disabled>受注</button>
+        </div>
+        <div class="inputgroup">
+          <button type="button" id="search_ovv_btn" @click="OverviewClick();">製品概要</button>
+        </div>
+        <div class="inputgroup">
+          <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
+        </div>
+      </div>
+
 
       <div id="cnt_search">
         <form id="searchform">
@@ -100,7 +102,7 @@
           </table>
         </div>
         <div id="search_result" v-if="searchview === 'mit'">
-          <table id="quodoc">
+          <table id="quomit">
             <thead>
               <tr>
                 <th class="w2"></th>
@@ -120,8 +122,8 @@
                 <td class="nrap">{{ mitem['m_code'] }}</td>
                 <td class="nrap">{{ mitem['f_create_date'] }}</td>
                 <td class="nrap">{{ mitem['customer_code'] }}</td>
-                <td class="nrap"><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['customer'] }}</label></td>
-                <td class=""><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['product'] }}</label></td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer'] }}</label></td>
+                <td class=""><label :for="'sr_' + mrowIndex">{{ mitem['product'] }}</label></td>
                 <td class="nrap ta_r">{{ mitem['f_production_volnum'] }} {{ select_arr_s002[mitem['production_volnum_unit']-1]['code_name'] }} {{ pvu[mrowIndex]['production_volnum_unit'] }}</td>
                 <td class="nrap ta_r">{{ mitem['f_estimate_amount'] }} 円</td>
                 <td class="nrap">{{ mitem['f_lastorder_date'] }}</td>
@@ -428,7 +430,6 @@ export default {
   // マウント時
   mounted() {
     //this.login_user_code = this.authusers["code"];
-    //this.login_user_role = this.authusers["role"];
   },
   methods: {
     // -------------------- イベント処理 --------------------
@@ -457,6 +458,13 @@ export default {
           this.s_date_end = "";
           this.actionmsgArr = [];
           this.details = [];
+          this.searchview = "";
+
+          this.sr_title = "";
+
+          const sc = 'search_com';
+          var searchcom = document.getElementById(sc);
+          searchcom.style.visibility = "hidden";
 
           console.log('クリアしました');
         }
@@ -569,6 +577,7 @@ export default {
       this.sr_title = "検索結果";
       this.searchview = k;
       console.log('SearchClick  = ' + k);
+      
 
     },
     MitGoBtn(i,mcode) {
@@ -883,6 +892,50 @@ export default {
 
     },
 
+    preloader() {
+      let table = document.getElementById("quomit");
+      let rows = table.querySelectorAll("tbody tr");
+    
+      let backgroundcolor_dict = {};
+      let tr_color = window.getComputedStyle(rows[0], "").color;
+    
+      rows.forEach((row) => {
+        // 行ごとに背景色が異なるため全ての行の変更前の背景色を取得
+        backgroundcolor_dict[String(row.rowIndex)] = window.getComputedStyle(
+          row,
+          ""
+        ).backgroundColor;
+    
+        row.addEventListener(
+          "click",
+          function () {
+            // 一度全て元の配色
+            rows.forEach((click_row) => {
+              click_row.style.backgroundColor =
+                backgroundcolor_dict[String(row.rowIndex)];
+              click_row.style.color = tr_color;
+            });
+            // 選択された行のみ配色変更
+            row.style.backgroundColor = "rgba(136, 144, 187, 0.5)";
+            row.style.color = "#FFFFFF";
+    
+            if (row.querySelector("input").type == "radio") {
+              row.querySelector('input[type="radio"]').checked = true;
+            }
+            if (row.querySelector("input").type == "checkbox") {
+              if (row.querySelector('input[type="checkbox"]').checked == false) {
+                row.querySelector('input[type="checkbox"]').checked = true;
+              } else {
+                row.querySelector('input[type="checkbox"]').checked = false;
+              }
+            }
+          },
+          false
+        );
+      });
+    },
+
+
 
 
     // -------------------- サーバー処理 --------------------
@@ -920,6 +973,7 @@ export default {
           //console.log("putThenSearch in res.s_customer = " + res.s_customer);
           this.$toasted.show(this.event_title + " " + eventtext + "しました");
           this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+          
       } else {
           this.actionmsgArr.push(this.s_m_code + this.s_customer_code + this.s_customer + this.s_enduser + this.s_product + this.s_date_start + this.s_date_end + " が見つかりませんでした。");
           this.details = [];
@@ -962,4 +1016,52 @@ export default {
     },
   }
 };
+
+/*
+function preloader() {
+  let table = document.getElementById("quomit");
+  let rows = table.querySelectorAll("tr");
+ 
+  let backgroundcolor_dict = {};
+  let tr_color = window.getComputedStyle(rows[0], "").color;
+ 
+  rows.forEach((row) => {
+    // 行ごとに背景色が異なるため全ての行の変更前の背景色を取得
+    backgroundcolor_dict[String(row.rowIndex)] = window.getComputedStyle(
+      row,
+      ""
+    ).backgroundColor;
+ 
+    row.addEventListener(
+      "click",
+      function () {
+        // 一度全て元の配色
+        rows.forEach((click_row) => {
+          click_row.style.backgroundColor =
+            backgroundcolor_dict[String(row.rowIndex)];
+          click_row.style.color = tr_color;
+        });
+        // 選択された行のみ配色変更
+        row.style.backgroundColor = "rgba(136, 144, 187, 0.5)";
+        row.style.color = "#FFFFFF";
+ 
+        if (row.querySelector("input").type == "radio") {
+          row.querySelector('input[type="radio"]').checked = true;
+        }
+        if (row.querySelector("input").type == "checkbox") {
+          if (row.querySelector('input[type="checkbox"]').checked == false) {
+            row.querySelector('input[type="checkbox"]').checked = true;
+          } else {
+            row.querySelector('input[type="checkbox"]').checked = false;
+          }
+        }
+      },
+      false
+    );
+  });
+}
+ 
+window.onload = preloader;
+*/
+
 </script>

@@ -8096,6 +8096,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 
@@ -8152,7 +8154,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   // マウント時
   mounted: function mounted() {//this.login_user_code = this.authusers["code"];
-    //this.login_user_role = this.authusers["role"];
   },
   methods: {
     // -------------------- イベント処理 --------------------
@@ -8178,6 +8179,11 @@ __webpack_require__.r(__webpack_exports__);
         this.s_date_end = "";
         this.actionmsgArr = [];
         this.details = [];
+        this.searchview = "";
+        this.sr_title = "";
+        var sc = 'search_com';
+        var searchcom = document.getElementById(sc);
+        searchcom.style.visibility = "hidden";
         console.log('クリアしました');
       } else if (cf == 'confirm_work_update') {
         var Jperformance = document.getElementById('performance_' + val1).value; //var Jstatus = fm.status.value;
@@ -8487,6 +8493,38 @@ __webpack_require__.r(__webpack_exports__);
       this.printview = false;
       console.log('プリント画面 終了');
     },
+    preloader: function preloader() {
+      var table = document.getElementById("quomit");
+      var rows = table.querySelectorAll("tbody tr");
+      var backgroundcolor_dict = {};
+      var tr_color = window.getComputedStyle(rows[0], "").color;
+      rows.forEach(function (row) {
+        // 行ごとに背景色が異なるため全ての行の変更前の背景色を取得
+        backgroundcolor_dict[String(row.rowIndex)] = window.getComputedStyle(row, "").backgroundColor;
+        row.addEventListener("click", function () {
+          // 一度全て元の配色
+          rows.forEach(function (click_row) {
+            click_row.style.backgroundColor = backgroundcolor_dict[String(row.rowIndex)];
+            click_row.style.color = tr_color;
+          }); // 選択された行のみ配色変更
+
+          row.style.backgroundColor = "rgba(136, 144, 187, 0.5)";
+          row.style.color = "#FFFFFF";
+
+          if (row.querySelector("input").type == "radio") {
+            row.querySelector('input[type="radio"]').checked = true;
+          }
+
+          if (row.querySelector("input").type == "checkbox") {
+            if (row.querySelector('input[type="checkbox"]').checked == false) {
+              row.querySelector('input[type="checkbox"]').checked = true;
+            } else {
+              row.querySelector('input[type="checkbox"]').checked = false;
+            }
+          }
+        }, false);
+      });
+    },
     // -------------------- サーバー処理 --------------------
     // -------------------- 共通 --------------------
     // 取得正常処理
@@ -8561,6 +8599,52 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+/*
+function preloader() {
+  let table = document.getElementById("quomit");
+  let rows = table.querySelectorAll("tr");
+ 
+  let backgroundcolor_dict = {};
+  let tr_color = window.getComputedStyle(rows[0], "").color;
+ 
+  rows.forEach((row) => {
+    // 行ごとに背景色が異なるため全ての行の変更前の背景色を取得
+    backgroundcolor_dict[String(row.rowIndex)] = window.getComputedStyle(
+      row,
+      ""
+    ).backgroundColor;
+ 
+    row.addEventListener(
+      "click",
+      function () {
+        // 一度全て元の配色
+        rows.forEach((click_row) => {
+          click_row.style.backgroundColor =
+            backgroundcolor_dict[String(row.rowIndex)];
+          click_row.style.color = tr_color;
+        });
+        // 選択された行のみ配色変更
+        row.style.backgroundColor = "rgba(136, 144, 187, 0.5)";
+        row.style.color = "#FFFFFF";
+ 
+        if (row.querySelector("input").type == "radio") {
+          row.querySelector('input[type="radio"]').checked = true;
+        }
+        if (row.querySelector("input").type == "checkbox") {
+          if (row.querySelector('input[type="checkbox"]').checked == false) {
+            row.querySelector('input[type="checkbox"]').checked = true;
+          } else {
+            row.querySelector('input[type="checkbox"]').checked = false;
+          }
+        }
+      },
+      false
+    );
+  });
+}
+ 
+window.onload = preloader;
+*/
 
 /***/ }),
 
@@ -65777,57 +65861,6 @@ var render = function () {
     _vm._v(" "),
     _c("div", { attrs: { id: "cnt1" } }, [
       _c("div", { staticClass: "line" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "search_ovv_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.OverviewClick()
-                },
-              },
-            },
-            [_vm._v("製品概要")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "search_cnt_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.ContentsClick()
-                },
-              },
-            },
-            [_vm._v("内容")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c(
-            "button",
-            {
-              attrs: { type: "button" },
-              on: {
-                click: function ($event) {
-                  return _vm.clickEvent("", "", "", "clear", "クリア", "", "")
-                },
-              },
-            },
-            [_vm._v("クリア")]
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
         _c("div", { staticClass: "inputgroup3" }, [
           _c("label", [
             _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
@@ -66063,7 +66096,64 @@ var render = function () {
             [_vm._v("見積を検索")]
           ),
         ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "inputgroup", staticStyle: { "margin-left": "50px" } },
+          [
+            _c(
+              "button",
+              {
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    return _vm.clickEvent("", "", "", "clear", "クリア", "", "")
+                  },
+                },
+              },
+              [_vm._v("クリア")]
+            ),
+          ]
+        ),
       ]),
+      _vm._v(" "),
+      _vm.searchview === "mit"
+        ? _c("div", { staticClass: "line mgt20" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "inputgroup" }, [
+              _c(
+                "button",
+                {
+                  attrs: { type: "button", id: "search_ovv_btn" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.OverviewClick()
+                    },
+                  },
+                },
+                [_vm._v("製品概要")]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "inputgroup" }, [
+              _c(
+                "button",
+                {
+                  attrs: { type: "button", id: "search_cnt_btn" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.ContentsClick()
+                    },
+                  },
+                },
+                [_vm._v("内容")]
+              ),
+            ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { attrs: { id: "cnt_search" } }, [
         _c("form", { attrs: { id: "searchform" } }, [
@@ -66143,7 +66233,7 @@ var render = function () {
           _vm._v(" "),
           _vm.searchview === "mit"
             ? _c("div", { attrs: { id: "search_result" } }, [
-                _c("table", { attrs: { id: "quodoc" } }, [
+                _c("table", { attrs: { id: "quomit" } }, [
                   _vm._m(4),
                   _vm._v(" "),
                   _c(
@@ -66192,25 +66282,15 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap" }, [
-                          _c(
-                            "label",
-                            {
-                              staticStyle: { display: "block" },
-                              attrs: { for: "sr_" + mrowIndex },
-                            },
-                            [_vm._v(_vm._s(mitem["customer"]))]
-                          ),
+                          _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                            _vm._v(_vm._s(mitem["customer"])),
+                          ]),
                         ]),
                         _vm._v(" "),
                         _c("td", {}, [
-                          _c(
-                            "label",
-                            {
-                              staticStyle: { display: "block" },
-                              attrs: { for: "sr_" + mrowIndex },
-                            },
-                            [_vm._v(_vm._s(mitem["product"]))]
-                          ),
+                          _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                            _vm._v(_vm._s(mitem["product"])),
+                          ]),
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "nrap ta_r" }, [

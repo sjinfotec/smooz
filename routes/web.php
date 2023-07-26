@@ -60,7 +60,7 @@ Route::get('/quotations/department', [QuotationsDepartmentController::class,'ind
 // 検索
 Route::get('/qsearch', [QSearchController::class,'search'])->middleware('auth');
 Route::post('/qsearch/get', [QSearchController::class,'getDataSearch'])->middleware('auth');
-Route::post('/openview.php', [QSearchController::class,'printview'])->middleware('auth');
+//Route::post('/openview.php', [QSearchController::class,'printview'])->middleware('auth');
 
 // パーツ
 Route::post('/qparts/get', [QuotationsPartsController::class,'getPartsData'])->middleware('auth');

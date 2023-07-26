@@ -755,6 +755,7 @@ header .header_login_info a {
   border-spacing:0;
   border:1px solid #888888;
   box-sizing: border-box;
+  height: 1px;
 }
 #search_result thead th{
   /* 縦スクロール時に固定する */
@@ -773,10 +774,19 @@ header .header_login_info a {
   padding:2px 0.5rem;
   border-right:1px solid #888888;
   border-bottom:1px solid #888888;
+  height: 100%;
 }
 #search_result  tr:hover  {
   background:rgba(136, 144, 187, 0.5);
 }
+#search_result td label {
+  display: inline-block;
+  width: 100%;
+  /*min-height: 50px;*/
+  height: 100%;
+  border: 1px dashed #F00;
+}
+
 
 #search_result .err {color:red;}
 #search_result .style1 {
