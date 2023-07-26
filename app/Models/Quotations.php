@@ -16,6 +16,7 @@ class Quotations extends Model
 
     protected $table = 'quotations';
     protected $table_wrk_quotations = 'wrk_quotations';
+    protected $table_users = 'users';
 
     private $id;							// ID
     private $user_code;						// オペレータＩＤ
@@ -559,8 +560,62 @@ class Quotations extends Model
 			try {
 				$sqlString = "";
 				$sqlString .= "insert into ".$this->table;
-				$sqlString .= "  select * ";
+				$sqlString .= "  select ";
+				$sqlString .= "    t1.id ";
+				$sqlString .= "    , t3.code as user_code ";
+				$sqlString .= "    , t1.m_code ";
+				$sqlString .= "    , t1.wm_code ";
+				$sqlString .= "    , t1.wm_sub ";
+				$sqlString .= "    , t1.reference_num ";
+				$sqlString .= "    , t1.create_date ";
+				$sqlString .= "    , t1.lastorder_date ";
+				$sqlString .= "    , t1.number_order ";
+				$sqlString .= "    , t4.code as manager_code ";
+				$sqlString .= "    , t1.manager ";
+				$sqlString .= "    , t1.customer_code ";
+				$sqlString .= "    , t1.customer ";
+				$sqlString .= "    , t1.printing ";
+				$sqlString .= "    , t1.enduser ";
+				$sqlString .= "    , t1.product ";
+				$sqlString .= "    , t1.production_setnum ";
+				$sqlString .= "    , t1.production_setnum_unit ";
+				$sqlString .= "    , t1.production_volnum ";
+				$sqlString .= "    , t1.production_volnum_unit ";
+				$sqlString .= "    , t1.production_all ";
+				$sqlString .= "    , t1.unit ";
+				$sqlString .= "    , t1.papertray ";
+				$sqlString .= "    , t1.imposition_w ";
+				$sqlString .= "    , t1.imposition_h ";
+				$sqlString .= "    , t1.cylinder ";
+				$sqlString .= "    , t1.cylinder_num ";
+				$sqlString .= "    , t1.cylinder_set ";
+				$sqlString .= "    , t1.size_w ";
+				$sqlString .= "    , t1.size_h ";
+				$sqlString .= "    , t1.size_top ";
+				$sqlString .= "    , t1.size_bottom ";
+				$sqlString .= "    , t1.inch_fold ";
+				$sqlString .= "    , t1.parts_num ";
+				$sqlString .= "    , t1.all_through ";
+				$sqlString .= "    , t1.paper_amount ";
+				$sqlString .= "    , t1.wages_amount ";
+				$sqlString .= "    , t1.cost_amount ";
+				$sqlString .= "    , t1.estimate_amount ";
+				$sqlString .= "    , t1.comment ";
+				$sqlString .= "    , t1.offered_amount ";
+				$sqlString .= "    , t1.print_cost_max ";
+				$sqlString .= "    , t1.paper_cost ";
+				$sqlString .= "    , t1.created_user ";
+				$sqlString .= "    , t1.updated_user ";
+				$sqlString .= "    , t1.created_at ";
+				$sqlString .= "    , t1.updated_at ";
+				$sqlString .= "    , t1.is_deleted ";
 				$sqlString .= "  from ".$this->table_wrk_quotations." t1 ";
+				$sqlString .= "  left join ".$this->table_users." t3";
+				$sqlString .= "  on";
+				$sqlString .= "   	t1.user_code = t3.smooth_user_code";
+				$sqlString .= "  left join ".$this->table_users." t4";
+				$sqlString .= "  on";
+				$sqlString .= "    	t1.manager_code = t4.smooth_code";
 				$sqlString .= "  where not exists (";
 				$sqlString .= "    select 1 ";
 				$sqlString .= "    from  ".$this->table." t2 ";

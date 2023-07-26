@@ -8451,7 +8451,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.app  {color:red;}\r\n", ""]);
+exports.push([module.i, "\n.app  {color:red;}\n", ""]);
 
 // exports
 
