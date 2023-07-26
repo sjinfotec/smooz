@@ -48,6 +48,8 @@ return [
 
     'FILE_NAME' => [
       'file_mitumoridat_dat' => 'Mitumori.DAT',
+      'file_old_mitumoridat_dat' => 'old_Mitumori.DAT',
+      'file_imp_mitumoridat' => 'imp_Mitumori.DAT',
       'file_sh_smooth' => 'mit_im.sh'
     ],
 
