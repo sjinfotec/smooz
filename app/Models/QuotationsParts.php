@@ -1526,6 +1526,8 @@ class QuotationsParts extends Model
 
 	public function getParts(){
 
+		//Log::info("getParts in this->param_m_code -- ".$this->param_m_code);
+
 		$searchgo = false;
 		if(!empty($this->param_m_code)) $searchgo = true;
 
@@ -1661,16 +1663,19 @@ class QuotationsParts extends Model
 			//->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
 			;
 			if(!empty($this->param_m_code)){
-				//Log::info("getSearchA this->params_order_no -- ".$this->params_order_no);
+				Log::info("getParts !empty this->param_m_code -- ".$this->param_m_code);
 				$data->where('m_code', $this->param_m_code)
-				->orderBy('parts_code', 'asc');
+				->orderBy('parts_code', 'asc')
+				;
 			}
 
 			if($searchgo) {
+				//Log::info("getParts searchgo in ");
 				$result = $data
 				->get();
 
 			}
+
 
 			return $result;
 

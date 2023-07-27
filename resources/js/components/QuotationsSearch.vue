@@ -642,6 +642,9 @@ export default {
           //console.log( vvmc ) ;
 
 
+
+
+          
           let post_data = new FormData();
           var pmcode = this.details[vvmc]['m_code'];
           var motion_msg = "パーツ検索";

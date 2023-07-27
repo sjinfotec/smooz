@@ -79,9 +79,11 @@ class QSearchController extends Controller
             $details =  $q_search->getSearch();
             $pvu = $q_search->getPvu();
 
+            /*
             $quotationsparts = new QuotationsParts();
             if(isset($s_m_code))      $quotationsparts->setParamM_codeAttribute($s_m_code);
             $details_parts =  $quotationsparts->getParts();
+            */
 
             $general_code = new Generalcode();
             $general_code->setParamIdentificationidAttribute('S001');
@@ -112,7 +114,7 @@ class QSearchController extends Controller
                     'select_arr_s004' => $select_arr_s004,
                     'select_arr_s005' => $select_arr_s005,
                     'pvu' => $pvu,
-                    'details_parts' => $details_parts,
+                    //'details_parts' => $details_parts,
                     Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
                 ]
             );

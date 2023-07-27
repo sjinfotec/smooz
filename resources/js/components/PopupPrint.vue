@@ -10,7 +10,7 @@
 
             <div v-for="(item,rowIndex) in details" :key="rowIndex">
               <div>
-                <div>details {{ rowIndex }}</div>
+                <div>popupprint.vue details {{ rowIndex }}</div>
                 <div>customer -> {{ item['customer'] }}</div>
                 <div>enduser -> {{ item['enduser'] }}</div>
                 <div>product -> {{ item['product'] }}</div>
@@ -23,7 +23,7 @@
           
             <div v-for="(pitem,prowIndex) in details_parts" >
               <div>
-                <div>details_parts</div>
+                <div>popupprint.vue details_parts {{ prowIndex }}</div>
                 <div>paper_name -> {{ pitem['paper_name'] }}</div>
                 <div>size_w -> {{ pitem['size_w'] }}</div>
                 <div>soze_h -> {{ pitem['size_h'] }}</div>
@@ -36,7 +36,7 @@
 
             <div v-for="(item,rowIndex) in details">
               <div>
-                <div>details {{ rowIndex }}</div>
+                <div>popupprint.vue details {{ rowIndex }}</div>
                 <div>paper_amount -> {{ item['paper_amount'] }}</div>
                 <div>wages_amount -> {{ item['wages_amount'] }}</div>
                 <div>cost_amount -> {{ item['cost_amount'] }}</div>
@@ -93,7 +93,7 @@ export default {
   },
   mounted() {
     this.getItem();
-    //this.getParts();
+    this.getParts();
     this.ReplacePrintData();
   },
   methods: {

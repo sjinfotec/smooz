@@ -295,15 +295,15 @@
 <script>
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
+import { dialogable } from "../mixins/dialogable.js";
+import { checkable } from "../mixins/checkable.js";
 import { requestable } from "../mixins/requestable.js";
 
 
 export default {
-  name: "Mmake",
-  //mixins: [dialogable, checkable, requestable],
-  mixins: [requestable],
+  name: "Quotations",
+  mixins: [dialogable, checkable, requestable],
+  //mixins: [requestable],
   props: {
   /*
     authusers: {
@@ -311,6 +311,11 @@ export default {
       default: []
     }
   */
+    s_m_code: {
+      type: String,
+      default: ""
+    },
+
   },
   /*
   components: {
@@ -320,10 +325,22 @@ export default {
   data() {
     return {
       details: [],
+      details_parts: [],
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
       messageshowsearch: false,
+
+      event_title: "",
+      actionmsgArr: [],
+      select_arr_s001: [],
+      select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: [],
+
+      //s_m_code: "",
+
 
       partsview: false,
       outsourcingview: false,
@@ -336,6 +353,7 @@ export default {
   },
   // マウント時
   mounted() {
+    this.getItem();
     //this.login_user_code = this.authusers["code"];
     //this.login_user_role = this.authusers["role"];
   },
@@ -615,13 +633,122 @@ export default {
     },
 
     // -------------------- サーバー処理 --------------------
-    // -------------------- 共通 --------------------
+    // 見積を取得
+    getItem: function() {
+      console.log('getItem in props s_m_code = ' + this.s_m_code);
+      var motion_msg = "見積取得";
+      var arrayParams = { 
+        s_m_code : this.s_m_code , 
+
+      };
+      this.postRequest("/qsearch/get", arrayParams)
+        .then(response  => {
+          this.putThenSearch(response, motion_msg);
+        })
+        .catch(reason => {
+          this.serverCatch("quotations取得");
+        });
+
+    },
+    // パーツを取得
+    getParts: function() {
+
+      var motion_msg = "パーツ";
+      var arrayParams = { 
+        s_m_code : this.s_m_code , 
+
+      };
+      this.postRequest("/qparts/get", arrayParams)
+        .then(response  => {
+          this.putThenParts(response, motion_msg);
+        })
+        .catch(reason => {
+          this.serverCatch("parts取得");
+        });
+    },
+
+    // -------------------- 共通 ----------------------------
+
     // 取得正常処理
     getThen(response) {
-      console.log('正常');
+      var res = response.data;
+      //console.log('getthen in res = ' + res);
+      if (res.result) {
+        this.details = res.details;
+        
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("取得");
+        }
+      }
+      console.log('取得正常処理');
     },
+    // 検索系正常処理
+    putThenSearch(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+      if (res.details.length > 0) {
+          this.details = res.details;
+          this.details_parts = res.details_parts;
+          //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
+          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+          //if (res.search_totals) {
+          //  this.search_totals = res.search_totals[0].total_s;
+          //}
+          this.select_arr_s001 = res.select_arr_s001;
+          this.select_arr_s002 = res.select_arr_s002;
+          this.select_arr_s003 = res.select_arr_s003;
+          this.select_arr_s004 = res.select_arr_s004;
+          this.select_arr_s005 = res.select_arr_s005;
+          //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+
+          this.event_title = res.s_m_code;
+          //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+          this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+          //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details = [];
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+
+    // パーツ取得正常処理
+    putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+      if (res.details_parts.length > 0) {
+          this.details_parts = res.details_parts;
+          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+          console.log("putThenParts in" + this.details_parts );
+
+          //this.event_title = res.s_m_code + ' ';
+          //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+          //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+          //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details_parts = [];
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+
     // 異常処理
     serverCatch(eventtext) {
+      var messages = [];
+      //messages.push("" + eventtext + "に失敗しました");
+      //this.htmlMessageSwal("エラー", messages, "error", true, false);
       console.log('異常処理');
     },
   }

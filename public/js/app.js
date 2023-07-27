@@ -4213,8 +4213,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getItem(); //this.getParts();
-
+    this.getItem();
+    this.getParts();
     this.ReplacePrintData();
   },
   methods: {
@@ -4362,7 +4362,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
+/* harmony import */ var _mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/dialogable.js */ "./resources/js/mixins/dialogable.js");
+/* harmony import */ var _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/checkable.js */ "./resources/js/mixins/checkable.js");
+/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
 //
 //
 //
@@ -4659,13 +4661,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Mmake",
-  //mixins: [dialogable, checkable, requestable],
-  mixins: [_mixins_requestable_js__WEBPACK_IMPORTED_MODULE_0__["requestable"]],
+  name: "Quotations",
+  mixins: [_mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__["dialogable"], _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__["checkable"], _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__["requestable"]],
+  //mixins: [requestable],
   props: {
     /*
       authusers: {
@@ -4673,6 +4675,10 @@ __webpack_require__.r(__webpack_exports__);
         default: []
       }
     */
+    s_m_code: {
+      type: String,
+      "default": ""
+    }
   },
 
   /*
@@ -4683,10 +4689,19 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       details: [],
+      details_parts: [],
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
       messageshowsearch: false,
+      event_title: "",
+      actionmsgArr: [],
+      select_arr_s001: [],
+      select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: [],
+      //s_m_code: "",
       partsview: false,
       outsourcingview: false,
       inputid: "",
@@ -4697,7 +4712,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   // マウント時
-  mounted: function mounted() {//this.login_user_code = this.authusers["code"];
+  mounted: function mounted() {
+    this.getItem(); //this.login_user_code = this.authusers["code"];
     //this.login_user_role = this.authusers["role"];
   },
   methods: {
@@ -4938,13 +4954,113 @@ __webpack_require__.r(__webpack_exports__);
       document.getElementById("strLen").innerText = len + "文字";
     },
     // -------------------- サーバー処理 --------------------
-    // -------------------- 共通 --------------------
+    // 見積を取得
+    getItem: function getItem() {
+      var _this2 = this;
+
+      console.log('getItem in props s_m_code = ' + this.s_m_code);
+      var motion_msg = "見積取得";
+      var arrayParams = {
+        s_m_code: this.s_m_code
+      };
+      this.postRequest("/qsearch/get", arrayParams).then(function (response) {
+        _this2.putThenSearch(response, motion_msg);
+      })["catch"](function (reason) {
+        _this2.serverCatch("quotations取得");
+      });
+    },
+    // パーツを取得
+    getParts: function getParts() {
+      var _this3 = this;
+
+      var motion_msg = "パーツ";
+      var arrayParams = {
+        s_m_code: this.s_m_code
+      };
+      this.postRequest("/qparts/get", arrayParams).then(function (response) {
+        _this3.putThenParts(response, motion_msg);
+      })["catch"](function (reason) {
+        _this3.serverCatch("parts取得");
+      });
+    },
+    // -------------------- 共通 ----------------------------
     // 取得正常処理
     getThen: function getThen(response) {
-      console.log('正常');
+      var res = response.data; //console.log('getthen in res = ' + res);
+
+      if (res.result) {
+        this.details = res.details;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("取得");
+        }
+      }
+
+      console.log('取得正常処理');
+    },
+    // 検索系正常処理
+    putThenSearch: function putThenSearch(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details.length > 0) {
+        this.details = res.details;
+        this.details_parts = res.details_parts; //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
+        //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+        //if (res.search_totals) {
+        //  this.search_totals = res.search_totals[0].total_s;
+        //}
+
+        this.select_arr_s001 = res.select_arr_s001;
+        this.select_arr_s002 = res.select_arr_s002;
+        this.select_arr_s003 = res.select_arr_s003;
+        this.select_arr_s004 = res.select_arr_s004;
+        this.select_arr_s005 = res.select_arr_s005; //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+        this.event_title = res.s_m_code; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+
+        this.$toasted.show(this.event_title + " " + eventtext + "しました"); //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+        //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+        this.details = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+    // パーツ取得正常処理
+    putThenParts: function putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details_parts.length > 0) {
+        this.details_parts = res.details_parts; //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+
+        console.log("putThenParts in" + this.details_parts); //this.event_title = res.s_m_code + ' ';
+        //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+        //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+        //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+        this.details_parts = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
     },
     // 異常処理
     serverCatch: function serverCatch(eventtext) {
+      var messages = []; //messages.push("" + eventtext + "に失敗しました");
+      //this.htmlMessageSwal("エラー", messages, "error", true, false);
+
       console.log('異常処理');
     }
   }
@@ -58582,7 +58698,7 @@ var render = function () {
         _vm._l(_vm.details, function (item, rowIndex) {
           return _c("div", { key: rowIndex }, [
             _c("div", [
-              _c("div", [_vm._v("details " + _vm._s(rowIndex))]),
+              _c("div", [_vm._v("popupprint.vue details " + _vm._s(rowIndex))]),
               _vm._v(" "),
               _c("div", [_vm._v("customer -> " + _vm._s(item["customer"]))]),
               _vm._v(" "),
@@ -58598,7 +58714,9 @@ var render = function () {
         _vm._l(_vm.details_parts, function (pitem, prowIndex) {
           return _c("div", [
             _c("div", [
-              _c("div", [_vm._v("details_parts")]),
+              _c("div", [
+                _vm._v("popupprint.vue details_parts " + _vm._s(prowIndex)),
+              ]),
               _vm._v(" "),
               _c("div", [
                 _vm._v("paper_name -> " + _vm._s(pitem["paper_name"])),
@@ -58616,7 +58734,7 @@ var render = function () {
         _vm._l(_vm.details, function (item, rowIndex) {
           return _c("div", [
             _c("div", [
-              _c("div", [_vm._v("details " + _vm._s(rowIndex))]),
+              _c("div", [_vm._v("popupprint.vue details " + _vm._s(rowIndex))]),
               _vm._v(" "),
               _c("div", [
                 _vm._v("paper_amount -> " + _vm._s(item["paper_amount"])),

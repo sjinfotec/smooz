@@ -63,9 +63,8 @@ class QuotationsPartsController extends Controller
             // パラメータチェック
             $params = array();
             $params = $request->keyparams;
-            //Log::debug("getDataSearch params[s_order_no] = ".$params['s_order_no']);
             $s_m_code = isset($params['s_m_code']) ? $params['s_m_code'] : "";
-            //Log::debug("getDataSearch s_company_name = ".$s_company_name);
+            //Log::debug("getDataSearch s_m_code = ".$s_m_code);
 
             $quotationsparts = new QuotationsParts();
             if(isset($s_m_code))      $quotationsparts->setParamM_codeAttribute($s_m_code);
