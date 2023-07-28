@@ -4659,6 +4659,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 
@@ -4713,11 +4715,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   // マウント時
   mounted: function mounted() {
+    var _this = this;
+
     this.getItem(); //this.login_user_code = this.authusers["code"];
     //this.login_user_role = this.authusers["role"];
+
+    window.onload = function () {
+      //alert("ページが読み込まれました");
+      //console.log('window.onload');
+      var timeout = '3000';
+      setTimeout(function () {
+        _this.FirstExec();
+      }, timeout);
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log('addEventListener'); //this.FirstExec();
+    });
   },
   methods: {
     // -------------------- イベント処理 --------------------
+    FirstExec: function FirstExec() {
+      console.log('FirstExec in ');
+      this.OnButtonClickTLoad('printing');
+      this.OnButtonClick03Load('', 0, 'unit');
+      this.viewStrLen();
+    },
     OnButtonClick: function OnButtonClick(t) {
       var tm = t + '_mark';
       var inputid = document.getElementById(t);
@@ -4738,13 +4761,13 @@ __webpack_require__.r(__webpack_exports__);
       var inputid = document.getElementById(t);
       var inputvalue = inputid.value;
       var targetid = document.getElementById(tm);
-      var btnid = document.getElementById(tb);
+      var btnid = document.getElementById(tb); //console.log('OnButtonClickT in inputvalue = ' + inputvalue);
 
       if (inputvalue == "1") {
         targetid.style.visibility = "hidden";
         inputid.value = "0";
         btnid.innerHTML = "通し無し";
-      } else if (inputvalue == "0") {
+      } else if (inputvalue == "0" || inputvalue == "") {
         targetid.style.visibility = "visible";
         inputid.value = "2";
         btnid.innerHTML = "通し有り";
@@ -4752,6 +4775,26 @@ __webpack_require__.r(__webpack_exports__);
         targetid.style.visibility = "visible";
         inputid.value = "1";
         btnid.innerHTML = "印刷有り";
+      }
+    },
+    OnButtonClickTLoad: function OnButtonClickTLoad(t) {
+      var tm = t + '_mark';
+      var tb = t + '_btn';
+      var inputid = document.getElementById(t);
+      var inputvalue = inputid.value;
+      var targetid = document.getElementById(tm);
+      var btnid = document.getElementById(tb);
+      console.log('OnButtonClickTLoad in inputvalue = ' + inputvalue);
+
+      if (inputvalue == "1") {
+        targetid.style.visibility = "visible";
+        btnid.innerHTML = "印刷有り";
+      } else if (inputvalue == "2") {
+        targetid.style.visibility = "visible";
+        btnid.innerHTML = "通し有り";
+      } else {
+        targetid.style.visibility = "hidden";
+        btnid.innerHTML = "通し無し";
       }
     },
     OnButtonClickD: function OnButtonClickD(t) {
@@ -4875,8 +4918,24 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
+    OnButtonClick03Load: function OnButtonClick03Load(t, arr, t2) {
+      var idname_array = new Object();
+      idname_array[0] = {
+        '1': 'inch',
+        '2': 'milli'
+      };
+      var inputid = document.getElementById(t2);
+      var inputvalue = inputid.value;
+
+      if (inputvalue >= 1) {
+        var n = idname_array[arr][inputvalue];
+        var nm = n + '_mark';
+        var targetid = document.getElementById(nm);
+        targetid.style.visibility = "visible";
+      }
+    },
     SetParts: function SetParts(pnum, pname) {
-      var _this = this;
+      var _this2 = this;
 
       var tid = "cnt1";
       var targetid = document.getElementById(tid);
@@ -4888,9 +4947,9 @@ __webpack_require__.r(__webpack_exports__);
         partsview: true
       };
       this.postRequest("/parts/get", arrayParams).then(function (response) {
-        _this.getThen(response);
+        _this2.getThen(response);
       })["catch"](function (reason) {
-        _this.serverCatch("取得");
+        _this2.serverCatch("取得");
       });
       this.pagenum = pnum;
       this.pagename = pname;
@@ -4956,7 +5015,7 @@ __webpack_require__.r(__webpack_exports__);
     // -------------------- サーバー処理 --------------------
     // 見積を取得
     getItem: function getItem() {
-      var _this2 = this;
+      var _this3 = this;
 
       console.log('getItem in props s_m_code = ' + this.s_m_code);
       var motion_msg = "見積取得";
@@ -4964,23 +5023,25 @@ __webpack_require__.r(__webpack_exports__);
         s_m_code: this.s_m_code
       };
       this.postRequest("/qsearch/get", arrayParams).then(function (response) {
-        _this2.putThenSearch(response, motion_msg);
+        _this3.putThenSearch(response, motion_msg); //this.OnButtonClickT('printing');
+        //this.FirstExec();
+
       })["catch"](function (reason) {
-        _this2.serverCatch("quotations取得");
+        _this3.serverCatch("quotations取得");
       });
     },
     // パーツを取得
     getParts: function getParts() {
-      var _this3 = this;
+      var _this4 = this;
 
       var motion_msg = "パーツ";
       var arrayParams = {
         s_m_code: this.s_m_code
       };
       this.postRequest("/qparts/get", arrayParams).then(function (response) {
-        _this3.putThenParts(response, motion_msg);
+        _this4.putThenParts(response, motion_msg);
       })["catch"](function (reason) {
-        _this3.serverCatch("parts取得");
+        _this4.serverCatch("parts取得");
       });
     },
     // -------------------- 共通 ----------------------------
@@ -5006,8 +5067,8 @@ __webpack_require__.r(__webpack_exports__);
       var res = response.data;
 
       if (res.details.length > 0) {
-        this.details = res.details;
-        this.details_parts = res.details_parts; //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
+        this.details = res.details; //this.details_parts = res.details_parts;
+        //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
         //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
         //if (res.search_totals) {
         //  this.search_totals = res.search_totals[0].total_s;
@@ -5061,7 +5122,7 @@ __webpack_require__.r(__webpack_exports__);
       var messages = []; //messages.push("" + eventtext + "に失敗しました");
       //this.htmlMessageSwal("エラー", messages, "error", true, false);
 
-      console.log('異常処理');
+      console.log('異常処理 -> ' + eventtext);
     }
   }
 });
@@ -8395,6 +8456,28 @@ __webpack_require__.r(__webpack_exports__);
       console.log('SearchClick  = ' + k);
     },
     MitGoBtn: function MitGoBtn(i, mcode) {},
+    // 見積編集Click
+    QuoClick: function QuoClick() {
+      var element = document.getElementById("searchform");
+      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+      //if (typeof a === "undefined") {
+
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      } else {
+        var vvmc = radioNodeList.value;
+
+        if (vvmc === "") {
+          alert('検索結果一覧より見積を選択して下さい。');
+        } else {
+          //console.log( vvmc ) ;
+          this.m_code = this.details[vvmc]['m_code'];
+          console.log('m_code:' + this.m_code);
+          window.location.href = '/quotations?s_m_code=' + this.m_code;
+        }
+      }
+    },
+    // 内容Click
     ContentsClick: function ContentsClick() {
       var element = document.getElementById("searchform");
       var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
@@ -58810,478 +58893,1263 @@ var render = function () {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { attrs: { id: "cnt1" } }, [
-      _vm._m(1),
-      _vm._v(" "),
-      _vm._m(2),
-      _vm._v(" "),
-      _vm._m(3),
-      _vm._v(" "),
-      _vm._m(4),
-      _vm._v(" "),
-      _vm._m(5),
-      _vm._v(" "),
-      _vm._m(6),
-      _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _vm._m(7),
+    _c(
+      "div",
+      { attrs: { id: "cnt1" } },
+      [
+        _vm._m(1),
         _vm._v(" "),
-        _vm._m(8),
+        _vm._m(2),
         _vm._v(" "),
-        _vm._m(9),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone mz_c1",
-            attrs: { id: "printing_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "printing_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.OnButtonClickT("printing")
-                },
-              },
-            },
-            [_vm._v("印刷有り")]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "input_w1",
-            attrs: {
-              type: "text",
-              value: "1",
-              name: "printing",
-              id: "printing",
-            },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone mz_c1 v_hidden",
-            attrs: { id: "inch_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "inch_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.OnButtonClick03("inch", 0, "unit")
-                },
-              },
-            },
-            [_vm._v("インチ")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone mz_c1 v_hidden",
-            attrs: { id: "milli_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "milli_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.OnButtonClick03("milli", 0, "unit")
-                },
-              },
-            },
-            [_vm._v("ミリ")]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "input_w1",
-            attrs: { type: "text", value: "0", name: "unit", id: "unit" },
-          }),
-        ]),
-        _vm._v(" "),
-        _vm._m(10),
-        _vm._v(" "),
-        _vm._m(11),
-      ]),
-      _vm._v(" "),
-      _vm._m(12),
-      _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts1_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts1_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(1, "1P目")
-                },
-              },
-            },
-            [_vm._v("1P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts2_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts2_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(2, "2P目")
-                },
-              },
-            },
-            [_vm._v("2P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts3_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts3_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(3, "3P目")
-                },
-              },
-            },
-            [_vm._v("3P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts4_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts4_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(4, "4P目")
-                },
-              },
-            },
-            [_vm._v("4P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts5_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts5_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(5, "5P目")
-                },
-              },
-            },
-            [_vm._v("5P目")]
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts6_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts6_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(6, "6P目")
-                },
-              },
-            },
-            [_vm._v("6P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts7_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts7_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(7, "7P目")
-                },
-              },
-            },
-            [_vm._v("7P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts8_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts8_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(8, "8P目")
-                },
-              },
-            },
-            [_vm._v("8P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts9_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts9_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(9, "9P目")
-                },
-              },
-            },
-            [_vm._v("9P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts10_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts10_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(10, "10P目")
-                },
-              },
-            },
-            [_vm._v("10P目")]
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts11_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts11_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(11, "11P目")
-                },
-              },
-            },
-            [_vm._v("11P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts12_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts12_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(12, "12P目")
-                },
-              },
-            },
-            [_vm._v("12P目")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts_omote_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts13_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(13, "表紙")
-                },
-              },
-            },
-            [_vm._v("表紙")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts_ura_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts14_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(14, "裏表紙")
-                },
-              },
-            },
-            [_vm._v("裏表紙")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("span", {
-            staticClass: "markzone2 mz_tc1 v_hidden",
-            attrs: { id: "parts_mat_mark" },
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "parts15_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetParts(15, "下敷き")
-                },
-              },
-            },
-            [_vm._v("下敷き")]
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("label", [
-            _c("span", { staticClass: "spanwidth_1" }, [_vm._v("コメント")]),
-            _vm._v(" "),
-            _c("span", { attrs: { id: "strLen" } }, [_vm._v("0文字")]),
+        _vm._l(_vm.details, function (item, index) {
+          return _c("div", { key: item.id }, [
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _c("span", { staticClass: "spanwidth_8" }, [
+                    _vm._v("担当者"),
+                  ]),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].manager,
+                        expression: "details[index].manager",
+                      },
+                    ],
+                    staticClass: "form_style",
+                    attrs: { type: "text", name: "manager" },
+                    domProps: { value: _vm.details[index].manager },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "manager",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                  _c("span"),
+                ]),
+              ]),
+            ]),
             _vm._v(" "),
-            _c("textarea", {
-              staticClass: "form_style_textarea",
-              attrs: { name: "comment", rows: "4", id: "textarea1" },
-              on: {
-                keyup: function ($event) {
-                  return _vm.viewStrLen()
-                },
-              },
-            }),
-          ]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _vm._m(13),
-      _vm._v(" "),
-      _c("div", { staticClass: "line" }, [
-        _c("div", { staticClass: "mglrauto" }, [
-          _c(
-            "button",
-            {
-              attrs: { type: "button", id: "setcal_btn" },
-              on: {
-                click: function ($event) {
-                  return _vm.SetcalBtn()
-                },
-              },
-            },
-            [_vm._v("設定・計算")]
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
-        _c("div", { staticClass: "group" }, [
-          _vm._m(14),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup" }, [
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _c("span", { staticClass: "spanwidth_8" }, [
+                    _vm._v("得意先"),
+                  ]),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].customer_code,
+                        expression: "details[index].customer_code",
+                      },
+                    ],
+                    staticClass: "form_style",
+                    attrs: { type: "text", name: "customer_code" },
+                    domProps: { value: _vm.details[index].customer_code },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "customer_code",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].customer,
+                        expression: "details[index].customer",
+                      },
+                    ],
+                    staticClass: "form_style",
+                    attrs: { type: "text", name: "customer" },
+                    domProps: { value: _vm.details[index].customer },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "customer",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _c("span", { staticClass: "spanwidth_8" }, [
+                    _vm._v("エンドユーザー"),
+                  ]),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].enduser,
+                        expression: "details[index].enduser",
+                      },
+                    ],
+                    staticClass: "form_style input_w30",
+                    attrs: { type: "text", name: "enduser" },
+                    domProps: { value: _vm.details[index].enduser },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "enduser",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _c("span", { staticClass: "spanwidth_8" }, [
+                    _vm._v("製品名"),
+                  ]),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].product,
+                        expression: "details[index].product",
+                      },
+                    ],
+                    staticClass: "form_style input_w30",
+                    attrs: { type: "text", name: "product" },
+                    domProps: { value: _vm.details[index].product },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "product",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].parts_num,
+                        expression: "details[index].parts_num",
+                      },
+                    ],
+                    staticClass: "form_style input_w2",
+                    attrs: { type: "text", name: "parts_num" },
+                    domProps: { value: _vm.details[index].parts_num },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "parts_num",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                  _vm._v("P"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _vm._v("制作組数"),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].production_setnum,
+                        expression: "details[index].production_setnum",
+                      },
+                    ],
+                    staticClass: "form_style input_w5",
+                    attrs: { type: "text", name: "production_setnum" },
+                    domProps: { value: _vm.details[index].production_setnum },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "production_setnum",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.details[index].production_setnum_unit,
+                          expression: "details[index].production_setnum_unit",
+                        },
+                      ],
+                      staticClass: "form_style",
+                      attrs: { name: "production_setnum_unit" },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.details[index],
+                            "production_setnum_unit",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "1" } }, [_vm._v("組")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2" } }, [_vm._v("帯")]),
+                    ]
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _vm._v("制作冊数"),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].production_volnum,
+                        expression: "details[index].production_volnum",
+                      },
+                    ],
+                    staticClass: "form_style input_w5",
+                    attrs: { type: "text", name: "production_volnum" },
+                    domProps: { value: _vm.details[index].production_volnum },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "production_volnum",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.details[index].production_volnum_unit,
+                          expression: "details[index].production_volnum_unit",
+                        },
+                      ],
+                      staticClass: "form_style",
+                      attrs: { name: "production_volnum_unit" },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.details[index],
+                            "production_volnum_unit",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "1" } }, [_vm._v("S")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2" } }, [_vm._v("冊")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "3" } }, [_vm._v("束")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "4" } }, [_vm._v("箱")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "5" } }, [_vm._v("枚")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "6" } }, [_vm._v("部")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "7" } }, [_vm._v("個")]),
+                    ]
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone mz_c1",
+                  attrs: { id: "printing_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "printing_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.OnButtonClickT("printing")
+                      },
+                    },
+                  },
+                  [_vm._v("印刷有り")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.details[index].printing,
+                      expression: "details[index].printing",
+                    },
+                  ],
+                  staticClass: "input_w1",
+                  attrs: {
+                    type: "text",
+                    value: "1",
+                    name: "printing",
+                    id: "printing",
+                  },
+                  domProps: { value: _vm.details[index].printing },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.details[index],
+                        "printing",
+                        $event.target.value
+                      )
+                    },
+                  },
+                }),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone mz_c1 v_hidden",
+                  attrs: { id: "inch_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "inch_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.OnButtonClick03("inch", 0, "unit")
+                      },
+                    },
+                  },
+                  [_vm._v("インチ")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone mz_c1 v_hidden",
+                  attrs: { id: "milli_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "milli_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.OnButtonClick03("milli", 0, "unit")
+                      },
+                    },
+                  },
+                  [_vm._v("ミリ")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.details[index].unit,
+                      expression: "details[index].unit",
+                    },
+                  ],
+                  staticClass: "input_w1",
+                  attrs: { type: "text", value: "0", name: "unit", id: "unit" },
+                  domProps: { value: _vm.details[index].unit },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.details[index], "unit", $event.target.value)
+                    },
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _vm._v("紙取"),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].papertray,
+                        expression: "details[index].papertray",
+                      },
+                    ],
+                    staticClass: "form_style input_w2",
+                    attrs: { type: "text", name: "papertray" },
+                    domProps: { value: _vm.details[index].papertray },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "papertray",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                  _vm._v("切"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _vm._v("\n          面付け...\n          "),
+                _c("label", [
+                  _vm._v("横"),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].imposition_w,
+                        expression: "details[index].imposition_w",
+                      },
+                    ],
+                    staticClass: "form_style input_w2",
+                    attrs: { type: "text", name: "imposition_w" },
+                    domProps: { value: _vm.details[index].imposition_w },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "imposition_w",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v("\n          ×\n          "),
+                _c("label", [
+                  _vm._v("縦"),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].imposition_h,
+                        expression: "details[index].imposition_h",
+                      },
+                    ],
+                    staticClass: "form_style input_w2",
+                    attrs: { type: "text", name: "imposition_h" },
+                    domProps: { value: _vm.details[index].imposition_h },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "imposition_h",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _vm._v("シリンダー\n          "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.details[index].cylinder,
+                          expression: "details[index].cylinder",
+                        },
+                      ],
+                      staticClass: "form_style",
+                      attrs: { name: "cylinder" },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.details[index],
+                            "cylinder",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "1 " } }, [_vm._v("10")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2 " } }, [
+                        _vm._v("10.5"),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "3 " } }, [_vm._v("11")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "4 " } }, [
+                        _vm._v("11.5"),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "5 " } }, [_vm._v("12")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "6 " } }, [_vm._v("13")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "7 " } }, [
+                        _vm._v("13.5"),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "8 " } }, [_vm._v("14")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "9 " } }, [_vm._v("15")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "10" } }, [_vm._v("16")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "11" } }, [_vm._v("17")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "12" } }, [_vm._v("18")]),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("label", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].cylinder_num,
+                        expression: "details[index].cylinder_num",
+                      },
+                    ],
+                    staticClass: "form_style input_w2",
+                    attrs: { type: "text", name: "cylinder_num" },
+                    domProps: { value: _vm.details[index].cylinder_num },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "cylinder_num",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                  _vm._v("本"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _vm._v("\n          サイズ...\n          "),
+                _c("label", [
+                  _vm._v("横"),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].size_w,
+                        expression: "details[index].size_w",
+                      },
+                    ],
+                    staticClass: "form_style input_w3",
+                    attrs: { type: "text", name: "size_w" },
+                    domProps: { value: _vm.details[index].size_w },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "size_w",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v("\n          ×\n          "),
+                _c("label", [
+                  _vm._v("縦"),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.details[index].size_h,
+                        expression: "details[index].size_h",
+                      },
+                    ],
+                    staticClass: "form_style input_w3",
+                    attrs: { type: "text", name: "size_h" },
+                    domProps: { value: _vm.details[index].size_h },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.details[index],
+                          "size_h",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.details[index].size_top,
+                      expression: "details[index].size_top",
+                    },
+                  ],
+                  staticClass: "form_style input_w2",
+                  attrs: { type: "text", name: "size_top" },
+                  domProps: { value: _vm.details[index].size_top },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.details[index],
+                        "size_top",
+                        $event.target.value
+                      )
+                    },
+                  },
+                }),
+                _vm._v("/"),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.details[index].size_bottom,
+                      expression: "details[index].size_bottom",
+                    },
+                  ],
+                  staticClass: "form_style input_w2",
+                  attrs: { type: "text", name: "size_bottom" },
+                  domProps: { value: _vm.details[index].size_bottom },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.details[index],
+                        "size_bottom",
+                        $event.target.value
+                      )
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("label", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.details[index].inch_fold,
+                          expression: "details[index].inch_fold",
+                        },
+                      ],
+                      staticClass: "form_style",
+                      attrs: { name: "inch_fold" },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.details[index],
+                            "inch_fold",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "1" } }, [_vm._v("4")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2" } }, [_vm._v("4.5")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "3" } }, [_vm._v("5")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "4" } }, [_vm._v("5.5")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "5" } }, [_vm._v("6")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "6" } }, [_vm._v("6.5")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "7" } }, [_vm._v("7")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "8" } }, [_vm._v("7.5")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "9" } }, [_vm._v("8")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "10" } }, [_vm._v("8.5")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "11" } }, [_vm._v("9")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "12" } }, [_vm._v("10")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "13" } }, [
+                        _vm._v("10.5"),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "14" } }, [_vm._v("11")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "15" } }, [
+                        _vm._v("11.5"),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "16" } }, [_vm._v("12")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "17" } }, [_vm._v("13")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "18" } }, [
+                        _vm._v("13.5"),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "19" } }, [_vm._v("14")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "20" } }, [_vm._v("15")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "21" } }, [_vm._v("16")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "22" } }, [_vm._v("17")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "23" } }, [_vm._v("18")]),
+                    ]
+                  ),
+                  _vm._v("\n          インチ折\n          "),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts1_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts1_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(1, "1P目")
+                      },
+                    },
+                  },
+                  [_vm._v("1P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts2_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts2_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(2, "2P目")
+                      },
+                    },
+                  },
+                  [_vm._v("2P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts3_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts3_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(3, "3P目")
+                      },
+                    },
+                  },
+                  [_vm._v("3P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts4_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts4_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(4, "4P目")
+                      },
+                    },
+                  },
+                  [_vm._v("4P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts5_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts5_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(5, "5P目")
+                      },
+                    },
+                  },
+                  [_vm._v("5P目")]
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts6_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts6_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(6, "6P目")
+                      },
+                    },
+                  },
+                  [_vm._v("6P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts7_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts7_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(7, "7P目")
+                      },
+                    },
+                  },
+                  [_vm._v("7P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts8_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts8_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(8, "8P目")
+                      },
+                    },
+                  },
+                  [_vm._v("8P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts9_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts9_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(9, "9P目")
+                      },
+                    },
+                  },
+                  [_vm._v("9P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts10_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts10_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(10, "10P目")
+                      },
+                    },
+                  },
+                  [_vm._v("10P目")]
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts11_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts11_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(11, "11P目")
+                      },
+                    },
+                  },
+                  [_vm._v("11P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts12_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts12_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(12, "12P目")
+                      },
+                    },
+                  },
+                  [_vm._v("12P目")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts_omote_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts13_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(13, "表紙")
+                      },
+                    },
+                  },
+                  [_vm._v("表紙")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts_ura_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts14_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(14, "裏表紙")
+                      },
+                    },
+                  },
+                  [_vm._v("裏表紙")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone2 mz_tc1 v_hidden",
+                  attrs: { id: "parts_mat_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "parts15_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SetParts(15, "下敷き")
+                      },
+                    },
+                  },
+                  [_vm._v("下敷き")]
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("label", [
+                  _c("span", { staticClass: "spanwidth_1" }, [
+                    _vm._v("コメント"),
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { attrs: { id: "strLen" } }, [_vm._v("0文字")]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    staticClass: "form_style_textarea",
+                    attrs: { name: "comment", rows: "4", id: "textarea1" },
+                    on: {
+                      keyup: function ($event) {
+                        return _vm.viewStrLen()
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+            ]),
+          ])
+        }),
+        _vm._v(" "),
+        _vm._m(3),
+        _vm._v(" "),
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "mglrauto" }, [
             _c(
               "button",
               {
-                attrs: { type: "button", id: "cost_btn" },
+                attrs: { type: "button", id: "setcal_btn" },
                 on: {
                   click: function ($event) {
-                    return _vm.CostBtn()
+                    return _vm.SetcalBtn()
                   },
                 },
               },
-              [_vm._v("原価一覧")]
+              [_vm._v("設定・計算")]
             ),
           ]),
         ]),
-      ]),
-      _vm._v(" "),
-      _vm._m(15),
-    ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mgt40", attrs: { id: "department01" } }, [
+          _c("div", { staticClass: "group" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("div", { staticClass: "inputgroup" }, [
+              _c(
+                "button",
+                {
+                  attrs: { type: "button", id: "cost_btn" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.CostBtn()
+                    },
+                  },
+                },
+                [_vm._v("原価一覧")]
+              ),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _vm._m(5),
+      ],
+      2
+    ),
     _vm._v(" "),
     _vm.partsview == true
       ? _c(
@@ -59370,334 +60238,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "inputgroup" }, [
         _c("button", [_vm._v("終了")]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("担当者")]),
-          _c("input", {
-            staticClass: "form_style",
-            attrs: { type: "text", name: "manager" },
-          }),
-          _c("span"),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先")]),
-          _c("input", {
-            staticClass: "form_style",
-            attrs: { type: "text", name: "customer_code" },
-          }),
-          _c("input", {
-            staticClass: "form_style",
-            attrs: { type: "text", name: "customer" },
-          }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [
-            _vm._v("エンドユーザー"),
-          ]),
-          _c("input", {
-            staticClass: "form_style input_w30",
-            attrs: { type: "text", name: "enduser" },
-          }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup" }, [
-        _c("label", [
-          _c("span", { staticClass: "spanwidth_8" }, [_vm._v("製品名")]),
-          _c("input", {
-            staticClass: "form_style input_w30",
-            attrs: { type: "text", name: "product" },
-          }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _c("label", [
-        _c("input", {
-          staticClass: "form_style input_w2",
-          attrs: { type: "text", name: "page_num" },
-        }),
-        _vm._v("P"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _c("label", [
-        _vm._v("制作組数"),
-        _c("input", {
-          staticClass: "form_style input_w5",
-          attrs: { type: "text", name: "production_setnum" },
-        }),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            staticClass: "form_style",
-            attrs: { name: "production_setnum_unit" },
-          },
-          [
-            _c("option", { attrs: { value: "" } }),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "組" } }, [_vm._v("組")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "帯" } }, [_vm._v("帯")]),
-          ]
-        ),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _c("label", [
-        _vm._v("制作冊数"),
-        _c("input", {
-          staticClass: "form_style input_w5",
-          attrs: { type: "text", name: "production_volnum" },
-        }),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            staticClass: "form_style",
-            attrs: { name: "production_volnum_unit" },
-          },
-          [
-            _c("option", { attrs: { value: "" } }),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "1" } }, [_vm._v("S")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "2" } }, [_vm._v("冊")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "3" } }, [_vm._v("束")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "4" } }, [_vm._v("箱")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "5" } }, [_vm._v("枚")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "6" } }, [_vm._v("部")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "7" } }, [_vm._v("個")]),
-          ]
-        ),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _c("label", [
-        _vm._v("紙取"),
-        _c("input", {
-          staticClass: "form_style input_w2",
-          attrs: { type: "text", name: "papertray" },
-        }),
-        _vm._v("切"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _vm._v("\n        面付け...\n        "),
-      _c("label", [
-        _vm._v("横"),
-        _c("input", {
-          staticClass: "form_style input_w2",
-          attrs: { type: "text", name: "imposition_w" },
-        }),
-      ]),
-      _vm._v("\n        ×\n        "),
-      _c("label", [
-        _vm._v("縦"),
-        _c("input", {
-          staticClass: "form_style input_w2",
-          attrs: { type: "text", name: "imposition_h" },
-        }),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "line" }, [
-      _c("div", { staticClass: "inputgroup" }, [
-        _c("label", [
-          _vm._v("シリンダー\n        "),
-          _c(
-            "select",
-            { staticClass: "form_style", attrs: { name: "cylinder" } },
-            [
-              _c("option", { attrs: { value: "" } }),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "1" } }, [_vm._v("10")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "2" } }, [_vm._v("10.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "3" } }, [_vm._v("11")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "4" } }, [_vm._v("11.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "5" } }, [_vm._v("12")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "6" } }, [_vm._v("13")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "7" } }, [_vm._v("13.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "8" } }, [_vm._v("14")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "9" } }, [_vm._v("15")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "10" } }, [_vm._v("16")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "11" } }, [_vm._v("17")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "12" } }, [_vm._v("18")]),
-            ]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("label", [
-          _c("input", {
-            staticClass: "form_style input_w2",
-            attrs: { type: "text", name: "cylinder_num" },
-          }),
-          _vm._v("本"),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "inputgroup" }, [
-        _vm._v("\n        サイズ...\n        "),
-        _c("label", [
-          _vm._v("横"),
-          _c("input", {
-            staticClass: "form_style input_w3",
-            attrs: { type: "text", name: "size_w" },
-          }),
-        ]),
-        _vm._v("\n        ×\n        "),
-        _c("label", [
-          _vm._v("縦"),
-          _c("input", {
-            staticClass: "form_style input_w3",
-            attrs: { type: "text", name: "size_h" },
-          }),
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form_style input_w2",
-          attrs: { type: "text", name: "size_top" },
-        }),
-        _vm._v("/"),
-        _c("input", {
-          staticClass: "form_style input_w2",
-          attrs: { type: "text", name: "size_bottom" },
-        }),
-        _vm._v(" "),
-        _c("label", [
-          _c(
-            "select",
-            { staticClass: "form_style", attrs: { name: "inch_fold" } },
-            [
-              _c("option", { attrs: { value: "" } }),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "1" } }, [_vm._v("4")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "2" } }, [_vm._v("4.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "3" } }, [_vm._v("5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "4" } }, [_vm._v("5.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "5" } }, [_vm._v("6")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "6" } }, [_vm._v("6.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "7" } }, [_vm._v("7")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "8" } }, [_vm._v("7.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "9" } }, [_vm._v("8")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "10" } }, [_vm._v("8.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "11" } }, [_vm._v("9")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "12" } }, [_vm._v("10")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "13" } }, [_vm._v("10.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "14" } }, [_vm._v("11")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "15" } }, [_vm._v("11.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "16" } }, [_vm._v("12")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "17" } }, [_vm._v("13")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "18" } }, [_vm._v("13.5")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "19" } }, [_vm._v("14")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "20" } }, [_vm._v("15")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "21" } }, [_vm._v("16")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "22" } }, [_vm._v("17")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "23" } }, [_vm._v("18")]),
-            ]
-          ),
-          _vm._v("\n        インチ折\n        "),
-        ]),
       ]),
     ])
   },
@@ -66233,9 +66773,22 @@ var render = function () {
       _vm._v(" "),
       _vm.searchview === "mit"
         ? _c("div", { staticClass: "line mgt20" }, [
-            _vm._m(1),
+            _c("div", { staticClass: "inputgroup" }, [
+              _c(
+                "button",
+                {
+                  attrs: { type: "button", id: "search_quo_btn" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.QuoClick()
+                    },
+                  },
+                },
+                [_vm._v("見積編集")]
+              ),
+            ]),
             _vm._v(" "),
-            _vm._m(2),
+            _vm._m(1),
             _vm._v(" "),
             _c("div", { staticClass: "inputgroup" }, [
               _c(
@@ -66295,7 +66848,7 @@ var render = function () {
           _vm.searchview === "doc"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quodoc" } }, [
-                  _vm._m(3),
+                  _vm._m(2),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -66348,7 +66901,7 @@ var render = function () {
           _vm.searchview === "mit"
             ? _c("div", { attrs: { id: "search_result" } }, [
                 _c("table", { attrs: { id: "quomit" } }, [
-                  _vm._m(4),
+                  _vm._m(3),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -66473,18 +67026,18 @@ var render = function () {
     _vm._v(" "),
     _vm.printview === "2"
       ? _c("div", { attrs: { id: "print2zone" } }, [
-          _vm._m(5),
+          _vm._m(4),
           _vm._v(" "),
           _c("div", { attrs: { id: "print2_main" } }, [
+            _vm._m(5),
+            _vm._v(" "),
             _vm._m(6),
             _vm._v(" "),
             _vm._m(7),
             _vm._v(" "),
-            _vm._m(8),
-            _vm._v(" "),
             _c("div", { staticClass: "mgt20", attrs: { id: "p2_tbl" } }, [
               _c("table", [
-                _vm._m(9),
+                _vm._m(8),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -66566,9 +67119,9 @@ var render = function () {
               ]),
             ]),
             _vm._v(" "),
-            _vm._m(10),
+            _vm._m(9),
             _vm._v(" "),
-            _vm._m(11),
+            _vm._m(10),
           ]),
           _vm._v(" "),
           _c(
@@ -66611,14 +67164,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { id: "cnt_title_search" } }, [
       _c("h3", { staticClass: "print-none" }, [_vm._v("見積検索")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inputgroup" }, [
-      _c("button", [_vm._v("見積編集")]),
     ])
   },
   function () {

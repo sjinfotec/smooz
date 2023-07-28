@@ -31,213 +31,215 @@
           <button>終了</button>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="spanwidth_8">担当者</span><input type="text" class="form_style" name="manager"><span></span></label>
+      <div v-for="(item,index) in details" v-bind:key="item.id">
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="spanwidth_8">担当者</span><input type="text" class="form_style" v-model="details[index].manager" name="manager"><span></span></label>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="spanwidth_8">得意先</span><input type="text" class="form_style" name="customer_code"><input type="text" class="form_style" name="customer"></label>
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="spanwidth_8">得意先</span><input type="text" class="form_style" v-model="details[index].customer_code" name="customer_code"><input type="text" class="form_style" v-model="details[index].customer" name="customer"></label>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w30" name="enduser"></label>
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w30" v-model="details[index].enduser" name="enduser"></label>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w30" name="product"></label>
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w30" v-model="details[index].product" name="product"></label>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><input type="text" class="form_style input_w2" name="page_num">P</label>
+        <div class="line">
+          <div class="inputgroup">
+            <label><input type="text" class="form_style input_w2" v-model="details[index].parts_num" name="parts_num">P</label>
+          </div>
+          <div class="inputgroup">
+            <label>制作組数<input type="text" class="form_style input_w5" v-model="details[index].production_setnum" name="production_setnum">
+            <select name="production_setnum_unit" v-model="details[index].production_setnum_unit" class="form_style">
+            <option value=""></option>
+            <option value="1">組</option>
+            <option value="2">帯</option>
+            </select>
+            </label>
+          </div>
+          <div class="inputgroup">
+            <label>制作冊数<input type="text" class="form_style input_w5" v-model="details[index].production_volnum" name="production_volnum">
+            <select name="production_volnum_unit" v-model="details[index].production_volnum_unit" class="form_style">
+            <option value=""></option>
+            <option value="1">S</option>
+            <option value="2">冊</option>
+            <option value="3">束</option>
+            <option value="4">箱</option>
+            <option value="5">枚</option>
+            <option value="6">部</option>
+            <option value="7">個</option>
+            </select>
+            </label>
+          </div>
+          <div class="inputgroup">
+            <span id="printing_mark" class="markzone mz_c1"></span>
+            <button type="button" id="printing_btn" @click="OnButtonClickT('printing');">印刷有り</button>
+            <input type="text" class="input_w1" value="1" v-model="details[index].printing"  name="printing" id="printing">
+          </div>
         </div>
-        <div class="inputgroup">
-          <label>制作組数<input type="text" class="form_style input_w5" name="production_setnum">
-          <select name="production_setnum_unit" class="form_style">
-          <option value=""></option>
-          <option value="組">組</option>
-          <option value="帯">帯</option>
-          </select>
-          </label>
+        <div class="line">
+          <div class="inputgroup">
+            <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="inch_btn" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
+          </div>
+          <div class="inputgroup">
+            <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="milli_btn" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
+            <input type="text" class="input_w1" value="0" v-model="details[index].unit" name="unit" id="unit">
+          </div>
+          <div class="inputgroup">
+            <label>紙取<input type="text" class="form_style input_w2" v-model="details[index].papertray" name="papertray">切</label>
+          </div>
+          <div class="inputgroup">
+            面付け...
+            <label>横<input type="text" class="form_style input_w2" v-model="details[index].imposition_w" name="imposition_w"></label>
+            ×
+            <label>縦<input type="text" class="form_style input_w2" v-model="details[index].imposition_h" name="imposition_h"></label>
+          </div>
         </div>
-        <div class="inputgroup">
-          <label>制作冊数<input type="text" class="form_style input_w5" name="production_volnum">
-          <select name="production_volnum_unit" class="form_style">
-          <option value=""></option>
-          <option value="1">S</option>
-          <option value="2">冊</option>
-          <option value="3">束</option>
-          <option value="4">箱</option>
-          <option value="5">枚</option>
-          <option value="6">部</option>
-          <option value="7">個</option>
-          </select>
-          </label>
+        <div class="line">
+          <div class="inputgroup">
+            <label>シリンダー
+            <select name="cylinder" class="form_style" v-model="details[index].cylinder">
+            <option value=""></option>
+            <option value="1 ">10</option>
+            <option value="2 ">10.5</option>
+            <option value="3 ">11</option>
+            <option value="4 ">11.5</option>
+            <option value="5 ">12</option>
+            <option value="6 ">13</option>
+            <option value="7 ">13.5</option>
+            <option value="8 ">14</option>
+            <option value="9 ">15</option>
+            <option value="10">16</option>
+            <option value="11">17</option>
+            <option value="12">18</option>
+            </select>
+            </label>
+            <label><input type="text" class="form_style input_w2" v-model="details[index].cylinder_num" name="cylinder_num">本</label>
+          </div>
+          <div class="inputgroup">
+            サイズ...
+            <label>横<input type="text" class="form_style input_w3" v-model="details[index].size_w" name="size_w"></label>
+            ×
+            <label>縦<input type="text" class="form_style input_w3" v-model="details[index].size_h" name="size_h"></label>
+            <input type="text" class="form_style input_w2" v-model="details[index].size_top" name="size_top">/<input type="text" class="form_style input_w2" v-model="details[index].size_bottom" name="size_bottom">
+            <label>
+            <select name="inch_fold" class="form_style" v-model="details[index].inch_fold">
+            <option value=""></option>
+            <option value="1">4</option>
+            <option value="2">4.5</option>
+            <option value="3">5</option>
+            <option value="4">5.5</option>
+            <option value="5">6</option>
+            <option value="6">6.5</option>
+            <option value="7">7</option>
+            <option value="8">7.5</option>
+            <option value="9">8</option>
+            <option value="10">8.5</option>
+            <option value="11">9</option>
+            <option value="12">10</option>
+            <option value="13">10.5</option>
+            <option value="14">11</option>
+            <option value="15">11.5</option>
+            <option value="16">12</option>
+            <option value="17">13</option>
+            <option value="18">13.5</option>
+            <option value="19">14</option>
+            <option value="20">15</option>
+            <option value="21">16</option>
+            <option value="22">17</option>
+            <option value="23">18</option>
+            </select>
+            インチ折
+            </label>
+            
+          </div>
         </div>
-        <div class="inputgroup">
-          <span id="printing_mark" class="markzone mz_c1"></span>
-          <button type="button" id="printing_btn" @click="OnButtonClickT('printing');">印刷有り</button>
-          <input type="text" class="input_w1" value="1" name="printing" id="printing">
+        <div class="line">
+          <div class="inputgroup">
+            <span id="parts1_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts1_btn" @click="SetParts(1,'1P目');">1P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts2_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts2_btn" @click="SetParts(2,'2P目');">2P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts3_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts3_btn" @click="SetParts(3,'3P目');">3P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts4_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts4_btn" @click="SetParts(4,'4P目');">4P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts5_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts5_btn" @click="SetParts(5,'5P目');">5P目</button>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="inch_btn" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
+        <div class="line">
+          <div class="inputgroup">
+            <span id="parts6_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts6_btn" @click="SetParts(6,'6P目');">6P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts7_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts7_btn" @click="SetParts(7,'7P目');">7P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts8_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts8_btn" @click="SetParts(8,'8P目');">8P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts9_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts9_btn" @click="SetParts(9,'9P目');">9P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts10_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts10_btn" @click="SetParts(10,'10P目');">10P目</button>
+          </div>
         </div>
-        <div class="inputgroup">
-          <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="milli_btn" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
-          <input type="text" class="input_w1" value="0" name="unit" id="unit">
-        </div>
-        <div class="inputgroup">
-          <label>紙取<input type="text" class="form_style input_w2" name="papertray">切</label>
-        </div>
-        <div class="inputgroup">
-          面付け...
-          <label>横<input type="text" class="form_style input_w2" name="imposition_w"></label>
-          ×
-          <label>縦<input type="text" class="form_style input_w2" name="imposition_h"></label>
-        </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label>シリンダー
-          <select name="cylinder" class="form_style">
-          <option value=""></option>
-          <option value="1">10</option>
-          <option value="2">10.5</option>
-          <option value="3">11</option>
-          <option value="4">11.5</option>
-          <option value="5">12</option>
-          <option value="6">13</option>
-          <option value="7">13.5</option>
-          <option value="8">14</option>
-          <option value="9">15</option>
-          <option value="10">16</option>
-          <option value="11">17</option>
-          <option value="12">18</option>
-          </select>
-          </label>
-          <label><input type="text" class="form_style input_w2" name="cylinder_num">本</label>
-        </div>
-        <div class="inputgroup">
-          サイズ...
-          <label>横<input type="text" class="form_style input_w3" name="size_w"></label>
-          ×
-          <label>縦<input type="text" class="form_style input_w3" name="size_h"></label>
-          <input type="text" class="form_style input_w2" name="size_top">/<input type="text" class="form_style input_w2" name="size_bottom">
-          <label>
-          <select name="inch_fold" class="form_style">
-          <option value=""></option>
-          <option value="1">4</option>
-          <option value="2">4.5</option>
-          <option value="3">5</option>
-          <option value="4">5.5</option>
-          <option value="5">6</option>
-          <option value="6">6.5</option>
-          <option value="7">7</option>
-          <option value="8">7.5</option>
-          <option value="9">8</option>
-          <option value="10">8.5</option>
-          <option value="11">9</option>
-          <option value="12">10</option>
-          <option value="13">10.5</option>
-          <option value="14">11</option>
-          <option value="15">11.5</option>
-          <option value="16">12</option>
-          <option value="17">13</option>
-          <option value="18">13.5</option>
-          <option value="19">14</option>
-          <option value="20">15</option>
-          <option value="21">16</option>
-          <option value="22">17</option>
-          <option value="23">18</option>
-          </select>
-          インチ折
-          </label>
-          
-        </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <span id="parts1_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts1_btn" @click="SetParts(1,'1P目');">1P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts2_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts2_btn" @click="SetParts(2,'2P目');">2P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts3_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts3_btn" @click="SetParts(3,'3P目');">3P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts4_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts4_btn" @click="SetParts(4,'4P目');">4P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts5_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts5_btn" @click="SetParts(5,'5P目');">5P目</button>
-        </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <span id="parts6_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts6_btn" @click="SetParts(6,'6P目');">6P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts7_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts7_btn" @click="SetParts(7,'7P目');">7P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts8_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts8_btn" @click="SetParts(8,'8P目');">8P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts9_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts9_btn" @click="SetParts(9,'9P目');">9P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts10_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts10_btn" @click="SetParts(10,'10P目');">10P目</button>
-        </div>
-      </div>
 
-      <div class="line">
-        <div class="inputgroup">
-          <span id="parts11_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts11_btn" @click="SetParts(11,'11P目');">11P目</button>
+        <div class="line">
+          <div class="inputgroup">
+            <span id="parts11_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts11_btn" @click="SetParts(11,'11P目');">11P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts12_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts12_btn" @click="SetParts(12,'12P目');">12P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts_omote_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts13_btn" @click="SetParts(13,'表紙');">表紙</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts_ura_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts14_btn" @click="SetParts(14,'裏表紙');">裏表紙</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts_mat_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts15_btn" @click="SetParts(15,'下敷き');">下敷き</button>
+          </div>
         </div>
-        <div class="inputgroup">
-          <span id="parts12_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts12_btn" @click="SetParts(12,'12P目');">12P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts_omote_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts13_btn" @click="SetParts(13,'表紙');">表紙</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts_ura_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts14_btn" @click="SetParts(14,'裏表紙');">裏表紙</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts_mat_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts15_btn" @click="SetParts(15,'下敷き');">下敷き</button>
-        </div>
-      </div>
 
-      <div id="department01" class="mgt40">
-        <div class="inputgroup">
-          <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
-          <textarea name="comment" class="form_style_textarea" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
-          </label>
-        </div>
-      </div><!--end department01-->
+        <div id="department01" class="mgt40">
+          <div class="inputgroup">
+            <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
+            <textarea name="comment" class="form_style_textarea" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
+            </label>
+          </div>
+        </div><!--end department01-->
+      </div><!--end v-for-->
 
 
       <div class="line mgt40">
@@ -356,9 +358,32 @@ export default {
     this.getItem();
     //this.login_user_code = this.authusers["code"];
     //this.login_user_role = this.authusers["role"];
+    window.onload = () => {
+      //alert("ページが読み込まれました");
+      //console.log('window.onload');
+      const timeout = '3000';
+      setTimeout(() => {
+        this.FirstExec();
+      }, timeout);
+      
+      
+    };
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('addEventListener');
+      //this.FirstExec();
+
+    });
+
   },
   methods: {
     // -------------------- イベント処理 --------------------
+    FirstExec() {
+      console.log('FirstExec in ');
+      this.OnButtonClickTLoad('printing');
+      this.OnButtonClick03Load('', 0, 'unit');
+      this.viewStrLen();
+    },
+
     OnButtonClick(t) {
       var tm = t + '_mark';
       var inputid = document.getElementById(t);
@@ -381,12 +406,13 @@ export default {
       var inputvalue = inputid.value;
       var targetid = document.getElementById(tm);
       var btnid = document.getElementById(tb);
+      //console.log('OnButtonClickT in inputvalue = ' + inputvalue);
       if (inputvalue == "1") { 
         targetid.style.visibility = "hidden";
         inputid.value = "0";
         btnid.innerHTML = "通し無し";
       }
-      else if (inputvalue == "0") {
+      else if (inputvalue == "0" || inputvalue == "") {
         targetid.style.visibility = "visible";
         inputid.value = "2";
         btnid.innerHTML = "通し有り";
@@ -395,6 +421,27 @@ export default {
         targetid.style.visibility = "visible";
         inputid.value = "1";
         btnid.innerHTML = "印刷有り";
+      }
+    },
+    OnButtonClickTLoad(t) {
+      var tm = t + '_mark';
+      var tb = t + '_btn';
+      var inputid = document.getElementById(t);
+      var inputvalue = inputid.value;
+      var targetid = document.getElementById(tm);
+      var btnid = document.getElementById(tb);
+      console.log('OnButtonClickTLoad in inputvalue = ' + inputvalue);
+      if (inputvalue == "1") { 
+        targetid.style.visibility = "visible";
+        btnid.innerHTML = "印刷有り";
+      }
+      else if (inputvalue == "2") {
+        targetid.style.visibility = "visible";
+        btnid.innerHTML = "通し有り";
+      }
+      else  {
+        targetid.style.visibility = "hidden";
+        btnid.innerHTML = "通し無し";
       }
     },
 
@@ -532,6 +579,23 @@ export default {
         } 
       }
     },
+    OnButtonClick03Load(t,arr,t2) {
+      let idname_array = new Object(); 
+      idname_array[0] = {'1':'inch', '2':'milli'};
+
+      var inputid = document.getElementById(t2);
+      var inputvalue = inputid.value;
+
+      if(inputvalue >= 1){
+        var n = idname_array[arr][inputvalue];
+        var nm = n + '_mark';
+        var targetid = document.getElementById(nm);
+        targetid.style.visibility = "visible";
+
+      }
+
+
+    },
 
     SetParts(pnum,pname) {
       const tid = "cnt1";
@@ -644,6 +708,8 @@ export default {
       this.postRequest("/qsearch/get", arrayParams)
         .then(response  => {
           this.putThenSearch(response, motion_msg);
+          //this.OnButtonClickT('printing');
+          //this.FirstExec();
         })
         .catch(reason => {
           this.serverCatch("quotations取得");
@@ -691,7 +757,8 @@ export default {
       var res = response.data;
       if (res.details.length > 0) {
           this.details = res.details;
-          this.details_parts = res.details_parts;
+          //this.details_parts = res.details_parts;
+
           //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
           //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
           //if (res.search_totals) {
@@ -718,6 +785,7 @@ export default {
           this.serverCatch(eventtext);
         }
       }
+
     },
 
     // パーツ取得正常処理
@@ -749,8 +817,9 @@ export default {
       var messages = [];
       //messages.push("" + eventtext + "に失敗しました");
       //this.htmlMessageSwal("エラー", messages, "error", true, false);
-      console.log('異常処理');
+      console.log('異常処理 -> ' + eventtext);
     },
+
   }
 };
 </script>

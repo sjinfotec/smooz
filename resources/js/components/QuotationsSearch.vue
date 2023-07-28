@@ -48,7 +48,7 @@
 
       <div class="line mgt20" v-if="searchview === 'mit'">
         <div class="inputgroup">
-          <button>見積編集</button>
+          <button type="button" id="search_quo_btn" @click="QuoClick();">見積編集</button>
         </div>
         <div class="inputgroup">
           <button style="pointer-events: none;" disabled>受注</button>
@@ -584,6 +584,31 @@ export default {
 
 
     },
+    // 見積編集Click
+    QuoClick() {
+      const element = document.getElementById( "searchform" ) ;
+      var radioNodeList = element.m_codes ;
+      //console.log( 'radioNodeList = ' + radioNodeList ) ;
+
+      //if (typeof a === "undefined") {
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      }
+      else {
+        var vvmc = radioNodeList.value ;
+        if ( vvmc === "" ) {
+          alert('検索結果一覧より見積を選択して下さい。');
+          
+        } else {
+          //console.log( vvmc ) ;
+          this.m_code = this.details[vvmc]['m_code'];
+          console.log('m_code:' + this.m_code);
+          window.location.href = '/quotations?s_m_code=' + this.m_code;
+
+        }
+      }
+    },
+    // 内容Click
     ContentsClick() {
       const element = document.getElementById( "searchform" ) ;
       var radioNodeList = element.m_codes ;
