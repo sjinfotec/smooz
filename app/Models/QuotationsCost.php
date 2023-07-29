@@ -460,7 +460,12 @@ class QuotationsCost extends Model
 	}
 
 
-		// ----------------------  メソッド ---------------------------------
+	// ----------------------  メソッド ---------------------------------
+	// 見積番号
+	private $param_m_code;
+	public function getParamM_codeAttribute(){ return $this->param_m_code;}
+	public function setParamM_codeAttribute($value){  $this->param_m_code = $value;}
+	
 
 		/**
      * import
@@ -494,4 +499,98 @@ class QuotationsCost extends Model
 					throw $e;
 			}
 		}
+
+
+	/**
+     * 発送・費用・外注取得
+     *
+     * @return void
+     */
+    public function getSearch(){
+
+        $searchgo = false;
+        if(!empty($this->param_m_code)) $searchgo = true;
+
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ->select(
+
+				'id',
+				'm_code',
+				'send_city',
+				'send_in_dou',
+				'send_out_dou',
+				'send_out_dou_yen',
+				'send_all',
+				'send_subtotal',
+				'inside_hand_work',
+				'inside_insourcing_cost',
+				'outside_job1',
+				'outside_job1_outsou',
+				'outside_job1_outsou_cost',
+				'outside_job2',
+				'outside_job2_outsou',
+				'outside_job2_outsou_cost',
+				'outside_subtotal',
+				'addition_cost1',
+				'addition_cost1_buy',
+				'addition_cost2',
+				'addition_cost2_buy',
+				'addition_cost3',
+				'addition_cost3_buy',
+				'addition_cost4',
+				'addition_cost4_buy',
+				'addition_cost5',
+				'addition_cost5_buy',
+				'addition_subtotal',
+				'product_all_outsou1',
+				'product_all_outsou1_cost',
+				'product_all_outsou2',
+				'product_all_outsou2_cost',
+				'product_all_outsou3',
+				'product_all_outsou3_cost',
+				'product_all_subtotal',
+				'created_user',
+				'updated_user',
+				'created_at',
+				'updated_at',
+				'is_deleted'
+								
+            )
+            //->selectRaw('DATE_FORMAT(create_date, "%Y年%m月%d日") AS f_create_date')
+            //->selectRaw('DATE_FORMAT(lastorder_date, "%Y年%m月%d日") AS f_lastorder_date')
+            //->selectRaw('FORMAT(production_volnum, 0) AS f_production_volnum')
+            //->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
+            ;
+            if(!empty($this->param_m_code)){
+                //Log::info("getSearch this->param_m_code -- ".$this->param_m_code);
+                $data->where('m_code', $this->param_m_code)
+                ->orderBy('id', 'DESC');
+            }
+
+            if($searchgo) {
+                $result = $data
+                ->get();
+
+            }
+
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+
+    }
+
+
+
+
+
 }

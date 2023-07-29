@@ -3,7 +3,7 @@
     <div id="cnt_title1">
       <h3>見積作成</h3>
     </div>
-    <div id="cnt1" >
+    <div id="cnt1" v-if="select_html == 'edit_view'">
       <div id="department01">
         <div class="cate"><h4>基本項目</h4></div>
       </div>
@@ -328,10 +328,12 @@ export default {
     return {
       details: [],
       details_parts: [],
+      index: 0,
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
       messageshowsearch: false,
+      result: false,
 
       event_title: "",
       actionmsgArr: [],
@@ -350,7 +352,9 @@ export default {
       targetid: "",
       pagenum: "",
       pagename: "",
-      inputtextid: ""
+      inputtextid: "",
+      select_html: "",
+
     };
   },
   // マウント時
@@ -363,15 +367,16 @@ export default {
       //console.log('window.onload');
       const timeout = '3000';
       setTimeout(() => {
-        this.FirstExec();
+        if(this.result) {
+          this.FirstExec();
+        }
       }, timeout);
       
       
     };
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('addEventListener');
+      //console.log('addEventListener');
       //this.FirstExec();
-
     });
 
   },
@@ -708,8 +713,6 @@ export default {
       this.postRequest("/qsearch/get", arrayParams)
         .then(response  => {
           this.putThenSearch(response, motion_msg);
-          //this.OnButtonClickT('printing');
-          //this.FirstExec();
         })
         .catch(reason => {
           this.serverCatch("quotations取得");
@@ -776,6 +779,8 @@ export default {
           //console.log("putThenSearch in res.s_customer = " + res.s_customer);
           this.$toasted.show(this.event_title + " " + eventtext + "しました");
           //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+          this.result = res.result;
+          this.select_html = "edit_view";
       } else {
           //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
           this.details = [];
@@ -817,7 +822,7 @@ export default {
       var messages = [];
       //messages.push("" + eventtext + "に失敗しました");
       //this.htmlMessageSwal("エラー", messages, "error", true, false);
-      console.log('異常処理 -> ' + eventtext);
+      console.log('処理未完 -> ' + eventtext);
     },
 
   }

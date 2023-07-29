@@ -627,6 +627,12 @@ class QuotationsBinding extends Model
 
 
 	// ----------------------  メソッド ---------------------------------
+    // 見積番号
+    private $param_m_code;
+    public function getParamM_codeAttribute(){ return $this->param_m_code;}
+    public function setParamM_codeAttribute($value){  $this->param_m_code = $value;}
+
+
 
 	/**
 	 * import
@@ -661,6 +667,109 @@ class QuotationsBinding extends Model
 		}
 	}
 
+
+	/**
+     * 製本取得
+     *
+     * @return void
+     */
+    public function getSearch(){
+
+        $searchgo = false;
+        if(!empty($this->param_m_code)) $searchgo = true;
+
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ->select(
+
+				'id',
+				'm_code',
+				'sei_time',
+				'sei_chouai',
+				'sei_chouai_outsou',
+				'sei_chouai_outsou_cost',
+				'sei_dansai',
+				'sei_dansai_outsou',
+				'sei_dansai_outsou_cost',
+				'sei_marble',
+				'sei_cross',
+				'sei_mat_maki_cardboard',
+				'sei_mat_cardboard',
+				'sei_nori',
+				'sei_tsuduri',
+				'sei_kurumi',
+				'sei_laminate',
+				'sei_laminate_through',
+				'sei_buster',
+				'sei_crimping',
+				'sei_musen_tozi',
+				'sei_musen_tozi_outsou',
+				'sei_musen_tozi_outsou_cost',
+				'sei_naka_tozi',
+				'sei_naka_tozi_outsou',
+				'sei_naka_tozi_outsou_cost',
+				'sei_sashikomi',
+				'sei_sashikomi_outsou',
+				'sei_sashikomi_outsou_cost',
+				'sei_ana',
+				'sei_part',
+				'sei_donko',
+				'sei_ori_w',
+				'sei_ori_h',
+				'sei_obi',
+				'sei_bara',
+				'sei_oneset',
+				'sei_obake',
+				'sei_otoshi',
+				'sei_otoshi_part',
+				'sei_package',
+				'sei_package_num',
+				'sei_box',
+				'sei_box_num',
+				'sei_a_system',
+				'sei_c_system',
+				'sei_vinyl',
+				'sei_all_outsou',
+				'sei_all_outsou_cost',
+				'sei_subtotal',
+				'created_user',
+				'updated_user',
+				'created_at',
+				'updated_at',
+				'is_deleted'
+				
+            )
+            //->selectRaw('DATE_FORMAT(create_date, "%Y年%m月%d日") AS f_create_date')
+            //->selectRaw('DATE_FORMAT(lastorder_date, "%Y年%m月%d日") AS f_lastorder_date')
+            //->selectRaw('FORMAT(production_volnum, 0) AS f_production_volnum')
+            //->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
+            ;
+            if(!empty($this->param_m_code)){
+                //Log::info("getSearch this->param_m_code -- ".$this->param_m_code);
+                $data->where('m_code', $this->param_m_code)
+                ->orderBy('id', 'DESC');
+            }
+
+            if($searchgo) {
+                $result = $data
+                ->get();
+
+            }
+
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+
+    }
 
 
 }
