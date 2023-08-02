@@ -58,27 +58,27 @@ class QuotationsDepartmentController extends Controller
 
 
             $general_code = new Generalcode();
-            $general_code->setParamIdentificationidAttribute('S001');
-            $select_arr_s001 =  $general_code->getItem();
-            $general_code->setParamIdentificationidAttribute('S002');
-            $select_arr_s002 =  $general_code->getItem();
-            $general_code->setParamIdentificationidAttribute('S003');
-            $select_arr_s003 =  $general_code->getItem();
-            $general_code->setParamIdentificationidAttribute('S004');
-            $select_arr_s004 =  $general_code->getItem();
-            $general_code->setParamIdentificationidAttribute('S005');
-            $select_arr_s005 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S006');   // 版下
+            $select_arr_s006 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S007');   // 種別
+            $select_arr_s007 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S008');   // 難度
+            $select_arr_s008 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S009');   // インクジェット
+            $select_arr_s009 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S010');   // ネームライナー
+            $select_arr_s010 =  $general_code->getItem();
 
             return response()->json(
                 [
                     'result' => $result, 
                     'details' => $details, 
                     's_m_code' => $s_m_code, 
-                    'select_arr_s001' => $select_arr_s001,
-                    'select_arr_s002' => $select_arr_s002,
-                    'select_arr_s003' => $select_arr_s003,
-                    'select_arr_s004' => $select_arr_s004,
-                    'select_arr_s005' => $select_arr_s005,
+                    'select_arr_s006' => $select_arr_s006,
+                    'select_arr_s007' => $select_arr_s007,
+                    'select_arr_s008' => $select_arr_s008,
+                    'select_arr_s009' => $select_arr_s009,
+                    'select_arr_s010' => $select_arr_s010,
                     Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
                 ]
             );

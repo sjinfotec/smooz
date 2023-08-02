@@ -397,6 +397,13 @@ export default {
   },
   methods: {
     // -------------------- イベント処理 --------------------
+    FirstExec() {
+      console.log('FirstExec in ');
+      this.OnButtonClickTLoad('printing');
+      this.OnButtonClick03Load('', 0, 'unit');
+      //this.viewStrLen();
+    },
+
     OnButtonClick(t) {
       var tm = t + '_mark';
       var inputid = document.getElementById(t);
@@ -670,7 +677,7 @@ export default {
     // 見積を取得
     getItem: function() {
       console.log('getItem in props s_m_code = ' + this.s_m_code);
-      var motion_msg = "見積ー製本取得";
+      var motion_msg = "見積 ー 製本取得";
       var arrayParams = { 
         s_m_code : this.s_m_code , 
 
@@ -680,7 +687,7 @@ export default {
           this.getThen(response, motion_msg);
         })
         .catch(reason => {
-          this.serverCatch("quotations取得");
+          this.serverCatch("quotationsBinding取得");
         });
 
     },

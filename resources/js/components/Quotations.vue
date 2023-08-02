@@ -60,8 +60,7 @@
             <label>制作組数<input type="text" class="form_style input_w5" v-model="details[index].production_setnum" name="production_setnum">
             <select name="production_setnum_unit" v-model="details[index].production_setnum_unit" class="form_style">
             <option value=""></option>
-            <option value="1">組</option>
-            <option value="2">帯</option>
+            <option v-for="(s001,indexs001) in select_arr_s001" v-bind:value="s001.code" >{{ s001.code_name }}</option>
             </select>
             </label>
           </div>
@@ -69,13 +68,7 @@
             <label>制作冊数<input type="text" class="form_style input_w5" v-model="details[index].production_volnum" name="production_volnum">
             <select name="production_volnum_unit" v-model="details[index].production_volnum_unit" class="form_style">
             <option value=""></option>
-            <option value="1">S</option>
-            <option value="2">冊</option>
-            <option value="3">束</option>
-            <option value="4">箱</option>
-            <option value="5">枚</option>
-            <option value="6">部</option>
-            <option value="7">個</option>
+            <option v-for="(s002,indexs002) in select_arr_s002" v-bind:value="s002.code" >{{ s002.code_name }}</option>
             </select>
             </label>
           </div>
@@ -108,20 +101,9 @@
         <div class="line">
           <div class="inputgroup">
             <label>シリンダー
-            <select name="cylinder" class="form_style" v-model="details[index].cylinder">
+            <select name="cylinder" class="form_style" v-model.trim="details[index].cylinder">
             <option value=""></option>
-            <option value="1 ">10</option>
-            <option value="2 ">10.5</option>
-            <option value="3 ">11</option>
-            <option value="4 ">11.5</option>
-            <option value="5 ">12</option>
-            <option value="6 ">13</option>
-            <option value="7 ">13.5</option>
-            <option value="8 ">14</option>
-            <option value="9 ">15</option>
-            <option value="10">16</option>
-            <option value="11">17</option>
-            <option value="12">18</option>
+            <option v-for="(s004,indexs004) in select_arr_s004" v-bind:value="s004.code" :key="s004.code">{{ s004.code_name }}</option>
             </select>
             </label>
             <label><input type="text" class="form_style input_w2" v-model="details[index].cylinder_num" name="cylinder_num">本</label>
@@ -133,31 +115,9 @@
             <label>縦<input type="text" class="form_style input_w3" v-model="details[index].size_h" name="size_h"></label>
             <input type="text" class="form_style input_w2" v-model="details[index].size_top" name="size_top">/<input type="text" class="form_style input_w2" v-model="details[index].size_bottom" name="size_bottom">
             <label>
-            <select name="inch_fold" class="form_style" v-model="details[index].inch_fold">
+            <select name="inch_fold" class="form_style" v-model.trim="details[index].inch_fold">
             <option value=""></option>
-            <option value="1">4</option>
-            <option value="2">4.5</option>
-            <option value="3">5</option>
-            <option value="4">5.5</option>
-            <option value="5">6</option>
-            <option value="6">6.5</option>
-            <option value="7">7</option>
-            <option value="8">7.5</option>
-            <option value="9">8</option>
-            <option value="10">8.5</option>
-            <option value="11">9</option>
-            <option value="12">10</option>
-            <option value="13">10.5</option>
-            <option value="14">11</option>
-            <option value="15">11.5</option>
-            <option value="16">12</option>
-            <option value="17">13</option>
-            <option value="18">13.5</option>
-            <option value="19">14</option>
-            <option value="20">15</option>
-            <option value="21">16</option>
-            <option value="22">17</option>
-            <option value="23">18</option>
+            <option v-for="(s005,indexs005) in select_arr_s005" v-bind:value="s005.code" :key="s005.code">{{ s005.code_name }}</option>
             </select>
             インチ折
             </label>
@@ -705,7 +665,7 @@ export default {
     // 見積を取得
     getItem: function() {
       console.log('getItem in props s_m_code = ' + this.s_m_code);
-      var motion_msg = "見積取得";
+      var motion_msg = "見積取得 ー 基本項目";
       var arrayParams = { 
         s_m_code : this.s_m_code , 
 

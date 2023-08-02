@@ -381,11 +381,11 @@ export default {
 
       event_title: "",
       actionmsgArr: [],
-      select_arr_s001: [],
-      select_arr_s002: [],
-      select_arr_s003: [],
-      select_arr_s004: [],
-      select_arr_s005: [],
+      select_arr_s006: [],
+      select_arr_s007: [],
+      select_arr_s008: [],
+      select_arr_s009: [],
+      select_arr_s010: [],
 
 
       partsview: false,
@@ -414,6 +414,13 @@ export default {
   },
   methods: {
     // -------------------- イベント処理 --------------------
+    FirstExec() {
+      console.log('FirstExec in ');
+      this.OnButtonClickTLoad('printing');
+      this.OnButtonClick03Load('', 0, 'unit');
+      //this.viewStrLen();
+    },
+
     OnButtonClick(t) {
       var tm = t + '_mark';
       var inputid = document.getElementById(t);
@@ -687,7 +694,7 @@ export default {
     // 見積を取得
     getItem: function() {
       console.log('getItem in props s_m_code = ' + this.s_m_code);
-      var motion_msg = "見積ー各部門取得";
+      var motion_msg = "見積 ー 各部門取得";
       var arrayParams = { 
         s_m_code : this.s_m_code , 
 
@@ -697,7 +704,7 @@ export default {
           this.getThen(response, motion_msg);
         })
         .catch(reason => {
-          this.serverCatch("quotations取得");
+          this.serverCatch("quotationsDepartment取得");
         });
 
     },
@@ -709,11 +716,11 @@ export default {
       var res = response.data;
       if (res.details.length > 0) {
           this.details = res.details;
-          this.select_arr_s001 = res.select_arr_s001;
-          this.select_arr_s002 = res.select_arr_s002;
-          this.select_arr_s003 = res.select_arr_s003;
-          this.select_arr_s004 = res.select_arr_s004;
-          this.select_arr_s005 = res.select_arr_s005;
+          this.select_arr_s006 = res.select_arr_s006;
+          this.select_arr_s007 = res.select_arr_s007;
+          this.select_arr_s008 = res.select_arr_s008;
+          this.select_arr_s009 = res.select_arr_s009;
+          this.select_arr_s010 = res.select_arr_s010;
 
           this.event_title = res.s_m_code;
           //console.log("putThenSearch in res.s_m_code = " + res.s_m_code);

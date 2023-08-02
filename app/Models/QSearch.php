@@ -630,14 +630,14 @@ class QSearch extends Model
                 'papertray',
                 'imposition_w',
                 'imposition_h',
-                'cylinder',
+                //'cylinder',
                 'cylinder_num',
                 'cylinder_set',
                 'size_w',
                 'size_h',
                 'size_top',
                 'size_bottom',
-                'inch_fold',
+                //'inch_fold',
                 'parts_num',
                 'all_through',
                 'paper_amount',
@@ -655,6 +655,8 @@ class QSearch extends Model
                 'is_deleted'
 
             )
+            ->selectRaw('TRIM(cylinder) AS cylinder')
+            ->selectRaw('TRIM(inch_fold) AS inch_fold')
             ->selectRaw('DATE_FORMAT(create_date, "%Y年%m月%d日") AS f_create_date')
             ->selectRaw('DATE_FORMAT(lastorder_date, "%Y年%m月%d日") AS f_lastorder_date')
             ->selectRaw('FORMAT(production_volnum, 0) AS f_production_volnum')
