@@ -1692,6 +1692,69 @@ class QuotationsParts extends Model
 	}
 
 	
+	public function getPartsMin(){
+
+		//Log::info("getParts in this->param_m_code -- ".$this->param_m_code);
+
+		$searchgo = false;
+		if(!empty($this->param_m_code)) $searchgo = true;
+
+		try {
+			$result = "";
+			$data = DB::table($this->table)
+			->select(
+
+				'id',
+				'user_code',
+				'm_code',
+				'seq',
+				'parts_code',
+				'paper_code',
+				'paper_name',
+				'size_w',
+				'size_h',
+				'size_top',
+				'size_bottom',
+				'papertray',
+				'imposition_w',
+				'imposition_h',
+				'p_color_front',
+				'p_color_back'
+
+			)
+			//->selectRaw('DATE_FORMAT(create_date, "%Y年%m月%d日") AS f_create_date')
+			//->selectRaw('FORMAT(production_volnum, 0) AS f_production_volnum')
+			//->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
+			;
+			if(!empty($this->param_m_code)){
+				Log::info("getParts !empty this->param_m_code -- ".$this->param_m_code);
+				$data->where('m_code', $this->param_m_code)
+				->orderBy('parts_code', 'asc')
+				;
+			}
+
+			if($searchgo) {
+				//Log::info("getParts searchgo in ");
+				$result = $data
+				->get();
+
+			}
+
+
+			return $result;
+
+		}catch(\PDOException $pe){
+			Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+			Log::error($pe->getMessage());
+			throw $pe;
+		}catch(\Exception $e){
+			Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+			Log::error($e->getMessage());
+			throw $e;
+		}
+
+	}
+
 
 
 

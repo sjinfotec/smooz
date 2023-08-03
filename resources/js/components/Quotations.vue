@@ -192,6 +192,16 @@
           </div>
         </div>
 
+
+        <div class="line">
+          <div class="inputgroup" v-for="(c001,indexc001) in container_arr_c001" :key="c001.id">
+            <span :id="'parts' + container_arr_c001[indexc001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ details_parts_min.includes(indexc001) == true ? 'visible' : 'hidden']}"></span>{{details_parts_min[includes(indexc001)]}} {{indexc001}}
+            <button type="button" :id="'parts' + container_arr_c001[indexc001].code + '_btn'" @click="SetParts(c001.code, c001.code_name);">{{ container_arr_c001[indexc001].code_name }}</button>
+          </div>
+        </div>
+
+
+
         <div id="department01" class="mgt40">
           <div class="inputgroup">
             <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
@@ -238,6 +248,7 @@
       <quotations-parts
        v-bind:page-num="pagenum"
        v-bind:page-name="pagename"
+       v-bind:m-code="s_m_code"
        v-on:pcancel-event="Pcancel"
       ></quotations-parts>
     </div>
@@ -288,6 +299,7 @@ export default {
     return {
       details: [],
       details_parts: [],
+      details_parts_min: [],
       index: 0,
       login_user_code: 0,
       login_user_role: 0,
@@ -302,6 +314,7 @@ export default {
       select_arr_s003: [],
       select_arr_s004: [],
       select_arr_s005: [],
+      container_arr_c001: [],
 
       //s_m_code: "",
 
@@ -721,6 +734,7 @@ export default {
       if (res.details.length > 0) {
           this.details = res.details;
           //this.details_parts = res.details_parts;
+          this.details_parts_min = res.details_parts_min;
 
           //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
           //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
@@ -732,6 +746,7 @@ export default {
           this.select_arr_s003 = res.select_arr_s003;
           this.select_arr_s004 = res.select_arr_s004;
           this.select_arr_s005 = res.select_arr_s005;
+          this.container_arr_c001 = res.container_arr_c001;
           //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
 
 

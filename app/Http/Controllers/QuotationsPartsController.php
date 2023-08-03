@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\QuotationsParts;
+use App\Models\Generalcode;
 
 class QuotationsPartsController extends Controller
 {
