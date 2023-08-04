@@ -124,6 +124,8 @@
             
           </div>
         </div>
+
+        <!--
         <div class="line">
           <div class="inputgroup">
             <span id="parts1_mark" class="markzone2 mz_tc1 v_hidden"></span>
@@ -191,15 +193,15 @@
             <button type="button" id="parts15_btn" @click="SetParts(15,'下敷き');">下敷き</button>
           </div>
         </div>
+        -->
 
-
+        <!--<div>{{all_dpc_arr}}</div>-->
         <div class="line">
           <div class="inputgroup" v-for="(c001,indexc001) in container_arr_c001" :key="c001.id">
-            <span :id="'parts' + container_arr_c001[indexc001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ details_parts_min.includes(indexc001) == true ? 'visible' : 'hidden']}"></span>{{details_parts_min[includes(indexc001)]}} {{indexc001}}
-            <button type="button" :id="'parts' + container_arr_c001[indexc001].code + '_btn'" @click="SetParts(c001.code, c001.code_name);">{{ container_arr_c001[indexc001].code_name }}</button>
+            <span :id="'parts' + container_arr_c001[indexc001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_c001[indexc001].code == all_dpc_arr[indexc001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexc001]}}
+            <a href="#" :id="'parts' + container_arr_c001[indexc001].code + '_btn'" @click="SetParts(c001.code, c001.code_name);">{{ container_arr_c001[indexc001].code_name }}</a>
           </div>
         </div>
-
 
 
         <div id="department01" class="mgt40">
@@ -300,6 +302,9 @@ export default {
       details: [],
       details_parts: [],
       details_parts_min: [],
+      //j_parts_min: [],
+      //parts_arr: [],
+      all_dpc_arr: [],
       index: 0,
       login_user_code: 0,
       login_user_role: 0,
@@ -735,6 +740,10 @@ export default {
           this.details = res.details;
           //this.details_parts = res.details_parts;
           this.details_parts_min = res.details_parts_min;
+          //this.parse_parts_min = JSON.parse(res.details_parts_min);
+          //this.j_parts_min = JSON.stringify(res.details_parts_min);
+          //this.j_parts_min = JSON.parse(this.j_parts_min);
+          //console.log("putThenSearch in j_parts_min = " + this.j_parts_min[0].parts_code);
 
           //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
           //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
@@ -748,6 +757,44 @@ export default {
           this.select_arr_s005 = res.select_arr_s005;
           this.container_arr_c001 = res.container_arr_c001;
           //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+          let parts_code_arr = Array();
+          //this.parts_arr = Array();
+          this.all_dpc_arr = Array();
+          const dpm = res.details_parts_min;
+          const arr_c001 = res.container_arr_c001;
+
+          for (let i = 0 ; i < dpm.length ; i++){
+            let pkey = dpm[i].parts_code.trim();
+            parts_code_arr[pkey] = pkey;
+            //console.log("details_parts_min parts_code " + pkey + " : " + parts_code_arr[pkey]);
+
+          }
+
+          for (let i = 0 ; i < arr_c001.length ; i++){
+            var htmlparts = '';
+            let n = i + 1;
+            let k = ( '00' + n ).slice( -2 )
+            //console.log("container_arr_c001.code " + i + " : " + arr_c001[i].code);
+            //console.log("parts_code_arr " + n + " : " + parts_code_arr[k]);
+            if(parts_code_arr[k] == null) {
+              this.all_dpc_arr[i] = "";
+              //console.log("parts_code_arr " + k + " : null ");
+            }
+            else {
+              this.all_dpc_arr[i] = parts_code_arr[k];
+              //console.log("parts_code_arr " + k + " : true ");
+            }
+            //let style_vh = 'visible';
+            //htmlparts += '<span id="parts' + arr_c001[i].code + '_mark" class="markzone2 mz_tc1 v_hidden" style="visibility: ' + style_vh + '"></span>\n';  
+            //htmlparts += '<button type="button" id="parts' + arr_c001[i].code + '_btn" v-on:click="SetParts(' + arr_c001[i].code + ', ' + arr_c001[i].code_name + ');">' + arr_c001[i].code_name + '</button>\n';
+            //this.parts_arr[i] = htmlparts;
+
+          }
+
+          //document.getElementById('prtext').innerHTML = parts_arr.join('');
+          //document.getElementById('prtext').innerHTML = "abc";
+
 
 
           this.event_title = res.s_m_code;

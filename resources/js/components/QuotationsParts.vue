@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="cnt_title2">
-      <h3>パーツ設定 － {{ pageNum }}P目 －</h3>
+      <h3>パーツ設定 － {{ pageName }} －</h3>
     </div>
     <div id="cnt1">
       <div class="line">
