@@ -1355,13 +1355,17 @@ class QuotationsParts extends Model
 	}
 
 
-    // ------------- 検索 --------------
+    // ------------- パラメータ --------------
 
     // 見積番号
     private $param_m_code;
     public function getParamM_codeAttribute(){ return $this->param_m_code;}
     public function setParamM_codeAttribute($value){  $this->param_m_code = $value;}
 
+    // パーツコード
+    private $param_parts_code;
+    public function getParamParts_codeAttribute(){ return $this->param_parts_code;}
+    public function setParamParts_codeAttribute($value){  $this->param_parts_code = $value;}
 
 
 		// ----------------------  メソッド ---------------------------------
@@ -1527,6 +1531,7 @@ class QuotationsParts extends Model
 	public function getParts(){
 
 		//Log::info("getParts in this->param_m_code -- ".$this->param_m_code);
+		//Log::info("getParts in this->param_parts_code -- ".$this->param_parts_code);
 
 		$searchgo = false;
 		if(!empty($this->param_m_code)) $searchgo = true;
@@ -1663,9 +1668,15 @@ class QuotationsParts extends Model
 			//->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
 			;
 			if(!empty($this->param_m_code)){
-				Log::info("getParts !empty this->param_m_code -- ".$this->param_m_code);
+				//Log::info("getParts !empty this->param_m_code -- ".$this->param_m_code);
 				$data->where('m_code', $this->param_m_code)
 				->orderBy('parts_code', 'asc')
+				;
+			}
+			
+			if(!empty($this->param_parts_code)){
+				//Log::info("getParts !empty this->param_m_code -- ".$this->param_parts_code);
+				$data->where('parts_code', $this->param_parts_code)
 				;
 			}
 
@@ -1727,7 +1738,7 @@ class QuotationsParts extends Model
 			//->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
 			;
 			if(!empty($this->param_m_code)){
-				Log::info("getParts !empty this->param_m_code -- ".$this->param_m_code);
+				//Log::info("getParts !empty this->param_m_code -- ".$this->param_m_code);
 				$data->where('m_code', $this->param_m_code)
 				->orderBy('parts_code', 'asc')
 				;

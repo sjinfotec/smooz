@@ -8,29 +8,31 @@
         <div class="cate"><h4>基本項目</h4></div>
       </div>
 
-      <div class="line">
-        <div class="inputgroup">
-          <button>新規</button>
+      <div id="menubtn01">
+        <div class="line">
+          <div class="inputgroup">
+            <button>新規</button>
+          </div>
+          <div class="inputgroup">
+            <button>見積書</button>
+          </div>
+          <div class="inputgroup">
+            <label>参照見積番号<input type="text" class="form_style input_w5"></label>
+          </div>
+          <div class="inputgroup">
+            <button>登録</button>
+          </div>
+          <div class="inputgroup">
+            <button>受注</button>
+          </div>
+          <div class="inputgroup">
+            <button>原価閲覧</button>
+          </div>
+          <div class="inputgroup">
+            <button>終了</button>
+          </div>
         </div>
-        <div class="inputgroup">
-          <button>見積書</button>
-        </div>
-        <div class="inputgroup">
-          <label>参照見積番号<input type="text" class="form_style input_w5"></label>
-        </div>
-        <div class="inputgroup">
-          <button>登録</button>
-        </div>
-        <div class="inputgroup">
-          <button>受注</button>
-        </div>
-        <div class="inputgroup">
-          <button>原価閲覧</button>
-        </div>
-        <div class="inputgroup">
-          <button>終了</button>
-        </div>
-      </div>
+      </div><!--end id menubtn01-->
       <div v-for="(item,index) in details" v-bind:key="item.id">
         <div class="line">
           <div class="inputgroup">
@@ -207,7 +209,7 @@
         <div id="department01" class="mgt40">
           <div class="inputgroup">
             <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
-            <textarea name="comment" class="form_style_textarea" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
+            <textarea name="comment" class="form_style_textarea" v-model="details[index].comment" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
             </label>
           </div>
         </div><!--end department01-->
@@ -229,7 +231,7 @@
       <div id="department01" class="mgt40">
           <div class="group">
             <div class="inputgroup">
-              <label><span class="spanwidth_1">提示額</span><input type="text" class="form_style input_w5" name="offered_price"></label>
+              <label><span class="spanwidth_1">提示額</span><input type="text" class="form_style input_w5" v-model="details[index].offered_price" name="offered_price"></label>
             </div>
             <div class="inputgroup">
               <button type="button" id="cost_btn" @click="CostBtn();">原価一覧</button>
@@ -251,6 +253,7 @@
        v-bind:page-num="pagenum"
        v-bind:page-name="pagename"
        v-bind:m-code="s_m_code"
+       v-bind:parts-code="s_parts_code"
        v-on:pcancel-event="Pcancel"
       ></quotations-parts>
     </div>
@@ -330,6 +333,7 @@ export default {
       targetid: "",
       pagenum: "",
       pagename: "",
+      s_parts_code: "",
       inputtextid: "",
       select_html: "",
 
@@ -585,6 +589,7 @@ export default {
       var targetid = document.getElementById(tid);
       targetid.style.visibility = "hidden";
       //現在未使用
+      /*
       var arrayParams = { 
         pagenum : pnum ,
         pagename : pname,
@@ -597,10 +602,12 @@ export default {
         .catch(reason => {
           this.serverCatch("取得");
         });
+        */
 
 
       this.pagenum = pnum;
       this.pagename = pname;
+      this.s_parts_code = ( '00' + pnum ).slice( -2 );
 
       this.partsview = true;
       console.log('SetParts コンソール出力 = ' + pname);

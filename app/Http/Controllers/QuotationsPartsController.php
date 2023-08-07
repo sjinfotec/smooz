@@ -65,10 +65,12 @@ class QuotationsPartsController extends Controller
             $params = array();
             $params = $request->keyparams;
             $s_m_code = isset($params['s_m_code']) ? $params['s_m_code'] : "";
+            $s_parts_code = isset($params['s_parts_code']) ? $params['s_parts_code'] : "";
             //Log::debug("getDataSearch s_m_code = ".$s_m_code);
 
             $quotationsparts = new QuotationsParts();
             if(isset($s_m_code))      $quotationsparts->setParamM_codeAttribute($s_m_code);
+            if(isset($s_parts_code))      $quotationsparts->setParamParts_codeAttribute($s_parts_code);
             $details_parts =  $quotationsparts->getParts();
 
 
@@ -76,6 +78,7 @@ class QuotationsPartsController extends Controller
                 [
                     'result' => $result, 
                     's_m_code' => $s_m_code, 
+                    's_parts_code' => $s_parts_code,
                     'details_parts' => $details_parts,
                     Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
                 ]
