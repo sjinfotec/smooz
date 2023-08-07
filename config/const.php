@@ -3,22 +3,14 @@
 return [
 
     'IDENTIFICATION_ID' => [
-      'quotation_import' => 'G001'
+      'import' => 'G001',
+      'customer_category' => 'C001'
     ],
 
     'G001' => [
       'copy' => 1,
       'deploy' => 2,
-      'distribute_wrk_quotations' => 3,
-      'distribute_wrk_quotations_binding' => 4,
-      'distribute_wrk_quotations_cost' => 5,
-      'distribute_wrk_quotations_department' => 6,
-      'distribute_wrk_quotations_parts' => 7,
-      'distribute_quotations' => 8,
-      'distribute_quotations_binding' => 9,
-      'distribute_quotations_cost' => 10,
-      'distribute_quotations_department' => 11,
-      'distribute_quotations_parts' => 12
+      'distribute' => 3
     ],
 
     'G001_WORD' => [
@@ -48,9 +40,38 @@ return [
 
     'FILE_NAME' => [
       'file_mitumoridat_dat' => 'Mitumori.DAT',
-      'file_old_mitumoridat_dat' => 'old_Mitumori.DAT',
-      'file_imp_mitumoridat' => 'imp_Mitumori.DAT',
+      'file_tokmst_dat' => 'TOKmst.DAT',
+      'file_papnam_dat' => 'PapNam.DAT',
+      'file_gaimst_dat' => 'GAImst.DAT',
+      'file_industry_dat' => 'Industry.DAT',
+      'file_mittag_idx' => 'MitTag.IDX',
       'file_sh_smooth' => 'mit_im.sh'
+    ],
+
+    'FILE_ITEMCNT' => [
+      'file_mittag_idx' => 3,
+      'file_tokmst_dat' => 33,
+      'file_gaimst_dat' => 3,
+      'file_industry_dat' => 3,
+      'file_papnam_dat' => 14
+    ],
+
+    'TARGET_TABLE' => [
+      'customers' => 'customers',
+      'customer_converts' => 'customer_converts',
+      'industrys' => 'industrys',
+      'imp_mitumori_dat' => 'imp_mitumori_dat',
+      'wrk_quotations' => 'wrk_quotations',
+      'wrk_quotations_binding' => 'wrk_quotations_binding',
+      'wrk_quotations_cost' => 'wrk_quotations_cost',
+      'wrk_quotations_department' => 'wrk_quotations_department',
+      'wrk_quotations_parts' => 'wrk_quotations_parts',
+      'quotations' => 'quotations',
+      'quotations_binding' => 'quotations_binding',
+      'quotations_cost' => 'quotations_cost',
+      'quotations_department' => 'quotations_department',
+      'quotations_parts' => 'quotations_parts',
+      'quotations_tag_index' => 'quotations_tag_index'
     ],
 
     'SMOOTH_RECID' => [
@@ -90,7 +111,7 @@ return [
       'data_insert_error' => 'error.... insert {0}'
     ],
 
-    // 旧スムース配列位置
+    // 旧スムース配列位置（見積）
     //   共通
     'MITUMORI_DAT_POS_COMMON' => [
       'user_code' => 0,
@@ -409,5 +430,87 @@ return [
       'p_form_replace' => 88,			//  フォーム・差し替えｎ種
       'p_form_replace_color' => 89,			//  フォーム・差し替えカラー
       'p_envelope' => 90			//  封筒加工加算マーク
+    ],
+
+    //   見積tag
+    'MITUMORI_TAG_POS_PARTS' => [
+      'code' => 0,
+      'pos' => 1
+    ],
+
+    // 旧スムース配列位置（マスタ）
+    //   得意先マスタ
+    'TOKMST_DAT_POS_CUSTOMERS' => [
+      'code' => 0,
+      'name' => 1,
+      'post' => 2,
+      'address1' => 3,
+      'address2' => 4,
+      'tel' => 5,
+      'fax' => 6,
+      'charge' => 7,
+      'cutoff' => 8,
+      'collection' => 9,
+      'tax_class' => 10,
+      'tax_fraction' => 11,
+      'industry' => 12,
+      'created_date' => 13,
+      'created_time' => 14,
+      'dummy1' => 15,
+      'code_2' => 16,
+      'name_2' => 17,
+      'post_2' => 18,
+      'address1_2' => 19,
+      'address2_2' => 20,
+      'tel_2' => 21,
+      'fax_2' => 22,
+      'charge_2' => 23,
+      'cutoff_2' => 24,
+      'collection_2' => 25,
+      'tax_class_2' => 26,
+      'tax_fraction_2' => 27,
+      'industry_2' => 28,
+      'created_date_2' => 29,
+      'created_time_2' => 30,
+      'dummy2' => 31,
+      'dummy3' => 32
+    ],
+
+    // 旧スムース配列位置（マスタ）
+    //   外注先マスタ
+    'GAIMST_DAT_POS_CUSTOMERS' => [
+      'code' => 0,
+      'name' => 1
+    ],
+
+    //   業種マスタ
+    'INDUSTRY_DAT_POS_INDUSTRYS' => [
+      'code' => 0,
+      'name' => 1
+    ],
+
+    //   用紙マスタ
+    'PAPNUM_DAT_POS_PAPERCOSTS' => [
+      'code' => 0,
+      'name' => 1,
+      'name_display' => 2,
+      'standard' => 3,
+      'color' => 4,
+      'mater_unit_price' => 5,
+      'pack_internal_number' => 6,
+      'unit_price_1' => 7,
+      'unit_price_24' => 8,
+      'unit_price_49' => 9,
+      'unit_price_99' => 10,
+      'unit_price_124' => 11,
+      'unit_price_249' => 12,
+      'unit_price_499' => 13
+    ],
+
+    'C001' => [
+      'customer_tokuisaki' => 1,
+      'customer_ippan' => 2,
+      'customer_gaichusaki' => 3,
+      'customer_syanai' => 4
     ]
 ];

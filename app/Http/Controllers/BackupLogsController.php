@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Controllers\ApiCommonController;
+use App\Models\generalcodes;
 use App\Models\BackupAttribute;
 use App\Models\BackupLogs;
 use App\Models\ImpMitumoridat;
+use App\Models\Customer;
+use App\Models\PaperCost;
 use App\Models\Quotations;
 use App\Models\QuotationsBinding;
 use App\Models\QuotationsCost;
@@ -29,6 +32,9 @@ class BackupLogsController extends Controller
     protected $table_users = 'users';
     protected $table_generalcodes = 'generalcodes';
     protected $table_imp_mitumori_dat = 'imp_mitumori_dat';
+    protected $table_customers = 'customers';
+    protected $table_customer_converts = 'customer_converts';
+    protected $table_papercosts = 'papercosts';
     protected $table_quotations = 'quotations';
     protected $table_binding = 'quotations_binding';
     protected $table_quotations_cost = 'quotations_cost';
@@ -55,7 +61,7 @@ class BackupLogsController extends Controller
     //
     public function importMitumoridat(Request $request)
     {
-        Log::debug('importMitumoridat in');
+        // // // // Log::debug('importMitumoridat in');
         $params = $request->keyparams;
         $mode = $params['mode'];
         $identification_code = $params['identification'];
@@ -69,8 +75,8 @@ class BackupLogsController extends Controller
 
         try {
             // バックアップ属性取得
-            Log::debug('importMitumoridat $identification_code = '.$identification_code);
-            $bkup_model->setParamIdentificationidAttribute(Config::get('const.IDENTIFICATION_ID.quotation_import'));
+            // // // // Log::debug('importMitumoridat $identification_code = '.$identification_code);
+            $bkup_model->setParamIdentificationidAttribute(Config::get('const.IDENTIFICATION_ID.import'));
             $bkup_model->setParamIdentificationcodeAttribute($identification_code);
             $bkup_model->setParamStatusAttribute(Config::get('const.STATUS.end'));
             // status != end を取得
@@ -91,11 +97,11 @@ class BackupLogsController extends Controller
                     );
                     $result_back = $this->putBackupResult($array_imple_putBackupResult);
                     $item->status = Config::get('const.STATUS.start');
-
+                  
                     switch ($item->identification_code){
-                        // 見積スムースデータ複写
+                        // データ複写
                         case Config::get('const.G001.copy'):
-                            $result = $this->copyG001();
+                            $result = $this->copyG001($item);
                             break;
                         // 見積スムースデータ展開
                         case Config::get('const.G001.deploy'):
@@ -105,75 +111,12 @@ class BackupLogsController extends Controller
                             );
                             $result = $this->deployG001($array_imple_deployG001);
                             break;
-                        // 見積スムースデータ振分
-                        case Config::get('const.G001.distribute_wrk_quotations'):
-                            set_time_limit(300);
+                        case Config::get('const.G001.distribute'):
                             $array_imple_distributeG001 = array(
                                 'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_wrk_quotations'),
                                 'login_user_code' => $login_user_code
                             );
                             $result = $this->distributeG001($array_imple_distributeG001);
-                            break;
-                        // 見積スムースデータ振分
-                        case Config::get('const.G001.distribute_wrk_quotations_binding'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_wrk_quotations_binding'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
-                            break;
-                        // 見積スムースデータ振分
-                        case Config::get('const.G001.distribute_wrk_quotations_cost'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_wrk_quotations_cost'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
-                            break;
-                        // 見積スムースデータ振分
-                        case Config::get('const.G001.distribute_wrk_quotations_department'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_wrk_quotations_department'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
-                            break;
-                        // 見積スムースデータ振分
-                        case Config::get('const.G001.distribute_wrk_quotations_parts'):
-                            set_time_limit(300);
-                            $array_imple_distributeG001 = array(
-                                'item' => $item,
-                                'distribute' => Config::get('const.G001.distribute_wrk_quotations_parts'),
-                                'login_user_code' => $login_user_code
-                            );
-                            $result = $this->distributeG001($array_imple_distributeG001);
-                            break;
-                        // 見積スムースデータ登録
-                        case Config::get('const.G001.distribute_quotations'):
-                            $result = $this->putQuotations();
-                            break;
-                        // 見積スムースデータ登録
-                        case Config::get('const.G001.distribute_quotations_binding'):
-                            $result = $this->putQuotationsBinding();
-                            break;
-                        // 見積スムースデータ登録
-                        case Config::get('const.G001.distribute_quotations_cost'):
-                            $result = $this->putQuotationsCost();
-                            break;
-                        // 見積スムースデータ登録
-                        case Config::get('const.G001.distribute_quotations_department'):
-                            $result = $this->putQuotationsDepartment();
-                            break;
-                        // 見積スムースデータ登録
-                        case Config::get('const.G001.distribute_quotations_parts'):
-                            $result = $this->putQuotationsParts();
                             break;
                         default:
                             break;
@@ -194,7 +137,7 @@ class BackupLogsController extends Controller
                 }
             }
             // バックアップ属性取得
-            $bkup_model->setParamIdentificationidAttribute(Config::get('const.IDENTIFICATION_ID.quotation_import'));
+            $bkup_model->setParamIdentificationidAttribute(Config::get('const.IDENTIFICATION_ID.import'));
             $bkup_model->setParamIdentificationcodeAttribute(null);
             $bkup_model->setParamStatusAttribute(Config::get('const.STATUS.end'));
             // status != end を取得
@@ -204,9 +147,9 @@ class BackupLogsController extends Controller
                 break;
             }
             if ($procend) {
-                Log::debug('importMitumoridat end $procend = true');
+                // // // // Log::debug('importMitumoridat end $procend = true');
             } else {
-                Log::debug('importMitumoridat end $procend = false');
+                // // // // Log::debug('importMitumoridat end $procend = false');
             }
             return response()->json(
                 ['result' => $result, 'procend' => $procend,
@@ -224,7 +167,7 @@ class BackupLogsController extends Controller
     //
     //  見積スムースデータ複写
     //
-    private function copyG001()
+    private function copyG001($item)
     {
         $apicommon = new ApiCommonController();
         try {
@@ -234,19 +177,20 @@ class BackupLogsController extends Controller
             //   $sh_keyword: logファイル名の一部（機能名）  "import"
             $shname = Config::get('const.FILE_NAME.file_sh_smooth');
             $targetpath = Config::get('const.FILE_PATH.path_smooth_dat');
-            $targetfile = Config::get('const.FILE_NAME.file_mitumoridat_dat');
+            $targetfile = $item->target_table;
             $sh_keyword = Config::get('const.KEY_WORD.shell_keyword_import');
-            Log::debug('importMitumoridat $shname = '.$shname);
-            Log::debug('importMitumoridat $targetpath = '.$targetpath);
-            Log::debug('importMitumoridat $targetfile = '.$targetfile);
+            // // // // Log::debug('importMitumoridat $shname = '.$shname);
+            // // // // Log::debug('importMitumoridat $targetpath = '.$targetpath);
+            // // // // Log::debug('importMitumoridat $targetfile = '.$targetfile);
             // すでにある場合はrename
             $path_smooth_dest = Config::get('const.FILE_PATH.path_smooth_dest');
-            $old_targetfile = Config::get('const.FILE_NAME.file_old_mitumoridat_dat');
-            if (file_exists($path_smooth_dest.$targetfile)) {
+            $old_targetfile = 'old_'.$item->target_table;
+            if (file_exists($path_smooth_dest.$old_targetfile)) {
                 unlink($path_smooth_dest.$old_targetfile);
+            }
+            if (file_exists($path_smooth_dest.$targetfile)) {
                 rename($path_smooth_dest.$targetfile, $path_smooth_dest.$old_targetfile);
             }
-            // xdiff_file_diff($path_smooth_dest.$old_targetfile, $path_smooth_dest.$targetfile, $path_smooth_dest.$file_imp_mitumoridat, 2);
             $result = $apicommon->shExec($shname, $targetpath, $targetfile, $sh_keyword);
             return $result;
         } catch (ProcessFailedException $pe) {
@@ -266,70 +210,11 @@ class BackupLogsController extends Controller
     //
     private function deployG001($params)
     {
-        $apicommon = new ApiCommonController();
-        $imp_m_model = new ImpMitumoridat();
-        $login_user_code = $params['login_user_code'];
-        $array_imp_data = array();
-        ini_set('max_execution_time', '300');
-        
         try {
-            $dest_path = Config::get('const.FILE_PATH.path_smooth_dest');
-            $targetfile = Config::get('const.FILE_NAME.file_mitumoridat_dat');
-            // import開始
-            // 全件物理削除
-            $result = $imp_m_model->truncate();
-            Log::debug('deployG001 $dest_path.$targetfile = '.$dest_path.$targetfile);
-            $file = new SplFileObject($dest_path.$targetfile, 'r');
-            Log::debug('deployG001 setFlags ');
-            $file->setFlags(SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
-
             DB::beginTransaction();
-            $rec_cnt = 0;
-            $row_cnt = 0;
-            Log::debug('deployG001 foreach in ');
-            foreach ($file as $n => $line) {
-                if ($line === false) continue;
-                if ($rec_cnt > 20000) {
-                    $insert_data = collect($array_imp_data);
-                    foreach ($insert_data->chunk(1000) as $chunk) {
-                        DB::table($this->table_imp_mitumori_dat)->insert( $chunk->toArray());
-                    }
-                    $array_imp_data = array();
-                    $rec_cnt = 0;
-                }
-                $rec_cnt++;
-                $row_cnt++;
-                // 文字列を完全にUTF-8にするための処理
-                // Malformed UTF-8 characters, possibly incorrectly encoded 対応
-                // $convert =  mb_convert_encoding ($line, 'UTF-8', 'UTF-8');
-                // 文字列をSJIS->UTF-8にするための処理
-                $convert =  mb_convert_encoding ($line, 'UTF-8', 'SJIS');
-                $array_imp_data[] = array(
-                    'row_no' => $row_cnt,
-                    'imp_data' => $convert,
-                    'created_user' => $login_user_code,
-                    'created_at' => Carbon::now()
-                );
-                // echo "$n $line", PHP_EOL;
-            }
-            if ($rec_cnt > 20000) {
-                $insert_data = collect($array_imp_data);
-                foreach ($insert_data->chunk(1000) as $chunk) {
-                    DB::table($this->table_imp_mitumori_dat)->insert( $chunk->toArray());
-                }
-                $array_imp_data = array();
-                $rec_cnt = 0;
-            }
-            Log::debug('deployG001 foreach end ');
+            $item = $params['item'];
+            $result = $this->getfileInsert($params);
             DB::commit();
-
-            // // スムーズ営業担当を新システムのcodeに変換するためusers取得する
-            // $user_item = DB::table($this->table_users)
-            //     ->whereNotNull('smooth_code')
-            //     ->get();
-            // $filtered = $collect_array_break_worktimetable_result
-            // ->where('no', '=', $param_target_result->working_timetable_no)
-            // ->where('working_time_kubun', Config::get('const.C004.regular_working_time'));
             return true;
 
         } catch (ProcessFailedException $pe) {
@@ -341,11 +226,658 @@ class BackupLogsController extends Controller
     }
 
     //
-    //  見積スムースデータ振分
+    //  見積スムースデータ展開
     //
     private function distributeG001($params)
     {
-        Log::debug('distributeG001 in ');
+        $item = $params['item'];
+        $login_user_code = $params['login_user_code'];
+        $targetfile = $item->target_table;
+        ini_set('max_execution_time', '300');
+        ini_set('memory_limit', '3072M');
+        try {
+            switch ($targetfile){
+                // 見積スムースデータ振分
+                case Config::get('const.TARGET_TABLE.wrk_quotations'):
+                    set_time_limit(300);
+                    $array_imple_distributeData = array(
+                        'item' => $item,
+                        'distribute' => Config::get('const.TARGET_TABLE.wrk_quotations'),
+                        'login_user_code' => $login_user_code
+                    );
+                    $result = $this->distributeData($array_imple_distributeData);
+                    break;
+                // 見積スムースデータ振分
+                case Config::get('const.TARGET_TABLE.wrk_quotations_binding'):
+                    set_time_limit(300);
+                    $array_imple_distributeData = array(
+                        'item' => $item,
+                        'distribute' => Config::get('const.TARGET_TABLE.wrk_quotations_binding'),
+                        'login_user_code' => $login_user_code
+                    );
+                    $result = $this->distributeData($array_imple_distributeData);
+                    break;
+                // 見積スムースデータ振分
+                case Config::get('const.TARGET_TABLE.wrk_quotations_cost'):
+                    set_time_limit(300);
+                    $array_imple_distributeData = array(
+                        'item' => $item,
+                        'distribute' => Config::get('const.TARGET_TABLE.wrk_quotations_cost'),
+                        'login_user_code' => $login_user_code
+                    );
+                    $result = $this->distributeData($array_imple_distributeData);
+                    break;
+                // 見積スムースデータ振分
+                case Config::get('const.TARGET_TABLE.wrk_quotations_department'):
+                    set_time_limit(300);
+                    $array_imple_distributeData = array(
+                        'item' => $item,
+                        'distribute' => Config::get('const.TARGET_TABLE.wrk_quotations_department'),
+                        'login_user_code' => $login_user_code
+                    );
+                    $result = $this->distributeData($array_imple_distributeData);
+                    break;
+                // 見積スムースデータ振分
+                case Config::get('const.TARGET_TABLE.wrk_quotations_parts'):
+                    set_time_limit(300);
+                    $array_imple_distributeData = array(
+                        'item' => $item,
+                        'distribute' => Config::get('const.TARGET_TABLE.wrk_quotations_parts'),
+                        'login_user_code' => $login_user_code
+                    );
+                    $result = $this->distributeData($array_imple_distributeData);
+                    break;
+                // 見積スムースデータ登録
+                case Config::get('const.TARGET_TABLE.quotations'):
+                    $result = $this->putQuotations();
+                    break;
+                // 見積スムースデータ登録
+                case Config::get('const.TARGET_TABLE.quotations_binding'):
+                    $result = $this->putQuotationsBinding();
+                    break;
+                // 見積スムースデータ登録
+                case Config::get('const.TARGET_TABLE.quotations_cost'):
+                    $result = $this->putQuotationsCost();
+                    break;
+                // 見積スムースデータ登録
+                case Config::get('const.TARGET_TABLE.quotations_department'):
+                    $result = $this->putQuotationsDepartment();
+                    break;
+                // 見積スムースデータ登録
+                case Config::get('const.TARGET_TABLE.quotations_parts'):
+                    $result = $this->putQuotationsParts();
+                    break;
+                // 見積スムースデータ登録
+                case Config::get('const.TARGET_TABLE.quotations_tag_index'):
+                    $result = $this->putQuotationsParts();
+                    break;
+                default:
+                    break;
+            }
+            return true;
+
+        } catch (ProcessFailedException $pe) {
+            DB::rollback();
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }
+    }
+
+    //
+    //  スムースデータ展開
+    //
+    private function getfileInsert($params)
+    {
+        $item = $params['item'];
+        $login_user_code = $params['login_user_code'];
+        $targetfile = $item->work_table;
+        $apicommon = new ApiCommonController();
+        $array_imp_data = array();
+        $array_imp_data_2 = array();
+        $array_conv_code = array();
+        ini_set('max_execution_time', '300');
+        ini_set('memory_limit', '3072M');
+        
+        try {
+            $category = '';
+            // データ削除
+            switch ($item->work_table){
+                case Config::get('const.FILE_NAME.file_tokmst_dat'):
+                    // 物理削除
+                    $customer_model = new Customer();
+                    $category_value =
+                        DB::table($this->table_generalcodes)
+                        ->where('identification_id',Config::get('const.IDENTIFICATION_ID.customer_category'))
+                        ->where('code',Config::get('const.C001.customer_tokuisaki'))
+                        ->get('value');
+                    $category = $category_value[0]->value;
+                    $customer_model->setParamCategoryAttribute($category);
+                    $customer_model->delete();
+                    DB::table($this->table_customer_converts)->where('category', $category)->delete();
+                    $category_value =
+                        DB::table($this->table_generalcodes)
+                        ->where('identification_id',Config::get('const.IDENTIFICATION_ID.customer_category'))
+                        ->where('code',Config::get('const.C001.customer_ippan'))
+                        ->get('value');
+                    $category = $category_value[0]->value;
+                    $customer_model->setParamCategoryAttribute($category);
+                    $customer_model->delete();
+                    DB::table($this->table_customer_converts)->where('category', $category)->delete();
+                    $category_value =
+                        DB::table($this->table_generalcodes)
+                        ->where('identification_id',Config::get('const.IDENTIFICATION_ID.customer_category'))
+                        ->where('code',Config::get('const.C001.customer_syanai'))
+                        ->get('value');
+                    $category = $category_value[0]->value;
+                    $customer_model->setParamCategoryAttribute($category);
+                    $customer_model->delete();
+                    DB::table($this->table_customer_converts)->where('category', $category)->delete();
+                    break;
+                case Config::get('const.FILE_NAME.file_gaimst_dat'):
+                    // 物理削除
+                    $customer_model = new Customer();
+                    $category_value =
+                        DB::table($this->table_generalcodes)
+                        ->where('identification_id',Config::get('const.IDENTIFICATION_ID.customer_category'))
+                        ->where('code',Config::get('const.C001.customer_gaichusaki'))
+                        ->get('value');
+                    $category = $category_value[0]->value;
+                    $customer_model->setParamCategoryAttribute($category);
+                    $customer_model->delete();
+                    DB::table($this->table_customer_converts)->where('category', $category)->delete();
+                    break;
+                case Config::get('const.FILE_NAME.file_industry_dat'):
+                    // 全件物理削除
+                    DB::table($item->target_table)->truncate();
+                    DB::beginTransaction();
+                    break;
+                case Config::get('const.FILE_NAME.file_papnam_dat'):
+                    // 全件物理削除
+                    DB::table($item->target_table)->truncate();
+                    DB::beginTransaction();
+                    break;
+                case Config::get('const.FILE_NAME.file_mitumoridat_dat'):
+                    // 全件物理削除
+                    DB::table($item->target_table)->truncate();
+                    DB::beginTransaction();
+                    break;
+                case Config::get('const.FILE_NAME.file_mittag_idx'):
+                    // 全件物理削除
+                    DB::table($item->target_table)->truncate();
+                    DB::beginTransaction();
+                    break;
+            }
+
+            $dest_path = Config::get('const.FILE_PATH.path_smooth_dest');
+            // import開始
+            // Log::debug('deployG001 $dest_path.$targetfile = '.$dest_path.$targetfile);
+            $file = new SplFileObject($dest_path.$targetfile, 'r');
+            // // // // Log::debug('deployG001 setFlags ');
+            $file->setFlags(SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
+
+            $rec_cnt = 0;
+            $row_cnt = 0;
+            // // // // Log::debug('getfile foreach in ');
+            foreach ($file as $n => $line) {
+                if ($line === false) continue;
+                if ($rec_cnt > 20000) {
+                    $insert_data = collect($array_imp_data);
+                    foreach ($insert_data->chunk(1000) as $chunk) {
+                        DB::table($item->target_table)->insert( $chunk->toArray());
+                    }
+                    $array_imp_data = array();
+                    $rec_cnt = 0;
+                }
+                $rec_cnt++;
+                $row_cnt++;
+                // 文字列を完全にUTF-8にするための処理
+                // Malformed UTF-8 characters, possibly incorrectly encoded 対応
+                // $convert =  mb_convert_encoding ($line, 'UTF-8', 'UTF-8');
+                // 文字列をSJIS->UTF-8にするための処理
+                // 現在の文字コードを取得
+                $_encode = mb_detect_encoding($line, "UTF-8,SJIS-WIN,SJIS,EUC");
+                // // // // // Log::debug('getfileInsert _encode = '.$_encode);
+                // // // // // Log::debug('getfileInsert $split bin2hex = '.strtoupper(bin2hex($line)));
+                // $convert_sjis =  mb_convert_encoding ($line, 'SJIS-WIN', 'SJIS');
+                $convert =  mb_convert_encoding ($line, 'UTF-8', 'SJIS');
+                $convert_non =  $line;
+                switch ($item->work_table){
+                    // データ複写
+                    case Config::get('const.FILE_NAME.file_tokmst_dat'):
+                        if (trim($convert) != '') {
+                            $array_imple_deployTokmst = array(
+                                'convert' => $convert,
+                                'login_user_code' => $login_user_code
+                            );
+                            // // // // Log::debug('deployG001 deployTokmst in ');
+                            $array_result = $this->deployTokmst($array_imple_deployTokmst);
+                            // // // // Log::debug('deployG001 deployTokmst out ');
+                            $array_conv_code[] = $array_result['conv_code'][0];
+                            $array_imp_data[] = $array_result['imp_data'][0];
+                            if (count($array_result['imp_data_2']) > 0) {
+                                $array_imp_data_2[] = $array_result['imp_data_2'][0];
+                            }
+                            // // // // Log::debug('deployG001 deployTokmst set ');
+                        };
+                        break;
+                    case Config::get('const.FILE_NAME.file_gaimst_dat'):
+                        if (trim($convert) != '') {
+                            $array_imple_deployGaimst = array(
+                                'convert' => $convert,
+                                'category' => $category,
+                                'login_user_code' => $login_user_code
+                            );
+                            $array_result = $this->deployGaimst($array_imple_deployGaimst);
+                            $array_conv_code[] = $array_result['conv_code'][0];
+                            $array_imp_data[] = $array_result['imp_data'][0];
+                        };
+                        break;
+                    case Config::get('const.FILE_NAME.file_industry_dat'):
+                        // Log::debug('deployG001 deployindustry_dat in ');
+                        $split = explode("|", $convert, (int)Config::get('const.FILE_ITEMCNT.file_industry_dat'));
+                        // Log::debug('deployG001 code = '.$split[(int)Config::get('const.INDUSTRY_DAT_POS_INDUSTRYS.code')]);
+                        // Log::debug('deployG001 name = '.$split[(int)Config::get('const.INDUSTRY_DAT_POS_INDUSTRYS.name')]);
+                        $array_imp_data[] = array(
+                            'code' => $split[(int)Config::get('const.INDUSTRY_DAT_POS_INDUSTRYS.code')],
+                            'name' => $split[(int)Config::get('const.INDUSTRY_DAT_POS_INDUSTRYS.name')],
+                            'created_user' => $login_user_code,
+                            'created_at' => Carbon::now()
+                        );
+                        break;
+                    case Config::get('const.FILE_NAME.file_papnam_dat'):
+                        $split = explode(",", $convert, (int)Config::get('const.FILE_ITEMCNT.file_papnam_dat'));
+                        // Log::debug('deployG001 file_papnam_dat code = '.$split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.code')]);
+                        // Log::debug('deployG001 file_papnam_dat name = '.$split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.name')]);
+                        Log::debug('deployG001 file_papnam_dat pack_internal_number = '.$split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.pack_internal_number')]);
+                        $unit_price_1 = trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.unit_price_1')]);
+                        if (trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.unit_price_1')]) == '*') {
+                            $unit_price_1 = 99999.9;
+                        }
+                        $array_imp_data[] = array(
+                            'code' => $split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.code')],
+                            'apply_date' => Carbon::now()->format('Ymd'),
+                            'name' => $split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.name')],
+                            'name_display' => $split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.name_display')],
+                            'standard' => $split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.standard')],
+                            'color' => $split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.color')],
+                            'mater_unit_price' => trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.mater_unit_price')]),
+                            'pack_internal_number' => trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.pack_internal_number')]),
+                            'unit_price_1' =>  $unit_price_1,
+                            'unit_price_24' => trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.unit_price_24')]),
+                            'unit_price_49' => trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.unit_price_49')]),
+                            'unit_price_99' => trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.unit_price_99')]),
+                            'unit_price_124' => trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.unit_price_124')]),
+                            'unit_price_249' => trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.unit_price_249')]),
+                            'unit_price_499' => trim($split[(int)Config::get('const.PAPNUM_DAT_POS_PAPERCOSTS.unit_price_499')]),
+                            'created_user' => $login_user_code,
+                            'created_at' => Carbon::now()
+                        );
+                        break;
+                    case Config::get('const.FILE_NAME.file_mitumoridat_dat'):
+                        $array_imp_data[] = array(
+                            'row_no' => $row_cnt,
+                            'imp_data' => $convert,
+                            'created_user' => $login_user_code,
+                            'created_at' => Carbon::now()
+                        );
+                        break;
+                    case Config::get('const.FILE_NAME.file_mittag_idx'):
+                        $split = explode("|", $convert, (int)Config::get('const.FILE_ITEMCNT.file_mittag_idx'));
+                        // pos 増分値2480
+                        $array_imp_data[] = array(
+                            'code' => $split[(int)Config::get('const.MITUMORI_TAG_POS_PARTS.code')],
+                            'pos' => trim($split[(int)Config::get('const.MITUMORI_TAG_POS_PARTS.pos')]),
+                            'created_at' => Carbon::now()
+                        );
+                        break;
+                }
+                // echo "$n $line", PHP_EOL;
+            }
+            if ($rec_cnt > 0) {
+                $insert_data = collect($array_imp_data);
+                foreach ($insert_data->chunk(1000) as $chunk) {
+                    // Log::debug('deployG001 insert_data  ');
+                    DB::table($item->target_table)->insert( $chunk->toArray());
+                }
+                $insert_data = collect($array_imp_data_2);
+                foreach ($insert_data->chunk(1000) as $chunk) {
+                    // // // Log::debug('deployG001 insert_data  ');
+                    DB::table($item->target_table)->insert( $chunk->toArray());
+                }
+                $array_imp_data = array();
+                $array_imp_data_2 = array();
+                $rec_cnt = 0;
+                // 新旧変換
+                switch ($item->work_table){
+                    case Config::get('const.FILE_NAME.file_tokmst_dat'):
+                    case Config::get('const.FILE_NAME.file_gaimst_dat'):
+                        $insert_data = collect($array_conv_code);
+                        foreach ($insert_data->chunk(1000) as $chunk) {
+                            // // // // Log::debug('deployG001 insert_data  ');
+                            DB::table($this->table_customer_converts)->insert( $chunk->toArray());
+                        }
+                        $array_conv_code = array();
+                        // 営業コードを新コードにupdate
+                        $sqlString = "";
+                        $sqlString .= "update ";
+                        $sqlString .= "  ".$this->table_customers." t1 ";
+                        $sqlString .= "  , ".$this->table_users." t2 ";
+                        $sqlString .= "    set ";
+                        $sqlString .= "      t1.charge = t2.code ";
+                        $sqlString .= "    where ";
+                        $sqlString .= "      t1.charge = t2.smooth_code ";
+                        $array_setBindingsStr = array();
+                        $result = DB::update($sqlString, $array_setBindingsStr);
+                        break;
+                }
+            }
+            // // // // Log::debug('getfile foreach end ');
+
+            // // スムーズ営業担当を新システムのcodeに変換するためusers取得する
+            // $user_item = DB::table($this->table_users)
+            //     ->whereNotNull('smooth_code')
+            //     ->get();p_model
+            // $filtered = $collect_array_break_worktimetable_result
+            // ->where('no', '=', $param_target_result->working_timetable_no)
+            // ->where('working_time_kubun', Config::get('const.C004.regular_working_time'));
+            return true;
+
+        } catch (ProcessFailedException $pe) {
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }
+    }
+
+    //
+    //  得意先スムースデータ展開
+    //
+    private function deployTokmst($params)
+    {
+        $convert = $params['convert'];
+        $login_user_code = $params['login_user_code'];
+        $array_imp_data = array();
+        $array_imp_data_2 = array();
+        $array_conv_code = array();
+        $bef_count = 0;
+        // // // // // Log::debug('deployTokmst convert = '.$convert);
+        try {
+            $split = explode("|", $convert, (int)Config::get('const.FILE_ITEMCNT.file_tokmst_dat'));
+            // $split_sjis = explode("|", $convert_sjis, (int)Config::get('const.FILE_ITEMCNT.file_tokmst_dat'));
+            // // // // // Log::debug('deployTokmst $split bin2hex = '.strtoupper(bin2hex($split_non[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')])));
+            $code = '';
+            // 一般
+            if (substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code')], 2, 3) == '999') {
+                $category = DB::table($this->table_generalcodes)->select('value')
+                            ->where('identification_id', '=', Config::get('const.IDENTIFICATION_ID.customer_category'))
+                            ->where('code', '=', Config::get('const.C001.customer_ippan'))
+                            ->get();
+                $code = $category[0]->value.substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code')], 0, 2).'01';
+            // 一般
+            } elseif (substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code')], 1, 3) == '999') {
+                $category = DB::table($this->table_generalcodes)->select('value')
+                            ->where('identification_id', '=', Config::get('const.IDENTIFICATION_ID.customer_category'))
+                            ->where('code', '=', Config::get('const.C001.customer_ippan'))
+                            ->get();
+                $code = $category[0]->value.str_pad(trim(substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code')], 0, 1)), 2, 0, STR_PAD_LEFT).'01';
+            // 社内消費
+            } elseif (substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code')], 0, 4) == '7777') {
+                $category = DB::table($this->table_generalcodes)->select('value')
+                            ->where('identification_id', '=', Config::get('const.IDENTIFICATION_ID.customer_category'))
+                            ->where('code', '=', Config::get('const.C001.customer_syanai'))
+                            ->get();
+                $code = $category[0]->value.'0001';
+            } else {
+                $category = DB::table($this->table_generalcodes)->select('value')
+                            ->where('identification_id', '=', Config::get('const.IDENTIFICATION_ID.customer_category'))
+                            ->where('code', '=', Config::get('const.C001.customer_tokuisaki'))
+                            ->get();
+                $code = $category[0]->value.str_pad(trim(substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code')], 0, 4)), 4, 0, STR_PAD_LEFT);
+            }
+            Log::debug('deployTokmst $code = '.$split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code')]);
+            Log::debug('deployTokmst count($split) = '.count($split));
+            // // Log::debug('deployTokmst $code = '.$code);
+            $bef_count = count($split);
+            if (count($split) == 8) {
+                array_push($split, '');
+                array_push($split, '');
+                array_push($split, '');
+                array_push($split, '');
+                array_push($split, '');
+                array_push($split, '');
+                array_push($split, '');
+            }
+            if (count($split) > 17) {
+                if (count($split) == 23) {
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                }
+                if (count($split) == 24) {
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                }
+                if (count($split) == 27) {
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                }
+                if (count($split) == 28) {
+                    array_push($split, '');
+                    array_push($split, '');
+                    array_push($split, '');
+                }
+            }
+            // // // // // Log::debug('deployTokmst $split charge = '.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge')]));
+            // // // // // Log::debug('deployTokmst $split tax_fraction = '.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction')]));
+            // chargeとcutoffの区切り文字がない対処
+            if (strlen($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge')]) > 2) {
+                if ($bef_count > 18) {
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_time_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.industry_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.industry_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.collection_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.collection_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.cutoff_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.cutoff_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.fax_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.fax_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tel_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tel_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.address2_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.address2_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.address1_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.address1_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.post_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.post_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code_2')];
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code_2')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.dummy')];
+                }
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.dummy')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_time')];
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_time')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')];
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.industry')];
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.industry')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction')];
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class')];
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.collection')];
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.collection')] = $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.cutoff')];
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.cutoff')] = substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge')],3,2);
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge')] = substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge')],0,2);
+            } 
+            // // // Log::debug('deployTokmst count($split)= '.count($split));
+            if ($bef_count > 18) {
+                if (strlen($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge_2')]) > 2) {
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_time_2')] = '';
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')] = '';
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.industry_2')] = '';
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction_2')] = '';
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class_2')] = '';
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.collection_2')] = '';
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.cutoff_2')] = '';
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge_2')] = substr($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge_2')],0,2);
+                } 
+                // // Log::debug('deployTokmst post_2 = '.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.post_2')]));
+                // // Log::debug('deployTokmst tax_class_2 = '.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class_2')]));
+                if (strlen(trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class_2')])) > 2) {
+                    // // Log::debug('deployTokmst ***********************************');
+                    // // Log::debug('deployTokmst tax_class_2 = '.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class_2')]));
+                    // // Log::debug('deployTokmst ***********************************');
+                } else {
+                    // // Log::debug('deployTokmst tax_class_2 = '.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class_2')]));
+                }
+            } 
+            // // // // // Log::debug('deployTokmst $split tax_fraction = '.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction')]));
+            // // // // Log::debug('deployTokmst $split name = '.substr(trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')]),0,6));
+            // // // // Log::debug('deployTokmst $split ord name = '.ord(substr(trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')]),0,4)));
+            // // // // Log::debug('deployTokmst $split ord bin2hex = '.strtoupper(bin2hex(mb_convert_encoding(substr(trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')]),0,4),"CP932"))));
+            // $name_sjis =  trim($split_sjis[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')]);
+            // // // // // Log::debug('deployTokmst $split name = '.substr(trim($split_non[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')]),0,6));
+            // // // // // Log::debug('deployTokmst $split ord name = '.ord(substr(trim($split_non[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')]),0,4)));
+            // // // // // Log::debug('deployTokmst $split ord bin2hex = '.strtoupper(bin2hex(mb_convert_encoding(substr(trim($split_non[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')]),0,4),"CP932"))));
+            // // // Log::debug('deployTokmst created_date = '.str_replace('/','',trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')])));
+            // // Log::debug('deployTokmst post = '.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.post')]));
+            $array_conv_code[] = array(
+                'code' => $code,
+                'code_old' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.code')]),
+                'category' => $category[0]->value,
+                'created_user' => $login_user_code,
+                'created_at' => Carbon::now()
+            );
+            // Log::debug('deployTokmst $split created_date = ['.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')]).']');
+            // Log::debug('deployTokmst $split strlen created_date = ['.strlen(trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')])));
+            Log::debug('deployTokmst collection = '.$split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.collection')]);
+            if (strlen(trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')])) == 0) {
+                $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')] = '20000101';
+            }
+            $array_imp_data[] = array(
+                'code' => $code,
+                'apply_date' => str_replace('/','',trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')])),
+                'category' => $category[0]->value,
+                'name' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')]),
+                'post' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.post')]),
+                'address1' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.address1')]),
+                'address2' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.address2')]),
+                'tel' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tel')]),
+                'fax' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.fax')]),
+                'charge' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge')]),
+                'cutoff' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.cutoff')]),
+                'collection' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.collection')]),
+                'tax_class' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class')]),
+                'tax_fraction' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction')]),
+                'industry' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.industry')]),
+                'created_date' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date')]),
+                'created_time' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_time')]),
+                'created_user' => $login_user_code,
+                'created_at' => Carbon::now()
+            );
+            if (count($split) > 18) {
+                // Log::debug('deployTokmst $split created_date_2 = ['.trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')]).']');
+                // Log::debug('deployTokmst $split strlen created_date_2 = ['.strlen(trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')])));
+                if (strlen(trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')])) == 0) {
+                    $split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')] = '20000101';
+                }
+                $array_imp_data_2[] = array(
+                    'code' => $code,
+                    'apply_date' => str_replace('/','',trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')])),
+                    'category' => $category[0]->value,
+                    'name' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name_2')]),
+                    'post' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.post_2')]),
+                    'address1' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.address1_2')]),
+                    'address2' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.address2_2')]),
+                    'tel' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tel_2')]),
+                    'fax' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.fax_2')]),
+                    'charge' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.charge_2')]),
+                    'cutoff' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.cutoff_2')]),
+                    'collection' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.collection_2')]),
+                    'tax_class' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_class_2')]),
+                    'tax_fraction' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.tax_fraction_2')]),
+                    'industry' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.industry_2')]),
+                    'created_date' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_date_2')]),
+                    'created_time' => trim($split[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.created_time_2')]),
+                    'created_user' => $login_user_code,
+                    'created_at' => Carbon::now()
+                );
+            }
+
+            return array('conv_code' => $array_conv_code , 'imp_data' => $array_imp_data , 'imp_data_2' => $array_imp_data_2);
+
+        } catch (ProcessFailedException $pe) {
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }
+    }
+
+    //
+    //  得意先スムースデータ展開
+    //
+    private function deployGaimst($params)
+    {
+        $convert = $params['convert'];
+        $category = $params['category'];
+        $login_user_code = $params['login_user_code'];
+        $array_imp_data = array();
+        $array_conv_code = array();
+        // // // // // Log::debug('deployGaimst convert = '.$convert);
+        try {
+            $split = explode("|", $convert, (int)Config::get('const.FILE_ITEMCNT.file_gaimst_dat'));
+            // $split_sjis = explode("|", $convert_sjis, (int)Config::get('const.FILE_ITEMCNT.file_gaimst_dat'));
+            // // // // // Log::debug('deployGaimst $split bin2hex = '.strtoupper(bin2hex($split_non[(int)Config::get('const.TOKMST_DAT_POS_CUSTOMERS.name')])));
+            $code = trim($split[(int)Config::get('const.GAIMST_DAT_POS_CUSTOMERS.code')]);
+            $name = trim($split[(int)Config::get('const.GAIMST_DAT_POS_CUSTOMERS.name')]);
+            // // // // Log::debug('deployGaimst $code = '.$code);
+            // // // // Log::debug('deployGaimst $name = '.$name);
+            $array_conv_code[] = array(
+                'code' => $code,
+                'code_old' => trim($split[(int)Config::get('const.GAIMST_DAT_POS_CUSTOMERS.code')]),
+                'category' => $category,
+                'created_user' => $login_user_code,
+                'created_at' => Carbon::now()
+            );
+            $array_imp_data[] = array(
+                'code' => $code,
+                'apply_date' => '20000101',
+                'category' => $category,
+                'name' => $name,
+                'post' => '',
+                'address1' => '',
+                'address2' => '',
+                'tel' => '',
+                'fax' => '',
+                'charge' => '',
+                'cutoff' => '',
+                'collection' => '',
+                'tax_class' => '',
+                'tax_fraction' => '',
+                'industry' => '',
+                'created_date' => '',
+                'created_time' => '',
+                'created_user' => $login_user_code,
+                'created_at' => Carbon::now()
+            );
+
+            return array('conv_code' => $array_conv_code , 'imp_data' => $array_imp_data);
+
+        } catch (ProcessFailedException $pe) {
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }
+    }
+
+    //
+    //  見積スムースデータ振分
+    //
+    private function distributeData($params)
+    {
+        // // // // Log::debug('distributeData in ');
         $item = $params['item'];
         $apicommon = new ApiCommonController();
         $imp_m_model = new ImpMitumoridat();
@@ -359,349 +891,334 @@ class BackupLogsController extends Controller
 
         try {
             // 見積もりimportdata取得し配列に展開
-            Log::debug('distributeG001 getImportData start ');
+            // // // // Log::debug('distributeData getImportData start ');
             $result = $this->getImportData($params);
-            Log::debug('distributeG001 getImportData end ');
+            // // // // Log::debug('distributeData getImportData end ');
             $array_imp_data_quotations = $result[0];
             $array_imp_data_quotations_binding = $result[1];
             $array_imp_data_quotations_cost = $result[2];
             $array_imp_data_quotations_department = $result[3];
             $array_imp_data_quotations_parts = $result[4];
             switch ($distribute){
-            case Config::get('const.G001.distribute_wrk_quotations'):
+            case Config::get('const.TARGET_TABLE.wrk_quotations'):
                 DB::table($this->table_wrk_quotations)->truncate();
-                Log::debug('distributeG001 array_imp_data_quotations count = '.count($array_imp_data_quotations));
+                // // // // Log::debug('distributeData array_imp_data_quotations count = '.count($array_imp_data_quotations));
                 for ($i=0; $i<count($array_imp_data_quotations); $i++) {
-                    Log::debug('distributeG001 $i = '.$i);
-                    Log::debug('distributeG001 user_code = '.$array_imp_data_quotations[$i]["user_code"]);
-                    Log::debug('distributeG001 m_code = '.$array_imp_data_quotations[$i]["m_code"]);
-                    // Log::debug('distributeG001 wm_code = '.$array_imp_data_quotations[$i]["wm_code"]);
-                    // Log::debug('distributeG001 wm_sub = '.$array_imp_data_quotations[$i]["wm_sub"]);
-                    // Log::debug('distributeG001 reference_num = '.$array_imp_data_quotations[$i]["reference_num"]);
-                    // Log::debug('distributeG001 create_date = '.$array_imp_data_quotations[$i]["create_date"]);
-                    // Log::debug('distributeG001 lastorder_date = '.$array_imp_data_quotations[$i]["lastorder_date"]);
-                    // Log::debug('distributeG001 number_order = '.$array_imp_data_quotations[$i]["number_order"]);
-                    Log::debug('distributeG001 manager_code = '.$array_imp_data_quotations[$i]["manager_code"]);
-                    Log::debug('distributeG001 manager = '.$array_imp_data_quotations[$i]["manager"]);
-                    Log::debug('distributeG001 customer_code = '.$array_imp_data_quotations[$i]["customer_code"]);
-                    Log::debug('distributeG001 customer = '.$array_imp_data_quotations[$i]["customer"]);
-                    Log::debug('distributeG001 printing = '.$array_imp_data_quotations[$i]["printing"]);
-                    Log::debug('distributeG001 enduser = '.$array_imp_data_quotations[$i]["enduser"]);
-                    Log::debug('distributeG001 product = '.$array_imp_data_quotations[$i]["product"]);
-                    Log::debug('distributeG001 production_setnum = '.$array_imp_data_quotations[$i]["production_setnum"]);
-                    Log::debug('distributeG001 production_setnum_unit = '.$array_imp_data_quotations[$i]["production_setnum_unit"]);
-                    Log::debug('distributeG001 production_volnum = '.$array_imp_data_quotations[$i]["production_volnum"]);
-                    Log::debug('distributeG001 production_volnum_unit = '.$array_imp_data_quotations[$i]["production_volnum_unit"]);
-                    Log::debug('distributeG001 production_all = '.$array_imp_data_quotations[$i]["production_all"]);
-                    Log::debug('distributeG001 unit = '.$array_imp_data_quotations[$i]["unit"]);
-                    // Log::debug('distributeG001 papertray = '.$array_imp_data_quotations[$i]["papertray"]);
-                    // Log::debug('distributeG001 imposition_w = '.$array_imp_data_quotations[$i]["imposition_w"]);
-                    // Log::debug('distributeG001 imposition_h = '.$array_imp_data_quotations[$i]["imposition_h"]);
-                    // Log::debug('distributeG001 cylinder = '.$array_imp_data_quotations[$i]["cylinder"]);
-                    // Log::debug('distributeG001 cylinder_num = '.$array_imp_data_quotations[$i]["cylinder_num"]);
-                    // Log::debug('distributeG001 cylinder_set = '.$array_imp_data_quotations[$i]["cylinder_set"]);
-                    // Log::debug('distributeG001 size_w = '.$array_imp_data_quotations[$i]["size_w"]);
-                    // Log::debug('distributeG001 size_h = '.$array_imp_data_quotations[$i]["size_h"]);
-                    // Log::debug('distributeG001 size_top = '.$array_imp_data_quotations[$i]["size_top"]);
-                    // Log::debug('distributeG001 size_bottom = '.$array_imp_data_quotations[$i]["size_bottom"]);
-                    // Log::debug('distributeG001 inch_fold = '.$array_imp_data_quotations[$i]["inch_fold"]);
-                    // Log::debug('distributeG001 parts_num = '.$array_imp_data_quotations[$i]["parts_num"]);
-                    // Log::debug('distributeG001 all_through = '.$array_imp_data_quotations[$i]["all_through"]);
-                    // Log::debug('distributeG001 paper_amount = '.$array_imp_data_quotations[$i]["paper_amount"]);
-                    // Log::debug('distributeG001 wages_amount = '.$array_imp_data_quotations[$i]["wages_amount"]);
-                    // Log::debug('distributeG001 cost_amount = '.$array_imp_data_quotations[$i]["cost_amount"]);
-                    Log::debug('distributeG001 estimate_amount = '.$array_imp_data_quotations[$i]["estimate_amount"]);
-                    // Log::debug('distributeG001 comment = '.$array_imp_data_quotations[$i]["comment"]);
-                    // Log::debug('distributeG001 offered_amount = '.$array_imp_data_quotations[$i]["offered_amount"]);
-                    // Log::debug('distributeG001 print_cost_max = '.$array_imp_data_quotations[$i]["print_cost_max"]);
-                    // Log::debug('distributeG001 paper_cost = '.$array_imp_data_quotations[$i]["paper_cost"]);
-                    // Log::debug('distributeG001 created_user = '.$array_imp_data_quotations[$i]["created_user"]);
-                    // Log::debug('distributeG001 created_at = '.$array_imp_data_quotations[$i]["created_at"]);
-                    // Log::debug('distributeG001 is_deleted = '.$array_imp_data_quotations[$i]["is_deleted"]);
+                    // // // // Log::debug('distributeData $i = '.$i);
+                    // // // // Log::debug('distributeData user_code = '.$array_imp_data_quotations[$i]["user_code"]);
+                    // // // // Log::debug('distributeData m_code = '.$array_imp_data_quotations[$i]["m_code"]);
+                    // // // // // Log::debug('distributeData wm_code = '.$array_imp_data_quotations[$i]["wm_code"]);
+                    // // // // // Log::debug('distributeData wm_sub = '.$array_imp_data_quotations[$i]["wm_sub"]);
+                    // // // // // Log::debug('distributeData reference_num = '.$array_imp_data_quotations[$i]["reference_num"]);
+                    // // // // // Log::debug('distributeData create_date = '.$array_imp_data_quotations[$i]["create_date"]);
+                    // // // // // Log::debug('distributeData lastorder_date = '.$array_imp_data_quotations[$i]["lastorder_date"]);
+                    // // // // // Log::debug('distributeData number_order = '.$array_imp_data_quotations[$i]["number_order"]);
+                    // // // // Log::debug('distributeData manager_code = '.$array_imp_data_quotations[$i]["manager_code"]);
+                    // // // // Log::debug('distributeData manager = '.$array_imp_data_quotations[$i]["manager"]);
+                    // // // // Log::debug('distributeData customer_code = '.$array_imp_data_quotations[$i]["customer_code"]);
+                    // // // // Log::debug('distributeData customer = '.$array_imp_data_quotations[$i]["customer"]);
+                    // // // // Log::debug('distributeData printing = '.$array_imp_data_quotations[$i]["printing"]);
+                    // // // // Log::debug('distributeData enduser = '.$array_imp_data_quotations[$i]["enduser"]);
+                    // // // // Log::debug('distributeData product = '.$array_imp_data_quotations[$i]["product"]);
+                    // // // // Log::debug('distributeData production_setnum = '.$array_imp_data_quotations[$i]["production_setnum"]);
+                    // // // // Log::debug('distributeData production_setnum_unit = '.$array_imp_data_quotations[$i]["production_setnum_unit"]);
+                    // // // // Log::debug('distributeData production_volnum = '.$array_imp_data_quotations[$i]["production_volnum"]);
+                    // // // // Log::debug('distributeData production_volnum_unit = '.$array_imp_data_quotations[$i]["production_volnum_unit"]);
+                    // // // // Log::debug('distributeData production_all = '.$array_imp_data_quotations[$i]["production_all"]);
+                    // // // // Log::debug('distributeData unit = '.$array_imp_data_quotations[$i]["unit"]);
+                    // // // // // Log::debug('distributeData papertray = '.$array_imp_data_quotations[$i]["papertray"]);
+                    // // // // // Log::debug('distributeData imposition_w = '.$array_imp_data_quotations[$i]["imposition_w"]);
+                    // // // // // Log::debug('distributeData imposition_h = '.$array_imp_data_quotations[$i]["imposition_h"]);
+                    // // // // // Log::debug('distributeData cylinder = '.$array_imp_data_quotations[$i]["cylinder"]);
+                    // // // // // Log::debug('distributeData cylinder_num = '.$array_imp_data_quotations[$i]["cylinder_num"]);
+                    // // // // // Log::debug('distributeData cylinder_set = '.$array_imp_data_quotations[$i]["cylinder_set"]);
+                    // // // // // Log::debug('distributeData size_w = '.$array_imp_data_quotations[$i]["size_w"]);
+                    // // // // // Log::debug('distributeData size_h = '.$array_imp_data_quotations[$i]["size_h"]);
+                    // // // // // Log::debug('distributeData size_top = '.$array_imp_data_quotations[$i]["size_top"]);
+                    // // // // // Log::debug('distributeData size_bottom = '.$array_imp_data_quotations[$i]["size_bottom"]);
+                    // // // // // Log::debug('distributeData inch_fold = '.$array_imp_data_quotations[$i]["inch_fold"]);
+                    // // // // // Log::debug('distributeData parts_num = '.$array_imp_data_quotations[$i]["parts_num"]);
+                    // // // // // Log::debug('distributeData all_through = '.$array_imp_data_quotations[$i]["all_through"]);
+                    // // // // // Log::debug('distributeData paper_amount = '.$array_imp_data_quotations[$i]["paper_amount"]);
+                    // // // // // Log::debug('distributeData wages_amount = '.$array_imp_data_quotations[$i]["wages_amount"]);
+                    // // // // // Log::debug('distributeData cost_amount = '.$array_imp_data_quotations[$i]["cost_amount"]);
+                    // // // // Log::debug('distributeData estimate_amount = '.$array_imp_data_quotations[$i]["estimate_amount"]);
+                    // // // // // Log::debug('distributeData comment = '.$array_imp_data_quotations[$i]["comment"]);
+                    // // // // // Log::debug('distributeData offered_amount = '.$array_imp_data_quotations[$i]["offered_amount"]);
+                    // // // // // Log::debug('distributeData print_cost_max = '.$array_imp_data_quotations[$i]["print_cost_max"]);
+                    // // // // // Log::debug('distributeData paper_cost = '.$array_imp_data_quotations[$i]["paper_cost"]);
+                    // // // // // Log::debug('distributeData created_user = '.$array_imp_data_quotations[$i]["created_user"]);
+                    // // // // // Log::debug('distributeData created_at = '.$array_imp_data_quotations[$i]["created_at"]);
+                    // // // // // Log::debug('distributeData is_deleted = '.$array_imp_data_quotations[$i]["is_deleted"]);
                 }
                 DB::beginTransaction();
                 $convert =  mb_convert_variables('UTF-8','UTF-8',$array_imp_data_quotations);
-                Log::debug('distributeG001 table_wrk_quotations insert start');
+                // // // // Log::debug('distributeData table_wrk_quotations insert start');
                 $insert_data = collect($array_imp_data_quotations);
                 $insert_cnt = 0;
                 foreach ($insert_data->chunk(1000) as $chunk) {
                     $insert_cnt++;
-                    Log::debug('distributeG001 table_wrk_quotations insert_cnt = '.$insert_cnt);
+                    // // // // Log::debug('distributeData table_wrk_quotations insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations)->insert( $chunk->toArray());
                 }
-                Log::debug('distributeG001 table_wrk_quotations insert end');
+                // // // // Log::debug('distributeData table_wrk_quotations insert end');
                 DB::commit();
                 break;
-            case Config::get('const.G001.distribute_wrk_quotations_binding'):
+            case Config::get('const.TARGET_TABLE.wrk_quotations_binding'):
                 DB::table($this->table_wrk_quotations_binding)->truncate();
                 DB::beginTransaction();
                 $convert =  mb_convert_variables('UTF-8','UTF-8',$array_imp_data_quotations_binding);
-                Log::debug('distributeG001 table_wrk_quotations_binding insert start');
+                // // // // Log::debug('distributeData table_wrk_quotations_binding insert start');
                 $insert_data = collect($array_imp_data_quotations_binding);
                 $insert_cnt = 0;
-                foreach ($insert_data->chunk(500) as $chunk) {
+                foreach ($insert_data->chunk(300) as $chunk) {
                     $insert_cnt++;
-                    Log::debug('distributeG001 table_wrk_quotations_binding insert_cnt = '.$insert_cnt);
+                    // // // // Log::debug('distributeData table_wrk_quotations_binding insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations_binding)->insert( $chunk->toArray());
                 }
-                Log::debug('distributeG001 table_wrk_quotations_binding insert end');
+                // // // // Log::debug('distributeData table_wrk_quotations_binding insert end');
                 DB::commit();
                 break;
-            case Config::get('const.G001.distribute_wrk_quotations_cost'):
-                DB::table($this->table_wrk_quotations_cost)->truncate();
-                Log::debug('distributeG001 array_imp_data_quotations_cost count = '.count($array_imp_data_quotations_cost));
+            case Config::get('const.TARGET_TABLE.wrk_quotations_cost'):
+                    DB::table($this->table_wrk_quotations_cost)->truncate();
+                // // // // Log::debug('distributeData array_imp_data_quotations_cost count = '.count($array_imp_data_quotations_cost));
                 for ($i=0; $i<count($array_imp_data_quotations_cost); $i++) {
-                    Log::debug('distributeG001 $i = '.$i);
-                    Log::debug('distributeG001 m_code = '.$array_imp_data_quotations_cost[$i]["m_code"]);
-                    // Log::debug('distributeG001 send_city = '.$table_wrk_quotations_cost[$i]["send_city"]);
-                    // Log::debug('distributeG001 send_in_dou = '.$table_wrk_quotations_cost[$i]["send_in_dou"]);
-                    // Log::debug('distributeG001 send_out_dou = '.$table_wrk_quotations_cost[$i]["send_out_dou"]);
-                    // Log::debug('distributeG001 send_out_dou_yen = '.$table_wrk_quotations_cost[$i]["send_out_dou_yen"]);
-                    // Log::debug('distributeG001 send_all = '.$table_wrk_quotations_cost[$i]["send_all"]);
-                    // Log::debug('distributeG001 send_subtotal = '.$table_wrk_quotations_cost[$i]["send_subtotal"]);
-                    // Log::debug('distributeG001 inside_hand_work = '.$table_wrk_quotations_cost[$i]["inside_hand_work"]);
-                    // Log::debug('distributeG001 inside_insourcing_cost = '.$table_wrk_quotations_cost[$i]["inside_insourcing_cost"]);
-                    Log::debug('distributeG001 outside_job1 = '.$array_imp_data_quotations_cost[$i]["outside_job1"]);
-                    Log::debug('distributeG001 outside_job1_outsou = '.$array_imp_data_quotations_cost[$i]["outside_job1_outsou"]);
-                    Log::debug('distributeG001 outside_job1_outsou_cost = '.$array_imp_data_quotations_cost[$i]["outside_job1_outsou_cost"]);
+                    // // // // Log::debug('distributeData $i = '.$i);
+                    // // // // Log::debug('distributeData m_code = '.$array_imp_data_quotations_cost[$i]["m_code"]);
+                    // // // // // Log::debug('distributeData send_city = '.$table_wrk_quotations_cost[$i]["send_city"]);
+                    // // // // // Log::debug('distributeData send_in_dou = '.$table_wrk_quotations_cost[$i]["send_in_dou"]);
+                    // // // // // Log::debug('distributeData send_out_dou = '.$table_wrk_quotations_cost[$i]["send_out_dou"]);
+                    // // // // // Log::debug('distributeData send_out_dou_yen = '.$table_wrk_quotations_cost[$i]["send_out_dou_yen"]);
+                    // // // // // Log::debug('distributeData send_all = '.$table_wrk_quotations_cost[$i]["send_all"]);
+                    // // // // // Log::debug('distributeData send_subtotal = '.$table_wrk_quotations_cost[$i]["send_subtotal"]);
+                    // // // // // Log::debug('distributeData inside_hand_work = '.$table_wrk_quotations_cost[$i]["inside_hand_work"]);
+                    // // // // // Log::debug('distributeData inside_insourcing_cost = '.$table_wrk_quotations_cost[$i]["inside_insourcing_cost"]);
+                    // // // // Log::debug('distributeData outside_job1 = '.$array_imp_data_quotations_cost[$i]["outside_job1"]);
+                    // // // // Log::debug('distributeData outside_job1_outsou = '.$array_imp_data_quotations_cost[$i]["outside_job1_outsou"]);
+                    // // // // Log::debug('distributeData outside_job1_outsou_cost = '.$array_imp_data_quotations_cost[$i]["outside_job1_outsou_cost"]);
                 }
                 DB::beginTransaction();
                 $convert =  mb_convert_variables('UTF-8','UTF-8',$array_imp_data_quotations_cost);
-                Log::debug('distributeG001 table_wrk_quotations_cost insert start');
+                // // // // Log::debug('distributeData table_wrk_quotations_cost insert start');
                 $insert_data = collect($array_imp_data_quotations_cost);
                 $insert_cnt = 0;
-                foreach ($insert_data->chunk(500) as $chunk) {
+                foreach ($insert_data->chunk(300) as $chunk) {
                     $insert_cnt++;
-                    Log::debug('distributeG001 table_wrk_quotations_cost insert_cnt = '.$insert_cnt);
+                    // // // // Log::debug('distributeData table_wrk_quotations_cost insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations_cost)->insert( $chunk->toArray());
                 }
-                Log::debug('distributeG001 table_wrk_quotations_cost insert end');
+                // // // // Log::debug('distributeData table_wrk_quotations_cost insert end');
                 DB::commit();
                 break;
-            case Config::get('const.G001.distribute_wrk_quotations_department'):
+            case Config::get('const.TARGET_TABLE.wrk_quotations_department'):
                 DB::table($this->table_wrk_quotations_department)->truncate();
-                Log::debug('distributeG001 array_imp_data_quotations_department count = '.count($array_imp_data_quotations_department));
+                // // // // Log::debug('distributeData array_imp_data_quotations_department count = '.count($array_imp_data_quotations_department));
                 for ($i=0; $i<count($array_imp_data_quotations_department); $i++) {
-                    Log::debug('distributeG001 $i = '.$i);
-                    Log::debug('distributeG001 m_code = '.$array_imp_data_quotations_department[$i]["m_code"]);
-                    // Log::debug('distributeG001 wkake = '.$array_imp_data_quotations_department[$i]["wkake"]);
-                    // Log::debug('distributeG001 daenpin = '.$array_imp_data_quotations_department[$i]["daenpin"]);
-                    // Log::debug('distributeG001 ana2 = '.$array_imp_data_quotations_department[$i]["ana2"]);
-                    // Log::debug('distributeG001 ana6 = '.$array_imp_data_quotations_department[$i]["ana6"]);
-                    // Log::debug('distributeG001 donko = '.$array_imp_data_quotations_department[$i]["donko"]);
-                    // Log::debug('distributeG001 katanuki = '.$array_imp_data_quotations_department[$i]["katanuki"]);
-                    // Log::debug('distributeG001 katanuki_outsou = '.$array_imp_data_quotations_department[$i]["katanuki_outsou"]);
-                    // Log::debug('distributeG001 katanuki_outsou_cost = '.$array_imp_data_quotations_department[$i]["katanuki_outsou_cost"]);
-                    // Log::debug('distributeG001 kasutori = '.$array_imp_data_quotations_department[$i]["kasutori"]);
-                    // Log::debug('distributeG001 kasutori_outsou = '.$array_imp_data_quotations_department[$i]["kasutori_outsou"]);
-                    // Log::debug('distributeG001 kasutori_outsou_cost = '.$array_imp_data_quotations_department[$i]["kasutori_outsou_cost"]);
-                    // Log::debug('distributeG001 nisu = '.$array_imp_data_quotations_department[$i]["nisu"]);
-                    // Log::debug('distributeG001 nisu_through = '.$array_imp_data_quotations_department[$i]["nisu_through"]);
-                    // Log::debug('distributeG001 tsr_times = '.$array_imp_data_quotations_department[$i]["tsr_times"]);
-                    // Log::debug('distributeG001 tsr_through = '.$array_imp_data_quotations_department[$i]["tsr_through"]);
-                    // Log::debug('distributeG001 form_color_change = '.$array_imp_data_quotations_department[$i]["form_color_change"]);
-                    // Log::debug('distributeG001 form_carbon_mold = '.$array_imp_data_quotations_department[$i]["form_carbon_mold"]);
-                    // Log::debug('distributeG001 form_all_outsou = '.$array_imp_data_quotations_department[$i]["form_all_outsou"]);
-                    // Log::debug('distributeG001 form_all_outsou_cost = '.$array_imp_data_quotations_department[$i]["form_all_outsou_cost"]);
-                    // Log::debug('distributeG001 form_subtotal = '.$array_imp_data_quotations_department[$i]["form_subtotal"]);
-                    // Log::debug('distributeG001 offset_color_change = '.$array_imp_data_quotations_department[$i]["offset_color_change"]);
-                    // Log::debug('distributeG001 offset_carbon_mold = '.$array_imp_data_quotations_department[$i]["offset_carbon_mold"]);
-                    // Log::debug('distributeG001 offset_subtotal = '.$array_imp_data_quotations_department[$i]["offset_subtotal"]);
-                    // Log::debug('distributeG001 block_copy = '.$array_imp_data_quotations_department[$i]["block_copy"]);
-                    // Log::debug('distributeG001 kinds = '.$array_imp_data_quotations_department[$i]["kinds"]);
-                    // Log::debug('distributeG001 difficulty = '.$array_imp_data_quotations_department[$i]["difficulty"]);
-                    // Log::debug('distributeG001 plate_making_outsou = '.$array_imp_data_quotations_department[$i]["plate_making_outsou"]);
-                    // Log::debug('distributeG001 plate_making_outsou_cost = '.$array_imp_data_quotations_department[$i]["plate_making_outsou_cost"]);
-                    // Log::debug('distributeG001 ctp = '.$array_imp_data_quotations_department[$i]["ctp"]);
-                    // Log::debug('distributeG001 inkjet = '.$array_imp_data_quotations_department[$i]["inkjet"]);
-                    // Log::debug('distributeG001 inkjet_sheet = '.$array_imp_data_quotations_department[$i]["inkjet_sheet"]);
-                    // Log::debug('distributeG001 ondemand_color_front = '.$array_imp_data_quotations_department[$i]["ondemand_color_front"]);
-                    // Log::debug('distributeG001 ondemand_color_back = '.$array_imp_data_quotations_department[$i]["ondemand_color_back"]);
-                    // Log::debug('distributeG001 ondemand_through_front = '.$array_imp_data_quotations_department[$i]["ondemand_through_front"]);
-                    // Log::debug('distributeG001 ondemand_through_back = '.$array_imp_data_quotations_department[$i]["ondemand_through_back"]);
-                    // Log::debug('distributeG001 plate_subtotal = '.$array_imp_data_quotations_department[$i]["plate_subtotal"]);
-                    // Log::debug('distributeG001 collator = '.$array_imp_data_quotations_department[$i]["collator"]);
-                    // Log::debug('distributeG001 bebe = '.$array_imp_data_quotations_department[$i]["bebe"]);
-                    // Log::debug('distributeG001 envelope_process = '.$array_imp_data_quotations_department[$i]["envelope_process"]);
-                    // Log::debug('distributeG001 peel = '.$array_imp_data_quotations_department[$i]["peel"]);
-                    // Log::debug('distributeG001 press = '.$array_imp_data_quotations_department[$i]["press"]);
-                    // Log::debug('distributeG001 sheetcut = '.$array_imp_data_quotations_department[$i]["sheetcut"]);
-                    // Log::debug('distributeG001 collator_cno = '.$array_imp_data_quotations_department[$i]["collator_cno"]);
-                    // Log::debug('distributeG001 collator_ana = '.$array_imp_data_quotations_department[$i]["collator_ana"]);
-                    // Log::debug('distributeG001 collator_all_outsou = '.$array_imp_data_quotations_department[$i]["collator_all_outsou"]);
-                    // Log::debug('distributeG001 collator_all_outsou_cost = '.$array_imp_data_quotations_department[$i]["collator_all_outsou_cost"]);
-                    // Log::debug('distributeG001 collator_subtotal = '.$array_imp_data_quotations_department[$i]["collator_subtotal"]);
-                    // Log::debug('distributeG001 collator_basic_fee = '.$array_imp_data_quotations_department[$i]["collator_basic_fee"]);
-                    // Log::debug('distributeG001 nl_color = '.$array_imp_data_quotations_department[$i]["nl_color"]);
-                    // Log::debug('distributeG001 nl_hagaki = '.$array_imp_data_quotations_department[$i]["nl_hagaki"]);
-                    // Log::debug('distributeG001 nl_hagaki_color = '.$array_imp_data_quotations_department[$i]["nl_hagaki_color"]);
-                    // Log::debug('distributeG001 nl_envelope_color = '.$array_imp_data_quotations_department[$i]["nl_envelope_color"]);
-                    // Log::debug('distributeG001 nl_number_part = '.$array_imp_data_quotations_department[$i]["nl_number_part"]);
-                    // Log::debug('distributeG001 nl_subtotal = '.$array_imp_data_quotations_department[$i]["nl_subtotal"]);
+                    // // // // Log::debug('distributeData $i = '.$i);
+                    // // // // Log::debug('distributeData m_code = '.$array_imp_data_quotations_department[$i]["m_code"]);
+                    // // // // // Log::debug('distributeData wkake = '.$array_imp_data_quotations_department[$i]["wkake"]);
+                    // // // // // Log::debug('distributeData daenpin = '.$array_imp_data_quotations_department[$i]["daenpin"]);
+                    // // // // // Log::debug('distributeData ana2 = '.$array_imp_data_quotations_department[$i]["ana2"]);
+                    // // // // // Log::debug('distributeData ana6 = '.$array_imp_data_quotations_department[$i]["ana6"]);
+                    // // // // // Log::debug('distributeData donko = '.$array_imp_data_quotations_department[$i]["donko"]);
+                    // // // // // Log::debug('distributeData katanuki = '.$array_imp_data_quotations_department[$i]["katanuki"]);
+                    // // // // // Log::debug('distributeData katanuki_outsou = '.$array_imp_data_quotations_department[$i]["katanuki_outsou"]);
+                    // // // // // Log::debug('distributeData katanuki_outsou_cost = '.$array_imp_data_quotations_department[$i]["katanuki_outsou_cost"]);
+                    // // // // // Log::debug('distributeData kasutori = '.$array_imp_data_quotations_department[$i]["kasutori"]);
+                    // // // // // Log::debug('distributeData kasutori_outsou = '.$array_imp_data_quotations_department[$i]["kasutori_outsou"]);
+                    // // // // // Log::debug('distributeData kasutori_outsou_cost = '.$array_imp_data_quotations_department[$i]["kasutori_outsou_cost"]);
+                    // // // // // Log::debug('distributeData nisu = '.$array_imp_data_quotations_department[$i]["nisu"]);
+                    // // // // // Log::debug('distributeData nisu_through = '.$array_imp_data_quotations_department[$i]["nisu_through"]);
+                    // // // // // Log::debug('distributeData tsr_times = '.$array_imp_data_quotations_department[$i]["tsr_times"]);
+                    // // // // // Log::debug('distributeData tsr_through = '.$array_imp_data_quotations_department[$i]["tsr_through"]);
+                    // // // // // Log::debug('distributeData form_color_change = '.$array_imp_data_quotations_department[$i]["form_color_change"]);
+                    // // // // // Log::debug('distributeData form_carbon_mold = '.$array_imp_data_quotations_department[$i]["form_carbon_mold"]);
+                    // // // // // Log::debug('distributeData form_all_outsou = '.$array_imp_data_quotations_department[$i]["form_all_outsou"]);
+                    // // // // // Log::debug('distributeData form_all_outsou_cost = '.$array_imp_data_quotations_department[$i]["form_all_outsou_cost"]);
+                    // // // // // Log::debug('distributeData form_subtotal = '.$array_imp_data_quotations_department[$i]["form_subtotal"]);
+                    // // // // // Log::debug('distributeData offset_color_change = '.$array_imp_data_quotations_department[$i]["offset_color_change"]);
+                    // // // // // Log::debug('distributeData offset_carbon_mold = '.$array_imp_data_quotations_department[$i]["offset_carbon_mold"]);
+                    // // // // // Log::debug('distributeData offset_subtotal = '.$array_imp_data_quotations_department[$i]["offset_subtotal"]);
+                    // // // // // Log::debug('distributeData block_copy = '.$array_imp_data_quotations_department[$i]["block_copy"]);
+                    // // // // // Log::debug('distributeData kinds = '.$array_imp_data_quotations_department[$i]["kinds"]);
+                    // // // // // Log::debug('distributeData difficulty = '.$array_imp_data_quotations_department[$i]["difficulty"]);
+                    // // // // // Log::debug('distributeData plate_making_outsou = '.$array_imp_data_quotations_department[$i]["plate_making_outsou"]);
+                    // // // // // Log::debug('distributeData plate_making_outsou_cost = '.$array_imp_data_quotations_department[$i]["plate_making_outsou_cost"]);
+                    // // // // // Log::debug('distributeData ctp = '.$array_imp_data_quotations_department[$i]["ctp"]);
+                    // // // // // Log::debug('distributeData inkjet = '.$array_imp_data_quotations_department[$i]["inkjet"]);
+                    // // // // // Log::debug('distributeData inkjet_sheet = '.$array_imp_data_quotations_department[$i]["inkjet_sheet"]);
+                    // // // // // Log::debug('distributeData ondemand_color_front = '.$array_imp_data_quotations_department[$i]["ondemand_color_front"]);
+                    // // // // // Log::debug('distributeData ondemand_color_back = '.$array_imp_data_quotations_department[$i]["ondemand_color_back"]);
+                    // // // // // Log::debug('distributeData ondemand_through_front = '.$array_imp_data_quotations_department[$i]["ondemand_through_front"]);
+                    // // // // // Log::debug('distributeData ondemand_through_back = '.$array_imp_data_quotations_department[$i]["ondemand_through_back"]);
+                    // // // // // Log::debug('distributeData plate_subtotal = '.$array_imp_data_quotations_department[$i]["plate_subtotal"]);
+                    // // // // // Log::debug('distributeData collator = '.$array_imp_data_quotations_department[$i]["collator"]);
+                    // // // // // Log::debug('distributeData bebe = '.$array_imp_data_quotations_department[$i]["bebe"]);
+                    // // // // // Log::debug('distributeData envelope_process = '.$array_imp_data_quotations_department[$i]["envelope_process"]);
+                    // // // // // Log::debug('distributeData peel = '.$array_imp_data_quotations_department[$i]["peel"]);
+                    // // // // // Log::debug('distributeData press = '.$array_imp_data_quotations_department[$i]["press"]);
+                    // // // // // Log::debug('distributeData sheetcut = '.$array_imp_data_quotations_department[$i]["sheetcut"]);
+                    // // // // // Log::debug('distributeData collator_cno = '.$array_imp_data_quotations_department[$i]["collator_cno"]);
+                    // // // // // Log::debug('distributeData collator_ana = '.$array_imp_data_quotations_department[$i]["collator_ana"]);
+                    // // // // // Log::debug('distributeData collator_all_outsou = '.$array_imp_data_quotations_department[$i]["collator_all_outsou"]);
+                    // // // // // Log::debug('distributeData collator_all_outsou_cost = '.$array_imp_data_quotations_department[$i]["collator_all_outsou_cost"]);
+                    // // // // // Log::debug('distributeData collator_subtotal = '.$array_imp_data_quotations_department[$i]["collator_subtotal"]);
+                    // // // // // Log::debug('distributeData collator_basic_fee = '.$array_imp_data_quotations_department[$i]["collator_basic_fee"]);
+                    // // // // // Log::debug('distributeData nl_color = '.$array_imp_data_quotations_department[$i]["nl_color"]);
+                    // // // // // Log::debug('distributeData nl_hagaki = '.$array_imp_data_quotations_department[$i]["nl_hagaki"]);
+                    // // // // // Log::debug('distributeData nl_hagaki_color = '.$array_imp_data_quotations_department[$i]["nl_hagaki_color"]);
+                    // // // // // Log::debug('distributeData nl_envelope_color = '.$array_imp_data_quotations_department[$i]["nl_envelope_color"]);
+                    // // // // // Log::debug('distributeData nl_number_part = '.$array_imp_data_quotations_department[$i]["nl_number_part"]);
+                    // // // // // Log::debug('distributeData nl_subtotal = '.$array_imp_data_quotations_department[$i]["nl_subtotal"]);
                 }
-                Log::debug('distributeG001 table_wrk_quotations_department insert start');
+                // // // // Log::debug('distributeData table_wrk_quotations_department insert start');
                 DB::beginTransaction();
                 $convert =  mb_convert_variables('UTF-8','UTF-8',$array_imp_data_quotations_department);
-                Log::debug('distributeG001 table_wrk_quotations_department insert start');
+                // // // // Log::debug('distributeData table_wrk_quotations_department insert start');
                 $insert_data = collect($array_imp_data_quotations_department);
                 $insert_cnt = 0;
-                foreach ($insert_data->chunk(500) as $chunk) {
+                foreach ($insert_data->chunk(300) as $chunk) {
                     $insert_cnt++;
-                    Log::debug('distributeG001 table_wrk_quotations_department insert_cnt = '.$insert_cnt);
+                    // // // // Log::debug('distributeData table_wrk_quotations_department insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations_department)->insert( $chunk->toArray());
                 }
-                Log::debug('distributeG001 table_wrk_quotations_department insert end');
+                // // // // Log::debug('distributeData table_wrk_quotations_department insert end');
                 DB::commit();
                 break;
-            case Config::get('const.G001.distribute_wrk_quotations_parts'):
+            case Config::get('const.TARGET_TABLE.wrk_quotations_parts'):
                 DB::table($this->table_wrk_quotations_parts)->truncate();
-                Log::debug('distributeG001 array_imp_data_quotations_parts count = '.count($array_imp_data_quotations_parts));
+                // // // // Log::debug('distributeData array_imp_data_quotations_parts count = '.count($array_imp_data_quotations_parts));
                 for ($i=0; $i<count($array_imp_data_quotations_parts); $i++) {
-                    Log::debug('distributeG001 $i = '.$i);
-                    Log::debug('distributeG001 user_code = '.$array_imp_data_quotations_parts[$i]["user_code"]);
-                    Log::debug('distributeG001 m_code = '.$array_imp_data_quotations_parts[$i]["m_code"]);
-                    Log::debug('distributeG001 seq = '.$array_imp_data_quotations_parts[$i]["seq"]);
-                    Log::debug('distributeG001 parts_code = '.$array_imp_data_quotations_parts[$i]["parts_code"]);
-                    // Log::debug('distributeG001 paper_code = '.$array_imp_data_quotations_parts[$i]["paper_code"]);
-                    // Log::debug('distributeG001 paper_name = '.$array_imp_data_quotations_parts[$i]["paper_name"]);
-                    // Log::debug('distributeG001 p_supply = '.$array_imp_data_quotations_parts[$i]["p_supply"]);
-                    // Log::debug('distributeG001 size_w = '.$array_imp_data_quotations_parts[$i]["size_w"]);
-                    // Log::debug('distributeG001 size_h = '.$array_imp_data_quotations_parts[$i]["size_h"]);
-                    // Log::debug('distributeG001 size_top = '.$array_imp_data_quotations_parts[$i]["size_top"]);
-                    // Log::debug('distributeG001 size_bottom = '.$array_imp_data_quotations_parts[$i]["size_bottom"]);
-                    // Log::debug('distributeG001 papertray = '.$array_imp_data_quotations_parts[$i]["papertray"]);
-                    // Log::debug('distributeG001 imposition_w = '.$array_imp_data_quotations_parts[$i]["imposition_w"]);
-                    // Log::debug('distributeG001 imposition_h = '.$array_imp_data_quotations_parts[$i]["imposition_h"]);
-                    // Log::debug('distributeG001 p_color_front = '.$array_imp_data_quotations_parts[$i]["p_color_front"]);
-                    // Log::debug('distributeG001 p_color_back = '.$array_imp_data_quotations_parts[$i]["p_color_back"]);
-                    // Log::debug('distributeG001 p_desensitization = '.$array_imp_data_quotations_parts[$i]["p_desensitization"]);
-                    // Log::debug('distributeG001 p_carbon = '.$array_imp_data_quotations_parts[$i]["p_carbon"]);
-                    // Log::debug('distributeG001 p_white = '.$array_imp_data_quotations_parts[$i]["p_white"]);
-                    Log::debug('distributeG001 p_separate = '.$array_imp_data_quotations_parts[$i]["p_separate"]);
-                    Log::debug('distributeG001 p_through = '.$array_imp_data_quotations_parts[$i]["p_through"]);
-                    Log::debug('distributeG001 p_sheet = '.$array_imp_data_quotations_parts[$i]["p_sheet"]);
-                    // Log::debug('distributeG001 p_mm_apply = '.$array_imp_data_quotations_parts[$i]["p_mm_apply"]);
-                    // Log::debug('distributeG001 p_mm_dispose = '.$array_imp_data_quotations_parts[$i]["p_mm_dispose"]);
-                    // Log::debug('distributeG001 p_mm_unit = '.$array_imp_data_quotations_parts[$i]["p_mm_unit"]);
-                    // Log::debug('distributeG001 p_printing_cost = '.$array_imp_data_quotations_parts[$i]["p_printing_cost"]);
-                    // Log::debug('distributeG001 p_necessary_sheet = '.$array_imp_data_quotations_parts[$i]["p_necessary_sheet"]);
-                    // Log::debug('distributeG001 p_paper_price = '.$array_imp_data_quotations_parts[$i]["p_paper_price"]);
-                    // Log::debug('distributeG001 p_form_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_form_sewingmachine_w"]);
-                    // Log::debug('distributeG001 p_form_sewingmachine_h = '.$array_imp_data_quotations_parts[$i]["p_form_sewingmachine_h"]);
-                    // Log::debug('distributeG001 p_form_jump_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_form_jump_sewingmachine_w"]);
-                    // Log::debug('distributeG001 p_form_jump_sewingmachine_h = '.$array_imp_data_quotations_parts[$i]["p_form_jump_sewingmachine_h"]);
-                    // Log::debug('distributeG001 p_form_micro_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_form_micro_sewingmachine_w"]);
-                    // Log::debug('distributeG001 p_form_micro_sewingmachine_h = '.$array_imp_data_quotations_parts[$i]["p_form_micro_sewingmachine_h"]);
-                    // Log::debug('distributeG001 p_form_jump_micro_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_form_jump_micro_sewingmachine_w"]);
-                    // Log::debug('distributeG001 p_form_jump_micro_sewingmachine_h = '.$array_imp_data_quotations_parts[$i]["p_form_jump_micro_sewingmachine_h"]);
-                    // Log::debug('distributeG001 p_form_linein_w = '.$array_imp_data_quotations_parts[$i]["p_form_linein_w"]);
-                    // Log::debug('distributeG001 p_form_linein_h = '.$array_imp_data_quotations_parts[$i]["p_form_linein_h"]);
-                    // Log::debug('distributeG001 p_form_slitter_w = '.$array_imp_data_quotations_parts[$i]["p_form_slitter_w"]);
-                    // Log::debug('distributeG001 p_form_slitter_h = '.$array_imp_data_quotations_parts[$i]["p_form_slitter_h"]);
-                    // Log::debug('distributeG001 p_form_no = '.$array_imp_data_quotations_parts[$i]["p_form_no"]);
-                    // Log::debug('distributeG001 p_form_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_form_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_form_jump_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_form_jump_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_form_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_form_micro_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_form_jump_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_form_jump_micro_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_form_linein_ks = '.$array_imp_data_quotations_parts[$i]["p_form_linein_ks"]);
-                    // Log::debug('distributeG001 p_form_slitter_ks = '.$array_imp_data_quotations_parts[$i]["p_form_slitter_ks"]);
-                    // Log::debug('distributeG001 p_form_no_ks = '.$array_imp_data_quotations_parts[$i]["p_form_no_ks"]);
-                    // Log::debug('distributeG001 p_form_subtotal = '.$array_imp_data_quotations_parts[$i]["p_form_subtotal"]);
-                    // Log::debug('distributeG001 p_offset_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_offset_sewingmachine_w"]);
-                    // Log::debug('distributeG001 p_offset_no = '.$array_imp_data_quotations_parts[$i]["p_offset_no"]);
-                    // Log::debug('distributeG001 p_offset_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_offset_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_offset_no_ks = '.$array_imp_data_quotations_parts[$i]["p_offset_no_ks"]);
-                    // Log::debug('distributeG001 p_offset_subtotal = '.$array_imp_data_quotations_parts[$i]["p_offset_subtotal"]);
-                    // Log::debug('distributeG001 p_letterpress_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_sewingmachine_hon"]);
-                    // Log::debug('distributeG001 p_letterpress_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_sewingmachine_dai"]);
-                    // Log::debug('distributeG001 p_letterpress_jump_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_sewingmachine_hon"]);
-                    // Log::debug('distributeG001 p_letterpress_jump_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_sewingmachine_dai"]);
-                    // Log::debug('distributeG001 p_letterpress_micro_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_micro_sewingmachine_hon"]);
-                    // Log::debug('distributeG001 p_letterpress_micro_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_micro_sewingmachine_dai"]);
-                    // Log::debug('distributeG001 p_letterpress_jump_micro_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_micro_sewingmachine_hon"]);
-                    // Log::debug('distributeG001 p_letterpress_jump_micro_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_micro_sewingmachine_dai"]);
-                    // Log::debug('distributeG001 p_letterpress_linein_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_linein_hon"]);
-                    // Log::debug('distributeG001 p_letterpress_linein_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_linein_dai"]);
-                    // Log::debug('distributeG001 p_letterpress_slitter_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_slitter_hon"]);
-                    // Log::debug('distributeG001 p_letterpress_slitter_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_slitter_dai"]);
-                    // Log::debug('distributeG001 p_letterpress_diecut = '.$array_imp_data_quotations_parts[$i]["p_letterpress_diecut"]);
-                    // Log::debug('distributeG001 p_letterpress_pcno = '.$array_imp_data_quotations_parts[$i]["p_letterpress_pcno"]);
-                    // Log::debug('distributeG001 p_letterpress_no = '.$array_imp_data_quotations_parts[$i]["p_letterpress_no"]);
-                    // Log::debug('distributeG001 p_letterpress_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_jump_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_micro_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_jump_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_micro_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_linein_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_linein_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_slitter_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_slitter_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_diecut_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_diecut_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_pcno_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_pcno_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_no_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_no_ks"]);
-                    // Log::debug('distributeG001 p_letterpress_subtotal = '.$array_imp_data_quotations_parts[$i]["p_letterpress_subtotal"]);
-                    // Log::debug('distributeG001 p_info_toray = '.$array_imp_data_quotations_parts[$i]["p_info_toray"]);
-                    // Log::debug('distributeG001 p_info_ijp = '.$array_imp_data_quotations_parts[$i]["p_info_ijp"]);
-                    // Log::debug('distributeG001 p_info_dot_line = '.$array_imp_data_quotations_parts[$i]["p_info_dot_line"]);
-                    // Log::debug('distributeG001 p_info_dot_dai = '.$array_imp_data_quotations_parts[$i]["p_info_dot_dai"]);
-                    // Log::debug('distributeG001 p_info_basic_fee = '.$array_imp_data_quotations_parts[$i]["p_info_basic_fee"]);
-                    // Log::debug('distributeG001 p_info_output = '.$array_imp_data_quotations_parts[$i]["p_info_output"]);
-                    // Log::debug('distributeG001 p_info_punching = '.$array_imp_data_quotations_parts[$i]["p_info_punching"]);
-                    // Log::debug('distributeG001 p_info_subtotal = '.$array_imp_data_quotations_parts[$i]["p_info_subtotal"]);
-                    // Log::debug('distributeG001 p_diecutter_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_sewingmachine_hon"]);
-                    // Log::debug('distributeG001 p_diecutter_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_sewingmachine_dai"]);
-                    // Log::debug('distributeG001 p_diecutter_jump_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_sewingmachine_hon"]);
-                    // Log::debug('distributeG001 p_diecutter_jump_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_sewingmachine_dai"]);
-                    // Log::debug('distributeG001 p_diecutter_micro_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_micro_sewingmachine_hon"]);
-                    // Log::debug('distributeG001 p_diecutter_micro_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_micro_sewingmachine_dai"]);
-                    // Log::debug('distributeG001 p_diecutter_jump_micro_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_micro_sewingmachine_hon"]);
-                    // Log::debug('distributeG001 p_diecutter_jump_micro_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_micro_sewingmachine_dai"]);
-                    // Log::debug('distributeG001 p_diecutter_ana_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_ana_hon"]);
-                    // Log::debug('distributeG001 p_diecutter_ana_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_ana_dai"]);
-                    // Log::debug('distributeG001 p_diecutter_cornercut = '.$array_imp_data_quotations_parts[$i]["p_diecutter_cornercut"]);
-                    // Log::debug('distributeG001 p_diecutter_cornercut_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_cornercut_dai"]);
-                    // Log::debug('distributeG001 p_diecutter_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_diecutter_jump_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_diecutter_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_micro_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_diecutter_jump_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_micro_sewingmachine_ks"]);
-                    // Log::debug('distributeG001 p_diecutter_ana_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_ana_ks"]);
-                    // Log::debug('distributeG001 p_diecutter_cornercut_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_cornercut_ks"]);
-                    // Log::debug('distributeG001 p_diecutter_subtotal = '.$array_imp_data_quotations_parts[$i]["p_diecutter_subtotal"]);
-                    // Log::debug('distributeG001 outsource_paper = '.$array_imp_data_quotations_parts[$i]["outsource_paper"]);
-                    // Log::debug('distributeG001 outsource_paper_cost = '.$array_imp_data_quotations_parts[$i]["outsource_paper_cost"]);
-                    // Log::debug('distributeG001 outsource_paper_all = '.$array_imp_data_quotations_parts[$i]["outsource_paper_all"]);
-                    // Log::debug('distributeG001 outsource_paper_all_cost = '.$array_imp_data_quotations_parts[$i]["outsource_paper_all_cost"]);
-                    // Log::debug('distributeG001 p_form_cornercut = '.$array_imp_data_quotations_parts[$i]["p_form_cornercut"]);
-                    // Log::debug('distributeG001 p_form_replace = '.$array_imp_data_quotations_parts[$i]["p_form_replace"]);
-                    // Log::debug('distributeG001 p_form_replace_color = '.$array_imp_data_quotations_parts[$i]["p_form_replace_color"]);
-                    // Log::debug('distributeG001 p_envelope = '.$array_imp_data_quotations_parts[$i]["p_envelope"]);
+                    // // // // Log::debug('distributeData $i = '.$i);
+                    // // // // Log::debug('distributeData user_code = '.$array_imp_data_quotations_parts[$i]["user_code"]);
+                    // // // // Log::debug('distributeData m_code = '.$array_imp_data_quotations_parts[$i]["m_code"]);
+                    // // // // Log::debug('distributeData seq = '.$array_imp_data_quotations_parts[$i]["seq"]);
+                    // // // // Log::debug('distributeData parts_code = '.$array_imp_data_quotations_parts[$i]["parts_code"]);
+                    // // // // // Log::debug('distributeData paper_code = '.$array_imp_data_quotations_parts[$i]["paper_code"]);
+                    // // // // // Log::debug('distributeData paper_name = '.$array_imp_data_quotations_parts[$i]["paper_name"]);
+                    // // // // // Log::debug('distributeData p_supply = '.$array_imp_data_quotations_parts[$i]["p_supply"]);
+                    // // // // // Log::debug('distributeData size_w = '.$array_imp_data_quotations_parts[$i]["size_w"]);
+                    // // // // // Log::debug('distributeData size_h = '.$array_imp_data_quotations_parts[$i]["size_h"]);
+                    // // // // // Log::debug('distributeData size_top = '.$array_imp_data_quotations_parts[$i]["size_top"]);
+                    // // // // // Log::debug('distributeData size_bottom = '.$array_imp_data_quotations_parts[$i]["size_bottom"]);
+                    // // // // // Log::debug('distributeData papertray = '.$array_imp_data_quotations_parts[$i]["papertray"]);
+                    // // // // // Log::debug('distributeData imposition_w = '.$array_imp_data_quotations_parts[$i]["imposition_w"]);
+                    // // // // // Log::debug('distributeData imposition_h = '.$array_imp_data_quotations_parts[$i]["imposition_h"]);
+                    // // // // // Log::debug('distributeData p_color_front = '.$array_imp_data_quotations_parts[$i]["p_color_front"]);
+                    // // // // // Log::debug('distributeData p_color_back = '.$array_imp_data_quotations_parts[$i]["p_color_back"]);
+                    // // // // // Log::debug('distributeData p_desensitization = '.$array_imp_data_quotations_parts[$i]["p_desensitization"]);
+                    // // // // // Log::debug('distributeData p_carbon = '.$array_imp_data_quotations_parts[$i]["p_carbon"]);
+                    // // // // // Log::debug('distributeData p_white = '.$array_imp_data_quotations_parts[$i]["p_white"]);
+                    // // // // Log::debug('distributeData p_separate = '.$array_imp_data_quotations_parts[$i]["p_separate"]);
+                    // // // // Log::debug('distributeData p_through = '.$array_imp_data_quotations_parts[$i]["p_through"]);
+                    // // // // Log::debug('distributeData p_sheet = '.$array_imp_data_quotations_parts[$i]["p_sheet"]);
+                    // // // // // Log::debug('distributeData p_mm_apply = '.$array_imp_data_quotations_parts[$i]["p_mm_apply"]);
+                    // // // // // Log::debug('distributeData p_mm_dispose = '.$array_imp_data_quotations_parts[$i]["p_mm_dispose"]);
+                    // // // // // Log::debug('distributeData p_mm_unit = '.$array_imp_data_quotations_parts[$i]["p_mm_unit"]);
+                    // // // // // Log::debug('distributeData p_printing_cost = '.$array_imp_data_quotations_parts[$i]["p_printing_cost"]);
+                    // // // // // Log::debug('distributeData p_necessary_sheet = '.$array_imp_data_quotations_parts[$i]["p_necessary_sheet"]);
+                    // // // // // Log::debug('distributeData p_paper_price = '.$array_imp_data_quotations_parts[$i]["p_paper_price"]);
+                    // // // // // Log::debug('distributeData p_form_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_form_sewingmachine_w"]);
+                    // // // // // Log::debug('distributeData p_form_sewingmachine_h = '.$array_imp_data_quotations_parts[$i]["p_form_sewingmachine_h"]);
+                    // // // // // Log::debug('distributeData p_form_jump_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_form_jump_sewingmachine_w"]);
+                    // // // // // Log::debug('distributeData p_form_jump_sewingmachine_h = '.$array_imp_data_quotations_parts[$i]["p_form_jump_sewingmachine_h"]);
+                    // // // // // Log::debug('distributeData p_form_micro_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_form_micro_sewingmachine_w"]);
+                    // // // // // Log::debug('distributeData p_form_micro_sewingmachine_h = '.$array_imp_data_quotations_parts[$i]["p_form_micro_sewingmachine_h"]);
+                    // // // // // Log::debug('distributeData p_form_jump_micro_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_form_jump_micro_sewingmachine_w"]);
+                    // // // // // Log::debug('distributeData p_form_jump_micro_sewingmachine_h = '.$array_imp_data_quotations_parts[$i]["p_form_jump_micro_sewingmachine_h"]);
+                    // // // // // Log::debug('distributeData p_form_linein_w = '.$array_imp_data_quotations_parts[$i]["p_form_linein_w"]);
+                    // // // // // Log::debug('distributeData p_form_linein_h = '.$array_imp_data_quotations_parts[$i]["p_form_linein_h"]);
+                    // // // // // Log::debug('distributeData p_form_slitter_w = '.$array_imp_data_quotations_parts[$i]["p_form_slitter_w"]);
+                    // // // // // Log::debug('distributeData p_form_slitter_h = '.$array_imp_data_quotations_parts[$i]["p_form_slitter_h"]);
+                    // // // // // Log::debug('distributeData p_form_no = '.$array_imp_data_quotations_parts[$i]["p_form_no"]);
+                    // // // // // Log::debug('distributeData p_form_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_form_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_form_jump_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_form_jump_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_form_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_form_micro_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_form_jump_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_form_jump_micro_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_form_linein_ks = '.$array_imp_data_quotations_parts[$i]["p_form_linein_ks"]);
+                    // // // // // Log::debug('distributeData p_form_slitter_ks = '.$array_imp_data_quotations_parts[$i]["p_form_slitter_ks"]);
+                    // // // // // Log::debug('distributeData p_form_no_ks = '.$array_imp_data_quotations_parts[$i]["p_form_no_ks"]);
+                    // // // // // Log::debug('distributeData p_form_subtotal = '.$array_imp_data_quotations_parts[$i]["p_form_subtotal"]);
+                    // // // // // Log::debug('distributeData p_offset_sewingmachine_w = '.$array_imp_data_quotations_parts[$i]["p_offset_sewingmachine_w"]);
+                    // // // // // Log::debug('distributeData p_offset_no = '.$array_imp_data_quotations_parts[$i]["p_offset_no"]);
+                    // // // // // Log::debug('distributeData p_offset_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_offset_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_offset_no_ks = '.$array_imp_data_quotations_parts[$i]["p_offset_no_ks"]);
+                    // // // // // Log::debug('distributeData p_offset_subtotal = '.$array_imp_data_quotations_parts[$i]["p_offset_subtotal"]);
+                    // // // // // Log::debug('distributeData p_letterpress_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_sewingmachine_hon"]);
+                    // // // // // Log::debug('distributeData p_letterpress_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_sewingmachine_dai"]);
+                    // // // // // Log::debug('distributeData p_letterpress_jump_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_sewingmachine_hon"]);
+                    // // // // // Log::debug('distributeData p_letterpress_jump_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_sewingmachine_dai"]);
+                    // // // // // Log::debug('distributeData p_letterpress_micro_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_micro_sewingmachine_hon"]);
+                    // // // // // Log::debug('distributeData p_letterpress_micro_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_micro_sewingmachine_dai"]);
+                    // // // // // Log::debug('distributeData p_letterpress_jump_micro_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_micro_sewingmachine_hon"]);
+                    // // // // // Log::debug('distributeData p_letterpress_jump_micro_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_micro_sewingmachine_dai"]);
+                    // // // // // Log::debug('distributeData p_letterpress_linein_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_linein_hon"]);
+                    // // // // // Log::debug('distributeData p_letterpress_linein_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_linein_dai"]);
+                    // // // // // Log::debug('distributeData p_letterpress_slitter_hon = '.$array_imp_data_quotations_parts[$i]["p_letterpress_slitter_hon"]);
+                    // // // // // Log::debug('distributeData p_letterpress_slitter_dai = '.$array_imp_data_quotations_parts[$i]["p_letterpress_slitter_dai"]);
+                    // // // // // Log::debug('distributeData p_letterpress_diecut = '.$array_imp_data_quotations_parts[$i]["p_letterpress_diecut"]);
+                    // // // // // Log::debug('distributeData p_letterpress_pcno = '.$array_imp_data_quotations_parts[$i]["p_letterpress_pcno"]);
+                    // // // // // Log::debug('distributeData p_letterpress_no = '.$array_imp_data_quotations_parts[$i]["p_letterpress_no"]);
+                    // // // // // Log::debug('distributeData p_letterpress_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_jump_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_micro_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_jump_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_jump_micro_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_linein_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_linein_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_slitter_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_slitter_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_diecut_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_diecut_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_pcno_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_pcno_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_no_ks = '.$array_imp_data_quotations_parts[$i]["p_letterpress_no_ks"]);
+                    // // // // // Log::debug('distributeData p_letterpress_subtotal = '.$array_imp_data_quotations_parts[$i]["p_letterpress_subtotal"]);
+                    // // // // // Log::debug('distributeData p_info_toray = '.$array_imp_data_quotations_parts[$i]["p_info_toray"]);
+                    // // // // // Log::debug('distributeData p_info_ijp = '.$array_imp_data_quotations_parts[$i]["p_info_ijp"]);
+                    // // // // // Log::debug('distributeData p_info_dot_line = '.$array_imp_data_quotations_parts[$i]["p_info_dot_line"]);
+                    // // // // // Log::debug('distributeData p_info_dot_dai = '.$array_imp_data_quotations_parts[$i]["p_info_dot_dai"]);
+                    // // // // // Log::debug('distributeData p_info_basic_fee = '.$array_imp_data_quotations_parts[$i]["p_info_basic_fee"]);
+                    // // // // // Log::debug('distributeData p_info_output = '.$array_imp_data_quotations_parts[$i]["p_info_output"]);
+                    // // // // // Log::debug('distributeData p_info_punching = '.$array_imp_data_quotations_parts[$i]["p_info_punching"]);
+                    // // // // // Log::debug('distributeData p_info_subtotal = '.$array_imp_data_quotations_parts[$i]["p_info_subtotal"]);
+                    // // // // // Log::debug('distributeData p_diecutter_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_sewingmachine_hon"]);
+                    // // // // // Log::debug('distributeData p_diecutter_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_sewingmachine_dai"]);
+                    // // // // // Log::debug('distributeData p_diecutter_jump_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_sewingmachine_hon"]);
+                    // // // // // Log::debug('distributeData p_diecutter_jump_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_sewingmachine_dai"]);
+                    // // // // // Log::debug('distributeData p_diecutter_micro_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_micro_sewingmachine_hon"]);
+                    // // // // // Log::debug('distributeData p_diecutter_micro_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_micro_sewingmachine_dai"]);
+                    // // // // // Log::debug('distributeData p_diecutter_jump_micro_sewingmachine_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_micro_sewingmachine_hon"]);
+                    // // // // // Log::debug('distributeData p_diecutter_jump_micro_sewingmachine_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_micro_sewingmachine_dai"]);
+                    // // // // // Log::debug('distributeData p_diecutter_ana_hon = '.$array_imp_data_quotations_parts[$i]["p_diecutter_ana_hon"]);
+                    // // // // // Log::debug('distributeData p_diecutter_ana_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_ana_dai"]);
+                    // // // // // Log::debug('distributeData p_diecutter_cornercut = '.$array_imp_data_quotations_parts[$i]["p_diecutter_cornercut"]);
+                    // // // // // Log::debug('distributeData p_diecutter_cornercut_dai = '.$array_imp_data_quotations_parts[$i]["p_diecutter_cornercut_dai"]);
+                    // // // // // Log::debug('distributeData p_diecutter_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_diecutter_jump_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_diecutter_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_micro_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_diecutter_jump_micro_sewingmachine_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_jump_micro_sewingmachine_ks"]);
+                    // // // // // Log::debug('distributeData p_diecutter_ana_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_ana_ks"]);
+                    // // // // // Log::debug('distributeData p_diecutter_cornercut_ks = '.$array_imp_data_quotations_parts[$i]["p_diecutter_cornercut_ks"]);
+                    // // // // // Log::debug('distributeData p_diecutter_subtotal = '.$array_imp_data_quotations_parts[$i]["p_diecutter_subtotal"]);
+                    // // // // // Log::debug('distributeData outsource_paper = '.$array_imp_data_quotations_parts[$i]["outsource_paper"]);
+                    // // // // // Log::debug('distributeData outsource_paper_cost = '.$array_imp_data_quotations_parts[$i]["outsource_paper_cost"]);
+                    // // // // // Log::debug('distributeData outsource_paper_all = '.$array_imp_data_quotations_parts[$i]["outsource_paper_all"]);
+                    // // // // // Log::debug('distributeData outsource_paper_all_cost = '.$array_imp_data_quotations_parts[$i]["outsource_paper_all_cost"]);
+                    // // // // // Log::debug('distributeData p_form_cornercut = '.$array_imp_data_quotations_parts[$i]["p_form_cornercut"]);
+                    // // // // // Log::debug('distributeData p_form_replace = '.$array_imp_data_quotations_parts[$i]["p_form_replace"]);
+                    // // // // // Log::debug('distributeData p_form_replace_color = '.$array_imp_data_quotations_parts[$i]["p_form_replace_color"]);
+                    // // // // // Log::debug('distributeData p_envelope = '.$array_imp_data_quotations_parts[$i]["p_envelope"]);
                 }
                 DB::beginTransaction();
                 $convert =  mb_convert_variables('UTF-8','UTF-8',$array_imp_data_quotations_parts);
-                Log::debug('distributeG001 table_wrk_quotations_parts insert start');
+                // // // // Log::debug('distributeData table_wrk_quotations_parts insert start');
                 $insert_data = collect($array_imp_data_quotations_parts);
                 $insert_cnt = 0;
-                foreach ($insert_data->chunk(500) as $chunk) {
+                foreach ($insert_data->chunk(300) as $chunk) {
                     $insert_cnt++;
-                    Log::debug('distributeG001 table_wrk_quotations_parts insert_cnt = '.$insert_cnt);
+                    // // // // Log::debug('distributeData table_wrk_quotations_parts insert_cnt = '.$insert_cnt);
                     DB::table($this->table_wrk_quotations_parts)->insert( $chunk->toArray());
                 }
-                Log::debug('distributeG001 table_wrk_quotations_parts insert end');
-                DB::commit();
-                break;
-            case Config::get('const.G001.distribute_quotations'):
-                DB::beginTransaction();
-                $convert =  mb_convert_variables('UTF-8','UTF-8',$array_imp_data_quotations);
-                Log::debug('distributeG001 table_wrk_quotations insert start');
-                $insert_data = collect($array_imp_data_quotations);
-                $insert_cnt = 0;
-                foreach ($insert_data->chunk(500) as $chunk) {
-                    $insert_cnt++;
-                    Log::debug('distributeG001 table_wrk_quotations insert_cnt = '.$insert_cnt);
-                    DB::table($this->table_wrk_quotations)->insert( $chunk->toArray());
-                }
-                Log::debug('distributeG001 table_wrk_quotations insert end');
+                // // // // Log::debug('distributeData table_wrk_quotations_parts insert end');
                 DB::commit();
                 break;
             }
-
 
         } catch (ProcessFailedException $pe) {
             DB::rollback();
@@ -717,7 +1234,7 @@ class BackupLogsController extends Controller
     //
     private function getImportData($params)
     {
-        Log::debug('getImportData in ');
+        // // // // Log::debug('getImportData in ');
         $apicommon = new ApiCommonController();
         $imp_m_model = new ImpMitumoridat();
         $quotations_model = new Quotations();
@@ -744,13 +1261,13 @@ class BackupLogsController extends Controller
             //   　quotations_cost 見積金額テーブル　         REC-ID=99の内容で作成
             //   　quotations_department 見積金額テーブル　   REC-ID=00と99の内容で作成
             //   　quotations_parts 見積パーツテーブル　      REC-ID=01 ~ 15の内容で作成
-            Log::debug('getImportData imp_mitumori_dat 読込 start ');
+            // // // // Log::debug('getImportData imp_mitumori_dat 読込 start ');
             $get_imp_data = $imp_m_model->getItem(593300, 100000);
-            Log::debug('getImportData imp_mitumori_dat 読込 end ');
+            // // // // Log::debug('getImportData imp_mitumori_dat 読込 end ');
             $rec_cnt = 0;
             $seq_cnt = 0;
             $strat_flg = false;
-            Log::debug('getImportData ループ開始 '.$rec_cnt);
+            // // // // Log::debug('getImportData ループ開始 '.$rec_cnt);
             foreach ($get_imp_data as $item) {
                 $rec_cnt += 1;
                 $array_imp_data = explode("|", $item->imp_data);
@@ -901,7 +1418,7 @@ class BackupLogsController extends Controller
                     break;
                 }
             }
-            Log::debug('getImportData ループ終了 '.$rec_cnt);
+            // // // // Log::debug('getImportData ループ終了 '.$rec_cnt);
             return array($array_imp_data_quotations
                         , $array_imp_data_quotations_binding
                         , $array_imp_data_quotations_cost
@@ -1020,9 +1537,9 @@ class BackupLogsController extends Controller
             $quotationsdepartment_model->setPlatesubtotalAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.plate_subtotal') - $arrange_index]);
             $quotationsdepartment_model->setCollatorAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.collator') - $arrange_index]);
             $quotationsdepartment_model->setBebeAttribute($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.bebe') - $arrange_index]);
-            // Log::debug('setQuotationsItem00 $array_item collator'.$array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.collator') - $arrange_index]);
-            // Log::debug('setQuotationsItem00 $array_item bebe'.$array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.bebe') - $arrange_index]);
-            // Log::debug('setQuotationsItem00 $array_item tape_process'.$array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.tape_process') - $arrange_index]);
+            // // // // // Log::debug('setQuotationsItem00 $array_item collator'.$array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.collator') - $arrange_index]);
+            // // // // // Log::debug('setQuotationsItem00 $array_item bebe'.$array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.bebe') - $arrange_index]);
+            // // // // // Log::debug('setQuotationsItem00 $array_item tape_process'.$array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.tape_process') - $arrange_index]);
             $quotationsdepartment_model->setEnvelopeprocessAttribute(substr($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.tape_process') - $arrange_index],0,1));
             $quotationsdepartment_model->setTapeprocessAttribute(substr($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.tape_process') - $arrange_index],1,1));
             $quotationsdepartment_model->setPeelAttribute(substr($array_item[(int)Config::get('const.MITUMORI_DAT_POS_00.tape_process') - $arrange_index],2,1));
@@ -1832,6 +2349,28 @@ class BackupLogsController extends Controller
             throw $e;
         }
     }
+
+
+    //
+    //  Customer Ins
+    //
+    private function putCustomers()
+    {
+        $customer_model = new Customer();
+        try {
+            DB::table($this->table_customers)->truncate();
+            DB::beginTransaction();
+            $customer_model->distributeIns();
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+    
     
 
     //
@@ -1840,18 +2379,18 @@ class BackupLogsController extends Controller
     private function putBackupResult($params)
     {
         $item = $params['item'];
-        Log::debug('putBackupResult in  $item->status = '.$item->status);
+        // // // // Log::debug('putBackupResult in  $item->status = '.$item->status);
         if (isset($item->status) && $item->status == Config::get('const.STATUS.end')) {
             return true;
         }
         try {
             DB::beginTransaction();
             // バックアップ属性
-            Log::debug('putBackupResult in  putBackupAtt start ');
+            // // // // Log::debug('putBackupResult in  putBackupAtt start ');
             $result = $this->putBackupAtt($params);
-            Log::debug('putBackupResult in  putBackupAtt end ');
+            // // // // Log::debug('putBackupResult in  putBackupAtt end ');
             // バックアップログ
-            Log::debug('putBackupResult in  $params[proc] = '.$params['proc']);
+            // // // // Log::debug('putBackupResult in  $params[proc] = '.$params['proc']);
             if ($params['proc'] == Config::get('const.STATUS.end')) {
                 $result = $this->putBackupLog($params);
             }
@@ -1874,14 +2413,17 @@ class BackupLogsController extends Controller
         $item = $params['item'];
         $result = $params['result'];
         $login_user_code = $params['login_user_code'];
-        Log::debug('putBackupAtt in $proc = '.$proc);
-        Log::debug('putBackupAtt in $result = '.$result);
-        Log::debug('putBackupAtt in $item->identification_id = '.$item->identification_id);
-        Log::debug('putBackupAtt in $item->identification_code = '.$item->identification_code);
+        // // // // Log::debug('putBackupAtt in $proc = '.$proc);
+        // // // // Log::debug('putBackupAtt in $result = '.$result);
+        // // // // Log::debug('putBackupAtt in $item->identification_id = '.$item->identification_id);
+        // // // // Log::debug('putBackupAtt in $item->identification_code = '.$item->identification_code);
+        // // // // Log::debug('putBackupAtt in $item->work_table = '.$item->work_table);
+        // // // // Log::debug('putBackupAtt in $item->target_table = '.$item->target_table);
 
         $bkup_model = new BackupAttribute();
         try {
             // 存在チェック
+            $bkup_model->setParamProcseqAttribute($item->proc_seq);
             $bkup_model->setParamIdentificationidAttribute($item->identification_id);
             $bkup_model->setParamIdentificationcodeAttribute($item->identification_code);
             $result = $bkup_model->chkExist();
@@ -1898,12 +2440,12 @@ class BackupLogsController extends Controller
                 $bkup_model->setUpdateduserAttribute($login_user_code);
                 $bkup_model->setUpdatedatAttribute(Carbon::now());
                 $result = $bkup_model->updData();
-                Log::debug('putBackupAtt in updData ');
+                // // // // Log::debug('putBackupAtt in updData ');
             } else {
                 $bkup_model->setCreateduserAttribute($login_user_code);
                 $bkup_model->setCreatedatAttribute(Carbon::now());
                 $result = $bkup_model->store();
-                Log::debug('putBackupAtt in store ');
+                // // // // Log::debug('putBackupAtt in store ');
             }
 
         } catch (Exception $e) {
@@ -1926,9 +2468,9 @@ class BackupLogsController extends Controller
         $login_user_code = $params['login_user_code'];
         $apicommon = new ApiCommonController();
         $bkuplog_model = new BackupLogs();
-        Log::debug('putBackupLog in $proc = '.$proc);
-        Log::debug('putBackupLog in $result = '.$result);
-        Log::debug('putBackupLog in $item->identification_code = '.$item->identification_code);
+        // // // // Log::debug('putBackupLog in $proc = '.$proc);
+        // // // // Log::debug('putBackupLog in $result = '.$result);
+        // // // // Log::debug('putBackupLog in $item->identification_code = '.$item->identification_code);
 
         try {
             // バックアップログ作成
