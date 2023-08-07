@@ -1,3 +1,17 @@
+.DS_Store
+/dist/
+vendor/
+/vendor/*
+
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
 # Logs
 logs
 *.log
@@ -37,6 +51,10 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
+# gcc
+gcc-11.2.0/
+/gcc-11.2.0/*
+
 # Dependency directories
 node_modules/
 jspm_packages/
@@ -69,8 +87,8 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
-.env.test
+#.env
+#.env.test
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
