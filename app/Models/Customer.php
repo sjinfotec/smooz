@@ -4,17 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class Customer extends Model
 {
     use HasFactory;
     //--------------- テーブル名 -----------------------------------
-    protected $table = 'customer';
+    protected $table = 'customers';
 
     //--------------- メンバー属性 -----------------------------------
     private $id;                              // 
     private $code;                              // 得意先コード
-    private $classify;                              // 区分
+    private $category;                              // 区分
     private $name;                              // 得意先名／外注先名
     private $post;                              // 郵便番号
     private $address1;                              // 住所1
@@ -55,14 +58,14 @@ class Customer extends Model
         $this->code = $value;
     }
     //区分
-    public function getClassifyAttribute()
+    public function getCategoryAttribute()
     {
-        return $this->classify;
+        return $this->category;
     }
 
-    public function setClassifyAttribute($value)
+    public function setCategoryAttribute($value)
     {
-        $this->classify = $value;
+        $this->category = $value;
     }
     //得意先名／外注先名
     public function getNameAttribute()
@@ -238,7 +241,7 @@ class Customer extends Model
     //--------------- パラメータ項目属性 -----------------------------------
     private $param_id;                              // 
     private $param_code;                              // 得意先コード
-    private $param_classify;                              // 区分
+    private $param_category;                              // 区分
     private $param_name;                              // 得意先名／外注先名
     private $param_post;                              // 郵便番号
     private $param_address1;                              // 住所1
@@ -278,14 +281,14 @@ class Customer extends Model
         $this->param_code = $value;
     }
     //区分
-    public function getParamClassifyAttribute()
+    public function getParamCategoryAttribute()
     {
-        return $this->param_classify;
+        return $this->param_category;
     }
 
-    public function setParamClassifyAttribute($value)
+    public function setParamCategoryAttribute($value)
     {
-        $this->param_classify = $value;
+        $this->param_category = $value;
     }
     //得意先名／外注先名
     public function getParamNameAttribute()
@@ -456,6 +459,42 @@ class Customer extends Model
     public function setParamIsdeletedAttribute($value)
     {
         $this->param_is_deleted = $value;
+    }
+
+    // ----------------------  メソッド ---------------------------------
+
+    /**
+     * delete
+     *
+     * @return void
+     */
+    public function delete(){
+        try {
+            $sqlString = "";
+            $sqlString .= "delete from ".$this->table;
+            $sqlString .= "  where ";
+            $sqlString .= "    ? = ? ";
+			if(!empty($this->param_code)){
+                $sqlString .= "    and code = ? ";
+			}
+			if(!empty($this->param_category)){
+                $sqlString .= "    and category = ? ";
+			}
+            $array_setBindingsStr = array();
+            $array_setBindingsStr[] = 1;
+            $array_setBindingsStr[] = 1;
+			if(!empty($this->param_code)){
+                $array_setBindingsStr[] = $this->param_code;
+			}
+			if(!empty($this->param_category)){
+                $array_setBindingsStr[] = $this->param_category;
+			}
+            $result = DB::delete($sqlString, $array_setBindingsStr);
+        } catch (ProcessFailedException $pe) {
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $shname, Config::get('const.LOG_MSG.failed_import')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }
     }
 
 }
