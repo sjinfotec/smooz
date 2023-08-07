@@ -19,6 +19,7 @@ class BackupAttribute extends Model
 
     //--------------- メンバー属性 -----------------------------------
     private $id;                              // ID
+    private $proc_seq;                              // 処理手順
     private $identification_id;                              // 識別
     private $identification_code;                              // 識別コード
     private $work_table;                              // 作業テーブル
@@ -40,6 +41,16 @@ class BackupAttribute extends Model
     public function setIdAttribute($value)
     {
         $this->id = $value;
+    }
+    //処理手順
+    public function getProcseqAttribute()
+    {
+        return $this->proc_seq;
+    }
+
+    public function setProcseqAttribute($value)
+    {
+        $this->proc_seq = $value;
     }
     //識別
     public function getIdentificationidAttribute()
@@ -144,6 +155,7 @@ class BackupAttribute extends Model
 
     //--------------- パラメータ項目属性 -----------------------------------
     private $param_id;                              // ID
+    private $param_proc_seq;                              // 処理手順
     private $param_identification_id;                              // 識別
     private $param_identification_code;                              // 識別コード
     private $param_work_table;                              // 作業テーブル
@@ -164,6 +176,16 @@ class BackupAttribute extends Model
     public function setParamIdAttribute($value)
     {
         $this->param_id = $value;
+    }
+    //処理手順
+    public function getParamProcseqAttribute()
+    {
+        return $this->param_proc_seq;
+    }
+
+    public function setParamProcseqAttribute($value)
+    {
+        $this->param_proc_seq = $value;
     }
     //識別
     public function getParamIdentificationidAttribute()
@@ -277,6 +299,7 @@ class BackupAttribute extends Model
         try {
             $query = DB::table($this->table.' AS t1')
             ->select(
+                't1.proc_seq as proc_seq',
                 't1.identification_id as identification_id',
                 't1.identification_code as identification_code',
                 't1.work_table as work_table',
@@ -297,6 +320,9 @@ class BackupAttribute extends Model
                 ->where('t1.is_deleted', '=', 0)
                 ->where('t2.is_deleted', '=', 0);
             });
+            if ($this->param_proc_seq != null && $this->param_proc_seq != "") {
+                $query->where('t1.proc_seq', $this->param_proc_seq);
+            }
             if ($this->param_identification_id != null && $this->param_identification_id != "") {
                 $query->where('t1.identification_id', $this->param_identification_id);
             }
@@ -308,6 +334,7 @@ class BackupAttribute extends Model
                 $query->where('t1.status', '!=', $this->param_status);
             }
             $data  = $query->where('t1.is_deleted',0)
+                    ->orderBy('proc_seq', 'asc')
                     ->get();
             return $data;
         }catch(\PDOException $pe){
@@ -330,6 +357,9 @@ class BackupAttribute extends Model
     public function chkExist(){
         try {
             $query = DB::table($this->table.' AS t1');
+            if ($this->param_proc_seq != null && $this->param_proc_seq != "") {
+                $query->where('t1.proc_seq', $this->param_proc_seq);
+            }
             if ($this->param_identification_id != null && $this->param_identification_id != "") {
                 $query->where('t1.identification_id', $this->param_identification_id);
             }
@@ -359,6 +389,7 @@ class BackupAttribute extends Model
         try {
             $query = DB::table($this->table)
             ->insert([
+                'proc_seq' => $this->proc_seq,
                 'identification_id' => $this->identification_id,
                 'identification_code' => $this->identification_code,
                 'work_table' => $this->work_table,
@@ -393,6 +424,9 @@ class BackupAttribute extends Model
             Log::debug('updData in $this->target_table = '.$this->target_table);
             Log::debug('updData in $this->status = '.$this->status);
             $query = DB::table($this->table.' AS t1');
+            if ($this->param_proc_seq != null && $this->param_proc_seq != "") {
+                $query->where('t1.proc_seq', $this->param_proc_seq);
+            }
             if ($this->param_identification_id != null && $this->param_identification_id != "") {
                 $query->where('t1.identification_id', $this->param_identification_id);
             }
