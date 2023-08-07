@@ -408,7 +408,63 @@ header .header_login_info a {
 
 
 
-#menubtn01  {}
+#menubtn01 {
+  position: fixed;
+  /*position: sticky;*/
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background: rgba(255, 255, 255, 1);
+  z-index: 500;
+  opacity: 1;
+  /*visibility: hidden;*/
+  visibility: visible;
+  
+
+}
+#menubtn01 button {
+  position: relative;
+  /*border: 2px solid transparent;*/
+  border: 0px;
+  padding: 4px 6px;
+  background: linear-gradient(to right, #e7e7e7 40%, #ebd3ff 100%);
+  box-shadow: -4px -4px 8px #fff, 4px 4px 8px rgb(0 0 0 / 24%);
+  /*transition: all 0.5s 0.2s ease-in-out;*/
+
+}
+#menubtn01 button:focus {
+  outline: 2px;
+  box-shadow: 0 0 0 2px #cbd6ee;
+}
+#menubtn01 button:hover  {
+  /*background:#acdee7;*/
+  color: #333;
+}
+
+#menubtn01 button:active {
+  background:#cc8888;
+}
+#menubtn01 button:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  border-radius: 5px;
+  content: "";
+  transition: all 0.5s;
+
+  background-image: linear-gradient(180deg, #28882d, #2b797c, #2b86c5);
+}
+
+#menubtn01 button:hover:after {
+  opacity: 0;
+}
+#menubtn01 button span {
+  position: relative;
+  z-index: 1;
+}
 
 /*--------------------## 見積作成 ##----------------------------------------*/
 
@@ -429,7 +485,7 @@ header .header_login_info a {
   background: linear-gradient(to right,rgba(255,255,255,0) 100px, rgba(35, 46, 196, 0.9) 90%);
 }
 .main_cnt {visibility: visible;}
-#cnt1 {padding:0 0 20px 0}
+#cnt1 {padding:0 0 120px 0}
 #cnt1 .line {
   display:flex;
   width:100%;
@@ -1671,6 +1727,25 @@ button.style2:hover  {
 #btn_cnt1 .btncolor3:hover  {
 	background: rgba(108, 178, 235, 0.7);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .transition1  {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;

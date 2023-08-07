@@ -4685,7 +4685,7 @@ __webpack_require__.r(__webpack_exports__);
       select_arr_s003: [],
       select_arr_s004: [],
       select_arr_s005: [],
-      container_arr_c001: [],
+      container_arr_p001: [],
       //s_m_code: "",
       partsview: false,
       outsourcingview: false,
@@ -5073,23 +5073,23 @@ __webpack_require__.r(__webpack_exports__);
         this.select_arr_s003 = res.select_arr_s003;
         this.select_arr_s004 = res.select_arr_s004;
         this.select_arr_s005 = res.select_arr_s005;
-        this.container_arr_c001 = res.container_arr_c001; //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+        this.container_arr_p001 = res.container_arr_p001; //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
 
         var parts_code_arr = Array(); //this.parts_arr = Array();
 
         this.all_dpc_arr = Array();
         var dpm = res.details_parts_min;
-        var arr_c001 = res.container_arr_c001;
+        var arr_p001 = res.container_arr_p001;
 
         for (var i = 0; i < dpm.length; i++) {
           var pkey = dpm[i].parts_code.trim();
           parts_code_arr[pkey] = pkey; //console.log("details_parts_min parts_code " + pkey + " : " + parts_code_arr[pkey]);
         }
 
-        for (var _i = 0; _i < arr_c001.length; _i++) {
+        for (var _i = 0; _i < arr_p001.length; _i++) {
           var htmlparts = '';
           var n = _i + 1;
-          var k = ('00' + n).slice(-2); //console.log("container_arr_c001.code " + i + " : " + arr_c001[i].code);
+          var k = ('00' + n).slice(-2); //console.log("container_arr_p001.code " + i + " : " + arr_p001[i].code);
           //console.log("parts_code_arr " + n + " : " + parts_code_arr[k]);
 
           if (parts_code_arr[k] == null) {
@@ -5097,8 +5097,8 @@ __webpack_require__.r(__webpack_exports__);
           } else {
             this.all_dpc_arr[_i] = parts_code_arr[k]; //console.log("parts_code_arr " + k + " : true ");
           } //let style_vh = 'visible';
-          //htmlparts += '<span id="parts' + arr_c001[i].code + '_mark" class="markzone2 mz_tc1 v_hidden" style="visibility: ' + style_vh + '"></span>\n';  
-          //htmlparts += '<button type="button" id="parts' + arr_c001[i].code + '_btn" v-on:click="SetParts(' + arr_c001[i].code + ', ' + arr_c001[i].code_name + ');">' + arr_c001[i].code_name + '</button>\n';
+          //htmlparts += '<span id="parts' + arr_p001[i].code + '_mark" class="markzone2 mz_tc1 v_hidden" style="visibility: ' + style_vh + '"></span>\n';  
+          //htmlparts += '<button type="button" id="parts' + arr_p001[i].code + '_btn" v-on:click="SetParts(' + arr_p001[i].code + ', ' + arr_p001[i].code_name + ');">' + arr_p001[i].code_name + '</button>\n';
           //this.parts_arr[i] = htmlparts;
 
         } //document.getElementById('prtext').innerHTML = parts_arr.join('');
@@ -60057,17 +60057,17 @@ var render = function () {
                 _c(
                   "div",
                   { staticClass: "line" },
-                  _vm._l(_vm.container_arr_c001, function (c001, indexc001) {
+                  _vm._l(_vm.container_arr_p001, function (p001, indexp001) {
                     return _c(
                       "div",
-                      { key: c001.id, staticClass: "inputgroup" },
+                      { key: p001.id, staticClass: "inputgroup" },
                       [
                         _c("span", {
                           staticClass: "markzone2 mz_tc1 v_hidden",
                           style: {
                             visibility: [
-                              _vm.container_arr_c001[indexc001].code ==
-                              _vm.all_dpc_arr[indexc001]
+                              _vm.container_arr_p001[indexp001].code ==
+                              _vm.all_dpc_arr[indexp001]
                                 ? "visible"
                                 : "hidden",
                             ],
@@ -60075,12 +60075,12 @@ var render = function () {
                           attrs: {
                             id:
                               "parts" +
-                              _vm.container_arr_c001[indexc001].code +
+                              _vm.container_arr_p001[indexp001].code +
                               "_mark",
                           },
                         }),
                         _vm._v(
-                          _vm._s(_vm.all_dpc_arr[indexc001]) + "\n          "
+                          _vm._s(_vm.all_dpc_arr[indexp001]) + "\n          "
                         ),
                         _c(
                           "a",
@@ -60089,19 +60089,19 @@ var render = function () {
                               href: "#",
                               id:
                                 "parts" +
-                                _vm.container_arr_c001[indexc001].code +
+                                _vm.container_arr_p001[indexp001].code +
                                 "_btn",
                             },
                             on: {
                               click: function ($event) {
-                                return _vm.SetParts(c001.code, c001.code_name)
+                                return _vm.SetParts(p001.code, p001.code_name)
                               },
                             },
                           },
                           [
                             _vm._v(
                               _vm._s(
-                                _vm.container_arr_c001[indexc001].code_name
+                                _vm.container_arr_p001[indexp001].code_name
                               )
                             ),
                           ]
@@ -60304,11 +60304,11 @@ var staticRenderFns = [
     return _c("div", { attrs: { id: "menubtn01" } }, [
       _c("div", { staticClass: "line" }, [
         _c("div", { staticClass: "inputgroup" }, [
-          _c("button", [_vm._v("新規")]),
+          _c("button", [_c("span", [_vm._v("新規")])]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [
-          _c("button", [_vm._v("見積書")]),
+          _c("button", [_c("span", [_vm._v("見積書")])]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [
@@ -60322,19 +60322,19 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [
-          _c("button", [_vm._v("登録")]),
+          _c("button", [_c("span", [_vm._v("登録")])]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [
-          _c("button", [_vm._v("受注")]),
+          _c("button", [_c("span", [_vm._v("受注")])]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [
-          _c("button", [_vm._v("原価閲覧")]),
+          _c("button", [_c("span", [_vm._v("原価閲覧")])]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [
-          _c("button", [_vm._v("終了")]),
+          _c("button", [_c("span", [_vm._v("終了")])]),
         ]),
       ]),
     ])

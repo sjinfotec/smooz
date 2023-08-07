@@ -11,25 +11,25 @@
       <div id="menubtn01">
         <div class="line">
           <div class="inputgroup">
-            <button>新規</button>
+            <button><span>新規</span></button>
           </div>
           <div class="inputgroup">
-            <button>見積書</button>
+            <button><span>見積書</span></button>
           </div>
           <div class="inputgroup">
             <label>参照見積番号<input type="text" class="form_style input_w5"></label>
           </div>
           <div class="inputgroup">
-            <button>登録</button>
+            <button><span>登録</span></button>
           </div>
           <div class="inputgroup">
-            <button>受注</button>
+            <button><span>受注</span></button>
           </div>
           <div class="inputgroup">
-            <button>原価閲覧</button>
+            <button><span>原価閲覧</span></button>
           </div>
           <div class="inputgroup">
-            <button>終了</button>
+            <button><span>終了</span></button>
           </div>
         </div>
       </div><!--end id menubtn01-->
@@ -199,9 +199,9 @@
 
         <!--<div>{{all_dpc_arr}}</div>-->
         <div class="line">
-          <div class="inputgroup" v-for="(c001,indexc001) in container_arr_c001" :key="c001.id">
-            <span :id="'parts' + container_arr_c001[indexc001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_c001[indexc001].code == all_dpc_arr[indexc001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexc001]}}
-            <a href="#" :id="'parts' + container_arr_c001[indexc001].code + '_btn'" @click="SetParts(c001.code, c001.code_name);">{{ container_arr_c001[indexc001].code_name }}</a>
+          <div class="inputgroup" v-for="(p001,indexp001) in container_arr_p001" :key="p001.id">
+            <span :id="'parts' + container_arr_p001[indexp001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_p001[indexp001].code == all_dpc_arr[indexp001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexp001]}}
+            <a href="#" :id="'parts' + container_arr_p001[indexp001].code + '_btn'" @click="SetParts(p001.code, p001.code_name);">{{ container_arr_p001[indexp001].code_name }}</a>
           </div>
         </div>
 
@@ -322,7 +322,7 @@ export default {
       select_arr_s003: [],
       select_arr_s004: [],
       select_arr_s005: [],
-      container_arr_c001: [],
+      container_arr_p001: [],
 
       //s_m_code: "",
 
@@ -762,14 +762,14 @@ export default {
           this.select_arr_s003 = res.select_arr_s003;
           this.select_arr_s004 = res.select_arr_s004;
           this.select_arr_s005 = res.select_arr_s005;
-          this.container_arr_c001 = res.container_arr_c001;
+          this.container_arr_p001 = res.container_arr_p001;
           //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
 
           let parts_code_arr = Array();
           //this.parts_arr = Array();
           this.all_dpc_arr = Array();
           const dpm = res.details_parts_min;
-          const arr_c001 = res.container_arr_c001;
+          const arr_p001 = res.container_arr_p001;
 
           for (let i = 0 ; i < dpm.length ; i++){
             let pkey = dpm[i].parts_code.trim();
@@ -778,11 +778,11 @@ export default {
 
           }
 
-          for (let i = 0 ; i < arr_c001.length ; i++){
+          for (let i = 0 ; i < arr_p001.length ; i++){
             var htmlparts = '';
             let n = i + 1;
             let k = ( '00' + n ).slice( -2 )
-            //console.log("container_arr_c001.code " + i + " : " + arr_c001[i].code);
+            //console.log("container_arr_p001.code " + i + " : " + arr_p001[i].code);
             //console.log("parts_code_arr " + n + " : " + parts_code_arr[k]);
             if(parts_code_arr[k] == null) {
               this.all_dpc_arr[i] = "";
@@ -793,8 +793,8 @@ export default {
               //console.log("parts_code_arr " + k + " : true ");
             }
             //let style_vh = 'visible';
-            //htmlparts += '<span id="parts' + arr_c001[i].code + '_mark" class="markzone2 mz_tc1 v_hidden" style="visibility: ' + style_vh + '"></span>\n';  
-            //htmlparts += '<button type="button" id="parts' + arr_c001[i].code + '_btn" v-on:click="SetParts(' + arr_c001[i].code + ', ' + arr_c001[i].code_name + ');">' + arr_c001[i].code_name + '</button>\n';
+            //htmlparts += '<span id="parts' + arr_p001[i].code + '_mark" class="markzone2 mz_tc1 v_hidden" style="visibility: ' + style_vh + '"></span>\n';  
+            //htmlparts += '<button type="button" id="parts' + arr_p001[i].code + '_btn" v-on:click="SetParts(' + arr_p001[i].code + ', ' + arr_p001[i].code_name + ');">' + arr_p001[i].code_name + '</button>\n';
             //this.parts_arr[i] = htmlparts;
 
           }
