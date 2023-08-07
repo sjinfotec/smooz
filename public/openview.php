@@ -2,6 +2,7 @@
 
 // 初期化
 $action_msg = "";
+$list_line = "";
 
 //echo "<pre>\n";
 //var_dump($_POST);
@@ -10,7 +11,7 @@ echo "m_code -> ".$_POST['m_code']."<br>\n";
 echo "create_date -> ".$_POST['create_date']."<br>\n";
 echo "<br><br>\n";
 //echo "<pre>\n";
-//var_dump($_POST['select_arr_s002']);
+//var_dump($_POST['parts_arr']);
 //echo "</pre>\n<br>\n";
 echo "";
 
@@ -28,17 +29,88 @@ $select_arr_s003 = $_POST['select_arr_s003'] ?: "";
 $select_arr_s004 = $_POST['select_arr_s004'] ?: "";
 $select_arr_s005 = $_POST['select_arr_s005'] ?: "";
 
-//echo "<pre>\n";
-//var_dump($darr);
-//echo "</pre>\n<br>\n";
+$m_code = $_POST['m_code'];
+
+
+try {
+
+	$tname_p = 'quotations_parts';
+    $user = 'sjinfotec';
+    $password = 'Sanjyo_1965';
+    $dsn = 'mysql:dbname=smooth;host=localhost';
+	$dbh = new PDO($dsn, $user, $password);
+	if ($dbh == null){
+		$action_msg .= "接続に失敗しました。<br>\n";
+	}else{
+		$action_msg .= "接続に成功しました。<br>\n";
+	}
+	$dbh->query('SET NAMES utf8mb4');
+	$today = date("Y-m-d H:i:s");
+	$action_msg .= $today."<br>\n";
+
+    // 
+    $sql_all = 'select * from '.$tname_p.' WHERE m_code="'.$m_code.'"';
+    $stmt_all = $dbh->prepare($sql_all);
+    $stmt_all->execute();
+    $all_count = $stmt_all->rowCount();
+    //$all_count = 0;
+    
+        //$name_arr = Array();
+        //$name_code_arr = Array();
+        //$unit_arr = Array();
+
+    if($all_count > 0) {
+
+        while($result = $stmt_all->fetch(PDO::FETCH_ASSOC)){
+        
+            $paper_name = $result['paper_name'];
+            //$name_arr[] = $result['name'];
+            $parts_code = $result['parts_code'];
+            //$name_code_arr[] = $result['name_code'];
+            //$size_h = isset($result['unit']) ? $result['unit'] : $unit;
+            //$unit_arr[$name_code] = $unit;
+            $list_line .= "<div>\n\t<div>{$paper_name}</div>\n\t<div>{$parts_code}</div>\n</div>\n";
+
+
+        }
+
+    }
+
+    /*
+    $count_row = array_count_values($name_code_arr);
+    //print_r($count_row);
+
+    $money_count = 0;
+    foreach($count_row as $ckey => $cval) {
+        $money_count = $money_count + $unit_arr[$ckey] * $cval;
+    }
+    */
+
+} catch (PDOException $e){
+    print('Error:'.$e->getMessage());
+    die();
+}
+    
+$dbh = null;
+    
+
+
+
+
+
+
+echo "<pre>\n";
+var_dump($parr);
+echo "</pre>\n<br>\n";
 
 foreach($darr AS $key => $val) {
     $action_msg .= $key."->".$val."<br>\n";
     $$key = $val;
 }
 echo "foreach まえ...<br>\n";
+
 foreach($parr AS $key => $val) {
-    $action_msg .= $key."->".$val."<br>\n";
+    //$action_msg .= $key."->".$val."<br>\n";
     echo "key...".$key."<br>\n";
     //$p_.$$key = $val;
 }
@@ -127,6 +199,8 @@ $html_main = <<<EOF
     </div>
 
     <hr>
+    <div>list_lineはここから</div>
+    $list_line
 
 </div><!--end cnt2-->
 

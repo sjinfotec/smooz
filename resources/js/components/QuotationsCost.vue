@@ -3,115 +3,117 @@
     <div id="cnt_title1">
       <h3>見積作成</h3>
     </div>
-    <div id="cnt1" >
-      <div id="department01">
-        <div class="cate"><h4 class="lspacing1">発送</h4></div>
-        <div class="area">
-          <div class="group">
-            <div class="inputgroup">
-              <label>市内<input type="text" class="form_style input_w3" name="send_city">個口</label>
+    <div id="cnt1" v-if="select_html == 'edit_view'">
+      <div v-for="(item,index) in details" v-bind:key="item.id">
+        <div id="department01">
+          <div class="cate"><h4 class="lspacing1">発送</h4></div>
+          <div class="area">
+            <div class="group">
+              <div class="inputgroup">
+                <label>市内<input type="text" class="form_style input_w3" v-model="details[index].send_city" name="send_city">個口</label>
+              </div>
+              <div class="inputgroup">
+                <label class="mgl20">道内<input type="text" class="form_style input_w3" v-model="details[index].send_in_dou" name="send_in_dou">個口</label>
+              </div>
+              <div class="inputgroup">
+                <label class="mgl20">道外<input type="text" class="form_style input_w3" v-model="details[index].send_out_dou" name="send_out_dou">個×</label>
+                <label>￥<input type="text" class="form_style input_w5" name="send_out_dou_yen"></label>
+              </div>
+              <div class="inputgroup">
+                <label class="mgl20">一括配送<input type="text" class="form_style input_w5" v-model="details[index].send_all" name="send_all"></label>
+              </div>
             </div>
-            <div class="inputgroup">
-              <label class="mgl20">道内<input type="text" class="form_style input_w3" name="send_in_dou">個口</label>
-            </div>
-            <div class="inputgroup">
-              <label class="mgl20">道外<input type="text" class="form_style input_w3" name="send_out_dou">個×</label>
-              <label>￥<input type="text" class="form_style input_w5" name="send_out_dou_yen"></label>
-            </div>
-            <div class="inputgroup">
-              <label class="mgl20">一括配送<input type="text" class="form_style input_w5" name="send_all"></label>
-            </div>
-          </div>
-        </div><!--end area-->
-      </div><!--end department01-->
+          </div><!--end area-->
+        </div><!--end department01-->
 
 
-      <div id="department01" class="mgt40">
-        <div class="cate"><h4>付加費用</h4></div>
-        <div class="area">
-          <div class="group">
-            <div class="inputgroup">購入先・バテント・部材・数量など</div>
-          </div>
-          <div class="group">
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w40" name="addition_cost1"></label>
+        <div id="department01" class="mgt40">
+          <div class="cate"><h4>付加費用</h4></div>
+          <div class="area">
+            <div class="group">
+              <div class="inputgroup">購入先・バテント・部材・数量など</div>
             </div>
-            <div class="inputgroup">
-              <label>購入費<input type="text" class="form_style input_w5" name="addition_cost1_buy"><span class="txtcolor1">加算</span></label>
+            <div class="group">
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w40" v-model="details[index].addition_cost1" name="addition_cost1"></label>
+              </div>
+              <div class="inputgroup">
+                <label>購入費<input type="text" class="form_style input_w5" v-model="details[index].addition_cost1_buy" name="addition_cost1_buy"><span class="txtcolor1">加算</span></label>
+              </div>
             </div>
-          </div>
 
-          <div class="group">
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w40" name="addition_cost2"></label>
+            <div class="group">
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w40" v-model="details[index].addition_cost2" name="addition_cost2"></label>
+              </div>
+              <div class="inputgroup">
+                <label>購入費<input type="text" class="form_style input_w5" v-model="details[index].addition_cost2_buy" name="addition_cost2_buy"><span class="txtcolor1">加算</span></label>
+              </div>
             </div>
-            <div class="inputgroup">
-              <label>購入費<input type="text" class="form_style input_w5" name="addition_cost2_buy"><span class="txtcolor1">加算</span></label>
-            </div>
-          </div>
 
-          <div class="group">
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w40" name="addition_cost3"></label>
+            <div class="group">
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w40" v-model="details[index].addition_cost3" name="addition_cost3"></label>
+              </div>
+              <div class="inputgroup">
+                <label>購入費<input type="text" class="form_style input_w5" v-model="details[index].addition_cost3_buy" name="addition_cost3_buy"><span class="txtcolor1">加算</span></label>
+              </div>
             </div>
-            <div class="inputgroup">
-              <label>購入費<input type="text" class="form_style input_w5" name="addition_cost3_buy"><span class="txtcolor1">加算</span></label>
-            </div>
-          </div>
 
-          <div class="group">
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w40" name="addition_cost4"></label>
+            <div class="group">
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w40" v-model="details[index].addition_cost4" name="addition_cost4"></label>
+              </div>
+              <div class="inputgroup">
+                <label>購入費<input type="text" class="form_style input_w5" v-model="details[index].addition_cost4_buy" name="addition_cost4_buy"><span class="txtcolor1">加算</span></label>
+              </div>
             </div>
-            <div class="inputgroup">
-              <label>購入費<input type="text" class="form_style input_w5" name="addition_cost4_buy"><span class="txtcolor1">加算</span></label>
-            </div>
-          </div>
 
-          <div class="group">
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w40" name="addition_cost5"></label>
+            <div class="group">
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w40" v-model="details[index].addition_cost5" name="addition_cost5"></label>
+              </div>
+              <div class="inputgroup">
+                <label>購入費<input type="text" class="form_style input_w5" v-model="details[index].addition_cost5_buy" name="addition_cost5_buy"><span class="txtcolor1">加算</span></label>
+              </div>
             </div>
-            <div class="inputgroup">
-              <label>購入費<input type="text" class="form_style input_w5" name="addition_cost5_buy"><span class="txtcolor1">加算</span></label>
-            </div>
-          </div>
-        </div><!--end area-->
-      </div><!--end department01-->
+          </div><!--end area-->
+        </div><!--end department01-->
 
 
-      <div id="department01">
-        <div class="cate2"><h4>製品全体の外注</h4></div>
-        <div class="area">
-          <div class="group">
-            <div class="inputgroup2">
-              <button type="button" id="product_all_outsou1_btn" @click="OutsourcingButton('product_all_outsou1');">外注先</button>
-              <input type="text" class="form_style input_w20" value="" name="product_all_outsou1" id="product_all_outsou1">
+        <div id="department01">
+          <div class="cate2"><h4>製品全体の外注</h4></div>
+          <div class="area">
+            <div class="group">
+              <div class="inputgroup2">
+                <button type="button" id="product_all_outsou1_btn" @click="OutsourcingButton('product_all_outsou1');">外注先</button>
+                <input type="text" class="form_style input_w20" v-model="details[index].product_all_outsou1" value="" name="product_all_outsou1" id="product_all_outsou1">
+              </div>
+              <div class="inputgroup2">
+                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].product_all_outsou1_cost" name="product_all_outsou1_cost"></label>
+              </div>
             </div>
-            <div class="inputgroup2">
-              <label>外注費<input type="text" class="form_style input_w5" name="product_all_outsou1_cost"></label>
+            <div class="group">
+              <div class="inputgroup">
+                <button type="button" id="product_all_outsou2_btn" @click="OutsourcingButton('product_all_outsou2');">外注先</button>
+                <input type="text" class="form_style input_w20" v-model="details[index].product_all_outsou2" value="" name="product_all_outsou2" id="product_all_outsou2">
+              </div>
+              <div class="inputgroup">
+                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].product_all_outsou2_cost" name="product_all_outsou2_cost"></label>
+              </div>
             </div>
-          </div>
-          <div class="group">
-            <div class="inputgroup">
-              <button type="button" id="product_all_outsou2_btn" @click="OutsourcingButton('product_all_outsou2');">外注先</button>
-              <input type="text" class="form_style input_w20" value="" name="product_all_outsou2" id="product_all_outsou2">
+            <div class="group">
+              <div class="inputgroup">
+                <button type="button" id="product_all_outsou3_btn" @click="OutsourcingButton('product_all_outsou3');">外注先</button>
+                <input type="text" class="form_style input_w20" v-model="details[index].product_all_outsou3" value="" name="product_all_outsou3" id="product_all_outsou3">
+              </div>
+              <div class="inputgroup">
+                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].product_all_outsou3_cost" name="product_all_outsou3_cost"></label>
+              </div>
             </div>
-            <div class="inputgroup">
-              <label>外注費<input type="text" class="form_style input_w5" name="product_all_outsou2_cost"></label>
-            </div>
-          </div>
-          <div class="group">
-            <div class="inputgroup">
-              <button type="button" id="product_all_outsou3_btn" @click="OutsourcingButton('product_all_outsou3');">外注先</button>
-              <input type="text" class="form_style input_w20" value="" name="product_all_outsou3" id="product_all_outsou3">
-            </div>
-            <div class="inputgroup">
-              <label>外注費<input type="text" class="form_style input_w5" name="product_all_outsou3_cost"></label>
-            </div>
-          </div>
-        </div><!--end area-->
-      </div><!--end department01-->
+          </div><!--end area-->
+        </div><!--end department01-->
+      </div><!--end v-for-->
 
       <div class="line mgt40">
           <div id="zukei" class="mglrauto">
@@ -142,22 +144,27 @@
 <script>
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
+import { dialogable } from "../mixins/dialogable.js";
+import { checkable } from "../mixins/checkable.js";
 import { requestable } from "../mixins/requestable.js";
 
 
 export default {
   name: "Mmake",
-  //mixins: [dialogable, checkable, requestable],
-  mixins: [requestable],
+  mixins: [dialogable, checkable, requestable],
+  //mixins: [requestable],
   props: {
-  /*
+    /*
     authusers: {
       type: Array,
       default: []
     }
-  */
+    */
+    s_m_code: {
+      type: String,
+      default: ""
+    },
+
   },
   /*
   components: {
@@ -171,6 +178,16 @@ export default {
       login_user_role: 0,
       dialogVisible: false,
       messageshowsearch: false,
+      result: false,
+
+      event_title: "",
+      actionmsgArr: [],
+      select_arr_s001: [],
+      select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: [],
+
 
       partsview: false,
       outsourcingview: false,
@@ -178,16 +195,36 @@ export default {
       targetid: "",
       pagenum: "",
       pagename: "",
-      inputtextid: ""
+      inputtextid: "",
+      select_html: "",
+
     };
   },
   // マウント時
   mounted() {
     //this.login_user_code = this.authusers["code"];
     //this.login_user_role = this.authusers["role"];
+    this.getItem();
+    window.onload = () => {
+      const timeout = '3000';
+      setTimeout(() => {
+        if(this.result) {
+          console.log('setTimeout result in timeout -> ' + this.result + ' ' + timeout);
+          //this.FirstExec();
+        }
+      }, timeout);
+    };
+
   },
   methods: {
     // -------------------- イベント処理 --------------------
+    FirstExec() {
+      console.log('FirstExec in ');
+      this.OnButtonClickTLoad('printing');
+      this.OnButtonClick03Load('', 0, 'unit');
+      //this.viewStrLen();
+    },
+
     OnButtonClick(t) {
       var tm = t + '_mark';
       var inputid = document.getElementById(t);
@@ -458,14 +495,59 @@ export default {
 
 
     // -------------------- サーバー処理 --------------------
+    // 見積を取得
+    getItem: function() {
+      console.log('getItem in props s_m_code = ' + this.s_m_code);
+      var motion_msg = "見積 ー 発送・費用・外注";
+      var arrayParams = { 
+        s_m_code : this.s_m_code , 
+
+      };
+      this.postRequest("/quotations/cost/get", arrayParams)
+        .then(response  => {
+          this.getThen(response, motion_msg);
+        })
+        .catch(reason => {
+          this.serverCatch("quotationsCost取得");
+        });
+
+    },
+
+
     // -------------------- 共通 --------------------
     // 取得正常処理
-    getThen(response) {
-      console.log('正常');
+    getThen(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+      if (res.details.length > 0) {
+          this.details = res.details;
+          this.select_arr_s001 = res.select_arr_s001;
+          this.select_arr_s002 = res.select_arr_s002;
+          this.select_arr_s003 = res.select_arr_s003;
+          this.select_arr_s004 = res.select_arr_s004;
+          this.select_arr_s005 = res.select_arr_s005;
+
+          this.event_title = res.s_m_code;
+          //console.log("putThenSearch in res.s_m_code = " + res.s_m_code);
+          this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+          this.result = res.result;
+          this.select_html = "edit_view";
+      } else {
+          //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details = [];
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+
     },
+
     // 異常処理
     serverCatch(eventtext) {
-      console.log('異常処理');
+      console.log('処理未完 -> ' + eventtext);
     },
   }
 };

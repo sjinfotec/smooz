@@ -15,7 +15,7 @@ class QuotationsDepartment extends Model
     use HasFactory;
 
     protected $table = 'quotations_department';
-		protected $table_wrk_quotations_department = 'wrk_quotations_department';
+	protected $table_wrk_quotations_department = 'wrk_quotations_department';
 
 
 	private $id;							// ID
@@ -843,9 +843,15 @@ class QuotationsDepartment extends Model
 	}
 
 
-		// ----------------------  メソッド ---------------------------------
+	// ----------------------  メソッド ---------------------------------
 
-		/**
+    // 見積番号
+    private $param_m_code;
+    public function getParamM_codeAttribute(){ return $this->param_m_code;}
+    public function setParamM_codeAttribute($value){  $this->param_m_code = $value;}
+	
+
+	/**
      * import
      *
      * @return void
@@ -876,5 +882,122 @@ class QuotationsDepartment extends Model
 					Log::error($e->getMessage());
 					throw $e;
 			}
-		}
+	}
+
+
+	/**
+     * 部門（フォーム・オフセット・組版・コレーター・ネームライナー）取得
+     *
+     * @return void
+     */
+    public function getSearch(){
+
+        $searchgo = false;
+        if(!empty($this->param_m_code)) $searchgo = true;
+
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ->select(
+
+				'id',
+				'm_code',
+				'wkake',
+				'daenpin',
+				'ana2',
+				'ana6',
+				'donko',
+				'katanuki',
+				'katanuki_outsou',
+				'katanuki_outsou_cost',
+				'kasutori',
+				'kasutori_outsou',
+				'kasutori_outsou_cost',
+				'nisu',
+				'nisu_through',
+				'tsr_times',
+				'tsr_through',
+				'form_color_change',
+				'form_carbon_mold',
+				'form_all_outsou',
+				'form_all_outsou_cost',
+				'form_subtotal',
+				'offset_color_change',
+				'offset_carbon_mold',
+				'offset_subtotal',
+				'block_copy',
+				'kinds',
+				'difficulty',
+				'plate_making_outsou',
+				'plate_making_outsou_cost',
+				'ctp',
+				'inkjet',
+				'inkjet_sheet',
+				'ondemand_color_front',
+				'ondemand_color_back',
+				'ondemand_through_front',
+				'ondemand_through_back',
+				'plate_subtotal',
+				'collator',
+				'bebe',
+				'envelope_process',
+				'tape_process',
+				'peel',
+				'press',
+				'sheetcut',
+				'collator_cno',
+				'collator_ana',
+				'collator_all_outsou',
+				'collator_all_outsou_cost',
+				'collator_subtotal',
+				'collator_basic_fee',
+				'nl_color',
+				'nl_hagaki',
+				'nl_hagaki_color',
+				'nl_envelope_color',
+				'nl_number_part',
+				'nl_subtotal',
+				'created_user',
+				'updated_user',
+				'created_at',
+				'updated_at',
+				'is_deleted'
+
+            )
+            //->selectRaw('DATE_FORMAT(create_date, "%Y年%m月%d日") AS f_create_date')
+            //->selectRaw('DATE_FORMAT(lastorder_date, "%Y年%m月%d日") AS f_lastorder_date')
+            //->selectRaw('FORMAT(production_volnum, 0) AS f_production_volnum')
+            //->selectRaw('FORMAT(estimate_amount, 0) AS f_estimate_amount')
+            ;
+            if(!empty($this->param_m_code)){
+                //Log::info("getSearch this->param_m_code -- ".$this->param_m_code);
+                $data->where('m_code', $this->param_m_code)
+                ->orderBy('id', 'DESC');
+            }
+
+            if($searchgo) {
+                $result = $data
+                ->get();
+
+            }
+
+            /*
+            if ($result->isEmpty()) {
+                $result = "";
+            } 
+            */
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+
+    }
+
 }

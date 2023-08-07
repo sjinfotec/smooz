@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="cnt_title2">
-      <h3>パーツ設定 － {{ pageNum }}P目 －</h3>
+      <h3>パーツ設定 － {{ pageName }} －</h3>
     </div>
     <div id="cnt1">
       <div class="line">
@@ -509,21 +509,26 @@
 
 <script>
 //import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
-//import { requestable } from "../mixins/requestable.js";
+import { dialogable } from "../mixins/dialogable.js";
+import { checkable } from "../mixins/checkable.js";
+import { requestable } from "../mixins/requestable.js";
 export default {
   name: 'Parts',
-  //mixins: [dialogable, checkable, requestable],
+  mixins: [dialogable, checkable, requestable],
   props: {
     pageNum: {
-      type:  Number,
+      type:  [String,Number],
       default: ""
     },
     pageName: {
       type:  String,
       default: ""
+    },
+    mCode: {
+      type:  String,
+      default: ""
     }
+
   },
   data() {
     return {
@@ -535,6 +540,7 @@ export default {
   },
   // マウント時
   mounted() {
+    this.getParts();
     this.Test();
   },
   methods: {
@@ -598,10 +604,66 @@ export default {
     },
 
     // ------------------------ サーバー処理 ----------------------------
+    
+    // パーツを取得
+    getParts: function() {
+
+      var motion_msg = "パーツ";
+      var arrayParams = { 
+        s_m_code : this.mCode , 
+
+      };
+      this.postRequest("/qparts/get", arrayParams)
+        .then(response  => {
+          this.putThenParts(response, motion_msg);
+        })
+        .catch(reason => {
+          this.serverCatch("parts取得");
+        });
+    },
+
+
+
+
     Test(){
       console.log('Parts.vue 出力')
-    }
+    },
     // -------------------- 共通 ----------------------------
+    
+    // パーツ取得正常処理
+    putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+      if (res.details_parts.length > 0) {
+          this.details_parts = res.details_parts;
+          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+          console.log("putThenParts in" + this.details_parts );
+
+          //this.event_title = res.s_m_code + ' ';
+          //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+          //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+          //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details_parts = [];
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+
+
+
+    // 異常処理
+    serverCatch(eventtext) {
+      var messages = [];
+      //messages.push("" + eventtext + "に失敗しました");
+      //this.htmlMessageSwal("エラー", messages, "error", true, false);
+      console.log('処理未完 -> ' + eventtext);
+    },
+
   }
 };
 </script>

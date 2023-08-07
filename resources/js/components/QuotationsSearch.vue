@@ -5,23 +5,6 @@
     </div>
     <div id="cnt1" >
       <div class="line">
-        <div class="inputgroup">
-          <button>見積編集</button>
-        </div>
-        <div class="inputgroup">
-          <button style="pointer-events: none;" disabled>受注</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="search_ovv_btn" @click="OverviewClick();">製品概要</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
-        </div>
-      </div>
-      <div class="line">
         <div class="inputgroup3">
           <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style input_w100p_m" v-model="s_m_code" name="s_m_code"></label>
         </div>
@@ -58,7 +41,26 @@
           <div class="caretxt">&#10045; 部分一致可</div>
         </div>
         -->
+        <div class="inputgroup mgl_auto">
+          <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
+        </div>
       </div>
+
+      <div class="line mgt20" v-if="searchview === 'mit'">
+        <div class="inputgroup">
+          <button type="button" id="search_quo_btn" @click="QuoClick();">見積編集</button>
+        </div>
+        <div class="inputgroup">
+          <button style="pointer-events: none;" disabled>受注</button>
+        </div>
+        <div class="inputgroup">
+          <button type="button" id="search_ovv_btn" @click="OverviewClick();">製品概要</button>
+        </div>
+        <div class="inputgroup">
+          <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
+        </div>
+      </div>
+
 
       <div id="cnt_search">
         <form id="searchform">
@@ -100,7 +102,7 @@
           </table>
         </div>
         <div id="search_result" v-if="searchview === 'mit'">
-          <table id="quodoc">
+          <table id="quomit">
             <thead>
               <tr>
                 <th class="w2"></th>
@@ -116,12 +118,12 @@
             </thead>
             <tbody>
               <tr v-for="(mitem,mrowIndex) in details" :key="mrowIndex">
-                <td class="w2"><label style="display:block;"><input type="radio" name="m_codes" :id="'sr_' + mrowIndex" v-model="mcradio" :value="mrowIndex"></label></td>
-                <td class="nrap">{{ mitem['m_code'] }}</td>
-                <td class="nrap">{{ mitem['f_create_date'] }}</td>
-                <td class="nrap">{{ mitem['customer_code'] }}</td>
-                <td class="nrap"><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['customer'] }}</label></td>
-                <td class=""><label :for="'sr_' + mrowIndex" style="display:block;">{{ mitem['product'] }}</label></td>
+                <td class="w2"><label><input type="radio" name="m_codes" :id="'sr_' + mrowIndex" v-model="mcradio" :value="mrowIndex"></label></td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['m_code'] }}</label></td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['f_create_date'] }}</label></td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer_code'] }}</label></td>
+                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer'] }}</label></td>
+                <td class=""><label :for="'sr_' + mrowIndex">{{ mitem['product'] }}</label></td>
                 <td class="nrap ta_r">{{ mitem['f_production_volnum'] }} {{ select_arr_s002[mitem['production_volnum_unit']-1]['code_name'] }} {{ pvu[mrowIndex]['production_volnum_unit'] }}</td>
                 <td class="nrap ta_r">{{ mitem['f_estimate_amount'] }} 円</td>
                 <td class="nrap">{{ mitem['f_lastorder_date'] }}</td>
@@ -136,6 +138,7 @@
 
 
     <div id="printzone" v-if="printview === '1'">
+
       <popup-print
        v-bind:m-code="m_code"
        v-bind:print-data="printdata"
@@ -387,6 +390,7 @@ export default {
     return {
       details: [],
       details_parts: [],
+      details_body: "",
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
@@ -426,7 +430,6 @@ export default {
   // マウント時
   mounted() {
     //this.login_user_code = this.authusers["code"];
-    //this.login_user_role = this.authusers["role"];
   },
   methods: {
     // -------------------- イベント処理 --------------------
@@ -455,6 +458,13 @@ export default {
           this.s_date_end = "";
           this.actionmsgArr = [];
           this.details = [];
+          this.searchview = "";
+
+          this.sr_title = "";
+
+          const sc = 'search_com';
+          var searchcom = document.getElementById(sc);
+          searchcom.style.visibility = "hidden";
 
           console.log('クリアしました');
         }
@@ -567,12 +577,38 @@ export default {
       this.sr_title = "検索結果";
       this.searchview = k;
       console.log('SearchClick  = ' + k);
+      
 
     },
     MitGoBtn(i,mcode) {
 
 
     },
+    // 見積編集Click
+    QuoClick() {
+      const element = document.getElementById( "searchform" ) ;
+      var radioNodeList = element.m_codes ;
+      //console.log( 'radioNodeList = ' + radioNodeList ) ;
+
+      //if (typeof a === "undefined") {
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      }
+      else {
+        var vvmc = radioNodeList.value ;
+        if ( vvmc === "" ) {
+          alert('検索結果一覧より見積を選択して下さい。');
+          
+        } else {
+          //console.log( vvmc ) ;
+          this.m_code = this.details[vvmc]['m_code'];
+          console.log('m_code:' + this.m_code);
+          window.location.href = '/quotations?s_m_code=' + this.m_code;
+
+        }
+      }
+    },
+    // 内容Click
     ContentsClick() {
       const element = document.getElementById( "searchform" ) ;
       var radioNodeList = element.m_codes ;
@@ -620,7 +656,9 @@ export default {
           this.printdata += "vvmc -> " + vvmc;
 
 
-          this.m_code = "D11999";
+          //this.m_code = "D11999";
+          this.m_code = this.details[vvmc]['m_code'];
+          console.log('m_code:' + this.m_code);
           const nopri = 'cnt1';
           var nopriid = document.getElementById(nopri);
           //nopriid.style.visibility = "visible";
@@ -630,19 +668,57 @@ export default {
 
 
 
+
+          
+          let post_data = new FormData();
           var pmcode = this.details[vvmc]['m_code'];
           var motion_msg = "パーツ検索";
+          /*
           var arrayParams = { 
             s_m_code : pmcode , 
 
           };
           this.postRequest("/qparts/get", arrayParams)
             .then(response  => {
-              this.putThenSearch(response, motion_msg);
+              this.putThenParts(response, motion_msg);
             })
             .catch(reason => {
-              this.serverCatch("パーツ取得");
+              this.serverCatch("パーツget");
             });
+            */
+
+
+            /*
+            function sleep(ms, generator) {
+              setTimeout(() => generator.next(), ms);
+            }
+
+
+            var main = (function*() {
+              console.log(`停止前: ${getDisplayDate()} 秒`);
+              yield sleep(5*1000, main);
+
+              console.log(`停止後: ${getDisplayDate()} 秒`);
+            })();
+            main.next();
+
+            //現在時刻を取得
+            function getDisplayDate(){
+              let date = new Date();
+              let Hour = ('0' + date.getHours()).slice(-2)
+              let Minute = ('0' + date.getMinutes()).slice(-2)
+              let Second = ('0' + date.getSeconds()).slice(-2)
+
+              return Hour + ':' + Minute + ':' + Second
+            }
+            */
+
+
+
+
+
+
+
 
 
           let xhr = new XMLHttpRequest();
@@ -659,11 +735,12 @@ export default {
           //var details_arr = this.details[vvmc].m_code;
           console.log('details_arr:' + details_arr);
           //var elA = JSON.parse(details_arr);
+          
           var parts_arr = JSON.stringify(this.details_parts);
-          console.log('parts_arr:' + parts_arr);
-          console.log('parts_arr2:' + this.details_parts);
+          //console.log('parts_arr:' + parts_arr);
+          //console.log('parts_arr2:' + this.details_parts);
 
-          let post_data = new FormData();
+          //let post_data = new FormData();
           post_data.append('details_arr', details_arr);
           post_data.append('parts_arr', parts_arr);
           post_data.append('m_code', this.details[vvmc]['m_code']);
@@ -679,6 +756,14 @@ export default {
             //console.log('Array:' + array);
           });
           */
+
+          this.details_parts.forEach(function(element, index, array){
+            //post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
+            console.log('details_parts Index:' + index);
+            console.log('details_parts Element:' + element);
+          });
+
+
           this.select_arr_s001.forEach(function(element, index, array){
             post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
             //console.log('s001 Index:' + index);
@@ -835,6 +920,50 @@ export default {
 
     },
 
+    preloader() {
+      let table = document.getElementById("quomit");
+      let rows = table.querySelectorAll("tbody tr");
+    
+      let backgroundcolor_dict = {};
+      let tr_color = window.getComputedStyle(rows[0], "").color;
+    
+      rows.forEach((row) => {
+        // 行ごとに背景色が異なるため全ての行の変更前の背景色を取得
+        backgroundcolor_dict[String(row.rowIndex)] = window.getComputedStyle(
+          row,
+          ""
+        ).backgroundColor;
+    
+        row.addEventListener(
+          "click",
+          function () {
+            // 一度全て元の配色
+            rows.forEach((click_row) => {
+              click_row.style.backgroundColor =
+                backgroundcolor_dict[String(row.rowIndex)];
+              click_row.style.color = tr_color;
+            });
+            // 選択された行のみ配色変更
+            row.style.backgroundColor = "rgba(136, 144, 187, 0.5)";
+            row.style.color = "#FFFFFF";
+    
+            if (row.querySelector("input").type == "radio") {
+              row.querySelector('input[type="radio"]').checked = true;
+            }
+            if (row.querySelector("input").type == "checkbox") {
+              if (row.querySelector('input[type="checkbox"]').checked == false) {
+                row.querySelector('input[type="checkbox"]').checked = true;
+              } else {
+                row.querySelector('input[type="checkbox"]').checked = false;
+              }
+            }
+          },
+          false
+        );
+      });
+    },
+
+
 
 
     // -------------------- サーバー処理 --------------------
@@ -849,11 +978,6 @@ export default {
       var res = response.data;
       if (res.details.length > 0) {
           this.details = res.details;
-          //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
-          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
-          //if (res.search_totals) {
-          //  this.search_totals = res.search_totals[0].total_s;
-          //}
           this.select_arr_s001 = res.select_arr_s001;
           this.select_arr_s002 = res.select_arr_s002;
           this.select_arr_s003 = res.select_arr_s003;
@@ -877,6 +1001,7 @@ export default {
           //console.log("putThenSearch in res.s_customer = " + res.s_customer);
           this.$toasted.show(this.event_title + " " + eventtext + "しました");
           this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+          
       } else {
           this.actionmsgArr.push(this.s_m_code + this.s_customer_code + this.s_customer + this.s_enduser + this.s_product + this.s_date_start + this.s_date_end + " が見つかりませんでした。");
           this.details = [];
@@ -892,18 +1017,18 @@ export default {
     putThenParts(response, eventtext) {
       var messages = [];
       var res = response.data;
-      if (res.details.length > 0) {
+      if (res.details_parts.length > 0) {
           this.details_parts = res.details_parts;
           //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
-          //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+          console.log("putThenParts in" + this.details_parts );
 
-          this.event_title = res.s_m_code + ' ';
+          //this.event_title = res.s_m_code + ' ';
           //console.log("putThenSearch in res.s_customer = " + res.s_customer);
-          this.$toasted.show(this.event_title + " " + eventtext + "しました");
-          this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+          //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
       } else {
-          this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
-          this.details = [];
+          //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details_parts = [];
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
         } else {
@@ -919,4 +1044,52 @@ export default {
     },
   }
 };
+
+/*
+function preloader() {
+  let table = document.getElementById("quomit");
+  let rows = table.querySelectorAll("tr");
+ 
+  let backgroundcolor_dict = {};
+  let tr_color = window.getComputedStyle(rows[0], "").color;
+ 
+  rows.forEach((row) => {
+    // 行ごとに背景色が異なるため全ての行の変更前の背景色を取得
+    backgroundcolor_dict[String(row.rowIndex)] = window.getComputedStyle(
+      row,
+      ""
+    ).backgroundColor;
+ 
+    row.addEventListener(
+      "click",
+      function () {
+        // 一度全て元の配色
+        rows.forEach((click_row) => {
+          click_row.style.backgroundColor =
+            backgroundcolor_dict[String(row.rowIndex)];
+          click_row.style.color = tr_color;
+        });
+        // 選択された行のみ配色変更
+        row.style.backgroundColor = "rgba(136, 144, 187, 0.5)";
+        row.style.color = "#FFFFFF";
+ 
+        if (row.querySelector("input").type == "radio") {
+          row.querySelector('input[type="radio"]').checked = true;
+        }
+        if (row.querySelector("input").type == "checkbox") {
+          if (row.querySelector('input[type="checkbox"]').checked == false) {
+            row.querySelector('input[type="checkbox"]').checked = true;
+          } else {
+            row.querySelector('input[type="checkbox"]').checked = false;
+          }
+        }
+      },
+      false
+    );
+  });
+}
+ 
+window.onload = preloader;
+*/
+
 </script>

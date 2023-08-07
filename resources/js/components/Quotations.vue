@@ -3,7 +3,7 @@
     <div id="cnt_title1">
       <h3>見積作成</h3>
     </div>
-    <div id="cnt1" >
+    <div id="cnt1" v-if="select_html == 'edit_view'">
       <div id="department01">
         <div class="cate"><h4>基本項目</h4></div>
       </div>
@@ -31,213 +31,187 @@
           <button>終了</button>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="spanwidth_8">担当者</span><input type="text" class="form_style" name="manager"><span></span></label>
+      <div v-for="(item,index) in details" v-bind:key="item.id">
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="spanwidth_8">担当者</span><input type="text" class="form_style" v-model="details[index].manager" name="manager"><span></span></label>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="spanwidth_8">得意先</span><input type="text" class="form_style" name="customer_code"><input type="text" class="form_style" name="customer"></label>
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="spanwidth_8">得意先</span><input type="text" class="form_style" v-model="details[index].customer_code" name="customer_code"><input type="text" class="form_style" v-model="details[index].customer" name="customer"></label>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w30" name="enduser"></label>
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w30" v-model="details[index].enduser" name="enduser"></label>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w30" name="product"></label>
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w30" v-model="details[index].product" name="product"></label>
+          </div>
         </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label><input type="text" class="form_style input_w2" name="page_num">P</label>
+        <div class="line">
+          <div class="inputgroup">
+            <label><input type="text" class="form_style input_w2" v-model="details[index].parts_num" name="parts_num">P</label>
+          </div>
+          <div class="inputgroup">
+            <label>制作組数<input type="text" class="form_style input_w5" v-model="details[index].production_setnum" name="production_setnum">
+            <select name="production_setnum_unit" v-model="details[index].production_setnum_unit" class="form_style">
+            <option value=""></option>
+            <option v-for="(s001,indexs001) in select_arr_s001" v-bind:value="s001.code" >{{ s001.code_name }}</option>
+            </select>
+            </label>
+          </div>
+          <div class="inputgroup">
+            <label>制作冊数<input type="text" class="form_style input_w5" v-model="details[index].production_volnum" name="production_volnum">
+            <select name="production_volnum_unit" v-model="details[index].production_volnum_unit" class="form_style">
+            <option value=""></option>
+            <option v-for="(s002,indexs002) in select_arr_s002" v-bind:value="s002.code" >{{ s002.code_name }}</option>
+            </select>
+            </label>
+          </div>
+          <div class="inputgroup">
+            <span id="printing_mark" class="markzone mz_c1"></span>
+            <button type="button" id="printing_btn" @click="OnButtonClickT('printing');">印刷有り</button>
+            <input type="text" class="input_w1" value="1" v-model="details[index].printing"  name="printing" id="printing">
+          </div>
         </div>
-        <div class="inputgroup">
-          <label>制作組数<input type="text" class="form_style input_w5" name="production_setnum">
-          <select name="production_setnum_unit" class="form_style">
-          <option value=""></option>
-          <option value="組">組</option>
-          <option value="帯">帯</option>
-          </select>
-          </label>
+        <div class="line">
+          <div class="inputgroup">
+            <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="inch_btn" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
+          </div>
+          <div class="inputgroup">
+            <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="milli_btn" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
+            <input type="text" class="input_w1" value="0" v-model="details[index].unit" name="unit" id="unit">
+          </div>
+          <div class="inputgroup">
+            <label>紙取<input type="text" class="form_style input_w2" v-model="details[index].papertray" name="papertray">切</label>
+          </div>
+          <div class="inputgroup">
+            面付け...
+            <label>横<input type="text" class="form_style input_w2" v-model="details[index].imposition_w" name="imposition_w"></label>
+            ×
+            <label>縦<input type="text" class="form_style input_w2" v-model="details[index].imposition_h" name="imposition_h"></label>
+          </div>
         </div>
-        <div class="inputgroup">
-          <label>制作冊数<input type="text" class="form_style input_w5" name="production_volnum">
-          <select name="production_volnum_unit" class="form_style">
-          <option value=""></option>
-          <option value="1">S</option>
-          <option value="2">冊</option>
-          <option value="3">束</option>
-          <option value="4">箱</option>
-          <option value="5">枚</option>
-          <option value="6">部</option>
-          <option value="7">個</option>
-          </select>
-          </label>
+        <div class="line">
+          <div class="inputgroup">
+            <label>シリンダー
+            <select name="cylinder" class="form_style" v-model.trim="details[index].cylinder">
+            <option value=""></option>
+            <option v-for="(s004,indexs004) in select_arr_s004" v-bind:value="s004.code" :key="s004.code">{{ s004.code_name }}</option>
+            </select>
+            </label>
+            <label><input type="text" class="form_style input_w2" v-model="details[index].cylinder_num" name="cylinder_num">本</label>
+          </div>
+          <div class="inputgroup">
+            サイズ...
+            <label>横<input type="text" class="form_style input_w3" v-model="details[index].size_w" name="size_w"></label>
+            ×
+            <label>縦<input type="text" class="form_style input_w3" v-model="details[index].size_h" name="size_h"></label>
+            <input type="text" class="form_style input_w2" v-model="details[index].size_top" name="size_top">/<input type="text" class="form_style input_w2" v-model="details[index].size_bottom" name="size_bottom">
+            <label>
+            <select name="inch_fold" class="form_style" v-model.trim="details[index].inch_fold">
+            <option value=""></option>
+            <option v-for="(s005,indexs005) in select_arr_s005" v-bind:value="s005.code" :key="s005.code">{{ s005.code_name }}</option>
+            </select>
+            インチ折
+            </label>
+            
+          </div>
         </div>
-        <div class="inputgroup">
-          <span id="printing_mark" class="markzone mz_c1"></span>
-          <button type="button" id="printing_btn" @click="OnButtonClickT('printing');">印刷有り</button>
-          <input type="text" class="input_w1" value="1" name="printing" id="printing">
-        </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="inch_btn" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
-        </div>
-        <div class="inputgroup">
-          <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="milli_btn" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
-          <input type="text" class="input_w1" value="0" name="unit" id="unit">
-        </div>
-        <div class="inputgroup">
-          <label>紙取<input type="text" class="form_style input_w2" name="papertray">切</label>
-        </div>
-        <div class="inputgroup">
-          面付け...
-          <label>横<input type="text" class="form_style input_w2" name="imposition_w"></label>
-          ×
-          <label>縦<input type="text" class="form_style input_w2" name="imposition_h"></label>
-        </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <label>シリンダー
-          <select name="cylinder" class="form_style">
-          <option value=""></option>
-          <option value="1">10</option>
-          <option value="2">10.5</option>
-          <option value="3">11</option>
-          <option value="4">11.5</option>
-          <option value="5">12</option>
-          <option value="6">13</option>
-          <option value="7">13.5</option>
-          <option value="8">14</option>
-          <option value="9">15</option>
-          <option value="10">16</option>
-          <option value="11">17</option>
-          <option value="12">18</option>
-          </select>
-          </label>
-          <label><input type="text" class="form_style input_w2" name="cylinder_num">本</label>
-        </div>
-        <div class="inputgroup">
-          サイズ...
-          <label>横<input type="text" class="form_style input_w3" name="size_w"></label>
-          ×
-          <label>縦<input type="text" class="form_style input_w3" name="size_h"></label>
-          <input type="text" class="form_style input_w2" name="size_top">/<input type="text" class="form_style input_w2" name="size_bottom">
-          <label>
-          <select name="inch_fold" class="form_style">
-          <option value=""></option>
-          <option value="1">4</option>
-          <option value="2">4.5</option>
-          <option value="3">5</option>
-          <option value="4">5.5</option>
-          <option value="5">6</option>
-          <option value="6">6.5</option>
-          <option value="7">7</option>
-          <option value="8">7.5</option>
-          <option value="9">8</option>
-          <option value="10">8.5</option>
-          <option value="11">9</option>
-          <option value="12">10</option>
-          <option value="13">10.5</option>
-          <option value="14">11</option>
-          <option value="15">11.5</option>
-          <option value="16">12</option>
-          <option value="17">13</option>
-          <option value="18">13.5</option>
-          <option value="19">14</option>
-          <option value="20">15</option>
-          <option value="21">16</option>
-          <option value="22">17</option>
-          <option value="23">18</option>
-          </select>
-          インチ折
-          </label>
-          
-        </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <span id="parts1_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts1_btn" @click="SetParts(1,'1P目');">1P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts2_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts2_btn" @click="SetParts(2,'2P目');">2P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts3_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts3_btn" @click="SetParts(3,'3P目');">3P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts4_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts4_btn" @click="SetParts(4,'4P目');">4P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts5_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts5_btn" @click="SetParts(5,'5P目');">5P目</button>
-        </div>
-      </div>
-      <div class="line">
-        <div class="inputgroup">
-          <span id="parts6_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts6_btn" @click="SetParts(6,'6P目');">6P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts7_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts7_btn" @click="SetParts(7,'7P目');">7P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts8_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts8_btn" @click="SetParts(8,'8P目');">8P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts9_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts9_btn" @click="SetParts(9,'9P目');">9P目</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts10_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts10_btn" @click="SetParts(10,'10P目');">10P目</button>
-        </div>
-      </div>
 
-      <div class="line">
-        <div class="inputgroup">
-          <span id="parts11_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts11_btn" @click="SetParts(11,'11P目');">11P目</button>
+        <!--
+        <div class="line">
+          <div class="inputgroup">
+            <span id="parts1_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts1_btn" @click="SetParts(1,'1P目');">1P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts2_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts2_btn" @click="SetParts(2,'2P目');">2P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts3_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts3_btn" @click="SetParts(3,'3P目');">3P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts4_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts4_btn" @click="SetParts(4,'4P目');">4P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts5_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts5_btn" @click="SetParts(5,'5P目');">5P目</button>
+          </div>
         </div>
-        <div class="inputgroup">
-          <span id="parts12_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts12_btn" @click="SetParts(12,'12P目');">12P目</button>
+        <div class="line">
+          <div class="inputgroup">
+            <span id="parts6_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts6_btn" @click="SetParts(6,'6P目');">6P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts7_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts7_btn" @click="SetParts(7,'7P目');">7P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts8_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts8_btn" @click="SetParts(8,'8P目');">8P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts9_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts9_btn" @click="SetParts(9,'9P目');">9P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts10_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts10_btn" @click="SetParts(10,'10P目');">10P目</button>
+          </div>
         </div>
-        <div class="inputgroup">
-          <span id="parts_omote_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts13_btn" @click="SetParts(13,'表紙');">表紙</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts_ura_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts14_btn" @click="SetParts(14,'裏表紙');">裏表紙</button>
-        </div>
-        <div class="inputgroup">
-          <span id="parts_mat_mark" class="markzone2 mz_tc1 v_hidden"></span>
-          <button type="button" id="parts15_btn" @click="SetParts(15,'下敷き');">下敷き</button>
-        </div>
-      </div>
 
-      <div id="department01" class="mgt40">
-        <div class="inputgroup">
-          <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
-          <textarea name="comment" class="form_style_textarea" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
-          </label>
+        <div class="line">
+          <div class="inputgroup">
+            <span id="parts11_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts11_btn" @click="SetParts(11,'11P目');">11P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts12_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts12_btn" @click="SetParts(12,'12P目');">12P目</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts_omote_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts13_btn" @click="SetParts(13,'表紙');">表紙</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts_ura_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts14_btn" @click="SetParts(14,'裏表紙');">裏表紙</button>
+          </div>
+          <div class="inputgroup">
+            <span id="parts_mat_mark" class="markzone2 mz_tc1 v_hidden"></span>
+            <button type="button" id="parts15_btn" @click="SetParts(15,'下敷き');">下敷き</button>
+          </div>
         </div>
-      </div><!--end department01-->
+        -->
+
+        <!--<div>{{all_dpc_arr}}</div>-->
+        <div class="line">
+          <div class="inputgroup" v-for="(c001,indexc001) in container_arr_c001" :key="c001.id">
+            <span :id="'parts' + container_arr_c001[indexc001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_c001[indexc001].code == all_dpc_arr[indexc001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexc001]}}
+            <a href="#" :id="'parts' + container_arr_c001[indexc001].code + '_btn'" @click="SetParts(c001.code, c001.code_name);">{{ container_arr_c001[indexc001].code_name }}</a>
+          </div>
+        </div>
+
+
+        <div id="department01" class="mgt40">
+          <div class="inputgroup">
+            <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
+            <textarea name="comment" class="form_style_textarea" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
+            </label>
+          </div>
+        </div><!--end department01-->
+      </div><!--end v-for-->
 
 
       <div class="line mgt40">
@@ -276,6 +250,7 @@
       <quotations-parts
        v-bind:page-num="pagenum"
        v-bind:page-name="pagename"
+       v-bind:m-code="s_m_code"
        v-on:pcancel-event="Pcancel"
       ></quotations-parts>
     </div>
@@ -295,15 +270,15 @@
 <script>
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
-//import { dialogable } from "../mixins/dialogable.js";
-//import { checkable } from "../mixins/checkable.js";
+import { dialogable } from "../mixins/dialogable.js";
+import { checkable } from "../mixins/checkable.js";
 import { requestable } from "../mixins/requestable.js";
 
 
 export default {
-  name: "Mmake",
-  //mixins: [dialogable, checkable, requestable],
-  mixins: [requestable],
+  name: "Quotations",
+  mixins: [dialogable, checkable, requestable],
+  //mixins: [requestable],
   props: {
   /*
     authusers: {
@@ -311,6 +286,11 @@ export default {
       default: []
     }
   */
+    s_m_code: {
+      type: String,
+      default: ""
+    },
+
   },
   /*
   components: {
@@ -320,10 +300,29 @@ export default {
   data() {
     return {
       details: [],
+      details_parts: [],
+      details_parts_min: [],
+      //j_parts_min: [],
+      //parts_arr: [],
+      all_dpc_arr: [],
+      index: 0,
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
       messageshowsearch: false,
+      result: false,
+
+      event_title: "",
+      actionmsgArr: [],
+      select_arr_s001: [],
+      select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: [],
+      container_arr_c001: [],
+
+      //s_m_code: "",
+
 
       partsview: false,
       outsourcingview: false,
@@ -331,16 +330,43 @@ export default {
       targetid: "",
       pagenum: "",
       pagename: "",
-      inputtextid: ""
+      inputtextid: "",
+      select_html: "",
+
     };
   },
   // マウント時
   mounted() {
+    this.getItem();
     //this.login_user_code = this.authusers["code"];
     //this.login_user_role = this.authusers["role"];
+    window.onload = () => {
+      //alert("ページが読み込まれました");
+      //console.log('window.onload');
+      const timeout = '3000';
+      setTimeout(() => {
+        if(this.result) {
+          this.FirstExec();
+        }
+      }, timeout);
+      
+      
+    };
+    document.addEventListener('DOMContentLoaded', function() {
+      //console.log('addEventListener');
+      //this.FirstExec();
+    });
+
   },
   methods: {
     // -------------------- イベント処理 --------------------
+    FirstExec() {
+      console.log('FirstExec in ');
+      this.OnButtonClickTLoad('printing');
+      this.OnButtonClick03Load('', 0, 'unit');
+      this.viewStrLen();
+    },
+
     OnButtonClick(t) {
       var tm = t + '_mark';
       var inputid = document.getElementById(t);
@@ -363,12 +389,13 @@ export default {
       var inputvalue = inputid.value;
       var targetid = document.getElementById(tm);
       var btnid = document.getElementById(tb);
+      //console.log('OnButtonClickT in inputvalue = ' + inputvalue);
       if (inputvalue == "1") { 
         targetid.style.visibility = "hidden";
         inputid.value = "0";
         btnid.innerHTML = "通し無し";
       }
-      else if (inputvalue == "0") {
+      else if (inputvalue == "0" || inputvalue == "") {
         targetid.style.visibility = "visible";
         inputid.value = "2";
         btnid.innerHTML = "通し有り";
@@ -377,6 +404,27 @@ export default {
         targetid.style.visibility = "visible";
         inputid.value = "1";
         btnid.innerHTML = "印刷有り";
+      }
+    },
+    OnButtonClickTLoad(t) {
+      var tm = t + '_mark';
+      var tb = t + '_btn';
+      var inputid = document.getElementById(t);
+      var inputvalue = inputid.value;
+      var targetid = document.getElementById(tm);
+      var btnid = document.getElementById(tb);
+      console.log('OnButtonClickTLoad in inputvalue = ' + inputvalue);
+      if (inputvalue == "1") { 
+        targetid.style.visibility = "visible";
+        btnid.innerHTML = "印刷有り";
+      }
+      else if (inputvalue == "2") {
+        targetid.style.visibility = "visible";
+        btnid.innerHTML = "通し有り";
+      }
+      else  {
+        targetid.style.visibility = "hidden";
+        btnid.innerHTML = "通し無し";
       }
     },
 
@@ -514,6 +562,23 @@ export default {
         } 
       }
     },
+    OnButtonClick03Load(t,arr,t2) {
+      let idname_array = new Object(); 
+      idname_array[0] = {'1':'inch', '2':'milli'};
+
+      var inputid = document.getElementById(t2);
+      var inputvalue = inputid.value;
+
+      if(inputvalue >= 1){
+        var n = idname_array[arr][inputvalue];
+        var nm = n + '_mark';
+        var targetid = document.getElementById(nm);
+        targetid.style.visibility = "visible";
+
+      }
+
+
+    },
 
     SetParts(pnum,pname) {
       const tid = "cnt1";
@@ -615,15 +680,173 @@ export default {
     },
 
     // -------------------- サーバー処理 --------------------
-    // -------------------- 共通 --------------------
+    // 見積を取得
+    getItem: function() {
+      console.log('getItem in props s_m_code = ' + this.s_m_code);
+      var motion_msg = "見積取得 ー 基本項目";
+      var arrayParams = { 
+        s_m_code : this.s_m_code , 
+
+      };
+      this.postRequest("/qsearch/get", arrayParams)
+        .then(response  => {
+          this.putThenSearch(response, motion_msg);
+        })
+        .catch(reason => {
+          this.serverCatch("quotations取得");
+        });
+
+    },
+    // パーツを取得
+    getParts: function() {
+
+      var motion_msg = "パーツ";
+      var arrayParams = { 
+        s_m_code : this.s_m_code , 
+
+      };
+      this.postRequest("/qparts/get", arrayParams)
+        .then(response  => {
+          this.putThenParts(response, motion_msg);
+        })
+        .catch(reason => {
+          this.serverCatch("parts取得");
+        });
+    },
+
+    // -------------------- 共通 ----------------------------
+
     // 取得正常処理
     getThen(response) {
-      console.log('正常');
+      var res = response.data;
+      //console.log('getthen in res = ' + res);
+      if (res.result) {
+        this.details = res.details;
+        
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("取得");
+        }
+      }
+      console.log('取得正常処理');
     },
+    // 検索系正常処理
+    putThenSearch(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+      if (res.details.length > 0) {
+          this.details = res.details;
+          //this.details_parts = res.details_parts;
+          this.details_parts_min = res.details_parts_min;
+          //this.parse_parts_min = JSON.parse(res.details_parts_min);
+          //this.j_parts_min = JSON.stringify(res.details_parts_min);
+          //this.j_parts_min = JSON.parse(this.j_parts_min);
+          //console.log("putThenSearch in j_parts_min = " + this.j_parts_min[0].parts_code);
+
+          //this.classObj1 = (this.details[0].status == 'newest') ? 'bgcolor3' : '';
+          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+          //if (res.search_totals) {
+          //  this.search_totals = res.search_totals[0].total_s;
+          //}
+          this.select_arr_s001 = res.select_arr_s001;
+          this.select_arr_s002 = res.select_arr_s002;
+          this.select_arr_s003 = res.select_arr_s003;
+          this.select_arr_s004 = res.select_arr_s004;
+          this.select_arr_s005 = res.select_arr_s005;
+          this.container_arr_c001 = res.container_arr_c001;
+          //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+          let parts_code_arr = Array();
+          //this.parts_arr = Array();
+          this.all_dpc_arr = Array();
+          const dpm = res.details_parts_min;
+          const arr_c001 = res.container_arr_c001;
+
+          for (let i = 0 ; i < dpm.length ; i++){
+            let pkey = dpm[i].parts_code.trim();
+            parts_code_arr[pkey] = pkey;
+            //console.log("details_parts_min parts_code " + pkey + " : " + parts_code_arr[pkey]);
+
+          }
+
+          for (let i = 0 ; i < arr_c001.length ; i++){
+            var htmlparts = '';
+            let n = i + 1;
+            let k = ( '00' + n ).slice( -2 )
+            //console.log("container_arr_c001.code " + i + " : " + arr_c001[i].code);
+            //console.log("parts_code_arr " + n + " : " + parts_code_arr[k]);
+            if(parts_code_arr[k] == null) {
+              this.all_dpc_arr[i] = "";
+              //console.log("parts_code_arr " + k + " : null ");
+            }
+            else {
+              this.all_dpc_arr[i] = parts_code_arr[k];
+              //console.log("parts_code_arr " + k + " : true ");
+            }
+            //let style_vh = 'visible';
+            //htmlparts += '<span id="parts' + arr_c001[i].code + '_mark" class="markzone2 mz_tc1 v_hidden" style="visibility: ' + style_vh + '"></span>\n';  
+            //htmlparts += '<button type="button" id="parts' + arr_c001[i].code + '_btn" v-on:click="SetParts(' + arr_c001[i].code + ', ' + arr_c001[i].code_name + ');">' + arr_c001[i].code_name + '</button>\n';
+            //this.parts_arr[i] = htmlparts;
+
+          }
+
+          //document.getElementById('prtext').innerHTML = parts_arr.join('');
+          //document.getElementById('prtext').innerHTML = "abc";
+
+
+
+          this.event_title = res.s_m_code;
+          //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+          this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+          this.result = res.result;
+          this.select_html = "edit_view";
+      } else {
+          //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details = [];
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+
+    },
+
+    // パーツ取得正常処理
+    putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+      if (res.details_parts.length > 0) {
+          this.details_parts = res.details_parts;
+          //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+          console.log("putThenParts in" + this.details_parts );
+
+          //this.event_title = res.s_m_code + ' ';
+          //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+          //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+          //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+          //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+          this.details_parts = [];
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+
     // 異常処理
     serverCatch(eventtext) {
-      console.log('異常処理');
+      var messages = [];
+      //messages.push("" + eventtext + "に失敗しました");
+      //this.htmlMessageSwal("エラー", messages, "error", true, false);
+      console.log('処理未完 -> ' + eventtext);
     },
+
   }
 };
 </script>
