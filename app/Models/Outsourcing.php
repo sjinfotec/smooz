@@ -4,98 +4,278 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 
 class Outsourcing extends Model
 {
     use HasFactory;
 
-    protected $table = 'customer';
+    protected $table = 'customers';
 
-    private $id;
-    private $code;              // 得意先コード
-    private $classify;          // 区分
-    private $name;              // 得意先名／外注先名
-    private $post;              // 郵便番号
-    private $address1;          // 住所1
-    private $address2;          // 住所2
-    private $tel;               // TEL
-    private $fax;               // FAX
-    private $charge;            // 担当
-    private $cutoff;            // 締め日
-    private $collection;        // 回収日
-    private $tax_class;         // 税区分
-    private $tax_fraction;      // 税端数処理
-    private $industry;          // 業種
-    private $created_user;      // 作成ユーザー
-    private $updated_user;      // 修正ユーザー
-    private $created_at;        // 作成時間
-    private $updated_at;        // 修正時間
-    private $is_deleted;        // 削除フラグ
+
+
+    private $id;												// ID
+	private $code;												// 得意先コード
+	private $apply_date;										// 適用日
+	private $category;											// 区分
+	private $name;												// 得意先名／外注先名
+	private $post;												// 郵便番号
+	private $address1;											// 住所1
+	private $address2;											// 住所2
+	private $tel;												// TEL
+	private $fax;												// FAX
+	private $charge;											// 担当
+	private $cutoff;											// 締め日
+	private $collection;										// 回収日
+	private $tax_class;											// 税区分
+	private $tax_fraction;										// 税端数処理
+	private $industry;											// 業種
+	private $created_date;										// 作成日
+	private $created_time;										// 作成時刻
+	private $created_user;										// 作成ユーザー
+	private $updated_user;										// 修正ユーザー
+	private $created_at;										// 
+	private $updated_at;										// 
+	private $is_deleted;										// 削除フラグ
 
 
     // ID
-    public function getIdAttribute(){ return $this->id;}
-    public function setIdAttribute($value){  $this->id = $value;}
+    public function getIdAttribute()
+    {
+        return $this->id;
+    }
+    public function setIdAttribute($value)
+    {
+        $this->id = $value;
+    }
+
     // 得意先コード
-     public function getCodeAttribute(){ return  $this->code;}
-     public function setCodeAttribute($value){ $this->code = $value;}
-     // 区分
-     public function getClassifyAttribute(){ return $this->classify;}
-     public function setClassifyAttribute($value){  $this->classify = $value;}
-     // 得意先名／外注先名
-     public function getNameAttribute(){ return $this->name;}
-     public function setNameAttribute($value){  $this->name = $value;}
-     // 郵便番号
-     public function getPostAttribute(){ return $this->post;}
-     public function setPostAttribute($value){  $this->post = $value;}
-     // 住所1
-     public function getAddress1Attribute(){ return $this->address1;}
-     public function setAddress1Attribute($value){  $this->address1 = $value;}
-     // 住所2
-     public function getAddress2Attribute(){ return $this->address2;}
-     public function setAddress2Attribute($value){  $this->address2 = $value;}
-     // TEL
-     public function getTelAttribute(){ return $this->tel;}
-     public function setTelAttribute($value){  $this->tel = $value;}
-     // FAX
-     public function getFaxAttribute(){ return $this->fax;}
-     public function setFaxAttribute($value){  $this->fax = $value;}
-     // 担当
-     public function getChargeAttribute(){ return $this->charge;}
-     public function setChargeAttribute($value){  $this->charge = $value;}
-     // 締め日
-     public function getCutoffAttribute(){ return $this->cutoff;}
-     public function setCutoffAttribute($value){  $this->cutoff = $value;}
-     // 回収日
-     public function getCollectionAttribute(){ return $this->collection;}
-     public function setCollectionAttribute($value){  $this->collection = $value;}
-     // 税区分
-     public function getTaxclassAttribute(){ return $this->tax_class;}
-     public function setTaxclassAttribute($value){  $this->tax_class = $value;}
-     // 税端数処理
-     public function getTaxfractionAttribute(){ return $this->tax_fraction;}
-     public function setTaxfractionAttribute($value){  $this->tax_fraction = $value;}
-     // 業種
-     public function getIndustryAttribute(){ return $this->industry;}
-     public function setIndustryAttribute($value){  $this->industry = $value;}
-      // 作成ユーザー
-     public function getCreateduserAttribute(){ return $this->created_user;}
-     public function setCreateduserAttribute($value){  $this->created_user = $value;}
-     // 修正ユーザー
-     public function getUpdateduserAttribute(){ return $this->updated_user;}
-     public function setUpdateduserAttribute($value){  $this->updated_user = $value;}
-     // 作成日時
-     public function getCreatedatAttribute(){ return $this->created_at;}
-     public function setCreatedatAttribute($value){  $this->created_at = $value;}
-     // 修正日時
-     public function getUpdatedatAttribute(){ return $this->updated_at;}
-     public function setUpdatedatAttribute($value){  $this->updated_at = $value;}
-     // 削除フラグ
-     public function getIsdeletedAttribute(){ return $this->is_deleted;}
-     public function setIsdeletedAttribute($value){  $this->is_deleted = $value;}
-     // 
+    public function getCodeAttribute()
+    {
+        return $this->code;
+    }
+    public function setCodeAttribute($value)
+    {
+        $this->code = $value;
+    }
+
+    // 適用日
+    public function getApplydateAttribute()
+    {
+        return $this->apply_date;
+    }
+    public function setApplydateAttribute($value)
+    {
+        $this->apply_date = $value;
+    }
+
+    // 区分
+    public function getCategoryAttribute()
+    {
+        return $this->category;
+    }
+    public function setCategoryAttribute($value)
+    {
+        $this->category = $value;
+    }
+
+    // 得意先名／外注先名
+    public function getNameAttribute()
+    {
+        return $this->name;
+    }
+    public function setNameAttribute($value)
+    {
+        $this->name = $value;
+    }
+
+    // 郵便番号
+    public function getPostAttribute()
+    {
+        return $this->post;
+    }
+    public function setPostAttribute($value)
+    {
+        $this->post = $value;
+    }
+
+    // 住所1
+    public function getAddress1Attribute()
+    {
+        return $this->address1;
+    }
+    public function setAddress1Attribute($value)
+    {
+        $this->address1 = $value;
+    }
+
+    // 住所2
+    public function getAddress2Attribute()
+    {
+        return $this->address2;
+    }
+    public function setAddress2Attribute($value)
+    {
+        $this->address2 = $value;
+    }
+
+    // TEL
+    public function getTelAttribute()
+    {
+        return $this->tel;
+    }
+    public function setTelAttribute($value)
+    {
+        $this->tel = $value;
+    }
+
+    // FAX
+    public function getFaxAttribute()
+    {
+        return $this->fax;
+    }
+    public function setFaxAttribute($value)
+    {
+        $this->fax = $value;
+    }
+
+    // 担当
+    public function getChargeAttribute()
+    {
+        return $this->charge;
+    }
+    public function setChargeAttribute($value)
+    {
+        $this->charge = $value;
+    }
+
+    // 締め日
+    public function getCutoffAttribute()
+    {
+        return $this->cutoff;
+    }
+    public function setCutoffAttribute($value)
+    {
+        $this->cutoff = $value;
+    }
+
+    // 回収日
+    public function getCollectionAttribute()
+    {
+        return $this->collection;
+    }
+    public function setCollectionAttribute($value)
+    {
+        $this->collection = $value;
+    }
+
+    // 税区分
+    public function getTaxclassAttribute()
+    {
+        return $this->tax_class;
+    }
+    public function setTaxclassAttribute($value)
+    {
+        $this->tax_class = $value;
+    }
+
+    // 税端数処理
+    public function getTaxfractionAttribute()
+    {
+        return $this->tax_fraction;
+    }
+    public function setTaxfractionAttribute($value)
+    {
+        $this->tax_fraction = $value;
+    }
+
+    // 業種
+    public function getIndustryAttribute()
+    {
+        return $this->industry;
+    }
+    public function setIndustryAttribute($value)
+    {
+        $this->industry = $value;
+    }
+
+    // 作成日
+    public function getCreateddateAttribute()
+    {
+        return $this->created_date;
+    }
+    public function setCreateddateAttribute($value)
+    {
+        $this->created_date = $value;
+    }
+
+    // 作成時刻
+    public function getCreatedtimeAttribute()
+    {
+        return $this->created_time;
+    }
+    public function setCreatedtimeAttribute($value)
+    {
+        $this->created_time = $value;
+    }
+
+    // 作成ユーザー
+    public function getCreateduserAttribute()
+    {
+        return $this->created_user;
+    }
+    public function setCreateduserAttribute($value)
+    {
+        $this->created_user = $value;
+    }
+
+    // 修正ユーザー
+    public function getUpdateduserAttribute()
+    {
+        return $this->updated_user;
+    }
+    public function setUpdateduserAttribute($value)
+    {
+        $this->updated_user = $value;
+    }
+
+    //
+    public function getCreatedatAttribute()
+    {
+        return $this->created_at;
+    }
+    public function setCreatedatAttribute($value)
+    {
+        $this->created_at = $value;
+    }
+
+    //
+    public function getUpdatedatAttribute()
+    {
+        return $this->updated_at;
+    }
+    public function setUpdatedatAttribute($value)
+    {
+        $this->updated_at = $value;
+    }
+
+    // 削除フラグ
+    public function getIsdeletedAttribute()
+    {
+        return $this->is_deleted;
+    }
+    public function setIsdeletedAttribute($value)
+    {
+        $this->is_deleted = $value;
+    }
+    // 
      //public function getAttribute(){ return $this->;}
      //public function setAttribute($value){  $this-> = $value;}
  
@@ -139,7 +319,8 @@ class Outsourcing extends Model
 
                 'id',
                 'code',
-                'classify',
+                'apply_date',
+                'category',
                 'name',
                 'post',
                 'address1',
@@ -152,6 +333,8 @@ class Outsourcing extends Model
                 'tax_class',
                 'tax_fraction',
                 'industry',
+                'created_date',
+                'created_time',
                 'created_user',
                 'updated_user',
                 'created_at',
@@ -171,7 +354,7 @@ class Outsourcing extends Model
                 ->orderBy('id');
             }
             else {
-                $data->where('classify','2');
+                $data->where('category','3');
             }
             $result = $data
             //->where('status','newest')

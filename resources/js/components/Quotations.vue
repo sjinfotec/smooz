@@ -14,13 +14,18 @@
             <button><span>新規</span></button>
           </div>
           <div class="inputgroup">
-            <button><span>見積書</span></button>
+            <button><span>登録</span></button>
           </div>
+          <div class="inputgroup">
+            <button type="button" onClick="location.href='./qsearch/'"><span>検索</span></button>
+          </div>
+          <!--
           <div class="inputgroup">
             <label>参照見積番号<input type="text" class="form_style input_w5"></label>
           </div>
+          -->
           <div class="inputgroup">
-            <button><span>登録</span></button>
+            <button><span>見積書</span></button>
           </div>
           <div class="inputgroup">
             <button><span>受注</span></button>
@@ -76,18 +81,18 @@
           </div>
           <div class="inputgroup">
             <span id="printing_mark" class="markzone mz_c1"></span>
-            <button type="button" id="printing_btn" @click="OnButtonClickT('printing');">印刷有り</button>
+            <button type="button" id="printing_btn" class="btn_style1" @click="OnButtonClickT('printing');">印刷有り</button>
             <input type="text" class="input_w1" value="1" v-model="details[index].printing"  name="printing" id="printing">
           </div>
         </div>
         <div class="line">
           <div class="inputgroup">
             <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
-            <button type="button" id="inch_btn" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
+            <button type="button" id="inch_btn" class="btn_style1" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
           </div>
           <div class="inputgroup">
             <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
-            <button type="button" id="milli_btn" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
+            <button type="button" id="milli_btn" class="btn_style1" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
             <input type="text" class="input_w1" value="0" v-model="details[index].unit" name="unit" id="unit">
           </div>
           <div class="inputgroup">
@@ -223,7 +228,7 @@
       </div>
       <div class="line">
           <div class="mglrauto">
-            <button type="button" id="setcal_btn" @click="SetcalBtn();">設定・計算</button>
+            <button type="button" id="setcal_btn" class="btn_style1" @click="SetcalBtn();">設定・計算</button>
           </div>
       </div>
 
@@ -234,7 +239,7 @@
               <label><span class="spanwidth_1">提示額</span><input type="text" class="form_style input_w5" v-model="details[index].offered_price" name="offered_price"></label>
             </div>
             <div class="inputgroup">
-              <button type="button" id="cost_btn" @click="CostBtn();">原価一覧</button>
+              <button type="button" id="cost_btn" class="btn_style1" @click="CostBtn();">原価一覧</button>
             </div>
           </div>
       </div><!--end department01-->

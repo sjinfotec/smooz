@@ -13,10 +13,10 @@
       </div>
     </div><!-- end cnt1 -->
     <div id="cnt_os">
-      <div class="outsourcing_block flex_jc_sb">
-                    <div v-for="(item,rowIndex) in details" :key="rowIndex">
-                    <button type="button" id="" @click="SelectOsBtn(item['name']);">{{ item['name'] }}</button>
-                    </div>
+      <div class="outsourcing_block ">
+                    <span v-for="(item,rowIndex) in details" :key="rowIndex">
+                    <button type="button" id="" class="btn_style2" style="width:100px;" @click="SelectOsBtn(item['name']);">{{ item['name'] }}</button>
+                    </span>
 
       </div>
     </div>

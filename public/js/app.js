@@ -4637,6 +4637,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 
@@ -5764,11 +5769,14 @@ __webpack_require__.r(__webpack_exports__);
       //const tid = "cnt1";
       //var targetid = document.getElementById(tid);
       //targetid.style.visibility = "visible";
-      //this.event.value = event;
-      var target_inputid = document.getElementById(event);
-      target_inputid.value = param1;
+      //this.event.value = param1;
+      //var target_inputid = document.getElementById(event);
+      //target_inputid.value = param1;
+      //配列の変更を即座に反映するには「Vue.set」または「vm.$set(this.$set)」関数が必要
+      //this.details[0].event = param1;　これでは反映されない。
+      this.$set(this.details[0], event, param1);
       this.outsourcingview = false;
-      console.log('Mmake.vue selectOS event = ' + event);
+      console.log('selectOS event = ' + event + ': param1 = ' + param1);
     },
     OutsourcingButton: function OutsourcingButton(t) {
       //id="product_all_outsou2_btn" @click="OutsourcingButton('product_all_outsou2')
@@ -6282,8 +6290,9 @@ __webpack_require__.r(__webpack_exports__);
       //var targetid = document.getElementById(tid);
       //targetid.style.visibility = "visible";
       //this.event.value = event;
-      var target_inputid = document.getElementById(event);
-      target_inputid.value = param1;
+      //var target_inputid = document.getElementById(event);
+      //target_inputid.value = param1;
+      this.$set(this.details[0], event, param1);
       this.outsourcingview = false;
       console.log('Mmake.vue selectOS event = ' + event);
     },
@@ -6996,8 +7005,9 @@ __webpack_require__.r(__webpack_exports__);
       //var targetid = document.getElementById(tid);
       //targetid.style.visibility = "visible";
       //this.event.value = event;
-      var target_inputid = document.getElementById(event);
-      target_inputid.value = param1;
+      //var target_inputid = document.getElementById(event);
+      //target_inputid.value = param1;
+      this.$set(this.details[0], event, param1);
       this.outsourcingview = false;
       console.log('Mmake.vue selectOS event = ' + event);
     },
@@ -56608,12 +56618,14 @@ var render = function () {
     _c("div", { attrs: { id: "cnt_os" } }, [
       _c(
         "div",
-        { staticClass: "outsourcing_block flex_jc_sb" },
+        { staticClass: "outsourcing_block " },
         _vm._l(_vm.details, function (item, rowIndex) {
-          return _c("div", { key: rowIndex }, [
+          return _c("span", { key: rowIndex }, [
             _c(
               "button",
               {
+                staticClass: "btn_style2",
+                staticStyle: { width: "100px" },
                 attrs: { type: "button", id: "" },
                 on: {
                   click: function ($event) {
@@ -59585,6 +59597,7 @@ var render = function () {
                     _c(
                       "button",
                       {
+                        staticClass: "btn_style1",
                         attrs: { type: "button", id: "printing_btn" },
                         on: {
                           click: function ($event) {
@@ -59638,6 +59651,7 @@ var render = function () {
                     _c(
                       "button",
                       {
+                        staticClass: "btn_style1",
                         attrs: { type: "button", id: "inch_btn" },
                         on: {
                           click: function ($event) {
@@ -59658,6 +59672,7 @@ var render = function () {
                     _c(
                       "button",
                       {
+                        staticClass: "btn_style1",
                         attrs: { type: "button", id: "milli_btn" },
                         on: {
                           click: function ($event) {
@@ -60172,6 +60187,7 @@ var render = function () {
                 _c(
                   "button",
                   {
+                    staticClass: "btn_style1",
                     attrs: { type: "button", id: "setcal_btn" },
                     on: {
                       click: function ($event) {
@@ -60223,6 +60239,7 @@ var render = function () {
                   _c(
                     "button",
                     {
+                      staticClass: "btn_style1",
                       attrs: { type: "button", id: "cost_btn" },
                       on: {
                         click: function ($event) {
@@ -60308,21 +60325,21 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [
-          _c("button", [_c("span", [_vm._v("見積書")])]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
-          _c("label", [
-            _vm._v("参照見積番号"),
-            _c("input", {
-              staticClass: "form_style input_w5",
-              attrs: { type: "text" },
-            }),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputgroup" }, [
           _c("button", [_c("span", [_vm._v("登録")])]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c(
+            "button",
+            {
+              attrs: { type: "button", onClick: "location.href='./qsearch/'" },
+            },
+            [_c("span", [_vm._v("検索")])]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "inputgroup" }, [
+          _c("button", [_c("span", [_vm._v("見積書")])]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "inputgroup" }, [

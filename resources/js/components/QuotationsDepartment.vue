@@ -645,8 +645,9 @@ export default {
       //var targetid = document.getElementById(tid);
       //targetid.style.visibility = "visible";
       //this.event.value = event;
-      var target_inputid = document.getElementById(event);
-      target_inputid.value = param1;
+      //var target_inputid = document.getElementById(event);
+      //target_inputid.value = param1;
+      this.$set(this.details[0], event, param1);
       this.outsourcingview = false;
       console.log('Mmake.vue selectOS event = ' + event);
 

@@ -627,11 +627,17 @@ export default {
       //const tid = "cnt1";
       //var targetid = document.getElementById(tid);
       //targetid.style.visibility = "visible";
-      //this.event.value = event;
-      var target_inputid = document.getElementById(event);
-      target_inputid.value = param1;
+      //this.event.value = param1;
+      
+      //var target_inputid = document.getElementById(event);
+      //target_inputid.value = param1;
+
+      //配列の変更を即座に反映するには「Vue.set」または「vm.$set(this.$set)」関数が必要
+      //this.details[0].event = param1;　これでは反映されない。
+      this.$set(this.details[0], event, param1);
+
       this.outsourcingview = false;
-      console.log('Mmake.vue selectOS event = ' + event);
+      console.log('selectOS event = ' + event + ': param1 = ' + param1);
 
     },
     OutsourcingButton(t) {

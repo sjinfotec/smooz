@@ -58,11 +58,17 @@ button  {
   appearance: none;
   white-space:nowrap;
   border-radius: 5px;
+  border: 0;
   padding:2px 6px;
   color:#FFF;
   background:#88b3bb;
   width:140px;
   cursor: pointer;
+  /*background: linear-gradient(to right, #a7b2d3 40%, #ebd3ff 100%);*/
+  box-shadow: -4px -4px 8px #fff, 4px 4px 8px rgb(0 0 0 / 24%);
+  transition: all 0.5s;
+
+
 }
 
 button:hover  {
@@ -351,6 +357,9 @@ header .header_login_info a {
 .flex_jc_r  {
   justify-content: right;
 }
+.flex_flex_1  {
+  flex: 1;
+}
 .columngap_10px {
   column-gap:10px;
 }
@@ -365,6 +374,30 @@ header .header_login_info a {
 .ta_j{text-align: justify}
 .ta_lj{text-align-last: justify}
 
+.btn_style1  {
+  /*background: linear-gradient(to right, #a7d3b9 40%, #feffd3 100%);*/
+  background: #EEE;
+  color: #333;
+  transition: all 0.5s;
+}
+.btn_style1:hover  {
+  background: #4CE;
+  
+}
+.btn_style2  {
+  /*background: linear-gradient(to right, #a7d3b9 40%, #feffd3 100%);*/
+  padding: 2px 4px;
+  background: #EEE;
+  color: #333;
+  box-shadow: 0px 0px 2px #fff, 4px 4px 8px rgb(0 0 0 / 24%);
+
+  transition: all 0.5s;
+
+}
+.btn_style2:hover  {
+  background: #4CE;
+  
+}
 
 
 /*--------------------## TOP page ##--------------------*/
@@ -411,6 +444,7 @@ header .header_login_info a {
 #menubtn01 {
   position: fixed;
   /*position: sticky;*/
+  left: 0;
   bottom: 0;
   width: 100%;
   height: 100px;
@@ -422,14 +456,22 @@ header .header_login_info a {
   
 
 }
+#menubtn01 .line {
+  /*justify-content: space-between;*/
+  justify-content: center;
+
+}
+
 #menubtn01 button {
   position: relative;
   /*border: 2px solid transparent;*/
   border: 0px;
   padding: 4px 6px;
-  background: linear-gradient(to right, #e7e7e7 40%, #ebd3ff 100%);
+  /*background: linear-gradient(to right, #e7e7e7 40%, #ebd3ff 100%);*/
+  background: linear-gradient(to right, #a7b2d3 40%, #ebd3ff 100%);
   box-shadow: -4px -4px 8px #fff, 4px 4px 8px rgb(0 0 0 / 24%);
   /*transition: all 0.5s 0.2s ease-in-out;*/
+  color: #333;
 
 }
 #menubtn01 button:focus {
@@ -438,7 +480,7 @@ header .header_login_info a {
 }
 #menubtn01 button:hover  {
   /*background:#acdee7;*/
-  color: #333;
+  color: #FFF;
 }
 
 #menubtn01 button:active {
@@ -455,7 +497,8 @@ header .header_login_info a {
   content: "";
   transition: all 0.5s;
 
-  background-image: linear-gradient(180deg, #28882d, #2b797c, #2b86c5);
+  /*background-image: linear-gradient(180deg, #28882d, #2b797c, #2b86c5);*/
+  background-image: linear-gradient(to bottom, #e3eaed 0%, #f2f5f6 100%);
 }
 
 #menubtn01 button:hover:after {
@@ -486,6 +529,24 @@ header .header_login_info a {
 }
 .main_cnt {visibility: visible;}
 #cnt1 {padding:0 0 120px 0}
+#cnt1 button {
+  /*background: linear-gradient(to right, #a7d3b9 40%, #feffd3 100%);*/
+  background: #EEF0FF;
+  color: #333;
+  transition: all 0.5s;
+}
+#cnt1 button:hover  {
+  background: #9CE;
+  
+}
+
+#cnt1 input,select {
+  outline: none;
+  border: none;
+  border-bottom: 1px dashed #CCC;
+  border-left: 1px dashed #CCC;
+
+}
 #cnt1 .line {
   display:flex;
   width:100%;
