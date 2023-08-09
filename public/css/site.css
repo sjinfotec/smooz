@@ -770,9 +770,9 @@ header .header_login_info a {
 }
 #cnt_os .outsourcing_block  {
   display:flex;
-
   flex-wrap:wrap;
   /*width:100%;*/
+  gap: 0px 2px;
 
 }
 /*親要素の疑似要素afterに見えないハコで左詰め。子要素(ここではbutton)と同じ幅にする*/
@@ -1541,81 +1541,6 @@ header .header_login_info a {
 
 
 
-#button1 {
-  display:flex;
-  width:100%;
-  justify-content: space-between;
-  flex-wrap:wrap;
-
-}
-#button1 .btnstyle {
-  margin-top:20px;
-}
-#button1 button  {
-  width:20em;
-  font-size:1.6rem;
-  white-space: normal;
-}
-#button1 button span{
-  display:inline-block;
-}
-button.style1  {
-  border:1px solid #888;
-  border-radius: 4px;
-  background:#8C8;
-}
-button.style1:hover  {
-  color:#FFF;
-  background:#C88;
-}
-button.style2  {
-  border:1px solid #888;
-  border-radius: 4px;
-  background:#8CC;
-}
-button.style2:hover  {
-  color:#FFF;
-  background:#C88;
-}
-
-
-#cnt1f .w1{
-  flex:0 0 8em;
-  max-width:8em;
-}
-#cnt1f .w2{
-  flex:0 0 17em;
-  max-width:17em;
-}
-#cnt1f .w3{
-  flex:0 0 26em;
-  max-width:26em;
-}
-#cnt1f .w4{
-  /*flex:1 0 auto;*/
-  flex:0 0 35em;
-  max-width:35em;
-}
-
-
-#tbl_1 .color3 {
-  color:#CCC;
-}
-#tbl_1 .color4 {
-  color:red;
-}
-#tbl_1 .bgcolor3 {
-  background:#FDC;
-}
-#tbl_1 .bgcolor4 {
-  background:#CDF;
-}
-#tbl_1 .bgcolor5 {
-  background:linear-gradient(to bottom, #FFF 0%, #FFF 90%, lightblue 90%,  lightblue 100%);
-}
-#tbl_1 .bgcolor6 {
-  background:#FFC;
-}
 
 
 
@@ -1625,131 +1550,6 @@ button.style2:hover  {
 
 
 
-
-
-
-
-/*--------------------## 預かり在庫 / 一覧 ##--------------------*/
-#top_cnt  {
-  display:flex;
-  width:100%;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom:5px;
-}
-#top_cnt .customize  {
-  white-space:nowrap;
-  border-radius: 5px;
-  border:none;
-  padding:2px 6px;
-  color:#FFF;
-  background:#FFF;
-  width:auto;
-}
-#form1  {
-  display:flex;
-  align-items: center;
-  /*justify-content: space-between;*/
-
-}
-#form1 .form_style {
-  font-size:2rem;
-  height:3rem;
-  /*width:calc(100% - 8px);*/
-  padding:0 4px;
-  width:50%;
-  box-sizing: border-box;
-  margin-right:10px;
-}
-
-#btn_cnt1 {
-  display:flex;
-  align-items: center;
-}
-#btn_cnt1 .form_style {
-  font-size:2rem;
-  height:3rem;
-  /*width:calc(100% - 8px);*/
-  padding:0 4px;
-  /*width:50%;*/
-  box-sizing: border-box;
-  /*margin-right:10px;*/
-}
-#btn_cnt1 .btn1  {
-  white-space:nowrap;
-  border-radius: 5px;
-  padding:2px 6px;
-  color:#FFF;
-  background:#bbaa88;
-  width:10em;
-  margin-left:10px;
-
-}
-
-
-
-/*--------------------## 預かり在庫 / 編集追加登録 ##--------------------*/
-
-
-/*--------------------## 棚卸 /  ##--------------------*/
-#cnt33 {
-  display:flex;
-  /*width:100%;*/
-  align-items: center;
-  flex-wrap:wrap;
-}
-#cnt33 .mg1 {
-  margin-left:20px;
-}
-
-#form3  {
-  display:flex;
-  align-items: center;
-  /*justify-content: space-between;*/
-
-}
-#form3 .form_style {
-  font-size:2rem;
-  height:3rem;
-  /*width:calc(100% - 8px);*/
-  padding:0 4px;
-  width:auto;
-  box-sizing: border-box;
-  margin-right:10px;
-}
-
-
-
-/*--------------------## ゴミ箱 /  ##--------------------*/
-#subtitle {
-  display:block;
-}
-#subtitle h4 {
-  border-left-style:solid;
-  border-left-width:10px;
-  padding:0 0 2px 6px;
-}
-#subtitle .margin {
-  margin-top:50px;
-}
-#subtitle .bc1::before {
-  content: "";
-  display:inline-block;
-  width:  16px;
-  height:  16px;
-  background-color: #f4c836;
-  /*border-radius:  50%;*/
-  line-height: 18px;
-  text-align: center;
-  position:  relative;
-  left:0px;
-  top: 3px;
-/*
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-*/
-}
 
 
 

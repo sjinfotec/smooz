@@ -401,17 +401,20 @@ export default {
       //console.log('OnButtonClickT in inputvalue = ' + inputvalue);
       if (inputvalue == "1") { 
         targetid.style.visibility = "hidden";
-        inputid.value = "0";
+        //inputid.value = "0";
+        this.$set(this.details[0], t, 0);
         btnid.innerHTML = "通し無し";
       }
       else if (inputvalue == "0" || inputvalue == "") {
         targetid.style.visibility = "visible";
-        inputid.value = "2";
+        //inputid.value = "2";
+        this.$set(this.details[0], t, 2);
         btnid.innerHTML = "通し有り";
       }
       else if (inputvalue == "2") {
         targetid.style.visibility = "visible";
-        inputid.value = "1";
+        //inputid.value = "1";
+        this.$set(this.details[0], t, 1);
         btnid.innerHTML = "印刷有り";
       }
     },
@@ -437,101 +440,6 @@ export default {
       }
     },
 
-    OnButtonClickD(t) {
-      var tm = t + '_mark';
-      var tb = t + '_btn';
-      var inputid = document.getElementById(t);
-      var inputvalue = inputid.value;
-      var targetid = document.getElementById(tm);
-      var btnid = document.getElementById(tb);
-      if (inputvalue == "0") { 
-        targetid.style.visibility = "visible";
-        inputid.value = "1";
-        btnid.innerHTML = "断裁・一般";
-      }
-      else if (inputvalue == "1") {
-        targetid.style.visibility = "visible";
-        inputid.value = "2";
-        btnid.innerHTML = "断裁・インサータ";
-      }
-      else if (inputvalue == "2") {
-        targetid.style.visibility = "hidden";
-        inputid.value = "0";
-        btnid.innerHTML = "断裁";
-      }
-    },
-
-    OnButtonClick01(t,arr) {
-      let idname_array = new Object(); 
-      idname_array[0] = ['inch', 'milli'];
-      idname_array[2] = ['nisu_single', 'nisu_double'];
-      idname_array[3] = ['sei_marble', 'sei_cross'];
-      idname_array[4] = ['sei_mat_maki_cardboard', 'sei_mat_cardboard'];
-      idname_array[5] = ['sei_kurumi', 'sei_musen_tozi', 'sei_naka_tozi'];
-      idname_array[6] = ['sei_bara', 'sei_oneset'];
-      idname_array[7] = ['sei_a_system', 'sei_c_system'];
-
-      for (let i = 0 ; i < idname_array[arr].length ; i++){
-        var n = idname_array[arr][i];
-        var nm = n + '_mark';
-        var inputid = document.getElementById(n);
-        var inputvalue = inputid.value;
-        var targetid = document.getElementById(nm);
-
-        if ( idname_array[arr][i] == t ) {
-          if (inputvalue == "1") { 
-            targetid.style.visibility = "hidden";
-            inputid.value = "0";
-          }
-          else if (inputvalue == "0") {
-            targetid.style.visibility = "visible";
-            inputid.value = "1";
-          }
-        }
-        else {
-          targetid.style.visibility = "hidden";
-          inputid.value = "0";
-        } 
-      }
-    },
-
-    OnButtonClick02(t,arr) {
-      let idname_array = new Object(); 
-      idname_array[1] = ['wkake', 'ana2', 'ana6', 'donko', 'katanuki', 'kasutori'];
-
-      for (let i = 0 ; i < idname_array[arr].length ; i++){
-        var n = idname_array[arr][i];
-        var nm = n + '_mark';
-        var inputid = document.getElementById(n);
-        var inputvalue = inputid.value;
-        var targetid = document.getElementById(nm);
-        var passmark = false;
-
-        if ((n == 'wkake' && t == 'katanuki') || (t == 'wkake' && n == 'katanuki')) {
-         var passmark = true;
-        }
-        else if ((n == 'kasutori' && t == 'katanuki') || (t == 'kasutori' && n == 'katanuki')) {
-         var passmark = true;
-        }
-
-        if ( idname_array[arr][i] == t ) {
-          if (inputvalue == "1") { 
-            targetid.style.visibility = "hidden";
-            inputid.value = "0";
-          }
-          else if (inputvalue == "0") {
-            targetid.style.visibility = "visible";
-            inputid.value = "1";
-          }
-        }
-        else {
-          if ( passmark == false ) {
-          targetid.style.visibility = "hidden";
-          inputid.value = "0";
-          }
-        } 
-      }
-    },
     OnButtonClick03(t,arr,t2) {
       let idname_array = new Object(); 
       idname_array[0] = ['inch', 'milli'];
@@ -547,21 +455,25 @@ export default {
           if( t == 'inch') {
             if (inputvalue == "1") { 
               targetid.style.visibility = "hidden";
-              inputid.value = "0";
+              //inputid.value = "0";
+              this.$set(this.details[0], t2, 0);
             }
             else if (inputvalue == "0" || inputvalue == "2") {
               targetid.style.visibility = "visible";
-              inputid.value = "1";
+              //inputid.value = "1";
+              this.$set(this.details[0], t2, 1);
             }
           }
           else if ( t == 'milli') {
             if (inputvalue == "2") { 
               targetid.style.visibility = "hidden";
-              inputid.value = "0";
+              //inputid.value = "0";
+              this.$set(this.details[0], t2, 0);
             }
             else if (inputvalue == "0" || inputvalue == "1" ) {
               targetid.style.visibility = "visible";
-              inputid.value = "2";
+              //inputid.value = "2";
+              this.$set(this.details[0], t2, 2);
             }
           }
         }

@@ -115,7 +115,7 @@
               <div class="inputgroup">
                 <span id="sei_crimping_mark" class="markzone mz_c1 v_hidden"></span>
                 <button type="button" id="sei_crimping_btn" @click="OnButtonClick('sei_crimping');">圧着</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_crimping" name="sei_crimping" id="sei_crimping">
+                <input type="text" class="input_w1" value="" v-model="details[index].sei_crimping" name="sei_crimping" id="sei_crimping">
               </div>
             </div>
 
@@ -171,7 +171,7 @@
               <div class="inputgroup">
                 <span id="sei_naka_tozi_mark" class="markzone mz_c2 v_hidden"></span>
                 <button type="button" id="sei_naka_tozi_btn" @click="OnButtonClick01('sei_naka_tozi',5);">中トジ</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_naka_tozi" name="sei_naka_tozi" id="sei_naka_tozi">
+                <input type="text" class="input_w1"  v-model="details[index].sei_naka_tozi" name="sei_naka_tozi" id="sei_naka_tozi">
               </div>
               <div class="inputgroup">
                 <button type="button" id="sei_naka_tozi_outsou_btn" @click="OutsourcingButton('sei_naka_tozi_outsou');">外注先</button>
@@ -311,7 +311,7 @@
     </div><!--end id cnt1-->
 
     <div id="area1">
-      <div v-if="outsourcingview == true">
+      <div v-show="outsourcingview === 'osv'">
         <out-sourcing
         v-bind:input-textid="inputtextid"
         v-on:oscancel-event="OScancel"
@@ -409,39 +409,20 @@ export default {
       var inputid = document.getElementById(t);
       var inputvalue = inputid.value;
       var targetid = document.getElementById(tm);
+      //console.log('OnButtonClick -> t= ' + t + ' inputvalue= ' + inputvalue);
+      
       if (inputvalue == "1") { 
         targetid.style.visibility = "hidden";
-        inputid.value = "0";
+        //inputid.value = "0";
+        this.$set(this.details[0], t, 0);
       }
-      else if (inputvalue == "0") {
+      else {
         targetid.style.visibility = "visible";
-        inputid.value = "1";
+        //inputid.value = "1";
+        this.$set(this.details[0], t, 1);
       }
     },
 
-    OnButtonClickT(t) {
-      var tm = t + '_mark';
-      var tb = t + '_btn';
-      var inputid = document.getElementById(t);
-      var inputvalue = inputid.value;
-      var targetid = document.getElementById(tm);
-      var btnid = document.getElementById(tb);
-      if (inputvalue == "1") { 
-        targetid.style.visibility = "hidden";
-        inputid.value = "0";
-        btnid.innerHTML = "通し無し";
-      }
-      else if (inputvalue == "0") {
-        targetid.style.visibility = "visible";
-        inputid.value = "2";
-        btnid.innerHTML = "通し有り";
-      }
-      else if (inputvalue == "2") {
-        targetid.style.visibility = "visible";
-        inputid.value = "1";
-        btnid.innerHTML = "印刷有り";
-      }
-    },
 
     OnButtonClickD(t) {
       var tm = t + '_mark';
@@ -452,17 +433,20 @@ export default {
       var btnid = document.getElementById(tb);
       if (inputvalue == "0") { 
         targetid.style.visibility = "visible";
-        inputid.value = "1";
+        //inputid.value = "1";
+        this.$set(this.details[0], t, 1);
         btnid.innerHTML = "断裁・一般";
       }
       else if (inputvalue == "1") {
         targetid.style.visibility = "visible";
-        inputid.value = "2";
+        //inputid.value = "2";
+        this.$set(this.details[0], t, 2);
         btnid.innerHTML = "断裁・インサータ";
       }
       else if (inputvalue == "2") {
         targetid.style.visibility = "hidden";
-        inputid.value = "0";
+        //inputid.value = "0";
+        this.$set(this.details[0], t, 0);
         btnid.innerHTML = "断裁";
       }
     },
@@ -487,96 +471,23 @@ export default {
         if ( idname_array[arr][i] == t ) {
           if (inputvalue == "1") { 
             targetid.style.visibility = "hidden";
-            inputid.value = "0";
+            //inputid.value = "0";
+            this.$set(this.details[0], n, 0);
           }
           else if (inputvalue == "0") {
             targetid.style.visibility = "visible";
-            inputid.value = "1";
-          }
-        }
-        else {
-          targetid.style.visibility = "hidden";
-          inputid.value = "0";
-        } 
-      }
-    },
-
-    OnButtonClick02(t,arr) {
-      let idname_array = new Object(); 
-      idname_array[1] = ['wkake', 'ana2', 'ana6', 'donko', 'katanuki', 'kasutori'];
-
-      for (let i = 0 ; i < idname_array[arr].length ; i++){
-        var n = idname_array[arr][i];
-        var nm = n + '_mark';
-        var inputid = document.getElementById(n);
-        var inputvalue = inputid.value;
-        var targetid = document.getElementById(nm);
-        var passmark = false;
-
-        if ((n == 'wkake' && t == 'katanuki') || (t == 'wkake' && n == 'katanuki')) {
-         var passmark = true;
-        }
-        else if ((n == 'kasutori' && t == 'katanuki') || (t == 'kasutori' && n == 'katanuki')) {
-         var passmark = true;
-        }
-
-        if ( idname_array[arr][i] == t ) {
-          if (inputvalue == "1") { 
-            targetid.style.visibility = "hidden";
-            inputid.value = "0";
-          }
-          else if (inputvalue == "0") {
-            targetid.style.visibility = "visible";
-            inputid.value = "1";
-          }
-        }
-        else {
-          if ( passmark == false ) {
-          targetid.style.visibility = "hidden";
-          inputid.value = "0";
-          }
-        } 
-      }
-    },
-    OnButtonClick03(t,arr,t2) {
-      let idname_array = new Object(); 
-      idname_array[0] = ['inch', 'milli'];
-
-      for (let i = 0 ; i < idname_array[arr].length ; i++){
-        var n = idname_array[arr][i];
-        var nm = n + '_mark';
-        var inputid = document.getElementById(t2);
-        var inputvalue = inputid.value;
-        var targetid = document.getElementById(nm);
-
-        if ( idname_array[arr][i] == t ) {
-          if( t == 'inch') {
-            if (inputvalue == "1") { 
-              targetid.style.visibility = "hidden";
-              inputid.value = "0";
-            }
-            else if (inputvalue == "0" || inputvalue == "2") {
-              targetid.style.visibility = "visible";
-              inputid.value = "1";
-            }
-          }
-          else if ( t == 'milli') {
-            if (inputvalue == "2") { 
-              targetid.style.visibility = "hidden";
-              inputid.value = "0";
-            }
-            else if (inputvalue == "0" || inputvalue == "1" ) {
-              targetid.style.visibility = "visible";
-              inputid.value = "2";
-            }
+            //inputid.value = "1";
+            this.$set(this.details[0], n, 1);
           }
         }
         else {
           targetid.style.visibility = "hidden";
           //inputid.value = "0";
+          this.$set(this.details[0], n, 0);
         } 
       }
     },
+
 
     SetParts(pnum,pname) {
       const tid = "cnt1";
@@ -671,7 +582,7 @@ export default {
       //this.pagename = pname;
 
       this.inputtextid = t;
-      this.outsourcingview = true;
+      this.outsourcingview = 'osv';
       console.log('OutsourcingButton 引数 = ' + t);
 
 
