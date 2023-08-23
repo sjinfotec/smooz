@@ -8,29 +8,36 @@
         <div class="cate"><h4>基本項目</h4></div>
       </div>
 
-      <div class="line">
-        <div class="inputgroup">
-          <button>新規</button>
+      <div id="menubtn01">
+        <div class="line">
+          <div class="inputgroup">
+            <button><span>新規</span></button>
+          </div>
+          <div class="inputgroup">
+            <button><span>登録</span></button>
+          </div>
+          <div class="inputgroup">
+            <button type="button" onClick="location.href='./qsearch/'"><span>検索</span></button>
+          </div>
+          <!--
+          <div class="inputgroup">
+            <label>参照見積番号<input type="text" class="form_style input_w5"></label>
+          </div>
+          -->
+          <div class="inputgroup">
+            <button><span>見積書</span></button>
+          </div>
+          <div class="inputgroup">
+            <button><span>受注</span></button>
+          </div>
+          <div class="inputgroup">
+            <button><span>原価閲覧</span></button>
+          </div>
+          <div class="inputgroup">
+            <button><span>終了</span></button>
+          </div>
         </div>
-        <div class="inputgroup">
-          <button>見積書</button>
-        </div>
-        <div class="inputgroup">
-          <label>参照見積番号<input type="text" class="form_style input_w5"></label>
-        </div>
-        <div class="inputgroup">
-          <button>登録</button>
-        </div>
-        <div class="inputgroup">
-          <button>受注</button>
-        </div>
-        <div class="inputgroup">
-          <button>原価閲覧</button>
-        </div>
-        <div class="inputgroup">
-          <button>終了</button>
-        </div>
-      </div>
+      </div><!--end id menubtn01-->
       <div v-for="(item,index) in details" v-bind:key="item.id">
         <div class="line">
           <div class="inputgroup">
@@ -74,18 +81,18 @@
           </div>
           <div class="inputgroup">
             <span id="printing_mark" class="markzone mz_c1"></span>
-            <button type="button" id="printing_btn" @click="OnButtonClickT('printing');">印刷有り</button>
+            <button type="button" id="printing_btn" class="btn_style1" @click="OnButtonClickT('printing');">印刷有り</button>
             <input type="text" class="input_w1" value="1" v-model="details[index].printing"  name="printing" id="printing">
           </div>
         </div>
         <div class="line">
           <div class="inputgroup">
             <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
-            <button type="button" id="inch_btn" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
+            <button type="button" id="inch_btn" class="btn_style1" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
           </div>
           <div class="inputgroup">
             <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
-            <button type="button" id="milli_btn" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
+            <button type="button" id="milli_btn" class="btn_style1" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
             <input type="text" class="input_w1" value="0" v-model="details[index].unit" name="unit" id="unit">
           </div>
           <div class="inputgroup">
@@ -197,9 +204,9 @@
 
         <!--<div>{{all_dpc_arr}}</div>-->
         <div class="line">
-          <div class="inputgroup" v-for="(c001,indexc001) in container_arr_c001" :key="c001.id">
-            <span :id="'parts' + container_arr_c001[indexc001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_c001[indexc001].code == all_dpc_arr[indexc001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexc001]}}
-            <a href="#" :id="'parts' + container_arr_c001[indexc001].code + '_btn'" @click="SetParts(c001.code, c001.code_name);">{{ container_arr_c001[indexc001].code_name }}</a>
+          <div class="inputgroup" v-for="(p001,indexp001) in container_arr_p001" :key="p001.id">
+            <span :id="'parts' + container_arr_p001[indexp001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_p001[indexp001].code == all_dpc_arr[indexp001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexp001]}}
+            <a href="#" :id="'parts' + container_arr_p001[indexp001].code + '_btn'" @click="SetParts(p001.code, p001.code_name);">{{ container_arr_p001[indexp001].code_name }}</a>
           </div>
         </div>
 
@@ -207,7 +214,7 @@
         <div id="department01" class="mgt40">
           <div class="inputgroup">
             <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
-            <textarea name="comment" class="form_style_textarea" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
+            <textarea name="comment" class="form_style_textarea" v-model="details[index].comment" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
             </label>
           </div>
         </div><!--end department01-->
@@ -221,7 +228,7 @@
       </div>
       <div class="line">
           <div class="mglrauto">
-            <button type="button" id="setcal_btn" @click="SetcalBtn();">設定・計算</button>
+            <button type="button" id="setcal_btn" class="btn_style1" @click="SetcalBtn();">設定・計算</button>
           </div>
       </div>
 
@@ -229,10 +236,10 @@
       <div id="department01" class="mgt40">
           <div class="group">
             <div class="inputgroup">
-              <label><span class="spanwidth_1">提示額</span><input type="text" class="form_style input_w5" name="offered_price"></label>
+              <label><span class="spanwidth_1">提示額</span><input type="text" class="form_style input_w5" v-model="details[index].offered_price" name="offered_price"></label>
             </div>
             <div class="inputgroup">
-              <button type="button" id="cost_btn" @click="CostBtn();">原価一覧</button>
+              <button type="button" id="cost_btn" class="btn_style1" @click="CostBtn();">原価一覧</button>
             </div>
           </div>
       </div><!--end department01-->
@@ -251,6 +258,7 @@
        v-bind:page-num="pagenum"
        v-bind:page-name="pagename"
        v-bind:m-code="s_m_code"
+       v-bind:parts-code="s_parts_code"
        v-on:pcancel-event="Pcancel"
       ></quotations-parts>
     </div>
@@ -319,7 +327,7 @@ export default {
       select_arr_s003: [],
       select_arr_s004: [],
       select_arr_s005: [],
-      container_arr_c001: [],
+      container_arr_p001: [],
 
       //s_m_code: "",
 
@@ -330,6 +338,7 @@ export default {
       targetid: "",
       pagenum: "",
       pagename: "",
+      s_parts_code: "",
       inputtextid: "",
       select_html: "",
 
@@ -392,17 +401,20 @@ export default {
       //console.log('OnButtonClickT in inputvalue = ' + inputvalue);
       if (inputvalue == "1") { 
         targetid.style.visibility = "hidden";
-        inputid.value = "0";
+        //inputid.value = "0";
+        this.$set(this.details[0], t, 0);
         btnid.innerHTML = "通し無し";
       }
       else if (inputvalue == "0" || inputvalue == "") {
         targetid.style.visibility = "visible";
-        inputid.value = "2";
+        //inputid.value = "2";
+        this.$set(this.details[0], t, 2);
         btnid.innerHTML = "通し有り";
       }
       else if (inputvalue == "2") {
         targetid.style.visibility = "visible";
-        inputid.value = "1";
+        //inputid.value = "1";
+        this.$set(this.details[0], t, 1);
         btnid.innerHTML = "印刷有り";
       }
     },
@@ -428,101 +440,6 @@ export default {
       }
     },
 
-    OnButtonClickD(t) {
-      var tm = t + '_mark';
-      var tb = t + '_btn';
-      var inputid = document.getElementById(t);
-      var inputvalue = inputid.value;
-      var targetid = document.getElementById(tm);
-      var btnid = document.getElementById(tb);
-      if (inputvalue == "0") { 
-        targetid.style.visibility = "visible";
-        inputid.value = "1";
-        btnid.innerHTML = "断裁・一般";
-      }
-      else if (inputvalue == "1") {
-        targetid.style.visibility = "visible";
-        inputid.value = "2";
-        btnid.innerHTML = "断裁・インサータ";
-      }
-      else if (inputvalue == "2") {
-        targetid.style.visibility = "hidden";
-        inputid.value = "0";
-        btnid.innerHTML = "断裁";
-      }
-    },
-
-    OnButtonClick01(t,arr) {
-      let idname_array = new Object(); 
-      idname_array[0] = ['inch', 'milli'];
-      idname_array[2] = ['nisu_single', 'nisu_double'];
-      idname_array[3] = ['sei_marble', 'sei_cross'];
-      idname_array[4] = ['sei_mat_maki_cardboard', 'sei_mat_cardboard'];
-      idname_array[5] = ['sei_kurumi', 'sei_musen_tozi', 'sei_naka_tozi'];
-      idname_array[6] = ['sei_bara', 'sei_oneset'];
-      idname_array[7] = ['sei_a_system', 'sei_c_system'];
-
-      for (let i = 0 ; i < idname_array[arr].length ; i++){
-        var n = idname_array[arr][i];
-        var nm = n + '_mark';
-        var inputid = document.getElementById(n);
-        var inputvalue = inputid.value;
-        var targetid = document.getElementById(nm);
-
-        if ( idname_array[arr][i] == t ) {
-          if (inputvalue == "1") { 
-            targetid.style.visibility = "hidden";
-            inputid.value = "0";
-          }
-          else if (inputvalue == "0") {
-            targetid.style.visibility = "visible";
-            inputid.value = "1";
-          }
-        }
-        else {
-          targetid.style.visibility = "hidden";
-          inputid.value = "0";
-        } 
-      }
-    },
-
-    OnButtonClick02(t,arr) {
-      let idname_array = new Object(); 
-      idname_array[1] = ['wkake', 'ana2', 'ana6', 'donko', 'katanuki', 'kasutori'];
-
-      for (let i = 0 ; i < idname_array[arr].length ; i++){
-        var n = idname_array[arr][i];
-        var nm = n + '_mark';
-        var inputid = document.getElementById(n);
-        var inputvalue = inputid.value;
-        var targetid = document.getElementById(nm);
-        var passmark = false;
-
-        if ((n == 'wkake' && t == 'katanuki') || (t == 'wkake' && n == 'katanuki')) {
-         var passmark = true;
-        }
-        else if ((n == 'kasutori' && t == 'katanuki') || (t == 'kasutori' && n == 'katanuki')) {
-         var passmark = true;
-        }
-
-        if ( idname_array[arr][i] == t ) {
-          if (inputvalue == "1") { 
-            targetid.style.visibility = "hidden";
-            inputid.value = "0";
-          }
-          else if (inputvalue == "0") {
-            targetid.style.visibility = "visible";
-            inputid.value = "1";
-          }
-        }
-        else {
-          if ( passmark == false ) {
-          targetid.style.visibility = "hidden";
-          inputid.value = "0";
-          }
-        } 
-      }
-    },
     OnButtonClick03(t,arr,t2) {
       let idname_array = new Object(); 
       idname_array[0] = ['inch', 'milli'];
@@ -538,21 +455,25 @@ export default {
           if( t == 'inch') {
             if (inputvalue == "1") { 
               targetid.style.visibility = "hidden";
-              inputid.value = "0";
+              //inputid.value = "0";
+              this.$set(this.details[0], t2, 0);
             }
             else if (inputvalue == "0" || inputvalue == "2") {
               targetid.style.visibility = "visible";
-              inputid.value = "1";
+              //inputid.value = "1";
+              this.$set(this.details[0], t2, 1);
             }
           }
           else if ( t == 'milli') {
             if (inputvalue == "2") { 
               targetid.style.visibility = "hidden";
-              inputid.value = "0";
+              //inputid.value = "0";
+              this.$set(this.details[0], t2, 0);
             }
             else if (inputvalue == "0" || inputvalue == "1" ) {
               targetid.style.visibility = "visible";
-              inputid.value = "2";
+              //inputid.value = "2";
+              this.$set(this.details[0], t2, 2);
             }
           }
         }
@@ -585,6 +506,7 @@ export default {
       var targetid = document.getElementById(tid);
       targetid.style.visibility = "hidden";
       //現在未使用
+      /*
       var arrayParams = { 
         pagenum : pnum ,
         pagename : pname,
@@ -597,10 +519,12 @@ export default {
         .catch(reason => {
           this.serverCatch("取得");
         });
+        */
 
 
       this.pagenum = pnum;
       this.pagename = pname;
+      this.s_parts_code = ( '00' + pnum ).slice( -2 );
 
       this.partsview = true;
       console.log('SetParts コンソール出力 = ' + pname);
@@ -755,14 +679,14 @@ export default {
           this.select_arr_s003 = res.select_arr_s003;
           this.select_arr_s004 = res.select_arr_s004;
           this.select_arr_s005 = res.select_arr_s005;
-          this.container_arr_c001 = res.container_arr_c001;
+          this.container_arr_p001 = res.container_arr_p001;
           //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
 
           let parts_code_arr = Array();
           //this.parts_arr = Array();
           this.all_dpc_arr = Array();
           const dpm = res.details_parts_min;
-          const arr_c001 = res.container_arr_c001;
+          const arr_p001 = res.container_arr_p001;
 
           for (let i = 0 ; i < dpm.length ; i++){
             let pkey = dpm[i].parts_code.trim();
@@ -771,11 +695,11 @@ export default {
 
           }
 
-          for (let i = 0 ; i < arr_c001.length ; i++){
+          for (let i = 0 ; i < arr_p001.length ; i++){
             var htmlparts = '';
             let n = i + 1;
             let k = ( '00' + n ).slice( -2 )
-            //console.log("container_arr_c001.code " + i + " : " + arr_c001[i].code);
+            //console.log("container_arr_p001.code " + i + " : " + arr_p001[i].code);
             //console.log("parts_code_arr " + n + " : " + parts_code_arr[k]);
             if(parts_code_arr[k] == null) {
               this.all_dpc_arr[i] = "";
@@ -786,8 +710,8 @@ export default {
               //console.log("parts_code_arr " + k + " : true ");
             }
             //let style_vh = 'visible';
-            //htmlparts += '<span id="parts' + arr_c001[i].code + '_mark" class="markzone2 mz_tc1 v_hidden" style="visibility: ' + style_vh + '"></span>\n';  
-            //htmlparts += '<button type="button" id="parts' + arr_c001[i].code + '_btn" v-on:click="SetParts(' + arr_c001[i].code + ', ' + arr_c001[i].code_name + ');">' + arr_c001[i].code_name + '</button>\n';
+            //htmlparts += '<span id="parts' + arr_p001[i].code + '_mark" class="markzone2 mz_tc1 v_hidden" style="visibility: ' + style_vh + '"></span>\n';  
+            //htmlparts += '<button type="button" id="parts' + arr_p001[i].code + '_btn" v-on:click="SetParts(' + arr_p001[i].code + ', ' + arr_p001[i].code_name + ');">' + arr_p001[i].code_name + '</button>\n';
             //this.parts_arr[i] = htmlparts;
 
           }

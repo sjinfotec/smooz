@@ -102,8 +102,8 @@ class QSearchController extends Controller
             $select_arr_s004 =  $general_code->getItem();
             $general_code->setParamIdentificationidAttribute('S005');
             $select_arr_s005 =  $general_code->getItem();
-            $general_code->setParamIdentificationidAttribute('C001');
-            $container_arr_c001 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('P001');
+            $container_arr_p001 =  $general_code->getItem();
 
             return response()->json(
                 [
@@ -122,7 +122,7 @@ class QSearchController extends Controller
                     'select_arr_s003' => $select_arr_s003,
                     'select_arr_s004' => $select_arr_s004,
                     'select_arr_s005' => $select_arr_s005,
-                    'container_arr_c001' => $container_arr_c001,
+                    'container_arr_p001' => $container_arr_p001,
                     'pvu' => $pvu,
                     //'details_parts' => $details_parts,
                     Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata

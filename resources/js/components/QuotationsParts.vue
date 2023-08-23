@@ -4,494 +4,495 @@
       <h3>パーツ設定 － {{ pageName }} －</h3>
     </div>
     <div id="cnt1">
-      <div class="line">
-        <div class="inputgroup">
-          <label><span class="mz_tc1">用紙コード</span><input type="text" class="form_style input_w5" name="paper_code"></label>
-        </div>
-        <div class="inputgroup">
-          <label><span class="mz_tc1">用紙名</span><input type="text" class="form_style input_w10" name="paper_name" disabled><input type="hidden" name="paper_name"></label>
-        </div>
-        <div class="inputgroup">
-          <span class="mz_tc1">サイズ</span>
-          <label>横<input type="text" class="form_style input_w3" name="size_w"></label>
-          ×
-          <label>縦<input type="text" class="form_style input_w3" name="size_h"></label>
-          <input type="text" class="form_style input_w2" name="size_top">/<input type="text" class="form_style input_w2" name="size_bottom">
-        </div>
-        <div class="inputgroup">
-          <label><span class="mz_tc1">紙取</span><input type="text" class="form_style input_w3" name="papertray">切</label>
-        </div>
-        <div class="inputgroup">
-          <span class="mz_tc1">面付け</span>
-          <label>横<input type="text" class="form_style input_w3" name="imposition_w"></label>
-          <label>縦<input type="text" class="form_style input_w3" name="imposition_h"></label>
-        </div>
-        <div class="inputgroup">
-          <span id="p_envelope_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" class="input_w5" id="p_envelope_btn" @click="OnButtonClick('p_envelope');">封筒</button>
-          <input type="text" class="input_w1" value="0" name="p_envelope" id="p_envelope">
-        </div>
-      </div>
-
-      <div class="line">
-        <div class="inputgroup">
-          <span id="p_supply_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="p_supply_btn" @click="OnButtonClick('p_supply');">支給受</button>
-          <input type="text" class="input_w1" value="0" name="p_supply" id="p_supply">
-        </div>
-        <div class="inputgroup">
-          <span class="mz_tc1">用紙代金</span><input type="text" class="form_style input_w5" name="paper_price" disabled><input type="hidden" name="paper_price">
-        </div>
-        <div class="inputgroup">
-          <span id="p_desensitization_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="p_desensitization_btn" @click="OnButtonClick('p_desensitization');">減感</button>
-          <input type="text" class="input_w1" value="0" name="p_desensitization" id="p_desensitization">
-        </div>
-        <div class="inputgroup">
-          <span id="p_carbon_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="p_carbon_btn" @click="OnButtonClick('p_carbon');">カーボン</button>
-          <input type="text" class="input_w1" value="0" name="p_carbon" id="p_carbon">
-        </div>
-        <div class="inputgroup">
-          <span id="p_white_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="p_white_btn" @click="OnButtonClick('p_white');">ホワイト</button>
-          <input type="text" class="input_w1" value="0" name="p_white" id="p_white">
-        </div>
-        <div class="inputgroup">
-          <span id="p_separate_mark" class="markzone mz_c1 v_hidden"></span>
-          <button type="button" id="p_separate_btn" @click="OnButtonClick('p_separate');">セパレート</button>
-          <input type="text" class="input_w1" value="0" name="p_separate" id="p_separate">
-        </div>
-        <div class="inputgroup">
-          <span class="mz_tc1">色数</span>
-          <label>表<input type="text" class="form_style input_w3" name="p_color_front"></label>
-          <label>裏<input type="text" class="form_style input_w3" name="p_color_back"></label>
-        </div>
-      </div>
-
-
-      <div id="department01" class="mgt40">
-        <div class="cate"><h4>フォーム部</h4></div>
-        <div class="area">
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">ミシン</span>
-              <label>横<input type="text" class="form_style input_w2" name="p_form_sewingmachine_w">本</label>
-            </div>
-            <div class="inputgroup">
-              <label>縦<input type="text" class="form_style input_w2" name="p_form_sewingmachine_h">本</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_form_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_form_sewingmachine_ks_btn" @click="OnButtonClick('p_form_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_form_sewingmachine_ks" id="p_form_sewingmachine_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">ジャンプミシン</span>
-              <label>横<input type="text" class="form_style input_w2" name="p_form_jump_sewingmachine_w">本</label>
-            </div>
-            <div class="inputgroup">
-              <label>縦<input type="text" class="form_style input_w2" name="p_form_jump_sewingmachine_h">本</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_form_jump_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_form_jump_sewingmachine_ks_btn" @click="OnButtonClick('p_form_jump_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_form_jump_sewingmachine_ks" id="p_form_jump_sewingmachine_ks">
-            </div>
+      <div v-for="(item,index) in details_parts" v-bind:key="item.id">
+        <div class="line">
+          <div class="inputgroup">
+            <label><span class="mz_tc1">用紙コード</span><input type="text" class="form_style input_w5" v-model="details_parts[index].paper_code" name="paper_code"></label>
           </div>
-
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">マイクロミシン</span>
-              <label>横<input type="text" class="form_style input_w2" name="p_form_micro_sewingmachine_w">本</label>
-            </div>
-            <div class="inputgroup">
-              <label>縦<input type="text" class="form_style input_w2" name="p_form_micro_sewingmachine_h">本</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_form_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_form_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_form_micro_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_form_micro_sewingmachine_ks" id="p_form_micro_sewingmachine_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">ジャンプマイクロミシン</span>
-              <label>横<input type="text" class="form_style input_w2" name="p_form_jump_micro_sewingmachine_w">本</label>
-            </div>
-            <div class="inputgroup">
-              <label>縦<input type="text" class="form_style input_w2" name="p_form_jump_micro_sewingmachine_h">本</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_form_jump_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_form_jump_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_form_jump_micro_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_form_jump_micro_sewingmachine_ks" id="p_form_jump_micro_sewingmachine_ks">
-            </div>
+          <div class="inputgroup">
+            <label><span class="mz_tc1">用紙名</span><input type="text" class="form_style input_w10" v-model="details_parts[index].paper_name" name="paper_name" disabled><input type="hidden" v-model="details_parts[index].paper_name" name="paper_name"></label>
           </div>
-
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">スジ入れ</span>
-              <label>横<input type="text" class="form_style input_w2" name="p_form_linein_w">本</label>
-            </div>
-            <div class="inputgroup">
-              <label>縦<input type="text" class="form_style input_w2" name="p_form_linein_h">本</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_form_linein_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_form_linein_ks_btn" @click="OnButtonClick('p_form_linein_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_form_linein_ks" id="p_form_linein_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">スリッター</span>
-              <label>横<input type="text" class="form_style input_w2" name="p_form_slitter_w">本</label>
-            </div>
-            <div class="inputgroup">
-              <label>縦<input type="text" class="form_style input_w2" name="p_form_slitter_h">本</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_form_slitter_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_form_slitter_ks_btn" @click="OnButtonClick('p_form_slitter_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_form_slitter_ks" id="p_form_slitter_ks">
-            </div>
+          <div class="inputgroup">
+            <span class="mz_tc1">サイズ</span>
+            <label>横<input type="text" class="form_style input_w3" v-model="details_parts[index].size_w" name="size_w"></label>
+            ×
+            <label>縦<input type="text" class="form_style input_w3" v-model="details_parts[index].size_h" name="size_h"></label>
+            <input type="text" class="form_style input_w2" v-model="details_parts[index].size_top" name="size_top">/<input type="text" class="form_style input_w2" v-model="details_parts[index].size_bottom" name="size_bottom">
           </div>
-
-          <div class="group flex_jc_sb">
-            <div class="inputgroup">
-              <label>No.<input type="text" class="form_style input_w2" name="p_form_no">ヶ所</label>
-              <span id="p_form_no_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_form_no_ks_btn" @click="OnButtonClick('p_form_no_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_form_no_ks" id="p_form_no_ks">
-            </div>
-            <div class="inputgroup">
-              <label>コーナーカット<input type="text" class="form_style input_w2" name="p_form_cornercut">ヶ所</label>
-            </div>
-            <div class="inputgroup">
-              <label>差替<input type="text" class="form_style input_w2" name="p_form_replace">種</label>
-              <span id="p_form_replace_color_mark" class="markzone mz_c1 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_form_replace_color_btn" @click="OnButtonClick('p_form_replace_color');">カラー</button>
-              <input type="text" class="input_w1" value="0" name="p_form_replace_color" id="p_form_replace_color">
-            </div>
+          <div class="inputgroup">
+            <label><span class="mz_tc1">紙取</span><input type="text" class="form_style input_w3" v-model="details_parts[index].papertray" name="papertray">切</label>
           </div>
-
-        </div><!--end area-->
-      </div><!--end department01-->
-
-
-      <div id="department01" class="mgt40">
-        <div class="cate"><h4>オフセット部</h4></div>
-        <div class="area flex_auto">
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">ミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_offset_sewingmachine_w">本</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_offset_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_offset_sewingmachine_ks_btn" @click="OnButtonClick('p_offset_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_offset_sewingmachine_ks" id="p_offset_sewingmachine_ks">
-            </div>
-            <div class="inputgroup">
-              <label class="mgl40">No.<input type="text" class="form_style input_w2" name="p_offset_no">ヶ所</label>
-              <span id="p_offset_no_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_offset_no_ks_btn" @click="OnButtonClick('p_offset_no_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_offset_no_ks" id="p_offset_no_ks">
-            </div>
-
+          <div class="inputgroup">
+            <span class="mz_tc1">面付け</span>
+            <label>横<input type="text" class="form_style input_w3" v-model="details_parts[index].imposition_w" name="imposition_w"></label>
+            <label>縦<input type="text" class="form_style input_w3" v-model="details_parts[index].imposition_h" name="imposition_h"></label>
           </div>
-
-        </div><!--end area-->
-      </div><!--end department01-->
-
-
-      <div id="department01" class="mgt40">
-        <div class="cate"><h4 class="lspacing1">活版</h4></div>
-        <div class="area">
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">ミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_sewingmachine_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_sewingmachine_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_letterpress_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_sewingmachine_ks_btn" @click="OnButtonClick('p_letterpress_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_sewingmachine_ks" id="p_letterpress_sewingmachine_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">ジャンプミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_jump_sewingmachine_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_jump_sewingmachine_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_letterpress_jump_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_jump_sewingmachine_ks_btn" @click="OnButtonClick('p_letterpress_jump_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_jump_sewingmachine_ks" id="p_letterpress_jump_sewingmachine_ks">
-            </div>
+          <div class="inputgroup">
+            <span id="p_envelope_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" class="input_w5" id="p_envelope_btn" @click="OnButtonClick('p_envelope');">封筒</button>
+            <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_envelope" name="p_envelope" id="p_envelope">
           </div>
-
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">マイクロミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_micro_sewingmachine_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_micro_sewingmachine_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_letterpress_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_letterpress_micro_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_micro_sewingmachine_ks" id="p_letterpress_micro_sewingmachine_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">ジャンプマイクロミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_jump_micro_sewingmachine_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_jump_micro_sewingmachine_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_letterpress_jump_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_jump_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_letterpress_jump_micro_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_jump_micro_sewingmachine_ks" id="p_letterpress_jump_micro_sewingmachine_ks">
-            </div>
-          </div>
-
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">スジ入れ</span>
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_linein_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_linein_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_letterpress_linein_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_linein_ks_btn" @click="OnButtonClick('p_letterpress_linein_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_linein_ks" id="p_letterpress_linein_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">スリッター</span>
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_slitter_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_letterpress_slitter_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_letterpress_slitter_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_slitter_ks_btn" @click="OnButtonClick('p_letterpress_slitter_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_slitter_ks" id="p_letterpress_slitter_ks">
-            </div>
-          </div>
-
-          <div class="group flex_jc_sb">
-            <div class="inputgroup">
-              <span id="p_letterpress_diecut_mark" class="markzone mz_c1 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_diecut_btn" @click="OnButtonClick('p_letterpress_diecut');">型ヌキ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_diecut" id="p_letterpress_diecut">
-              <span id="p_letterpress_diecut_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_diecut_ks_btn" @click="OnButtonClick('p_letterpress_diecut_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_diecut_ks" id="p_letterpress_diecut_ks">
-            </div>
-            <div class="inputgroup">
-              <label>親子No.<input type="text" class="form_style input_w2" name="p_letterpress_pcno">ヶ所</label>
-              <span id="p_letterpress_pcno_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_pcno_ks_btn" @click="OnButtonClick('p_letterpress_pcno_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_pcno_ks" id="p_letterpress_pcno_ks">
-            </div>
-            <div class="inputgroup">
-              <label>No.<input type="text" class="form_style input_w2" name="p_letterpress_no">ヶ所</label>
-              <span id="p_letterpress_no_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_letterpress_no_ks_btn" @click="OnButtonClick('p_letterpress_no_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_letterpress_no_ks" id="p_letterpress_no_ks">
-            </div>
-          </div>
-
-        </div><!--end area-->
-      </div><!--end department01-->
-
-
-      <div id="department01" class="mgt40">
-        <div class="cate"><h4>情報処理</h4></div>
-        <div class="area flex_auto">
-
-          <div class="group flex_jc_sb">
-            <div class="inputgroup">
-              <label>東レ<input type="text" class="form_style input_w2" name="p_info_toray">台</label>
-            </div>
-            <div class="inputgroup">
-              <span>ドット</span>
-              <label><input type="text" class="form_style input_w2" name="p_info_dot_line">ライン</label>
-              ×
-              <label><input type="text" class="form_style input_w2" name="p_info_dot_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_info_ijp_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" id="p_info_ijp_btn" @click="OnButtonClick('p_info_ijp');">フォーム ＩＪＰ</button>
-              <input type="text" class="input_w1" value="0" name="p_info_ijp" id="p_info_ijp">
-            </div>
-            <div class="inputgroup">
-              <label>基本料金
-              <select name="p_info_basic_fee" class="form_style">
-              <option value=""></option>
-              <option value="10000">10000</option>
-              <option value="15000">15000</option>
-              <option value="20000">20000</option>
-              <option value="25000">25000</option>
-              <option value="30000">30000</option>
-              </select>
-              </label>
-            </div>
-          </div>
-
-          <div class="group">
-            <div class="inputgroup">
-              <label>宛名等出力件数<input type="text" class="form_style input_w5" name="p_info_output">件</label>
-            </div>
-            <div class="inputgroup">
-              <label>パンチング<input type="text" class="form_style input_w5" name="p_info_punching">件</label>
-            </div>
-          </div>
-
-        </div><!--end area-->
-      </div><!--end department01-->
-
-
-      <div id="department01" class="mgt40">
-        <div class="cate"><h4>ダイカッタ</h4></div>
-        <div class="area">
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">ミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_sewingmachine_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_sewingmachine_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_diecutter_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_diecutter_sewingmachine_ks_btn" @click="OnButtonClick('p_diecutter_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_diecutter_sewingmachine_ks" id="p_diecutter_sewingmachine_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">ジャンプミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_jump_sewingmachine_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_jump_sewingmachine_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_diecutter_jump_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_diecutter_jump_sewingmachine_ks_btn" @click="OnButtonClick('p_diecutter_jump_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_diecutter_jump_sewingmachine_ks" id="p_diecutter_jump_sewingmachine_ks">
-            </div>
-          </div>
-
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">マイクロミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_micro_sewingmachine_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_micro_sewingmachine_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_diecutter_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_diecutter_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_diecutter_micro_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_diecutter_micro_sewingmachine_ks" id="p_diecutter_micro_sewingmachine_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">ジャンプマイクロミシン</span>
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_jump_micro_sewingmachine_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_jump_micro_sewingmachine_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_diecutter_jump_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_diecutter_jump_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_diecutter_jump_micro_sewingmachine_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_diecutter_jump_micro_sewingmachine_ks" id="p_diecutter_jump_micro_sewingmachine_ks">
-            </div>
-          </div>
-
-          <div class="group">
-            <div class="inputgroup">
-              <span class="spanwidth_12">穴</span>
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_ana_hon">本</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_ana_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_diecutter_ana_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_ana_ks_btn" @click="OnButtonClick('p_diecutter_ana_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_diecutter_ana_ks" id="p_diecutter_ana_ks">
-            </div>
-            <div class="inputgroup">
-              <span class="spanwidth_12 mgl40">コーナーカット</span>
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_cornercut">ヶ所</label>
-            </div>
-            <div class="inputgroup">
-              <label><input type="text" class="form_style input_w2" name="p_diecutter_cornercut_dai">台</label>
-            </div>
-            <div class="inputgroup">
-              <span id="p_diecutter_cornercut_ks_mark" class="markzone mz_c6 v_hidden"></span>
-              <button type="button" class="input_w5" id="p_diecutter_cornercut_ks_btn" @click="OnButtonClick('p_diecutter_cornercut_ks');">基・セ</button>
-              <input type="text" class="input_w1" value="0" name="p_diecutter_cornercut_ks" id="p_diecutter_cornercut_ks">
-            </div>
-          </div>
-
-        </div><!--end area-->
-      </div><!--end department01-->
-
-
-      <div id="department01" class="mgt40">
-        <div class="cate"><h4 class="lspacing1">外注</h4></div>
-        <div class="area">
-          <div class="group">
-            <div class="inputgroup">
-              <button type="button" id="outsource_paper_btn" @click="OutsourcingButton('outsource_paper');">紙だけの外注先</button>
-              <input type="text" class="form_style input_w20" value="" name="outsource_paper" id="outsource_paper">
-            </div>
-            <div class="inputgroup">
-              <label>外注費<input type="text" class="form_style input_w5" name="outsource_paper_cost"></label>
-            </div>
-          </div>
-
-          <div class="group">
-            <div class="inputgroup">
-              <button type="button" id="outsource_paper_all_btn" @click="OutsourcingButton('outsource_paper_all');">このP全部の外注先</button>
-              <input type="text" class="form_style input_w20" value="" name="outsource_paper_all" id="outsource_paper_all">
-            </div>
-            <div class="inputgroup">
-              <label>外注費<input type="text" class="form_style input_w5" name="outsource_paper_all_cost"></label>
-            </div>
-          </div>
-
-        </div><!--end area-->
-      </div><!--end department01-->
-
-
-      <div class="line flex_jc_c partsbtn">
-        <div class="inputgroup">
-          <button type="button" id="p_cancel_btn" @click="cancelClickBtn();">キャンセル</button>
         </div>
-        <div class="inputgroup">
-          <button type="button" id="p_del_btn" @click="Pdel('p_num');">このPを削除</button>
-        </div>
-        <div class="inputgroup">
-          <span class="mz_tc1"></span><input type="text" class="form_style input_w5" v-bind:value="pageNum + 'P目'" disabled><input type="hidden" name="pagenum" v-bind:value="pageNum">
-        </div>
-        <div class="inputgroup">
-          <span class="mz_tc1"></span><input type="text" class="form_style input_w5" name="pagename" v-bind:value="pageName" disabled><input type="hidden" name="pagename" v-bind:value="pageName">
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="p_set_btn" @click="Pset('p_num');">このPを設定</button>
-        </div>
-      </div>
 
+        <div class="line">
+          <div class="inputgroup">
+            <span id="p_supply_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="p_supply_btn" @click="OnButtonClick('p_supply');">支給受</button>
+            <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_supply" name="p_supply" id="p_supply">
+          </div>
+          <div class="inputgroup">
+            <span class="mz_tc1">用紙代金</span><input type="text" class="form_style input_w5" v-model="details_parts[index].paper_price" name="paper_price" disabled><input type="hidden" v-model="details_parts[index].paper_price" name="paper_price">
+          </div>
+          <div class="inputgroup">
+            <span id="p_desensitization_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="p_desensitization_btn" @click="OnButtonClick('p_desensitization');">減感</button>
+            <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_desensitization" name="p_desensitization" id="p_desensitization">
+          </div>
+          <div class="inputgroup">
+            <span id="p_carbon_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="p_carbon_btn" @click="OnButtonClick('p_carbon');">カーボン</button>
+            <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_carbon" name="p_carbon" id="p_carbon">
+          </div>
+          <div class="inputgroup">
+            <span id="p_white_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="p_white_btn" @click="OnButtonClick('p_white');">ホワイト</button>
+            <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_white" name="p_white" id="p_white">
+          </div>
+          <div class="inputgroup">
+            <span id="p_separate_mark" class="markzone mz_c1 v_hidden"></span>
+            <button type="button" id="p_separate_btn" @click="OnButtonClick('p_separate');">セパレート</button>
+            <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_separate" name="p_separate" id="p_separate">
+          </div>
+          <div class="inputgroup">
+            <span class="mz_tc1">色数</span>
+            <label>表<input type="text" class="form_style input_w3" v-model="details_parts[index].p_color_front" name="p_color_front"></label>
+            <label>裏<input type="text" class="form_style input_w3" v-model="details_parts[index].p_color_back" name="p_color_back"></label>
+          </div>
+        </div>
+
+
+        <div id="department01" class="mgt40">
+          <div class="cate"><h4>フォーム部</h4></div>
+          <div class="area">
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">ミシン</span>
+                <label>横<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_sewingmachine_w" name="p_form_sewingmachine_w">本</label>
+              </div>
+              <div class="inputgroup">
+                <label>縦<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_sewingmachine_h" name="p_form_sewingmachine_h">本</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_form_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_form_sewingmachine_ks_btn" @click="OnButtonClick('p_form_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_form_sewingmachine_ks" name="p_form_sewingmachine_ks" id="p_form_sewingmachine_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">ジャンプミシン</span>
+                <label>横<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_jump_sewingmachine_w" name="p_form_jump_sewingmachine_w">本</label>
+              </div>
+              <div class="inputgroup">
+                <label>縦<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_jump_sewingmachine_h" name="p_form_jump_sewingmachine_h">本</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_form_jump_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_form_jump_sewingmachine_ks_btn" @click="OnButtonClick('p_form_jump_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_form_jump_sewingmachine_ks" name="p_form_jump_sewingmachine_ks" id="p_form_jump_sewingmachine_ks">
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">マイクロミシン</span>
+                <label>横<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_micro_sewingmachine_w" name="p_form_micro_sewingmachine_w">本</label>
+              </div>
+              <div class="inputgroup">
+                <label>縦<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_micro_sewingmachine_h" name="p_form_micro_sewingmachine_h">本</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_form_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_form_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_form_micro_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_form_micro_sewingmachine_ks" name="p_form_micro_sewingmachine_ks" id="p_form_micro_sewingmachine_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">ジャンプマイクロミシン</span>
+                <label>横<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_jump_micro_sewingmachine_w" name="p_form_jump_micro_sewingmachine_w">本</label>
+              </div>
+              <div class="inputgroup">
+                <label>縦<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_jump_micro_sewingmachine_h" name="p_form_jump_micro_sewingmachine_h">本</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_form_jump_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_form_jump_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_form_jump_micro_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_form_jump_micro_sewingmachine_ks" name="p_form_jump_micro_sewingmachine_ks" id="p_form_jump_micro_sewingmachine_ks">
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">スジ入れ</span>
+                <label>横<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_linein_w" name="p_form_linein_w">本</label>
+              </div>
+              <div class="inputgroup">
+                <label>縦<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_linein_h" name="p_form_linein_h">本</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_form_linein_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_form_linein_ks_btn" @click="OnButtonClick('p_form_linein_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_form_linein_ks" name="p_form_linein_ks" id="p_form_linein_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">スリッター</span>
+                <label>横<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_slitter_w" name="p_form_slitter_w">本</label>
+              </div>
+              <div class="inputgroup">
+                <label>縦<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_slitter_h" name="p_form_slitter_h">本</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_form_slitter_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_form_slitter_ks_btn" @click="OnButtonClick('p_form_slitter_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_form_slitter_ks" name="p_form_slitter_ks" id="p_form_slitter_ks">
+              </div>
+            </div>
+
+            <div class="group flex_jc_sb">
+              <div class="inputgroup">
+                <label>No.<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_no" name="p_form_no">ヶ所</label>
+                <span id="p_form_no_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_form_no_ks_btn" @click="OnButtonClick('p_form_no_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_form_no_ks" name="p_form_no_ks" id="p_form_no_ks">
+              </div>
+              <div class="inputgroup">
+                <label>コーナーカット<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_cornercut" name="p_form_cornercut">ヶ所</label>
+              </div>
+              <div class="inputgroup">
+                <label>差替<input type="text" class="form_style input_w2" v-model="details_parts[index].p_form_replace" name="p_form_replace">種</label>
+                <span id="p_form_replace_color_mark" class="markzone mz_c1 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_form_replace_color_btn" @click="OnButtonClick('p_form_replace_color');">カラー</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_form_replace_color" name="p_form_replace_color" id="p_form_replace_color">
+              </div>
+            </div>
+
+          </div><!--end area-->
+        </div><!--end department01-->
+
+
+        <div id="department01" class="mgt40">
+          <div class="cate"><h4>オフセット部</h4></div>
+          <div class="area flex_auto">
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">ミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_offset_sewingmachine_w" name="p_offset_sewingmachine_w">本</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_offset_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_offset_sewingmachine_ks_btn" @click="OnButtonClick('p_offset_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_offset_sewingmachine_ks" name="p_offset_sewingmachine_ks" id="p_offset_sewingmachine_ks">
+              </div>
+              <div class="inputgroup">
+                <label class="mgl40">No.<input type="text" class="form_style input_w2" v-model="details_parts[index].p_offset_no" name="p_offset_no">ヶ所</label>
+                <span id="p_offset_no_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_offset_no_ks_btn" @click="OnButtonClick('p_offset_no_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_offset_no_ks" name="p_offset_no_ks" id="p_offset_no_ks">
+              </div>
+
+            </div>
+
+          </div><!--end area-->
+        </div><!--end department01-->
+
+
+        <div id="department01" class="mgt40">
+          <div class="cate"><h4 class="lspacing1">活版</h4></div>
+          <div class="area">
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">ミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_sewingmachine_hon" name="p_letterpress_sewingmachine_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_sewingmachine_dai" name="p_letterpress_sewingmachine_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_letterpress_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_sewingmachine_ks_btn" @click="OnButtonClick('p_letterpress_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_sewingmachine_ks" name="p_letterpress_sewingmachine_ks" id="p_letterpress_sewingmachine_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">ジャンプミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_jump_sewingmachine_hon" name="p_letterpress_jump_sewingmachine_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_jump_sewingmachine_dai" name="p_letterpress_jump_sewingmachine_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_letterpress_jump_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_jump_sewingmachine_ks_btn" @click="OnButtonClick('p_letterpress_jump_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_jump_sewingmachine_ks" name="p_letterpress_jump_sewingmachine_ks" id="p_letterpress_jump_sewingmachine_ks">
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">マイクロミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_micro_sewingmachine_hon" name="p_letterpress_micro_sewingmachine_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_micro_sewingmachine_dai" name="p_letterpress_micro_sewingmachine_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_letterpress_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_letterpress_micro_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_micro_sewingmachine_ks" name="p_letterpress_micro_sewingmachine_ks" id="p_letterpress_micro_sewingmachine_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">ジャンプマイクロミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_jump_micro_sewingmachine_hon" name="p_letterpress_jump_micro_sewingmachine_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_jump_micro_sewingmachine_dai" name="p_letterpress_jump_micro_sewingmachine_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_letterpress_jump_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_jump_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_letterpress_jump_micro_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_jump_micro_sewingmachine_ks" name="p_letterpress_jump_micro_sewingmachine_ks" id="p_letterpress_jump_micro_sewingmachine_ks">
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">スジ入れ</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_linein_hon" name="p_letterpress_linein_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_linein_dai" name="p_letterpress_linein_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_letterpress_linein_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_linein_ks_btn" @click="OnButtonClick('p_letterpress_linein_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_linein_ks" name="p_letterpress_linein_ks" id="p_letterpress_linein_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">スリッター</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_slitter_hon" name="p_letterpress_slitter_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_slitter_dai" name="p_letterpress_slitter_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_letterpress_slitter_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_slitter_ks_btn" @click="OnButtonClick('p_letterpress_slitter_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_slitter_ks" name="p_letterpress_slitter_ks" id="p_letterpress_slitter_ks">
+              </div>
+            </div>
+
+            <div class="group flex_jc_sb">
+              <div class="inputgroup">
+                <span id="p_letterpress_diecut_mark" class="markzone mz_c1 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_diecut_btn" @click="OnButtonClick('p_letterpress_diecut');">型ヌキ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_diecut" name="p_letterpress_diecut" id="p_letterpress_diecut">
+                <span id="p_letterpress_diecut_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_diecut_ks_btn" @click="OnButtonClick('p_letterpress_diecut_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_diecut_ks" name="p_letterpress_diecut_ks" id="p_letterpress_diecut_ks">
+              </div>
+              <div class="inputgroup">
+                <label>親子No.<input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_pcno" name="p_letterpress_pcno">ヶ所</label>
+                <span id="p_letterpress_pcno_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_pcno_ks_btn" @click="OnButtonClick('p_letterpress_pcno_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_pcno_ks" name="p_letterpress_pcno_ks" id="p_letterpress_pcno_ks">
+              </div>
+              <div class="inputgroup">
+                <label>No.<input type="text" class="form_style input_w2" v-model="details_parts[index].p_letterpress_no" name="p_letterpress_no">ヶ所</label>
+                <span id="p_letterpress_no_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_letterpress_no_ks_btn" @click="OnButtonClick('p_letterpress_no_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_letterpress_no_ks" name="p_letterpress_no_ks" id="p_letterpress_no_ks">
+              </div>
+            </div>
+
+          </div><!--end area-->
+        </div><!--end department01-->
+
+
+        <div id="department01" class="mgt40">
+          <div class="cate"><h4>情報処理</h4></div>
+          <div class="area flex_auto">
+
+            <div class="group flex_jc_sb">
+              <div class="inputgroup">
+                <label>東レ<input type="text" class="form_style input_w2" v-model="details_parts[index].p_info_toray" name="p_info_toray">台</label>
+              </div>
+              <div class="inputgroup">
+                <span>ドット</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_info_dot_line" name="p_info_dot_line">ライン</label>
+                ×
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_info_dot_dai" name="p_info_dot_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_info_ijp_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" id="p_info_ijp_btn" @click="OnButtonClick('p_info_ijp');">フォーム ＩＪＰ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_info_ijp" name="p_info_ijp" id="p_info_ijp">
+              </div>
+              <div class="inputgroup">
+                <label>基本料金
+                <select v-model="details_parts[index].p_info_basic_fee" name="p_info_basic_fee" class="form_style">
+                <option value=""></option>
+                <option value="10000">10000</option>
+                <option value="15000">15000</option>
+                <option value="20000">20000</option>
+                <option value="25000">25000</option>
+                <option value="30000">30000</option>
+                </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="inputgroup">
+                <label>宛名等出力件数<input type="text" class="form_style input_w5" v-model="details_parts[index].p_info_output" name="p_info_output">件</label>
+              </div>
+              <div class="inputgroup">
+                <label>パンチング<input type="text" class="form_style input_w5" v-model="details_parts[index].p_info_punching" name="p_info_punching">件</label>
+              </div>
+            </div>
+
+          </div><!--end area-->
+        </div><!--end department01-->
+
+
+        <div id="department01" class="mgt40">
+          <div class="cate"><h4>ダイカッタ</h4></div>
+          <div class="area">
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">ミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_sewingmachine_hon" name="p_diecutter_sewingmachine_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_sewingmachine_dai" name="p_diecutter_sewingmachine_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_diecutter_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_diecutter_sewingmachine_ks_btn" @click="OnButtonClick('p_diecutter_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_diecutter_sewingmachine_ks" name="p_diecutter_sewingmachine_ks" id="p_diecutter_sewingmachine_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">ジャンプミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_jump_sewingmachine_hon" name="p_diecutter_jump_sewingmachine_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_jump_sewingmachine_dai" name="p_diecutter_jump_sewingmachine_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_diecutter_jump_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_diecutter_jump_sewingmachine_ks_btn" @click="OnButtonClick('p_diecutter_jump_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_diecutter_jump_sewingmachine_ks" name="p_diecutter_jump_sewingmachine_ks" id="p_diecutter_jump_sewingmachine_ks">
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">マイクロミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_micro_sewingmachine_hon" name="p_diecutter_micro_sewingmachine_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_micro_sewingmachine_dai" name="p_diecutter_micro_sewingmachine_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_diecutter_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_diecutter_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_diecutter_micro_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_diecutter_micro_sewingmachine_ks" name="p_diecutter_micro_sewingmachine_ks" id="p_diecutter_micro_sewingmachine_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">ジャンプマイクロミシン</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_jump_micro_sewingmachine_hon" name="p_diecutter_jump_micro_sewingmachine_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_jump_micro_sewingmachine_dai" name="p_diecutter_jump_micro_sewingmachine_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_diecutter_jump_micro_sewingmachine_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_diecutter_jump_micro_sewingmachine_ks_btn" @click="OnButtonClick('p_diecutter_jump_micro_sewingmachine_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_diecutter_jump_micro_sewingmachine_ks" name="p_diecutter_jump_micro_sewingmachine_ks" id="p_diecutter_jump_micro_sewingmachine_ks">
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="inputgroup">
+                <span class="spanwidth_12">穴</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_ana_hon" name="p_diecutter_ana_hon">本</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_ana_dai" name="p_diecutter_ana_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_diecutter_ana_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_ana_ks_btn" @click="OnButtonClick('p_diecutter_ana_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_diecutter_ana_ks" name="p_diecutter_ana_ks" id="p_diecutter_ana_ks">
+              </div>
+              <div class="inputgroup">
+                <span class="spanwidth_12 mgl40">コーナーカット</span>
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_cornercut" name="p_diecutter_cornercut">ヶ所</label>
+              </div>
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details_parts[index].p_diecutter_cornercut_dai" name="p_diecutter_cornercut_dai">台</label>
+              </div>
+              <div class="inputgroup">
+                <span id="p_diecutter_cornercut_ks_mark" class="markzone mz_c6 v_hidden"></span>
+                <button type="button" class="input_w5" id="p_diecutter_cornercut_ks_btn" @click="OnButtonClick('p_diecutter_cornercut_ks');">基・セ</button>
+                <input type="text" class="input_w1" value="0" v-model="details_parts[index].p_diecutter_cornercut_ks" name="p_diecutter_cornercut_ks" id="p_diecutter_cornercut_ks">
+              </div>
+            </div>
+
+          </div><!--end area-->
+        </div><!--end department01-->
+
+
+        <div id="department01" class="mgt40">
+          <div class="cate"><h4 class="lspacing1">外注</h4></div>
+          <div class="area">
+            <div class="group">
+              <div class="inputgroup">
+                <button type="button" id="outsource_paper_btn" @click="OutsourcingButton('outsource_paper');">紙だけの外注先</button>
+                <input type="text" class="form_style input_w20" value="" v-model="details_parts[index].outsource_paper" name="outsource_paper" id="outsource_paper">
+              </div>
+              <div class="inputgroup">
+                <label>外注費<input type="text" class="form_style input_w5" v-model="details_parts[index].outsource_paper_cost" name="outsource_paper_cost"></label>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="inputgroup">
+                <button type="button" id="outsource_paper_all_btn" @click="OutsourcingButton('outsource_paper_all');">このP全部の外注先</button>
+                <input type="text" class="form_style input_w20" value="" v-model="details_parts[index].outsource_paper_all" name="outsource_paper_all" id="outsource_paper_all">
+              </div>
+              <div class="inputgroup">
+                <label>外注費<input type="text" class="form_style input_w5" v-model="details_parts[index].outsource_paper_all_cost" name="outsource_paper_all_cost"></label>
+              </div>
+            </div>
+
+          </div><!--end area-->
+        </div><!--end department01-->
+
+
+        <div class="line flex_jc_c partsbtn">
+          <div class="inputgroup">
+            <button type="button" id="p_cancel_btn" @click="cancelClickBtn();">キャンセル</button>
+          </div>
+          <div class="inputgroup">
+            <button type="button" id="p_del_btn" @click="Pdel('p_num');">このPを削除</button>
+          </div>
+          <div class="inputgroup">
+            <span class="mz_tc1"></span><input type="text" class="form_style input_w5" v-bind:value="pageNum + 'P目'" disabled><input type="hidden" name="pagenum" v-bind:value="pageNum">
+          </div>
+          <div class="inputgroup">
+            <span class="mz_tc1"></span><input type="text" class="form_style input_w5" name="pagename" v-bind:value="pageName" disabled><input type="hidden" name="pagename" v-bind:value="pageName">
+          </div>
+          <div class="inputgroup">
+            <button type="button" id="p_set_btn" @click="Pset('p_num');">このPを設定</button>
+          </div>
+        </div>
+      </div><!-- end  v-for -->
     </div><!-- end cnt1 -->
 
     <div id="area1">
@@ -527,12 +528,17 @@ export default {
     mCode: {
       type:  String,
       default: ""
+    },
+    partsCode: {
+      type:  String,
+      default: ""
     }
 
   },
   data() {
     return {
       details: [],
+      details_parts: [],
       pagename: "",
       outsourcingview: false,
 
@@ -541,7 +547,7 @@ export default {
   // マウント時
   mounted() {
     this.getParts();
-    this.Test();
+    //this.Test();
   },
   methods: {
     // -------------------- イベント処理 --------------------
@@ -611,6 +617,7 @@ export default {
       var motion_msg = "パーツ";
       var arrayParams = { 
         s_m_code : this.mCode , 
+        s_parts_code : this.partsCode ,
 
       };
       this.postRequest("/qparts/get", arrayParams)

@@ -58,11 +58,17 @@ button  {
   appearance: none;
   white-space:nowrap;
   border-radius: 5px;
+  border: 0;
   padding:2px 6px;
   color:#FFF;
   background:#88b3bb;
   width:140px;
   cursor: pointer;
+  /*background: linear-gradient(to right, #a7b2d3 40%, #ebd3ff 100%);*/
+  box-shadow: -4px -4px 8px #fff, 4px 4px 8px rgb(0 0 0 / 24%);
+  transition: all 0.5s;
+
+
 }
 
 button:hover  {
@@ -351,6 +357,9 @@ header .header_login_info a {
 .flex_jc_r  {
   justify-content: right;
 }
+.flex_flex_1  {
+  flex: 1;
+}
 .columngap_10px {
   column-gap:10px;
 }
@@ -365,6 +374,30 @@ header .header_login_info a {
 .ta_j{text-align: justify}
 .ta_lj{text-align-last: justify}
 
+.btn_style1  {
+  /*background: linear-gradient(to right, #a7d3b9 40%, #feffd3 100%);*/
+  background: #EEE;
+  color: #333;
+  transition: all 0.5s;
+}
+.btn_style1:hover  {
+  background: #4CE;
+  
+}
+.btn_style2  {
+  /*background: linear-gradient(to right, #a7d3b9 40%, #feffd3 100%);*/
+  padding: 2px 4px;
+  background: #EEE;
+  color: #333;
+  box-shadow: 0px 0px 2px #fff, 4px 4px 8px rgb(0 0 0 / 24%);
+
+  transition: all 0.5s;
+
+}
+.btn_style2:hover  {
+  background: #4CE;
+  
+}
 
 
 /*--------------------## TOP page ##--------------------*/
@@ -407,6 +440,75 @@ header .header_login_info a {
 }
 
 
+
+#menubtn01 {
+  position: fixed;
+  /*position: sticky;*/
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background: rgba(255, 255, 255, 1);
+  z-index: 500;
+  opacity: 1;
+  /*visibility: hidden;*/
+  visibility: visible;
+  
+
+}
+#menubtn01 .line {
+  /*justify-content: space-between;*/
+  justify-content: center;
+
+}
+
+#menubtn01 button {
+  position: relative;
+  /*border: 2px solid transparent;*/
+  border: 0px;
+  padding: 4px 6px;
+  /*background: linear-gradient(to right, #e7e7e7 40%, #ebd3ff 100%);*/
+  background: linear-gradient(to right, #a7b2d3 40%, #ebd3ff 100%);
+  box-shadow: -4px -4px 8px #fff, 4px 4px 8px rgb(0 0 0 / 24%);
+  /*transition: all 0.5s 0.2s ease-in-out;*/
+  color: #333;
+
+}
+#menubtn01 button:focus {
+  outline: 2px;
+  box-shadow: 0 0 0 2px #cbd6ee;
+}
+#menubtn01 button:hover  {
+  /*background:#acdee7;*/
+  color: #FFF;
+}
+
+#menubtn01 button:active {
+  background:#cc8888;
+}
+#menubtn01 button:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  border-radius: 5px;
+  content: "";
+  transition: all 0.5s;
+
+  /*background-image: linear-gradient(180deg, #28882d, #2b797c, #2b86c5);*/
+  background-image: linear-gradient(to bottom, #e3eaed 0%, #f2f5f6 100%);
+}
+
+#menubtn01 button:hover:after {
+  opacity: 0;
+}
+#menubtn01 button span {
+  position: relative;
+  z-index: 1;
+}
+
 /*--------------------## 見積作成 ##----------------------------------------*/
 
 #cnt_title1 h3 {
@@ -426,7 +528,25 @@ header .header_login_info a {
   background: linear-gradient(to right,rgba(255,255,255,0) 100px, rgba(35, 46, 196, 0.9) 90%);
 }
 .main_cnt {visibility: visible;}
-#cnt1 {padding:0 0 20px 0}
+#cnt1 {padding:0 0 120px 0}
+#cnt1 button {
+  /*background: linear-gradient(to right, #a7d3b9 40%, #feffd3 100%);*/
+  background: #EEF0FF;
+  color: #333;
+  transition: all 0.5s;
+}
+#cnt1 button:hover  {
+  background: #9CE;
+  
+}
+
+#cnt1 input,select {
+  outline: none;
+  border: none;
+  border-bottom: 1px dashed #CCC;
+  border-left: 1px dashed #CCC;
+
+}
 #cnt1 .line {
   display:flex;
   width:100%;
@@ -650,9 +770,9 @@ header .header_login_info a {
 }
 #cnt_os .outsourcing_block  {
   display:flex;
-
   flex-wrap:wrap;
   /*width:100%;*/
+  gap: 0px 2px;
 
 }
 /*親要素の疑似要素afterに見えないハコで左詰め。子要素(ここではbutton)と同じ幅にする*/
@@ -1421,81 +1541,6 @@ header .header_login_info a {
 
 
 
-#button1 {
-  display:flex;
-  width:100%;
-  justify-content: space-between;
-  flex-wrap:wrap;
-
-}
-#button1 .btnstyle {
-  margin-top:20px;
-}
-#button1 button  {
-  width:20em;
-  font-size:1.6rem;
-  white-space: normal;
-}
-#button1 button span{
-  display:inline-block;
-}
-button.style1  {
-  border:1px solid #888;
-  border-radius: 4px;
-  background:#8C8;
-}
-button.style1:hover  {
-  color:#FFF;
-  background:#C88;
-}
-button.style2  {
-  border:1px solid #888;
-  border-radius: 4px;
-  background:#8CC;
-}
-button.style2:hover  {
-  color:#FFF;
-  background:#C88;
-}
-
-
-#cnt1f .w1{
-  flex:0 0 8em;
-  max-width:8em;
-}
-#cnt1f .w2{
-  flex:0 0 17em;
-  max-width:17em;
-}
-#cnt1f .w3{
-  flex:0 0 26em;
-  max-width:26em;
-}
-#cnt1f .w4{
-  /*flex:1 0 auto;*/
-  flex:0 0 35em;
-  max-width:35em;
-}
-
-
-#tbl_1 .color3 {
-  color:#CCC;
-}
-#tbl_1 .color4 {
-  color:red;
-}
-#tbl_1 .bgcolor3 {
-  background:#FDC;
-}
-#tbl_1 .bgcolor4 {
-  background:#CDF;
-}
-#tbl_1 .bgcolor5 {
-  background:linear-gradient(to bottom, #FFF 0%, #FFF 90%, lightblue 90%,  lightblue 100%);
-}
-#tbl_1 .bgcolor6 {
-  background:#FFC;
-}
 
 
 
@@ -1505,131 +1550,6 @@ button.style2:hover  {
 
 
 
-
-
-
-
-/*--------------------## 預かり在庫 / 一覧 ##--------------------*/
-#top_cnt  {
-  display:flex;
-  width:100%;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom:5px;
-}
-#top_cnt .customize  {
-  white-space:nowrap;
-  border-radius: 5px;
-  border:none;
-  padding:2px 6px;
-  color:#FFF;
-  background:#FFF;
-  width:auto;
-}
-#form1  {
-  display:flex;
-  align-items: center;
-  /*justify-content: space-between;*/
-
-}
-#form1 .form_style {
-  font-size:2rem;
-  height:3rem;
-  /*width:calc(100% - 8px);*/
-  padding:0 4px;
-  width:50%;
-  box-sizing: border-box;
-  margin-right:10px;
-}
-
-#btn_cnt1 {
-  display:flex;
-  align-items: center;
-}
-#btn_cnt1 .form_style {
-  font-size:2rem;
-  height:3rem;
-  /*width:calc(100% - 8px);*/
-  padding:0 4px;
-  /*width:50%;*/
-  box-sizing: border-box;
-  /*margin-right:10px;*/
-}
-#btn_cnt1 .btn1  {
-  white-space:nowrap;
-  border-radius: 5px;
-  padding:2px 6px;
-  color:#FFF;
-  background:#bbaa88;
-  width:10em;
-  margin-left:10px;
-
-}
-
-
-
-/*--------------------## 預かり在庫 / 編集追加登録 ##--------------------*/
-
-
-/*--------------------## 棚卸 /  ##--------------------*/
-#cnt33 {
-  display:flex;
-  /*width:100%;*/
-  align-items: center;
-  flex-wrap:wrap;
-}
-#cnt33 .mg1 {
-  margin-left:20px;
-}
-
-#form3  {
-  display:flex;
-  align-items: center;
-  /*justify-content: space-between;*/
-
-}
-#form3 .form_style {
-  font-size:2rem;
-  height:3rem;
-  /*width:calc(100% - 8px);*/
-  padding:0 4px;
-  width:auto;
-  box-sizing: border-box;
-  margin-right:10px;
-}
-
-
-
-/*--------------------## ゴミ箱 /  ##--------------------*/
-#subtitle {
-  display:block;
-}
-#subtitle h4 {
-  border-left-style:solid;
-  border-left-width:10px;
-  padding:0 0 2px 6px;
-}
-#subtitle .margin {
-  margin-top:50px;
-}
-#subtitle .bc1::before {
-  content: "";
-  display:inline-block;
-  width:  16px;
-  height:  16px;
-  background-color: #f4c836;
-  /*border-radius:  50%;*/
-  line-height: 18px;
-  text-align: center;
-  position:  relative;
-  left:0px;
-  top: 3px;
-/*
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-*/
-}
 
 
 
@@ -1668,6 +1588,25 @@ button.style2:hover  {
 #btn_cnt1 .btncolor3:hover  {
 	background: rgba(108, 178, 235, 0.7);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .transition1  {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;

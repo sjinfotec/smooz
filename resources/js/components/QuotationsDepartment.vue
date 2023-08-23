@@ -329,7 +329,7 @@
 
 
     <div id="area1">
-      <div v-if="outsourcingview == true">
+      <div v-show="outsourcingview == true">
         <out-sourcing
         v-bind:input-textid="inputtextid"
         v-on:oscancel-event="OScancel"
@@ -428,59 +428,13 @@ export default {
       var targetid = document.getElementById(tm);
       if (inputvalue == "1") { 
         targetid.style.visibility = "hidden";
-        inputid.value = "0";
+        //inputid.value = "0";
+        this.$set(this.details[0], t, 0);
       }
-      else if (inputvalue == "0") {
+      else {
         targetid.style.visibility = "visible";
-        inputid.value = "1";
-      }
-    },
-
-    OnButtonClickT(t) {
-      var tm = t + '_mark';
-      var tb = t + '_btn';
-      var inputid = document.getElementById(t);
-      var inputvalue = inputid.value;
-      var targetid = document.getElementById(tm);
-      var btnid = document.getElementById(tb);
-      if (inputvalue == "1") { 
-        targetid.style.visibility = "hidden";
-        inputid.value = "0";
-        btnid.innerHTML = "通し無し";
-      }
-      else if (inputvalue == "0") {
-        targetid.style.visibility = "visible";
-        inputid.value = "2";
-        btnid.innerHTML = "通し有り";
-      }
-      else if (inputvalue == "2") {
-        targetid.style.visibility = "visible";
-        inputid.value = "1";
-        btnid.innerHTML = "印刷有り";
-      }
-    },
-
-    OnButtonClickD(t) {
-      var tm = t + '_mark';
-      var tb = t + '_btn';
-      var inputid = document.getElementById(t);
-      var inputvalue = inputid.value;
-      var targetid = document.getElementById(tm);
-      var btnid = document.getElementById(tb);
-      if (inputvalue == "0") { 
-        targetid.style.visibility = "visible";
-        inputid.value = "1";
-        btnid.innerHTML = "断裁・一般";
-      }
-      else if (inputvalue == "1") {
-        targetid.style.visibility = "visible";
-        inputid.value = "2";
-        btnid.innerHTML = "断裁・インサータ";
-      }
-      else if (inputvalue == "2") {
-        targetid.style.visibility = "hidden";
-        inputid.value = "0";
-        btnid.innerHTML = "断裁";
+        //inputid.value = "1";
+        this.$set(this.details[0], t, 1);
       }
     },
 
@@ -504,16 +458,19 @@ export default {
         if ( idname_array[arr][i] == t ) {
           if (inputvalue == "1") { 
             targetid.style.visibility = "hidden";
-            inputid.value = "0";
+            //inputid.value = "0";
+            this.$set(this.details[0], n, 0);
           }
-          else if (inputvalue == "0") {
+          else {
             targetid.style.visibility = "visible";
-            inputid.value = "1";
+            //inputid.value = "1";
+            this.$set(this.details[0], n, 1);
           }
         }
         else {
           targetid.style.visibility = "hidden";
-          inputid.value = "0";
+          //inputid.value = "0";
+          this.$set(this.details[0], n, 0);
         } 
       }
     },
@@ -540,57 +497,21 @@ export default {
         if ( idname_array[arr][i] == t ) {
           if (inputvalue == "1") { 
             targetid.style.visibility = "hidden";
-            inputid.value = "0";
+            //inputid.value = "0";
+            this.$set(this.details[0], n, 0);
           }
-          else if (inputvalue == "0") {
+          else {
             targetid.style.visibility = "visible";
-            inputid.value = "1";
+            //inputid.value = "1";
+            this.$set(this.details[0], n, 1);
           }
         }
         else {
           if ( passmark == false ) {
           targetid.style.visibility = "hidden";
-          inputid.value = "0";
-          }
-        } 
-      }
-    },
-    OnButtonClick03(t,arr,t2) {
-      let idname_array = new Object(); 
-      idname_array[0] = ['inch', 'milli'];
-
-      for (let i = 0 ; i < idname_array[arr].length ; i++){
-        var n = idname_array[arr][i];
-        var nm = n + '_mark';
-        var inputid = document.getElementById(t2);
-        var inputvalue = inputid.value;
-        var targetid = document.getElementById(nm);
-
-        if ( idname_array[arr][i] == t ) {
-          if( t == 'inch') {
-            if (inputvalue == "1") { 
-              targetid.style.visibility = "hidden";
-              inputid.value = "0";
-            }
-            else if (inputvalue == "0" || inputvalue == "2") {
-              targetid.style.visibility = "visible";
-              inputid.value = "1";
-            }
-          }
-          else if ( t == 'milli') {
-            if (inputvalue == "2") { 
-              targetid.style.visibility = "hidden";
-              inputid.value = "0";
-            }
-            else if (inputvalue == "0" || inputvalue == "1" ) {
-              targetid.style.visibility = "visible";
-              inputid.value = "2";
-            }
-          }
-        }
-        else {
-          targetid.style.visibility = "hidden";
           //inputid.value = "0";
+          this.$set(this.details[0], n, 0);
+          }
         } 
       }
     },
@@ -645,8 +566,9 @@ export default {
       //var targetid = document.getElementById(tid);
       //targetid.style.visibility = "visible";
       //this.event.value = event;
-      var target_inputid = document.getElementById(event);
-      target_inputid.value = param1;
+      //var target_inputid = document.getElementById(event);
+      //target_inputid.value = param1;
+      this.$set(this.details[0], event, param1);
       this.outsourcingview = false;
       console.log('Mmake.vue selectOS event = ' + event);
 

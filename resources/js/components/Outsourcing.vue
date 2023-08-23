@@ -13,9 +13,9 @@
       </div>
     </div><!-- end cnt1 -->
     <div id="cnt_os">
-      <div class="outsourcing_block flex_jc_sb">
-                    <div v-for="(item,rowIndex) in details" :key="rowIndex">
-                    <button type="button" id="" @click="SelectOsBtn(item['name']);">{{ item['name'] }}</button>
+      <div class="outsourcing_block ">
+                    <div v-for="(ositem,osrowIndex) in details" :key="osrowIndex">
+                    <button type="button" id="" class="btn_style2" @click="SelectOsBtn(ositem['name']);">{{ ositem['name'] }}</button>
                     </div>
 
       </div>
