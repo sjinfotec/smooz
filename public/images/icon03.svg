@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="20"
+   height="25.68808"
+   viewBox="0 0 5 6.42202"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       xlink:href="#swatch28"
+       id="linearGradient124"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9448819,0,0,0.9448819,-313.79613,-28.717345)"
+       x1="332.10086"
+       y1="104.77501"
+       x2="340.63666"
+       y2="104.77501" />
+    <linearGradient
+       id="swatch28">
+      <stop
+         style="stop-color:#548017;stop-opacity:1;"
+         offset="0"
+         id="stop28" />
+    </linearGradient>
+  </defs>
+  <g
+     id="layer1"
+     style="display:none"
+     transform="translate(-1.7500305,-40)">
+    <rect
+       style="display:inline;fill:url(#linearGradient124);fill-opacity:1;stroke:none;stroke-width:0.434686;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="rect3-1-0"
+       width="7.9999995"
+       height="142.5"
+       x="0"
+       y="0"
+       ry="1.9999999"
+       rx="1.9999999" />
+  </g>
+  <g
+     id="layer2"
+     style="display:inline"
+     transform="translate(-1.7500305,-40)">
+    <rect
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.5;stroke-dasharray:none"
+       id="rect7-9"
+       width="4.5"
+       height="5.9220195"
+       x="2.0000305"
+       y="40.25" />
+    <path
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.25;stroke-dasharray:0.588105, 0.588105;stroke-dashoffset:0"
+       d="m 2.75,41.5 h 3"
+       id="path8-7" />
+    <path
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.25;stroke-dasharray:0.588106, 0.588106;stroke-dashoffset:0"
+       d="M 2.75,42.25 H 5.793464"
+       id="path9-0" />
+    <path
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.25;stroke-dasharray:0.588106, 0.588106;stroke-dashoffset:0"
+       d="M 2.75,43 H 5.793464"
+       id="path10-3" />
+    <path
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.25;stroke-dasharray:0.588106, 0.588106;stroke-dashoffset:0"
+       d="M 2.75,43.75 H 5.793464"
+       id="path16-0" />
+  </g>
+</svg>

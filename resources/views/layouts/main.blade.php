@@ -98,7 +98,7 @@ $action_msg = ""; //動作メッセージ利用時はコメントアウト
 
 		<!-- .container-fluid -->
 		<div class="itembox">
-            <div class="layout1">
+            <div class="layout2">
                 @include($html_menu)
 
                 @yield('content')

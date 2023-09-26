@@ -47,6 +47,17 @@ body  {
   gap: 0 20px;
 
 }
+.layout2  {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+}
+.mainframe {
+  padding:10px;
+  border-radius: 10px;
+  margin: 0 10px 0 10px;
+  
+}
 .nbr{
   white-space: nowrap;
 }
@@ -205,8 +216,8 @@ header .header_login_info a {
 #cnt_menu {
   position: relative;
   font-size:1.6rem;
-  border-radius: 20px;
-  margin: 0 0 0 40px;
+  /*border-radius: 20px;*/
+  margin: 0 0 0 10px;
 }
 .side-base {
   background: none;
@@ -215,33 +226,48 @@ header .header_login_info a {
 
 #menu_li  {
 
-  width:160px;
+  width: 160px;
+  /*background: #89a0c9;*/
+  border-radius: 10px;
+  height: 90vh;
 
 }
 #menu_li ul  {
   display:flex;
   flex-direction: column;
-  align-items: stretch;
+  /*align-items: stretch;*/
+  align-items: start;
+  /*justify-content: space-between;*/
   list-style: none;
   /*border-top: 1px solid #333;*/
   /*border-left: 1px solid #333;*/
-  
+  height: 100%;
+ 
 }
 #menu_li ul li {
     /*width: 100%;*/
     box-sizing: border-box;
     text-align: center;
-    padding: 2px;
+    /*padding: 20px 0px;*/
     /*border-bottom: 1px solid #333;*/
     /*border-right: 1px solid #333;*/
-    flex-grow: 1;
+    /*flex-grow: 1;*/
+}
+#menu_li li.place {
+  margin-top: auto;
+}
+#menu_li span {
+  width: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #menu_li ul li a  {
 	display:flex;
   align-items: center;
   justify-content: center;
-  /*height:30px;*/
+  height:80px;
   color: #FFF;
 }
 #menu_li ul li.active {
@@ -290,6 +316,10 @@ header .header_login_info a {
 
 
 /*--------------------## コンテンツ共通 ##--------------------*/
+#home_cnt {
+  width: 100%;
+}
+
 #maincontents {
   padding:8px;
 }
@@ -359,20 +389,19 @@ header .header_login_info a {
 .mgt40  {margin-top:40px !important;}
 
 .gc1  {  background:#548017;}
-.bc1  {  border:2px solid #dddd88;}
-.bcc1 {  border-color:#dddd88;}
-.gc2  {  background:#c4e599;}
-.bc2  {  border:2px solid #ccbb55;}
-.bcc2 {  border-color:#ccbb55;}
-.gc3  {  background:#ddaa88;}
-.bc3  {  border:2px solid #ddaa88;}
+.bc1  {  border:2px solid #548017;}
+.gc2  {  background:#c7b458;}
+.bc2  {  border:2px solid #c7b458;}
+.gc3  {  background:#eae0ad;}
+.bc3  {  border:2px solid #eae0ad;}
+
 .gc4  {  background:#eecc55;}
 .gc4b  {  background:linear-gradient(to bottom, #FFF 0%, #FFF 80%, #eecc55 80%,  #eecc55 100%);}
 .bc4  {  border:2px solid #eecc55;}
 .bcc4 {  border-color:#eecc55;}
 .stock_active {  background:linear-gradient(to bottom, #ffeecc 0%, #ffeecc 80%, #eecc55 80%,  #eecc55 100%);}
-.bold { font-weight: bold;}
 
+.bold { font-weight: bold;}
 .txtcolor1  {color:#C0A;}
 .txtcolor2  {color:#C01800;}
 
@@ -552,7 +581,7 @@ header .header_login_info a {
   z-index: 1;
 }
 
-/*--------------------## 見積作成 ##----------------------------------------*/
+/*-------------------- -------------------- --------------------## 見積作成 ##-------------------- -------------------- --------------------*/
 
 #cnt_title1 h3 {
   /*color:rgba(25, 157, 218, 0.9);*/
@@ -834,13 +863,14 @@ header .header_login_info a {
 }
 
 
-/*--------------------## 見積検索 ##----------------------------------------*/
+/*-------------------- -------------------- --------------------## 見積検索 ##-------------------- -------------------- --------------------*/
 #cnt_title_search h3 {
-  color:rgba(35, 196, 175, 1);
+  /*color:rgba(35, 196, 175, 1);*/
+  color:#548017;
   font-size:2rem;
   padding:0 0 0 20px;
-  border-left:20px solid rgba(35, 196, 175, 1);
-  background: linear-gradient(to right,rgba(255,255,255,0) 100px, rgba(35, 196, 175, 1) 90%);
+  border-left:20px solid #c7b458;
+  background: linear-gradient(to right,rgba(255,255,255,0) 100px, #c7b458 90%);
 }
 #cnt1 .inputgroup3 {
   margin-top:1.4rem;
@@ -1164,7 +1194,7 @@ header .header_login_info a {
 }
 
 
-/*--------------------## 見積書印刷 QuotationDoc.vue ##--------------------*/
+/*-------------------- --------------------## 見積書印刷 QuotationDoc.vue ##-------------------- --------------------*/
 
 #cnt3 {padding:0 10px 20px 10px;}
 #cnt3 .sect {
@@ -1212,7 +1242,6 @@ header .header_login_info a {
 
 
 /*--## 見積書印刷画面 ##--*/
-
 #printdoc_title {
   display: flex;
   justify-content: center;
@@ -1415,7 +1444,7 @@ header .header_login_info a {
 
 
 
-/*--------------------## メンテナンス 共通 ##--------------------*/
+/*-------------------- --------------------## メンテナンス 共通 ##-------------------- --------------------*/
 
 #mainte_cnt_title {
   max-width:1000px;
@@ -1440,7 +1469,7 @@ header .header_login_info a {
 }
 
 
-/*--------------------## メンテナンス / バックアップ BackuoLogs.vue ##--------------------*/
+/*-------------------- --------------------## メンテナンス / バックアップ BackuoLogs.vue ##-------------------- --------------------*/
 
 #backup_btnzone  {
   max-width:1000px;
@@ -1628,16 +1657,25 @@ header .header_login_info a {
 html { scroll-behavior: smooth;}
 
 
-/*------#### 960px以下のとき ####------*/
+/*-------------------- --------------------#### 960px以下のとき ####-------------------- --------------------*/
 @media screen and (max-width: 960px) {
+
+  .layout1  {
+    gap: 0 0;
+  }
+
+
   header .topinfoarea {
     width: 200px;
     /*緑の背景画像部分*/
     background:url( "../images/head_img_2.png" ) no-repeat  -200px top;
   
   }
-  
+
   .menu_btn {display:block;}
+  #cnt_menu {
+    margin: 0 0 0 0;
+  }
   #cnt_menu  .offcanvas-collapse-from-left {
     position: fixed;
     top: 40px;
@@ -1676,7 +1714,7 @@ html { scroll-behavior: smooth;}
     align-items: center;
     justify-content: start;
   }
-  
+
   #tbl_1 thead th{
     top: 38px;
   }
@@ -1703,6 +1741,13 @@ html { scroll-behavior: smooth;}
 
   .navbar{display:none;}
 
+  .itembox  {
+    background:#FFF;
+    max-width:auto;
+    min-height: auto;
+    padding:0 0 0 0;
+  }
+  
 
   #p2_tbl th {
     font-size:1.2rem;
