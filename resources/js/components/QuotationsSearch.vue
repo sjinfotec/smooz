@@ -1,366 +1,367 @@
 <template>
   <div>
-    <div id="cnt_title_search">
-      <h3 class="print-none">見積検索</h3>
-    </div>
-    <div id="cnt1" >
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style input_w100p_m" v-model="s_m_code" name="s_m_code"></label>
+    <div class="mainframe bc1 gc3 print-none">
+      <div id="cnt_title_search">
+        <h3 class="print-none">見積検索</h3>
+      </div>
+      <div id="cnt1" >
+        <div class="line">
+          <div class="inputgroup3">
+            <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style input_w100p_m" v-model="s_m_code" name="s_m_code"></label>
+          </div>
+          <div class="inputgroup3">
+            <label><span class="spanwidth_8">得意先コード</span><input type="text" class="form_style input_w100p_m" v-model="s_customer_code" name="s_customer_code"></label>
+          </div>
+          <div class="inputgroup3">
+            <label><span class="spanwidth_8">得意先名<!--<span class="care">&#10045;</span>--></span><input type="text" class="form_style input_w100p_m" v-model="s_customer" name="s_customer"></label>
+          </div>
         </div>
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">得意先コード</span><input type="text" class="form_style input_w100p_m" v-model="s_customer_code" name="s_customer_code"></label>
+        <div class="line">
+          <div class="inputgroup3">
+            <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w100p_m" v-model="s_enduser" name="s_enduser"></label>
+          </div>
+          <div class="inputgroup3">
+            <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w100p_m" v-model="s_product" name="s_product"></label>
+          </div>
+          <div class="inputgroup4">
+            <label><span class="spanwidth_8">作成年月（期間）</span><span class="spanblock1"><input type="text" class="form_style input_search_w1" v-model="s_date_start" name="s_date_start">～<input type="text" class="form_style input_search_w1" v-model="s_date_end" name="s_date_end"></span></label>
+          </div>
         </div>
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">得意先名<!--<span class="care">&#10045;</span>--></span><input type="text" class="form_style input_w100p_m" v-model="s_customer" name="s_customer"></label>
+
+        <div class="line">
+          <div class="inputgroup">
+            <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
+            <button type="button" id="search_doc_btn" @click="SearchClick('doc',0,'見積書');">見積書を検索</button>
+          </div>
+          <div class="inputgroup">
+            <span id="mit_mark" class="markzone mz_c2 v_hidden"></span>
+            <button type="button" id="search_mit_btn" @click="SearchClick('mit',0,'見積');">見積を検索</button>
+          </div>
+          <!--
+          <div class="inputgroup">
+            <div class="caretxt">&#10045; 部分一致可</div>
+          </div>
+          -->
+          <div class="inputgroup mgl_auto">
+            <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
+          </div>
+        </div>
+
+        <div class="line mgt20" v-if="searchview === 'mit'">
+          <div class="inputgroup">
+            <button type="button" id="search_quo_btn" @click="QuoClick();">見積編集</button>
+          </div>
+          <div class="inputgroup">
+            <button style="pointer-events: none;" disabled>受注</button>
+          </div>
+          <div class="inputgroup">
+            <button type="button" id="search_ovv_btn" @click="OverviewClick();">製品概要</button>
+          </div>
+          <div class="inputgroup">
+            <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
+          </div>
+        </div>
+
+
+        <div id="cnt_search">
+          <form id="searchform">
+          <h4>{{ sr_title }}<span id="search_com" class="v_hidden"></span></h4>
+          <div class="actionmsg_array mgt10 print-none" v-if="actionmsgArr.length">
+            <ul class="">
+              <li v-for="(actionmsg,index) in actionmsgArr" v-bind:key="index">{{ actionmsg }}</li>
+            </ul>
+          </div>
+          <div id="search_result" v-if="searchview === 'doc'">
+            <table id="quodoc">
+              <thead>
+                <tr>
+                  <th class="w2"></th>
+                  <th class="nrap">見積書番号</th>
+                  <th class="">作成日</th>
+                  <th class="nrap">得意先コード</th>
+                  <th class="nrap">得意先名</th>
+                  <th class="">形態</th>
+                  <th class="w1">製品名</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(ditem,drowIndex) in 45" :key="drowIndex">
+                  <td class="w2">
+                    <!--<input type="radio" name="wm_code" value="">-->
+                    <button type="button" class="srbtn" @click="MitGoBtn(ditem['id'],ditem['m_code'])">
+                      見積
+                    </button>
+                  </td>
+                  <td class="nrap">22060123</td>
+                  <td class="nrap">2022年6月18日</td>h_com
+                  <td class="nrap">54321</td>
+                  <td class="nrap">JR北海道</td>
+                  <td class="nrap">通常</td>
+                  <td class="">線路施設工事線区別日報</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="search_result" v-if="searchview === 'mit'">
+            <table id="quomit">
+              <thead>
+                <tr>
+                  <th class="w2"></th>
+                  <th class="nrap">見積番号</th>
+                  <th class="">作成日</th>
+                  <th class="nrap">得意先コード</th>
+                  <th class="nrap">得意先名</th>
+                  <th class="w1">製品名</th>
+                  <th class="">制作数</th>
+                  <th class="">金額</th>
+                  <th class="">受注日</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(mitem,mrowIndex) in details" :key="mrowIndex">
+                  <td class="w2"><label><input type="radio" name="m_codes" :id="'sr_' + mrowIndex" v-model="mcradio" :value="mrowIndex"></label></td>
+                  <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['m_code'] }}</label></td>
+                  <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['f_create_date'] }}</label></td>
+                  <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer_code'] }}</label></td>
+                  <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer'] }}</label></td>
+                  <td class=""><label :for="'sr_' + mrowIndex">{{ mitem['product'] }}</label></td>
+                  <td class="nrap ta_r">{{ mitem['f_production_volnum'] }} {{ select_arr_s002[mitem['production_volnum_unit']-1]['code_name'] }} {{ pvu[mrowIndex]['production_volnum_unit'] }}</td>
+                  <td class="nrap ta_r">{{ mitem['f_estimate_amount'] }} 円</td>
+                  <td class="nrap">{{ mitem['f_lastorder_date'] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </form>
+        </div>
+
+      </div><!--end id cnt1-->
+
+
+      <div id="printzone" v-if="printview === '1'">
+
+        <popup-print
+        v-bind:m-code="m_code"
+        v-bind:print-data="printdata"
+        v-bind:print-title="printtitle"
+        v-on:pricancel-event="Pricancel"
+        ></popup-print>
+        <div id="php_view">ファイル読み込み中...</div>
+      </div>
+
+      <div id="printgaiyo"></div>
+
+
+
+
+      <div id="print2zone" v-if="printview === '2'">
+
+        <div id="print2_title">
+          <h1>三条印刷　製品便覧</h1>
+          <div class="abs_r">L06541</div>
+        </div>
+
+
+
+        <div id="print2_main">
+          <div id="p2_cnt">
+            <dl>
+              <dt class="em5">得意先</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="em5">需要家</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="em5">製品名</dt>
+              <dd>変数欄</dd>
+            </dl>
+          </div>
+
+          <div id="p2_cnt_flex" class="mgt20">
+              <dl>
+                <dt class="em5">サイズ</dt>
+                <dd>変数欄</dd>
+              </dl>
+              <dl>
+                <dt class="em3">姿</dt>
+                <dd>変数欄</dd>
+              </dl>
+              <dl>
+                <dt class="em4">印刷</dt>
+                <dd>変数欄</dd>
+              </dl>
+          </div>
+
+          <div id="p2_cnt_flex2" class="mgt20">
+            <div class="waku">
+              <dl>
+                <dt class="em3">数量</dt>
+                <dd>変数欄</dd>
+              </dl>
+              <dl>
+                <dt class="em4">総数量</dt>
+                <dd>変数欄</dd>
+              </dl>
+            </div>
+            <div class="waku">
+              <dl>
+                <dt class="em6">シリンダー</dt>
+                <dd>変数欄</dd>
+              </dl>
+            </div>
+          </div>
+
+          <!--✽  &#10045;-->
+          <div id="p2_tbl" class="mgt20">
+            <table>
+              <thead>
+                <tr>
+                  <th class="w2">P</th>
+                  <th class="nrap">用紙・紙質</th>
+                  <th colspan="6" class="">オプション</th>
+                  <th colspan="9" class="">フォーム</th>
+                  <th colspan="2" class="">ＯＦ</th>
+                  <th colspan="9" class="">活版</th>
+                  <th colspan="6" class="">ダイカッタ</th>
+                </tr>
+                <tr>
+                  <th class=""></th>
+                  <th class=""></th>
+
+                  <th class="w1">減感</th>
+                  <th class="w1">カボン</th>
+                  <th class="w1">ホワイ</th>
+                  <th class="w1">セパレ</th>
+                  <th class="w1">表色数</th>
+                  <th class="w1">裏色数</th>
+
+                  <th class="w1">ミシン</th>
+                  <th class="w1">Ｊミン</th>
+                  <th class="w1">Ｍミン</th>
+                  <th class="w1">ＪＭミ</th>
+                  <th class="w1">スジ入</th>
+                  <th class="w1">スリト</th>
+                  <th class="w1">ナンバ</th>
+                  <th class="w1">コーナ</th>
+                  <th class="w1">ＩＪＰ</th>
+
+                  <th class="w1">ミシン</th>
+                  <th class="w1">ナンバ</th>
+
+                  <th class="w1">ミシン</th>
+                  <th class="w1">Ｊミン</th>
+                  <th class="w1">Ｍミン</th>
+                  <th class="w1">ＪＭミ</th>
+                  <th class="w1">スジ入</th>
+                  <th class="w1">スリト</th>
+                  <th class="w1">型抜き</th>
+                  <th class="w1">親子№</th>
+                  <th class="w1">ナンバ</th>
+
+                  <th class="w1">ミシン</th>
+                  <th class="w1">Ｊミン</th>
+                  <th class="w1">Ｍミン</th>
+                  <th class="w1">ＪＭミ</th>
+                  <th class="w1">穴ヶ所</th>
+                  <th class="w1">コーナ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(gitem,growIndex) in 15" :key="growIndex">
+                  <td class="">{{growIndex + 1}}</td>
+                  <td class="txtstyle">用紙名が入る</td>
+
+                  <td class="">*</td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class="">*</td>
+                  <td class="">4</td>
+                  <td class="">1</td>
+
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+
+                  <td class=""></td>
+                  <td class=""></td>
+
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                  <td class=""></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <div id="p2_cnt2" class="mgt20">
+            <dl>
+              <dt class="width_style">組版</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="width_style">フォーム部</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="width_style">オフセット部</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="width_style">情報処理</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="width_style">コレート</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="width_style">ネームライナ</dt>
+              <dd>変数欄</dd>
+            </dl>
+            <dl>
+              <dt class="width_style">製本</dt>
+              <dd>変数欄</dd>
+            </dl>
+          </div>
+
+
+          <div id="p2_cnt3">
+            <dl>
+              <dt>最終受注日</dt>
+              <dd>年月日</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div id="print_btnzone" class="print-none">
+          <button type='button' onclick='window.print(); return false;'>印刷</button>
+          <button type='button' @click="Pricancel();">閉じる</button>
         </div>
       </div>
-      <div class="line">
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w100p_m" v-model="s_enduser" name="s_enduser"></label>
-        </div>
-        <div class="inputgroup3">
-          <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w100p_m" v-model="s_product" name="s_product"></label>
-        </div>
-        <div class="inputgroup4">
-          <label><span class="spanwidth_8">作成年月（期間）</span><span class="spanblock1"><input type="text" class="form_style input_search_w1" v-model="s_date_start" name="s_date_start">～<input type="text" class="form_style input_search_w1" v-model="s_date_end" name="s_date_end"></span></label>
-        </div>
-      </div>
 
-      <div class="line">
-        <div class="inputgroup">
-          <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
-          <button type="button" id="search_doc_btn" @click="SearchClick('doc',0,'見積書');">見積書を検索</button>
-        </div>
-        <div class="inputgroup">
-          <span id="mit_mark" class="markzone mz_c2 v_hidden"></span>
-          <button type="button" id="search_mit_btn" @click="SearchClick('mit',0,'見積');">見積を検索</button>
-        </div>
-        <!--
-        <div class="inputgroup">
-          <div class="caretxt">&#10045; 部分一致可</div>
-        </div>
-        -->
-        <div class="inputgroup mgl_auto">
-          <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
-        </div>
-      </div>
-
-      <div class="line mgt20" v-if="searchview === 'mit'">
-        <div class="inputgroup">
-          <button type="button" id="search_quo_btn" @click="QuoClick();">見積編集</button>
-        </div>
-        <div class="inputgroup">
-          <button style="pointer-events: none;" disabled>受注</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="search_ovv_btn" @click="OverviewClick();">製品概要</button>
-        </div>
-        <div class="inputgroup">
-          <button type="button" id="search_cnt_btn" @click="ContentsClick();">内容</button>
-        </div>
-      </div>
-
-
-      <div id="cnt_search">
-        <form id="searchform">
-        <h4>{{ sr_title }}<span id="search_com" class="v_hidden"></span></h4>
-        <div class="actionmsg_array mgt10 print-none" v-if="actionmsgArr.length">
-          <ul class="">
-            <li v-for="(actionmsg,index) in actionmsgArr" v-bind:key="index">{{ actionmsg }}</li>
-          </ul>
-        </div>
-        <div id="search_result" v-if="searchview === 'doc'">
-          <table id="quodoc">
-            <thead>
-              <tr>
-                <th class="w2"></th>
-                <th class="nrap">見積書番号</th>
-                <th class="">作成日</th>
-                <th class="nrap">得意先コード</th>
-                <th class="nrap">得意先名</th>
-                <th class="">形態</th>
-                <th class="w1">製品名</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(ditem,drowIndex) in 45" :key="drowIndex">
-                <td class="w2">
-                  <!--<input type="radio" name="wm_code" value="">-->
-                  <button type="button" class="srbtn" @click="MitGoBtn(ditem['id'],ditem['m_code'])">
-                    見積
-                  </button>
-                </td>
-                <td class="nrap">22060123</td>
-                <td class="nrap">2022年6月18日</td>h_com
-                <td class="nrap">54321</td>
-                <td class="nrap">JR北海道</td>
-                <td class="nrap">通常</td>
-                <td class="">線路施設工事線区別日報</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="search_result" v-if="searchview === 'mit'">
-          <table id="quomit">
-            <thead>
-              <tr>
-                <th class="w2"></th>
-                <th class="nrap">見積番号</th>
-                <th class="">作成日</th>
-                <th class="nrap">得意先コード</th>
-                <th class="nrap">得意先名</th>
-                <th class="w1">製品名</th>
-                <th class="">制作数</th>
-                <th class="">金額</th>
-                <th class="">受注日</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(mitem,mrowIndex) in details" :key="mrowIndex">
-                <td class="w2"><label><input type="radio" name="m_codes" :id="'sr_' + mrowIndex" v-model="mcradio" :value="mrowIndex"></label></td>
-                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['m_code'] }}</label></td>
-                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['f_create_date'] }}</label></td>
-                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer_code'] }}</label></td>
-                <td class="nrap"><label :for="'sr_' + mrowIndex">{{ mitem['customer'] }}</label></td>
-                <td class=""><label :for="'sr_' + mrowIndex">{{ mitem['product'] }}</label></td>
-                <td class="nrap ta_r">{{ mitem['f_production_volnum'] }} {{ select_arr_s002[mitem['production_volnum_unit']-1]['code_name'] }} {{ pvu[mrowIndex]['production_volnum_unit'] }}</td>
-                <td class="nrap ta_r">{{ mitem['f_estimate_amount'] }} 円</td>
-                <td class="nrap">{{ mitem['f_lastorder_date'] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        </form>
-      </div>
-
-    </div><!--end id cnt1-->
-
-
-    <div id="printzone" v-if="printview === '1'">
-
-      <popup-print
-       v-bind:m-code="m_code"
-       v-bind:print-data="printdata"
-       v-bind:print-title="printtitle"
-       v-on:pricancel-event="Pricancel"
-      ></popup-print>
-      <div id="php_view">ファイル読み込み中...</div>
-    </div>
-
-    <div id="printgaiyo"></div>
-
-
-
-
-    <div id="print2zone" v-if="printview === '2'">
-
-			<div id="print2_title">
-				<h1>三条印刷　製品便覧</h1>
-				<div class="abs_r">L06541</div>
-			</div>
-
-
-
-			<div id="print2_main">
-				<div id="p2_cnt">
-					<dl>
-						<dt class="em5">得意先</dt>
-						<dd>変数欄</dd>
-					</dl>
-					<dl>
-						<dt class="em5">需要家</dt>
-						<dd>変数欄</dd>
-					</dl>
-					<dl>
-						<dt class="em5">製品名</dt>
-						<dd>変数欄</dd>
-					</dl>
-				</div>
-
-				<div id="p2_cnt_flex" class="mgt20">
-						<dl>
-							<dt class="em5">サイズ</dt>
-							<dd>変数欄</dd>
-						</dl>
-						<dl>
-							<dt class="em3">姿</dt>
-							<dd>変数欄</dd>
-						</dl>
-						<dl>
-							<dt class="em4">印刷</dt>
-							<dd>変数欄</dd>
-						</dl>
-				</div>
-
-				<div id="p2_cnt_flex2" class="mgt20">
-					<div class="waku">
-						<dl>
-							<dt class="em3">数量</dt>
-							<dd>変数欄</dd>
-						</dl>
-						<dl>
-							<dt class="em4">総数量</dt>
-							<dd>変数欄</dd>
-						</dl>
-					</div>
-					<div class="waku">
-						<dl>
-							<dt class="em6">シリンダー</dt>
-							<dd>変数欄</dd>
-						</dl>
-					</div>
-				</div>
-
-        <!--✽  &#10045;-->
-				<div id="p2_tbl" class="mgt20">
-					<table>
-						<thead>
-							<tr>
-								<th class="w2">P</th>
-								<th class="nrap">用紙・紙質</th>
-								<th colspan="6" class="">オプション</th>
-								<th colspan="9" class="">フォーム</th>
-								<th colspan="2" class="">ＯＦ</th>
-								<th colspan="9" class="">活版</th>
-								<th colspan="6" class="">ダイカッタ</th>
-							</tr>
-							<tr>
-								<th class=""></th>
-								<th class=""></th>
-
-								<th class="w1">減感</th>
-								<th class="w1">カボン</th>
-								<th class="w1">ホワイ</th>
-								<th class="w1">セパレ</th>
-								<th class="w1">表色数</th>
-								<th class="w1">裏色数</th>
-
-								<th class="w1">ミシン</th>
-								<th class="w1">Ｊミン</th>
-								<th class="w1">Ｍミン</th>
-								<th class="w1">ＪＭミ</th>
-								<th class="w1">スジ入</th>
-								<th class="w1">スリト</th>
-								<th class="w1">ナンバ</th>
-								<th class="w1">コーナ</th>
-								<th class="w1">ＩＪＰ</th>
-
-								<th class="w1">ミシン</th>
-								<th class="w1">ナンバ</th>
-
-								<th class="w1">ミシン</th>
-								<th class="w1">Ｊミン</th>
-								<th class="w1">Ｍミン</th>
-								<th class="w1">ＪＭミ</th>
-								<th class="w1">スジ入</th>
-								<th class="w1">スリト</th>
-								<th class="w1">型抜き</th>
-								<th class="w1">親子№</th>
-								<th class="w1">ナンバ</th>
-
-								<th class="w1">ミシン</th>
-								<th class="w1">Ｊミン</th>
-								<th class="w1">Ｍミン</th>
-								<th class="w1">ＪＭミ</th>
-								<th class="w1">穴ヶ所</th>
-								<th class="w1">コーナ</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(gitem,growIndex) in 15" :key="growIndex">
-								<td class="">{{growIndex + 1}}</td>
-								<td class="txtstyle">用紙名が入る</td>
-
-								<td class="">*</td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class="">*</td>
-								<td class="">4</td>
-								<td class="">1</td>
-
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-
-								<td class=""></td>
-								<td class=""></td>
-
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-								<td class=""></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-
-				<div id="p2_cnt2" class="mgt20">
-					<dl>
-						<dt class="width_style">組版</dt>
-						<dd>変数欄</dd>
-					</dl>
-					<dl>
-						<dt class="width_style">フォーム部</dt>
-						<dd>変数欄</dd>
-					</dl>
-					<dl>
-						<dt class="width_style">オフセット部</dt>
-						<dd>変数欄</dd>
-					</dl>
-					<dl>
-						<dt class="width_style">情報処理</dt>
-						<dd>変数欄</dd>
-					</dl>
-					<dl>
-						<dt class="width_style">コレート</dt>
-						<dd>変数欄</dd>
-					</dl>
-					<dl>
-						<dt class="width_style">ネームライナ</dt>
-						<dd>変数欄</dd>
-					</dl>
-					<dl>
-						<dt class="width_style">製本</dt>
-						<dd>変数欄</dd>
-					</dl>
-				</div>
-
-
-				<div id="p2_cnt3">
-					<dl>
-						<dt>最終受注日</dt>
-						<dd>年月日</dd>
-					</dl>
-				</div>
-			</div>
-
-			<div id="print_btnzone" class="print-none">
-				<button type='button' onclick='window.print(); return false;'>印刷</button>
-				<button type='button' @click="Pricancel();">閉じる</button>
-			</div>
-    </div>
-
-
+    </div><!-- end class mainframe -->
   </div>
 </template>
 <script>

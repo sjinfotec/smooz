@@ -41,7 +41,7 @@ $action_msg = ""; //動作メッセージ利用時はコメントアウト
     -->
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/site.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/design02.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="" class="wrapper">
@@ -53,15 +53,17 @@ $action_msg = ""; //動作メッセージ利用時はコメントアウト
                     <button type="button" class="menu_btn" type="button" data-toggle="offcanvas-left">
                         <span class="menu_btn_style" ><img class="" src="{{ asset('images/round-menu-w.svg') }}" alt=""></span>
                     </button>
-                    <div id="logo">
+                    <div class="logozone">
                         <a class="" href="{{ url('/') }}">
                             <!--<span><img class="logo_h" src="{{ asset('images/home-white.svg') }}"  alt="見積システム"></span>-->
-                            <span>スムーズシステム － 見積 －</span>
+                            <span>Simple Quotation System － 見積 －</span>
                         </a>
                     </div>
                 </div>
 
-                <ul class="header_login_info ">
+                <div class="topinfoarea">
+
+                    <ul class="header_login_info ">
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -87,24 +89,30 @@ $action_msg = ""; //動作メッセージ利用時はコメントアウト
                             </li>
                         @endguest
                     </ul>
+                </div>
 
             </nav>
             <!-- /header nav -->
-        @include($html_menu)
         </header>
         <!-- /header -->
 
 		<!-- .container-fluid -->
 		<div class="itembox">
+            <div class="layout2">
+                @include($html_menu)
+
                 @yield('content')
-                    <!-- .panel -->
-                    <div id="footer" class="print-none">
-                        <div class="foot_cnt">
-                            <small>© 2022 M System</small>
-                        </div>
-                    </div>
-                    <!-- /.panel -->
                 </div>
+
+            </div>
+
+
+            <div id="footer" class="print-none">
+                <div class="foot_cnt">
+                    <small>© 2022 M System</small>
+                </div>
+            </div><!-- end footer-->
+
 		</div>
 		<!-- /.container-fluid -->
         <!-- offcanvas- -->
