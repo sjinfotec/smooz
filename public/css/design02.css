@@ -229,7 +229,7 @@ header .header_login_info a {
   width: 160px;
   /*background: #89a0c9;*/
   border-radius: 10px;
-  height: 90vh;
+  height: 85vh;
 
 }
 #menu_li ul  {
@@ -1418,6 +1418,13 @@ header .header_login_info a {
 
 
 
+/*-------------------- --------------------## 担当別見積一覧検索 ##-------------------- --------------------*/
+#cnt4{
+  display: flex;
+}
+#cnt4 h3 {
+  color:#555;
+}
 
 
 

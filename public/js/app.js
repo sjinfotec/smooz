@@ -5082,6 +5082,1001 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsAnotherline.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsAnotherline.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/dialogable.js */ "./resources/js/mixins/dialogable.js");
+/* harmony import */ var _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/checkable.js */ "./resources/js/mixins/checkable.js");
+/* harmony import */ var _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/requestable.js */ "./resources/js/mixins/requestable.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// import mit-parts from "./Parts.vue";
+//import moment from "moment";
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "QuotationsAnotherline",
+  mixins: [_mixins_dialogable_js__WEBPACK_IMPORTED_MODULE_0__["dialogable"], _mixins_checkable_js__WEBPACK_IMPORTED_MODULE_1__["checkable"], _mixins_requestable_js__WEBPACK_IMPORTED_MODULE_2__["requestable"]],
+  //mixins: [requestable],
+  props: {
+    /*
+      authusers: {
+        type: Array,
+        default: []
+      }
+    pvu: {
+      default: details[]['production_volnum_unit']
+    }
+    */
+  },
+  data: function data() {
+    return {
+      details: [],
+      details_parts: [],
+      details_body: "",
+      login_user_code: 0,
+      login_user_role: 0,
+      dialogVisible: false,
+      messageshowsearch: false,
+      s_m_code: "",
+      s_customer_code: "",
+      s_customer: "",
+      s_enduser: "",
+      s_product: "",
+      s_date_start: "",
+      s_date_end: "",
+      searchview: "",
+      printview: "",
+      sr_title: "",
+      mcradio: "",
+      printdata: "",
+      m_code: "",
+      printtitle: "",
+      searchdetail: "",
+      pvu: [],
+      event_title: "",
+      actionmsgArr: [],
+      select_arr_s001: [],
+      select_arr_s002: [],
+      select_arr_s003: [],
+      select_arr_s004: [],
+      select_arr_s005: []
+    };
+  },
+  // マウント時
+  mounted: function mounted() {//this.login_user_code = this.authusers["code"];
+  },
+  methods: {
+    // -------------------- イベント処理 --------------------
+    clickEvent: function clickEvent(fname, val1, val2, cf, com1, md, smd) {
+      var fm = document.getElementById(fname); //var tname = document.getElementsByName(val1);
+      //Submit値を操作
+      //fm.edit_id.value = val;
+      //fm.tname.value = val;
+      //tname[0].value = val;	//[0]を付けないとundefind
+      //alert('clickEvent 引数 = ' + fname + ' 、 ' + tn + ' 、 ' + val + ' 、 ' + cf);
+
+      if (cf == 'clear') {
+        //var Jname = fm.name.value;
+        //var Js_product_code = fm.s_product_code.value;
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+        //var result = window.confirm(Jproduct_id + ' ' + com1 + 'します');
+        this.s_m_code = "";
+        this.s_customer_code = "";
+        this.s_customer = "";
+        this.s_enduser = "";
+        this.s_product = "";
+        this.s_date_start = "";
+        this.s_date_end = "";
+        this.actionmsgArr = [];
+        this.details = [];
+        this.searchview = "";
+        this.sr_title = "";
+        var sc = 'search_com';
+        var searchcom = document.getElementById(sc);
+        searchcom.style.visibility = "hidden";
+        console.log('クリアしました');
+      } else if (cf == 'confirm_work_update') {
+        var Jperformance = document.getElementById('performance_' + val1).value; //var Jstatus = fm.status.value;
+        //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
+
+        var result = window.confirm(com1 + '\n' + Jperformance + '');
+
+        if (result) {
+          //fm.s_id.value = val1;
+          //fm.s_performance.value = Jperformance;
+          //fm.action = '/w';
+          //fm.submit();
+          this.ListUpdate(val1);
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else if (cf == 'confirm_update') {
+        var Jwork_name = fm.work_name.value;
+        var Jdepartments_name = fm.departments_name.value; //var Js_product_code = fm.s_product_code.value;
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+
+        var result = window.confirm('部署名 : ' + Jdepartments_name + '\n工程 : ' + Jwork_name + '\n' + com1 + 'します');
+
+        if (result) {
+          //fm.mode.value = md;
+          fm.motion.value = 'reload';
+          fm.action = '/process/insert';
+          fm.submit();
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else if (cf == 'select_del') {
+        //var Jwork_name = fm.work_name.value;
+        //var Jdepartments_name = fm.departments_name.value;
+        //var Js_product_code = fm.s_product_code.value;
+        //value="DEL" id="work_code_del"
+        //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
+        var result = window.confirm('部署名 : ' + val1 + '\n' + com1 + 'します');
+
+        if (result) {
+          //fm.work_code.value = 'DEL';
+          fm.mode.value = md;
+          fm.action = '/process/insert';
+          fm.submit();
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else {//fm.submit();
+      }
+    },
+    // 検索処理
+    SearchClick: function SearchClick(k, arr, str) {
+      var _this = this;
+
+      var idname_array = new Object();
+      idname_array[0] = ['doc', 'mit'];
+
+      for (var i = 0; i < idname_array[arr].length; i++) {
+        var n = idname_array[arr][i]; //const tid = "search_" + n + "_btn";
+
+        var tid = n + '_mark';
+        var sc = 'search_com';
+        var targetid = document.getElementById(tid);
+        var searchcom = document.getElementById(sc);
+
+        if (idname_array[arr][i] == k) {
+          targetid.style.visibility = "visible";
+          searchcom.style.visibility = "visible";
+          searchcom.innerHTML = str;
+        } else {
+          targetid.style.visibility = "hidden";
+        }
+      }
+
+      var motion_msg = "検索";
+      var arrayParams = {
+        kind: k,
+        s_m_code: this.s_m_code,
+        s_customer_code: this.s_customer_code,
+        s_customer: this.s_customer,
+        s_enduser: this.s_enduser,
+        s_product: this.s_product,
+        s_date_start: this.s_date_start,
+        s_date_end: this.s_date_end
+      };
+      this.postRequest("/qsearch/get", arrayParams).then(function (response) {
+        _this.putThenSearch(response, motion_msg);
+      })["catch"](function (reason) {
+        _this.serverCatch("取得");
+      });
+      this.sr_title = "検索結果";
+      this.searchview = k;
+      console.log('SearchClick  = ' + k);
+    },
+    MitGoBtn: function MitGoBtn(i, mcode) {},
+    // 見積編集Click
+    QuoClick: function QuoClick() {
+      var element = document.getElementById("searchform");
+      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+      //if (typeof a === "undefined") {
+
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      } else {
+        var vvmc = radioNodeList.value;
+
+        if (vvmc === "") {
+          alert('検索結果一覧より見積を選択して下さい。');
+        } else {
+          //console.log( vvmc ) ;
+          this.m_code = this.details[vvmc]['m_code'];
+          console.log('m_code:' + this.m_code);
+          window.location.href = '/quotations?s_m_code=' + this.m_code;
+        }
+      }
+    },
+    // 内容Click
+    ContentsClick: function ContentsClick() {
+      var element = document.getElementById("searchform");
+      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+      //if (typeof a === "undefined") {
+
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      } else {
+        var vvmc = radioNodeList.value;
+
+        if (vvmc === "") {
+          alert('検索結果一覧より見積を選択して下さい。');
+        } else {
+          this.printtitle = "見積内容 ― 製品名 ―";
+          this.printdata = "【見積番号】" + this.details[vvmc]['m_code'] + "【作成日】" + this.details[vvmc]['create_date'] + " 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";
+          this.printdata += "【得意先】 119  萬  谷（一 般）\n";
+          this.printdata += "【エンドユーザー】 すずらん商事\n";
+          this.printdata += "【製品名】 納品書（タイトルなし）\n";
+          this.printdata += "【数量】1Ｐ 100,000枚 【総数量】100,000 【総通し数】50,000\n";
+          this.printdata += "【規格】ミリ 【シリンダー】10.5インチ 3本 10.5インチ折\n";
+          this.printdata += "<hr>";
+          this.printdata += "【シリンダー】3 X 5000 = 15,000\n";
+          this.printdata += "【フォーム部】\n";
+          this.printdata += "【フォーム部合計】11,500 \n";
+          this.printdata += "【版下設定】範疇：新版, 種別：フォーム, 難度：Ａ, 面積:72インチ平方, 料金:3000 \n";
+          this.printdata += "       ＣＴＰ 3版 \n";
+          this.printdata += "【組版・製版合計】12,000 \n";
+          this.printdata += "【製　本】\n";
+          this.printdata += "      [断裁・イン] [バースター] \n";
+          this.printdata += "      [バラ] \n";
+          this.printdata += "【梱包等】 [Ａ式] 2,500入り  40箱 X @250 = 10,000, \n";
+          this.printdata += "【製本合計】66,000 \n";
+          this.printdata += "【発　送】市内 40個 X 150 = 6,000, 【送料合計】 6,000 \n";
+          this.printdata += "<hr>";
+          this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
+          this.printdata += "【提示額】245,000 単価 2.45-\n";
+          this.printdata += "vvmc -> " + vvmc; //this.m_code = "D11999";
+
+          this.m_code = this.details[vvmc]['m_code'];
+          console.log('m_code:' + this.m_code);
+          var nopri = 'cnt1';
+          var nopriid = document.getElementById(nopri); //nopriid.style.visibility = "visible";
+
+          nopriid.style.display = "none";
+          this.printview = '1'; //console.log( vvmc ) ;
+
+          var post_data = new FormData();
+          var pmcode = this.details[vvmc]['m_code'];
+          var motion_msg = "パーツ検索";
+          /*
+          var arrayParams = { 
+            s_m_code : pmcode , 
+           };
+          this.postRequest("/qparts/get", arrayParams)
+            .then(response  => {
+              this.putThenParts(response, motion_msg);
+            })
+            .catch(reason => {
+              this.serverCatch("パーツget");
+            });
+            */
+
+          /*
+          function sleep(ms, generator) {
+            setTimeout(() => generator.next(), ms);
+          }
+            var main = (function*() {
+            console.log(`停止前: ${getDisplayDate()} 秒`);
+            yield sleep(5*1000, main);
+             console.log(`停止後: ${getDisplayDate()} 秒`);
+          })();
+          main.next();
+           //現在時刻を取得
+          function getDisplayDate(){
+            let date = new Date();
+            let Hour = ('0' + date.getHours()).slice(-2)
+            let Minute = ('0' + date.getMinutes()).slice(-2)
+            let Second = ('0' + date.getSeconds()).slice(-2)
+             return Hour + ':' + Minute + ':' + Second
+          }
+          */
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', "openview.php", true);
+          xhr.addEventListener('load', function () {
+            //console.log(this.response);
+            //window.open(this.response);
+            var phpview = document.getElementById("php_view");
+            phpview.innerHTML = "" + this.response;
+          }); //var details_arr = JSON.parse(this.details);
+
+          var details_arr = JSON.stringify(this.details[vvmc]); //var details_arr = this.details[vvmc].m_code;
+
+          console.log('details_arr:' + details_arr); //var elA = JSON.parse(details_arr);
+
+          var parts_arr = JSON.stringify(this.details_parts); //console.log('parts_arr:' + parts_arr);
+          //console.log('parts_arr2:' + this.details_parts);
+          //let post_data = new FormData();
+
+          post_data.append('details_arr', details_arr);
+          post_data.append('parts_arr', parts_arr);
+          post_data.append('m_code', this.details[vvmc]['m_code']);
+          post_data.append('create_date', this.details[vvmc]['create_date']);
+          /*
+          this.details.forEach(function(elements, index, array){
+            //var elJ = JSON.stringify(elements);
+            //var elA = JSON.parse(elJ);
+             post_data.append('details[' + index + ']', elements.m_code);
+            console.log('D-Index:' + index);
+            console.log('D-Element:' + elements.m_code);
+            //console.log('Array:' + array);
+          });
+          */
+
+          this.details_parts.forEach(function (element, index, array) {
+            //post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
+            console.log('details_parts Index:' + index);
+            console.log('details_parts Element:' + element);
+          });
+          this.select_arr_s001.forEach(function (element, index, array) {
+            post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']); //console.log('s001 Index:' + index);
+            //console.log('s001 Element:' + element['code_name']);
+          });
+          this.select_arr_s002.forEach(function (element, index, array) {
+            post_data.append('select_arr_s002[' + (index + 1) + ']', element['code_name']); //console.log('s002 Index:' + index);
+            //console.log('s002 Element:' + element['code_name']);
+            //console.log('Array:' + array);
+          });
+          this.select_arr_s003.forEach(function (element, index, array) {
+            post_data.append('select_arr_s003[' + (index + 1) + ']', element['code_name']);
+          });
+          this.select_arr_s004.forEach(function (element, index, array) {
+            post_data.append('select_arr_s004[' + (index + 1) + ']', element['code_name']);
+          });
+          this.select_arr_s005.forEach(function (element, index, array) {
+            post_data.append('select_arr_s005[' + (index + 1) + ']', element['code_name']);
+          });
+          xhr.send(post_data); //xhr.send();
+        }
+      }
+    },
+    OverviewClick: function OverviewClick() {
+      var element = document.getElementById("searchform");
+      var radioNodeList = element.m_codes; //console.log( 'radioNodeList = ' + radioNodeList ) ;
+      //if (typeof a === "undefined") {
+
+      if (radioNodeList == null) {
+        alert('見積の検索をして下さい。');
+      } else {
+        var vvmc = radioNodeList.value;
+
+        if (vvmc === "") {
+          // 未選択状態
+          alert('検索結果一覧より見積を選択して下さい。');
+        } else {
+          /*
+          $.ajax({
+            url : 'm_101.php',
+            type: 'post',
+            dataType : 'html',
+            data : { "vvmc": vvmc, "name": "アイランドラビリンス", },
+            success : function(resultdata){
+                $('#printgaiyo').html(resultdata);
+                //ajaxJs();
+            },
+            error: function(data){
+                $('#printgaiyo').html(data);
+            }
+          });
+          */
+          var nopri = 'cnt1';
+          var nopriid = document.getElementById(nopri);
+          nopriid.style.display = "none";
+          this.printview = '2'; //printgaiyo.style.display = "block";
+
+          /*
+          // 基本的にはresponse.dataにデータが返る
+          function UPDATEcollect() {
+            var tn = document.getElementById('t_number').value;
+            var name = document.getElementById('name').value;
+            var namecode = document.getElementById('name_code').value;
+            console.log("t_number cn :" + tn);
+            const res = axios.post("input_update.php", {
+              t_number: tn,
+              name: name,
+              name_code: namecode,
+              mode: 'statusupdate',
+            })
+            .then(response => {
+              appendList(response.data);
+              
+            })
+            .catch(error => {
+              window.error(error.response.data);
+            });
+          }
+          */
+
+          var Str = "変数テスト";
+          this.searchdetail = "\n          <!DOCTYPE html>\n          <html lang=\"ja\">\n          <head>\n          <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n          <meta http-equiv=\"Content-Language\" content=\"ja\" />\n          <title>TEST!</title>\n          <meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\" />\n          <meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n          <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n          <link rel=\"stylesheet\" type=\"text/css\" href=\"./css/site.css\" media=\"screen,print\" />\n          </head>\n          <body>\n\n          <button id='popup_printbtn' type='button' onclick='window.print(); return false;'>\u5370\u5237</button>\n          <div id=\"print_cnt_title\">\n            <h1>\u4E09\u6761\u5370\u5237\u3000\u88FD\u54C1\u4FBF\u89A7</h1>\n            <div class=\"abs_r\">L06541</div>\n          </div>\n\n          <div id=\"print_cnt_main\">\n            <div>\u5F97\u610F\u5148</div>\n\n\n          </div>\n                    <h3>\u6587\u5B57\u5217</h3>\n                    <div>\n                      \u30D2\u30A2\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8<br>\n                      \u30C6\u30B9\u30C8\u51FA\u529B<br>\n                      ".concat(Str, "<br>\n                    </div>\n          ").concat(vvmc, "\n\n          </body>\n          </html>\n          "); //var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
+          //myWindow.document.write(this.searchdetail);
+          //myWindow.document.write("<div id='popup_cnt'><div>見積内容！</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc);
+          //console.log( vvmc ) ;
+        }
+      }
+    },
+    Pricancel: function Pricancel() {
+      var tid = "cnt1";
+      var targetid = document.getElementById(tid); //targetid.style.visibility = "visible";
+
+      targetid.style.display = "block";
+      this.printview = false;
+      console.log('プリント画面 終了');
+    },
+    preloader: function preloader() {
+      var table = document.getElementById("quomit");
+      var rows = table.querySelectorAll("tbody tr");
+      var backgroundcolor_dict = {};
+      var tr_color = window.getComputedStyle(rows[0], "").color;
+      rows.forEach(function (row) {
+        // 行ごとに背景色が異なるため全ての行の変更前の背景色を取得
+        backgroundcolor_dict[String(row.rowIndex)] = window.getComputedStyle(row, "").backgroundColor;
+        row.addEventListener("click", function () {
+          // 一度全て元の配色
+          rows.forEach(function (click_row) {
+            click_row.style.backgroundColor = backgroundcolor_dict[String(row.rowIndex)];
+            click_row.style.color = tr_color;
+          }); // 選択された行のみ配色変更
+
+          row.style.backgroundColor = "rgba(136, 144, 187, 0.5)";
+          row.style.color = "#FFFFFF";
+
+          if (row.querySelector("input").type == "radio") {
+            row.querySelector('input[type="radio"]').checked = true;
+          }
+
+          if (row.querySelector("input").type == "checkbox") {
+            if (row.querySelector('input[type="checkbox"]').checked == false) {
+              row.querySelector('input[type="checkbox"]').checked = true;
+            } else {
+              row.querySelector('input[type="checkbox"]').checked = false;
+            }
+          }
+        }, false);
+      });
+    },
+    // -------------------- サーバー処理 --------------------
+    // -------------------- 共通 --------------------
+    // 取得正常処理
+    getThen: function getThen(response) {
+      console.log('正常');
+    },
+    // 検索系正常処理
+    putThenSearch: function putThenSearch(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details.length > 0) {
+        this.details = res.details;
+        this.select_arr_s001 = res.select_arr_s001;
+        this.select_arr_s002 = res.select_arr_s002;
+        this.select_arr_s003 = res.select_arr_s003;
+        this.select_arr_s004 = res.select_arr_s004;
+        this.select_arr_s005 = res.select_arr_s005;
+        this.pvu = res.pvu; //console.log("putThenSearch in res.production_volnum_unit = " + res.pvu);
+
+        var date_se = '';
+
+        if (res.s_date_start && res.s_date_end) {
+          date_se = res.s_date_start + '～' + res.s_date_end;
+        } else if (res.s_date_start) {
+          date_se = res.s_date_start + '～';
+        } else if (res.s_date_end) {
+          date_se = '～' + res.s_date_end;
+        }
+
+        this.event_title = res.s_m_code + ' ' + res.s_customer_code + ' ' + res.s_customer + ' ' + res.s_enduser + ' ' + res.s_product + ' ' + date_se; //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+
+        this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        this.actionmsgArr.push(this.event_title + " を検索しました。", " 検索数 : " + res.details.length + " 件");
+      } else {
+        this.actionmsgArr.push(this.s_m_code + this.s_customer_code + this.s_customer + this.s_enduser + this.s_product + this.s_date_start + this.s_date_end + " が見つかりませんでした。");
+        this.details = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+    // パーツ取得正常処理
+    putThenParts: function putThenParts(response, eventtext) {
+      var messages = [];
+      var res = response.data;
+
+      if (res.details_parts.length > 0) {
+        this.details_parts = res.details_parts; //console.log("putThenSearch in res.search_totals = " + res.search_totals[0].total_s);
+
+        console.log("putThenParts in" + this.details_parts); //this.event_title = res.s_m_code + ' ';
+        //console.log("putThenSearch in res.s_customer = " + res.s_customer);
+        //this.$toasted.show(this.event_title + " " + eventtext + "しました");
+        //this.actionmsgArr.push(this.event_title + " を検索しました。" , " 検索数 : " + res.details.length + " 件");
+      } else {
+        //this.actionmsgArr.push(this.s_m_code + " が見つかりませんでした。");
+        this.details_parts = [];
+
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("警告", res.messagedata, "warning", true, false);
+        } else {
+          this.serverCatch(eventtext);
+        }
+      }
+    },
+    // 異常処理
+    serverCatch: function serverCatch(eventtext) {
+      console.log('異常処理 -> ' + eventtext);
+    }
+  }
+});
+/*
+function preloader() {
+  let table = document.getElementById("quomit");
+  let rows = table.querySelectorAll("tr");
+ 
+  let backgroundcolor_dict = {};
+  let tr_color = window.getComputedStyle(rows[0], "").color;
+ 
+  rows.forEach((row) => {
+    // 行ごとに背景色が異なるため全ての行の変更前の背景色を取得
+    backgroundcolor_dict[String(row.rowIndex)] = window.getComputedStyle(
+      row,
+      ""
+    ).backgroundColor;
+ 
+    row.addEventListener(
+      "click",
+      function () {
+        // 一度全て元の配色
+        rows.forEach((click_row) => {
+          click_row.style.backgroundColor =
+            backgroundcolor_dict[String(row.rowIndex)];
+          click_row.style.color = tr_color;
+        });
+        // 選択された行のみ配色変更
+        row.style.backgroundColor = "rgba(136, 144, 187, 0.5)";
+        row.style.color = "#FFFFFF";
+ 
+        if (row.querySelector("input").type == "radio") {
+          row.querySelector('input[type="radio"]').checked = true;
+        }
+        if (row.querySelector("input").type == "checkbox") {
+          if (row.querySelector('input[type="checkbox"]').checked == false) {
+            row.querySelector('input[type="checkbox"]').checked = true;
+          } else {
+            row.querySelector('input[type="checkbox"]').checked = false;
+          }
+        }
+      },
+      false
+    );
+  });
+}
+ 
+window.onload = preloader;
+*/
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsBinding.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsBinding.vue?vue&type=script&lang=js& ***!
@@ -60152,6 +61147,1052 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsAnotherline.vue?vue&type=template&id=f775ed96&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsAnotherline.vue?vue&type=template&id=f775ed96& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "mainframe bc1 gc3" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "cnt1" } }, [
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "inputgroup3" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.s_m_code,
+                    expression: "s_m_code",
+                  },
+                ],
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "s_m_code" },
+                domProps: { value: _vm.s_m_code },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.s_m_code = $event.target.value
+                  },
+                },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup3" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [
+                _vm._v("得意先コード"),
+              ]),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.s_customer_code,
+                    expression: "s_customer_code",
+                  },
+                ],
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "s_customer_code" },
+                domProps: { value: _vm.s_customer_code },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.s_customer_code = $event.target.value
+                  },
+                },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup3" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先名")]),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.s_customer,
+                    expression: "s_customer",
+                  },
+                ],
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "s_customer" },
+                domProps: { value: _vm.s_customer },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.s_customer = $event.target.value
+                  },
+                },
+              }),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "inputgroup3" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [
+                _vm._v("エンドユーザー"),
+              ]),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.s_enduser,
+                    expression: "s_enduser",
+                  },
+                ],
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "s_enduser" },
+                domProps: { value: _vm.s_enduser },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.s_enduser = $event.target.value
+                  },
+                },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup3" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [_vm._v("製品名")]),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.s_product,
+                    expression: "s_product",
+                  },
+                ],
+                staticClass: "form_style input_w100p_m",
+                attrs: { type: "text", name: "s_product" },
+                domProps: { value: _vm.s_product },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.s_product = $event.target.value
+                  },
+                },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup4" }, [
+            _c("label", [
+              _c("span", { staticClass: "spanwidth_8" }, [
+                _vm._v("作成年月（期間）"),
+              ]),
+              _c("span", { staticClass: "spanblock1" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.s_date_start,
+                      expression: "s_date_start",
+                    },
+                  ],
+                  staticClass: "form_style input_search_w1",
+                  attrs: { type: "text", name: "s_date_start" },
+                  domProps: { value: _vm.s_date_start },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.s_date_start = $event.target.value
+                    },
+                  },
+                }),
+                _vm._v("～"),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.s_date_end,
+                      expression: "s_date_end",
+                    },
+                  ],
+                  staticClass: "form_style input_search_w1",
+                  attrs: { type: "text", name: "s_date_end" },
+                  domProps: { value: _vm.s_date_end },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.s_date_end = $event.target.value
+                    },
+                  },
+                }),
+              ]),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "line" }, [
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("span", {
+              staticClass: "markzone mz_c2 v_hidden",
+              attrs: { id: "doc_mark" },
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                attrs: { type: "button", id: "search_doc_btn" },
+                on: {
+                  click: function ($event) {
+                    return _vm.SearchClick("doc", 0, "見積書")
+                  },
+                },
+              },
+              [_vm._v("見積書を検索")]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup" }, [
+            _c("span", {
+              staticClass: "markzone mz_c2 v_hidden",
+              attrs: { id: "mit_mark" },
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                attrs: { type: "button", id: "search_mit_btn" },
+                on: {
+                  click: function ($event) {
+                    return _vm.SearchClick("mit", 0, "見積")
+                  },
+                },
+              },
+              [_vm._v("見積を検索")]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "inputgroup mgl_auto" }, [
+            _c(
+              "button",
+              {
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    return _vm.clickEvent("", "", "", "clear", "クリア", "", "")
+                  },
+                },
+              },
+              [_vm._v("クリア")]
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _vm.searchview === "mit"
+          ? _c("div", { staticClass: "line mgt20" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "search_quo_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.QuoClick()
+                      },
+                    },
+                  },
+                  [_vm._v("見積編集")]
+                ),
+              ]),
+              _vm._v(" "),
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "search_ovv_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.OverviewClick()
+                      },
+                    },
+                  },
+                  [_vm._v("製品概要")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "search_cnt_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.ContentsClick()
+                      },
+                    },
+                  },
+                  [_vm._v("内容")]
+                ),
+              ]),
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { attrs: { id: "cnt_search" } }, [
+          _c("form", { attrs: { id: "searchform" } }, [
+            _c("h4", [
+              _vm._v(_vm._s(_vm.sr_title)),
+              _c("span", {
+                staticClass: "v_hidden",
+                attrs: { id: "search_com" },
+              }),
+            ]),
+            _vm._v(" "),
+            _vm.actionmsgArr.length
+              ? _c("div", { staticClass: "actionmsg_array mgt10 print-none" }, [
+                  _c(
+                    "ul",
+                    {},
+                    _vm._l(_vm.actionmsgArr, function (actionmsg, index) {
+                      return _c("li", { key: index }, [
+                        _vm._v(_vm._s(actionmsg)),
+                      ])
+                    }),
+                    0
+                  ),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.searchview === "doc"
+              ? _c("div", { attrs: { id: "search_result" } }, [
+                  _c("table", { attrs: { id: "quodoc" } }, [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(45, function (ditem, drowIndex) {
+                        return _c("tr", { key: drowIndex }, [
+                          _c("td", { staticClass: "w2" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "srbtn",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.MitGoBtn(
+                                      ditem["id"],
+                                      ditem["m_code"]
+                                    )
+                                  },
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    見積\n                  "
+                                ),
+                              ]
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [
+                            _vm._v("22060123"),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [
+                            _vm._v("2022年6月18日"),
+                          ]),
+                          _vm._v("h_com\n                "),
+                          _c("td", { staticClass: "nrap" }, [_vm._v("54321")]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [
+                            _vm._v("JR北海道"),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [_vm._v("通常")]),
+                          _vm._v(" "),
+                          _c("td", {}, [_vm._v("線路施設工事線区別日報")]),
+                        ])
+                      }),
+                      0
+                    ),
+                  ]),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.searchview === "mit"
+              ? _c("div", { attrs: { id: "search_result" } }, [
+                  _c("table", { attrs: { id: "quomit" } }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.details, function (mitem, mrowIndex) {
+                        return _c("tr", { key: mrowIndex }, [
+                          _c("td", { staticClass: "w2" }, [
+                            _c("label", [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.mcradio,
+                                    expression: "mcradio",
+                                  },
+                                ],
+                                attrs: {
+                                  type: "radio",
+                                  name: "m_codes",
+                                  id: "sr_" + mrowIndex,
+                                },
+                                domProps: {
+                                  value: mrowIndex,
+                                  checked: _vm._q(_vm.mcradio, mrowIndex),
+                                },
+                                on: {
+                                  change: function ($event) {
+                                    _vm.mcradio = mrowIndex
+                                  },
+                                },
+                              }),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [
+                            _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                              _vm._v(_vm._s(mitem["m_code"])),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [
+                            _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                              _vm._v(_vm._s(mitem["f_create_date"])),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [
+                            _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                              _vm._v(_vm._s(mitem["customer_code"])),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [
+                            _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                              _vm._v(_vm._s(mitem["customer"])),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", {}, [
+                            _c("label", { attrs: { for: "sr_" + mrowIndex } }, [
+                              _vm._v(_vm._s(mitem["product"])),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap ta_r" }, [
+                            _vm._v(
+                              _vm._s(mitem["f_production_volnum"]) +
+                                " " +
+                                _vm._s(
+                                  _vm.select_arr_s002[
+                                    mitem["production_volnum_unit"] - 1
+                                  ]["code_name"]
+                                ) +
+                                " " +
+                                _vm._s(
+                                  _vm.pvu[mrowIndex]["production_volnum_unit"]
+                                )
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap ta_r" }, [
+                            _vm._v(_vm._s(mitem["f_estimate_amount"]) + " 円"),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "nrap" }, [
+                            _vm._v(_vm._s(mitem["f_lastorder_date"])),
+                          ]),
+                        ])
+                      }),
+                      0
+                    ),
+                  ]),
+                ])
+              : _vm._e(),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _vm.printview === "1"
+        ? _c(
+            "div",
+            { attrs: { id: "printzone" } },
+            [
+              _c("popup-print", {
+                attrs: {
+                  "m-code": _vm.m_code,
+                  "print-data": _vm.printdata,
+                  "print-title": _vm.printtitle,
+                },
+                on: { "pricancel-event": _vm.Pricancel },
+              }),
+              _vm._v(" "),
+              _c("div", { attrs: { id: "php_view" } }, [
+                _vm._v("ファイル読み込み中..."),
+              ]),
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "printgaiyo" } }),
+      _vm._v(" "),
+      _vm.printview === "2"
+        ? _c("div", { attrs: { id: "print2zone" } }, [
+            _vm._m(5),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "print2_main" } }, [
+              _vm._m(6),
+              _vm._v(" "),
+              _vm._m(7),
+              _vm._v(" "),
+              _vm._m(8),
+              _vm._v(" "),
+              _c("div", { staticClass: "mgt20", attrs: { id: "p2_tbl" } }, [
+                _c("table", [
+                  _vm._m(9),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(15, function (gitem, growIndex) {
+                      return _c("tr", { key: growIndex }, [
+                        _c("td", {}, [_vm._v(_vm._s(growIndex + 1))]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "txtstyle" }, [
+                          _vm._v("用紙名が入る"),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", {}, [_vm._v("*")]),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}, [_vm._v("*")]),
+                        _vm._v(" "),
+                        _c("td", {}, [_vm._v("4")]),
+                        _vm._v(" "),
+                        _c("td", {}, [_vm._v("1")]),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                        _vm._v(" "),
+                        _c("td", {}),
+                      ])
+                    }),
+                    0
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _vm._m(10),
+              _vm._v(" "),
+              _vm._m(11),
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "print-none", attrs: { id: "print_btnzone" } },
+              [
+                _c(
+                  "button",
+                  {
+                    attrs: {
+                      type: "button",
+                      onclick: "window.print(); return false;",
+                    },
+                  },
+                  [_vm._v("印刷")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.Pricancel()
+                      },
+                    },
+                  },
+                  [_vm._v("閉じる")]
+                ),
+              ]
+            ),
+          ])
+        : _vm._e(),
+    ]),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "cnt_title_search" } }, [
+      _c("h3", { staticClass: "print-none" }, [_vm._v("担当別見積一覧")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "cnt4" } }, [
+      _c("div", { staticClass: "resultzone" }, [
+        _c("h3", [_vm._v("担当")]),
+        _vm._v(" "),
+        _c("ul", [
+          _c("li", [_vm._v("営業１号")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("営業２号")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("営業３号")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("営業４号")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", {}, [
+        _c("h3", [_vm._v("得意先")]),
+        _vm._v(" "),
+        _c("ul", [
+          _c("li", [_vm._v("すもも製版")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("富士山印刷")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("山川海空広告")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", {}, [
+        _c("h3", [_vm._v("エンドユーザー")]),
+        _vm._v(" "),
+        _c("ul", [
+          _c("li", [_vm._v("みかん病院")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("りんご運輸")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("ぶどう商事")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("すいか鐡道")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("水曜日のカンパネラ")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", {}, [
+        _c("h3", [_vm._v("製品名")]),
+        _vm._v(" "),
+        _c("ul", [
+          _c("li", [_vm._v("エジソン")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("一休さん")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("千利休")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("シャクシャイン")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("バッキンガム")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inputgroup" }, [
+      _c(
+        "button",
+        { staticStyle: { "pointer-events": "none" }, attrs: { disabled: "" } },
+        [_vm._v("受注")]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("見積書番号")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("作成日")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("形態")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("製品名")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("見積番号")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("作成日")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先コード")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("得意先名")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("製品名")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("制作数")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("金額")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("受注日")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "print2_title" } }, [
+      _c("h1", [_vm._v("三条印刷　製品便覧")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "abs_r" }, [_vm._v("L06541")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "p2_cnt" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("得意先")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("需要家")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("製品名")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt_flex" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "em5" }, [_vm._v("サイズ")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em3" }, [_vm._v("姿")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "em4" }, [_vm._v("印刷")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt_flex2" } }, [
+      _c("div", { staticClass: "waku" }, [
+        _c("dl", [
+          _c("dt", { staticClass: "em3" }, [_vm._v("数量")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+        _vm._v(" "),
+        _c("dl", [
+          _c("dt", { staticClass: "em4" }, [_vm._v("総数量")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "waku" }, [
+        _c("dl", [
+          _c("dt", { staticClass: "em6" }, [_vm._v("シリンダー")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("変数欄")]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "w2" }, [_vm._v("P")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "nrap" }, [_vm._v("用紙・紙質")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "6" } }, [_vm._v("オプション")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "9" } }, [_vm._v("フォーム")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "2" } }, [_vm._v("ＯＦ")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "9" } }, [_vm._v("活版")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "6" } }, [_vm._v("ダイカッタ")]),
+      ]),
+      _vm._v(" "),
+      _c("tr", [
+        _c("th", {}),
+        _vm._v(" "),
+        _c("th", {}),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("減感")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("カボン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ホワイ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("セパレ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("表色数")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("裏色数")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スジ入")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スリト")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("コーナ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＩＪＰ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スジ入")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("スリト")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("型抜き")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("親子№")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ナンバ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ミシン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｊミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("Ｍミン")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("ＪＭミ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("穴ヶ所")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w1" }, [_vm._v("コーナ")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mgt20", attrs: { id: "p2_cnt2" } }, [
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("組版")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("フォーム部")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("オフセット部")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("情報処理")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("コレート")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("ネームライナ")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+      _vm._v(" "),
+      _c("dl", [
+        _c("dt", { staticClass: "width_style" }, [_vm._v("製本")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("変数欄")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "p2_cnt3" } }, [
+      _c("dl", [
+        _c("dt", [_vm._v("最終受注日")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v("年月日")]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsBinding.vue?vue&type=template&id=631d4643&":
 /*!********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/QuotationsBinding.vue?vue&type=template&id=631d4643& ***!
@@ -88117,6 +90158,7 @@ vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("mit-parts", __
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("out-sourcing", __webpack_require__(/*! ./components/Outsourcing.vue */ "./resources/js/components/Outsourcing.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("popup-print", __webpack_require__(/*! ./components/PopupPrint.vue */ "./resources/js/components/PopupPrint.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-search", __webpack_require__(/*! ./components/QuotationsSearch.vue */ "./resources/js/components/QuotationsSearch.vue")["default"]);
+vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-anotherline", __webpack_require__(/*! ./components/QuotationsAnotherline.vue */ "./resources/js/components/QuotationsAnotherline.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("quotations-doc", __webpack_require__(/*! ./components/QuotationsDoc.vue */ "./resources/js/components/QuotationsDoc.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("backup-logs", __webpack_require__(/*! ./components/BackupLogs.vue */ "./resources/js/components/BackupLogs.vue")["default"]);
 vue_dist_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a.component("base-cnt", __webpack_require__(/*! ./components/Base.vue */ "./resources/js/components/Base.vue")["default"]);
@@ -88769,6 +90811,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Quotations_vue_vue_type_template_id_1a483d92___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Quotations_vue_vue_type_template_id_1a483d92___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsAnotherline.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/QuotationsAnotherline.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _QuotationsAnotherline_vue_vue_type_template_id_f775ed96___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuotationsAnotherline.vue?vue&type=template&id=f775ed96& */ "./resources/js/components/QuotationsAnotherline.vue?vue&type=template&id=f775ed96&");
+/* harmony import */ var _QuotationsAnotherline_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuotationsAnotherline.vue?vue&type=script&lang=js& */ "./resources/js/components/QuotationsAnotherline.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _QuotationsAnotherline_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _QuotationsAnotherline_vue_vue_type_template_id_f775ed96___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _QuotationsAnotherline_vue_vue_type_template_id_f775ed96___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/QuotationsAnotherline.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsAnotherline.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/QuotationsAnotherline.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsAnotherline_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./QuotationsAnotherline.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsAnotherline.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsAnotherline_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/QuotationsAnotherline.vue?vue&type=template&id=f775ed96&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/QuotationsAnotherline.vue?vue&type=template&id=f775ed96& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsAnotherline_vue_vue_type_template_id_f775ed96___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./QuotationsAnotherline.vue?vue&type=template&id=f775ed96& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/QuotationsAnotherline.vue?vue&type=template&id=f775ed96&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsAnotherline_vue_vue_type_template_id_f775ed96___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationsAnotherline_vue_vue_type_template_id_f775ed96___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

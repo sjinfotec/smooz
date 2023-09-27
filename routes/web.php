@@ -69,6 +69,7 @@ Route::post('/quotations/cost/get', [QuotationsCostController::class,'getData'])
 Route::get('/qsearch', [QSearchController::class,'search'])->middleware('auth');
 Route::post('/qsearch/get', [QSearchController::class,'getDataSearch'])->middleware('auth');
 //Route::post('/openview.php', [QSearchController::class,'printview'])->middleware('auth');
+Route::get('/qanotherline', [QAnotherlineController::class,'index'])->middleware('auth');
 
 // パーツ
 Route::post('/qparts/get', [QuotationsPartsController::class,'getPartsData'])->middleware('auth');

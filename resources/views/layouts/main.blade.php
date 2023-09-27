@@ -12,7 +12,7 @@ if(strpos($requesturi,$searchstr) !== false){
     $action_msg .= "A match was not found.".$requesturi." in ".$searchstr."<br>\n";
     $html_menu = "layouts.sidemenu";
 }
-$action_msg = ""; //動作メッセージ利用時はコメントアウト
+//$action_msg = ""; //動作メッセージ利用時はコメントアウト
 
 
 ?>
