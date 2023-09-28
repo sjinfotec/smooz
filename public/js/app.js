@@ -5527,6 +5527,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      details_manager: [],
+      details_customer: [],
+      details_enduser: [],
+      details_product: [],
       details: [],
       details_parts: [],
       details_body: "",
@@ -5535,6 +5539,7 @@ __webpack_require__.r(__webpack_exports__);
       dialogVisible: false,
       messageshowsearch: false,
       s_m_code: "",
+      s_manager: "",
       s_customer_code: "",
       s_customer: "",
       s_enduser: "",
@@ -5560,7 +5565,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   // マウント時
-  mounted: function mounted() {//this.login_user_code = this.authusers["code"];
+  mounted: function mounted() {
+    //this.login_user_code = this.authusers["code"];
+    this.getManager();
   },
   methods: {
     // -------------------- イベント処理 --------------------
@@ -5592,6 +5599,33 @@ __webpack_require__.r(__webpack_exports__);
         var searchcom = document.getElementById(sc);
         searchcom.style.visibility = "hidden";
         console.log('クリアしました');
+      } else if (cf == 'set') {
+        //var Jperformance = document.getElementById('performance_' + val1).value;
+        //var elems = document.querySelectorAll('.cls1, .cls2');
+        var elems = document.querySelectorAll('.setitem');
+        var elemsa = document.querySelectorAll('.setitem_a');
+
+        for (var i = 0; i < elems.length; i++) {
+          //console.log(elems[i].textContent);
+          elems[i].style.background = "none";
+          elemsa[i].style.color = "#000";
+        } //var Jstatus = fm.status.value;
+        //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
+
+
+        var result = window.confirm(com1 + '\n' + val1 + '\n' + val2);
+
+        if (result) {
+          document.getElementsByClassName("setitem")[val1].style.background = "#548017";
+          document.getElementsByClassName("setitem_a")[val1].style.color = "#FFF"; //fm.s_id.value = val1;
+          //fm.s_performance.value = Jperformance;
+          //fm.action = '/w';
+          //fm.submit();
+
+          this.getCustomer(val2);
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
       } else if (cf == 'confirm_work_update') {
         var Jperformance = document.getElementById('performance_' + val1).value; //var Jstatus = fm.status.value;
         //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
@@ -5955,10 +5989,80 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     // -------------------- サーバー処理 --------------------
+    // 取得処理
+    getItem: function getItem() {
+      var _this2 = this;
+
+      //this.inputClear();
+      //console.log("getitem in");
+      var arrayParams = {};
+      axios.post("/anotherline/get", arrayParams).then(function (response) {
+        _this2.getThen(response);
+      })["catch"](function (reason) {
+        _this2.serverCatch("取得");
+      });
+    },
+    getManager: function getManager() {
+      var _this3 = this;
+
+      //this.inputClear();
+      //console.log("getitem in");
+      var arrayParams = {};
+      axios.post("/qanotherline/getmgr", arrayParams).then(function (response) {
+        _this3.getThenManager(response);
+      })["catch"](function (reason) {
+        _this3.serverCatch("取得");
+      });
+    },
+    getCustomer: function getCustomer(val) {
+      var _this4 = this;
+
+      //this.inputClear();
+      console.log("getCustomer in val = " + val);
+      var arrayParams = {
+        s_manager: val
+      };
+      axios.post("/qanotherline/getcust", arrayParams).then(function (response) {
+        _this4.getThenCustomer(response);
+      })["catch"](function (reason) {
+        _this4.serverCatch("取得");
+      });
+    },
     // -------------------- 共通 --------------------
     // 取得正常処理
-    getThen: function getThen(response) {
+    getThenXX: function getThenXX(response) {
       console.log('正常');
+    },
+    getThen: function getThen(response) {
+      var res = response.data; //console.log('getthen in res = ' + res);
+
+      if (res.result) {
+        this.details = res.details;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("取得");
+        }
+      }
+
+      console.log('取得正常処理');
+    },
+    // 担当取得
+    getThenManager: function getThenManager(response) {
+      var res = response.data; //console.log('getthen in res = ' + res);
+
+      if (res.result) {
+        this.details_manager = res.details_manager;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("取得");
+        }
+      }
+
+      console.log('取得正常処理');
     },
     // 検索系正常処理
     putThenSearch: function putThenSearch(response, eventtext) {
@@ -61166,6 +61270,152 @@ var render = function () {
     _c("div", { staticClass: "mainframe bc1 gc3" }, [
       _vm._m(0),
       _vm._v(" "),
+      _c("div", { attrs: { id: "cnt4" } }, [
+        _c("div", { staticClass: "resultfindzone flex_flex_1" }, [
+          _c("h3", { staticClass: "gc2" }, [_vm._v("担当")]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            _vm._l(_vm.details_manager, function (dmgr, index) {
+              return _c("li", { key: index, staticClass: "setitem" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "setitem_a",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.clickEvent(
+                          "",
+                          index,
+                          dmgr["manager"],
+                          "set",
+                          "選択",
+                          "",
+                          ""
+                        )
+                      },
+                    },
+                  },
+                  [_vm._v(_vm._s(dmgr["manager"]))]
+                ),
+              ])
+            }),
+            0
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "resultfindzone flex_flex_2" }, [
+          _c("h3", { staticClass: "gc2" }, [_vm._v("得意先")]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            [
+              _c("li", [
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "#" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.clickEvent(
+                          "",
+                          "",
+                          "",
+                          "clear",
+                          "クリア",
+                          "",
+                          ""
+                        )
+                      },
+                    },
+                  },
+                  [_vm._v("すもも製版")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", [_vm._v("富士山印刷")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("山川海空広告")]),
+              _vm._v(" "),
+              _vm._l(_vm.details_customer, function (dcust, index) {
+                return _c("li", { key: index, staticClass: "itemcust" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "itemcust_a",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.clickEvent(
+                            "",
+                            index,
+                            dcust["customer_code"],
+                            "setcust",
+                            "選択",
+                            "",
+                            ""
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(dcust["customer_code"]) +
+                          " " +
+                          _vm._s(dcust["customer"])
+                      ),
+                    ]
+                  ),
+                ])
+              }),
+            ],
+            2
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "resultfindzone flex_flex_2" }, [
+          _c("h3", { staticClass: "gc2" }, [_vm._v("エンドユーザー")]),
+          _vm._v(" "),
+          _c("ul", [
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.clickEvent(
+                        "",
+                        "",
+                        "",
+                        "clear",
+                        "クリア",
+                        "",
+                        ""
+                      )
+                    },
+                  },
+                },
+                [_vm._v("みかん病院")]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("li", [_vm._v("りんご運輸")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("ぶどう商事")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("すいか鐡道")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("水曜日のカンパネラ")]),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
       _vm._m(1),
       _vm._v(" "),
       _c("div", { attrs: { id: "cnt1" } }, [
@@ -61821,7 +62071,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { id: "cnt_title_search" } }, [
-      _c("h3", { staticClass: "print-none" }, [_vm._v("担当別見積一覧")]),
+      _c("h3", { staticClass: "print-none" }, [
+        _vm._v("ファインダー 【一覧検索】"),
+      ]),
     ])
   },
   function () {
@@ -61829,50 +62081,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { id: "cnt4" } }, [
-      _c("div", { staticClass: "resultzone" }, [
-        _c("h3", [_vm._v("担当")]),
-        _vm._v(" "),
-        _c("ul", [
-          _c("li", [_vm._v("営業１号")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("営業２号")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("営業３号")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("営業４号")]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", {}, [
-        _c("h3", [_vm._v("得意先")]),
-        _vm._v(" "),
-        _c("ul", [
-          _c("li", [_vm._v("すもも製版")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("富士山印刷")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("山川海空広告")]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", {}, [
-        _c("h3", [_vm._v("エンドユーザー")]),
-        _vm._v(" "),
-        _c("ul", [
-          _c("li", [_vm._v("みかん病院")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("りんご運輸")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("ぶどう商事")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("すいか鐡道")]),
-          _vm._v(" "),
-          _c("li", [_vm._v("水曜日のカンパネラ")]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", {}, [
-        _c("h3", [_vm._v("製品名")]),
+      _c("div", { staticClass: "resultfindzone flex_flex_1" }, [
+        _c("h3", { staticClass: "gc2" }, [_vm._v("製品名")]),
         _vm._v(" "),
         _c("ul", [
           _c("li", [_vm._v("エジソン")]),

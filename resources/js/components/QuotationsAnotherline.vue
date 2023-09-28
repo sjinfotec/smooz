@@ -2,39 +2,39 @@
   <div>
     <div class="mainframe bc1 gc3">
       <div id="cnt_title_search">
-        <h3 class="print-none">担当別見積一覧</h3>
+        <h3 class="print-none">ファインダー 【一覧検索】</h3>
       </div>
 
       <div id="cnt4">
-        <div class="resultzone">
-          <h3>担当</h3>
+        <div class="resultfindzone flex_flex_1">
+          <h3 class="gc2">担当</h3>
           <ul>
-            <li>営業１号</li>
-            <li>営業２号</li>
-            <li>営業３号</li>
-            <li>営業４号</li>
+            <li v-for="(dmgr,index) in details_manager" v-bind:key="index" class="setitem"><a href="#" class="setitem_a" @click.prevent="clickEvent('',index,dmgr['manager'],'set','選択','','') ">{{ dmgr['manager'] }}</a></li>
           </ul>
         </div>
-        <div class="">
-          <h3>得意先</h3>
+        <div class="resultfindzone flex_flex_2">
+          <h3 class="gc2">得意先</h3>
           <ul>
-            <li>すもも製版</li>
+            <li><a href="#" @click.prevent="clickEvent('','','','clear','クリア','','') ">すもも製版</a></li>
             <li>富士山印刷</li>
             <li>山川海空広告</li>
+            <li v-for="(dcust,index) in details_customer" v-bind:key="index" class="itemcust"><a href="#" class="itemcust_a" @click.prevent="clickEvent('',index,dcust['customer_code'],'setcust','選択','','') ">{{ dcust['customer_code'] }} {{ dcust['customer'] }}</a></li>
           </ul>
         </div>
-        <div class="">
-          <h3>エンドユーザー</h3>
+        <div class="resultfindzone flex_flex_2">
+          <h3 class="gc2">エンドユーザー</h3>
           <ul>
-            <li>みかん病院</li>
+            <li><a href="#" @click.prevent="clickEvent('','','','clear','クリア','','') ">みかん病院</a></li>
             <li>りんご運輸</li>
             <li>ぶどう商事</li>
             <li>すいか鐡道</li>
             <li>水曜日のカンパネラ</li>
           </ul>
         </div>
-        <div class="">
-          <h3>製品名</h3>
+      </div><!--end id cnt4-->
+      <div id="cnt4">
+        <div class="resultfindzone flex_flex_1">
+          <h3 class="gc2">製品名</h3>
           <ul>
             <li>エジソン</li>
             <li>一休さん</li>
@@ -434,6 +434,10 @@ export default {
   },
   data() {
     return {
+      details_manager: [],
+      details_customer: [],
+      details_enduser: [],
+      details_product: [],
       details: [],
       details_parts: [],
       details_body: "",
@@ -443,6 +447,7 @@ export default {
       messageshowsearch: false,
 
       s_m_code: "",
+      s_manager: "",
       s_customer_code: "",
       s_customer: "",
       s_enduser: "",
@@ -476,6 +481,7 @@ export default {
   // マウント時
   mounted() {
     //this.login_user_code = this.authusers["code"];
+    this.getManager();
   },
   methods: {
     // -------------------- イベント処理 --------------------
@@ -513,6 +519,33 @@ export default {
           searchcom.style.visibility = "hidden";
 
           console.log('クリアしました');
+        }
+        else if(cf == 'set') {
+          //var Jperformance = document.getElementById('performance_' + val1).value;
+          //var elems = document.querySelectorAll('.cls1, .cls2');
+          var elems = document.querySelectorAll('.setitem');
+          var elemsa = document.querySelectorAll('.setitem_a');
+          for (var i = 0; i < elems.length; i++){
+            //console.log(elems[i].textContent);
+            elems[i].style.background = "none";
+            elemsa[i].style.color = "#000";
+          }
+          //var Jstatus = fm.status.value;
+          //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
+          var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
+          if( result ) {
+            document.getElementsByClassName("setitem")[val1].style.background = "#548017";
+            document.getElementsByClassName("setitem_a")[val1].style.color = "#FFF";
+            //fm.s_id.value = val1;
+            //fm.s_performance.value = Jperformance;
+            //fm.action = '/w';
+            //fm.submit();
+            this.getCustomer(val2);
+          }
+          else {
+            console.log('キャンセルがクリックされました');
+          }
+
         }
         else if(cf == 'confirm_work_update') {
           var Jperformance = document.getElementById('performance_' + val1).value;
@@ -1013,10 +1046,82 @@ export default {
 
 
     // -------------------- サーバー処理 --------------------
+    // 取得処理
+    getItem() {
+      //this.inputClear();
+      //console.log("getitem in");
+      var arrayParams = { 
+        };
+      axios.post("/anotherline/get", arrayParams)
+        .then(response  => {
+          this.getThen(response);
+        })
+        .catch(reason => {
+          this.serverCatch("取得");
+        });
+    },
+    getManager() {
+      //this.inputClear();
+      //console.log("getitem in");
+      var arrayParams = { 
+        };
+      axios.post("/qanotherline/getmgr", arrayParams)
+        .then(response  => {
+          this.getThenManager(response);
+        })
+        .catch(reason => {
+          this.serverCatch("取得");
+        });
+    },
+    getCustomer(val) {
+      //this.inputClear();
+      console.log("getCustomer in val = " + val);
+      var arrayParams = { 
+        s_manager : val ,
+      };
+      axios.post("/qanotherline/getcust", arrayParams)
+        .then(response  => {
+          this.getThenCustomer(response);
+        })
+        .catch(reason => {
+          this.serverCatch("取得");
+        });
+    },
+ 
+
     // -------------------- 共通 --------------------
     // 取得正常処理
-    getThen(response) {
+    getThenXX(response) {
       console.log('正常');
+    },
+    getThen(response) {
+      var res = response.data;
+      //console.log('getthen in res = ' + res);
+      if (res.result) {
+        this.details = res.details;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("取得");
+        }
+      }
+      console.log('取得正常処理');
+    },
+    // 担当取得
+    getThenManager(response) {
+      var res = response.data;
+      //console.log('getthen in res = ' + res);
+      if (res.result) {
+        this.details_manager = res.details_manager;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("取得");
+        }
+      }
+      console.log('取得正常処理');
     },
     // 検索系正常処理
     putThenSearch(response, eventtext) {

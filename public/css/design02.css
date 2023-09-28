@@ -429,8 +429,14 @@ header .header_login_info a {
 .flex_jc_r  {
   justify-content: right;
 }
+.flex_flex_0  {
+  flex: 0;
+}
 .flex_flex_1  {
   flex: 1;
+}
+.flex_flex_2  {
+  flex: 2;
 }
 .columngap_10px {
   column-gap:10px;
@@ -1418,15 +1424,24 @@ header .header_login_info a {
 
 
 
-/*-------------------- --------------------## 担当別見積一覧検索 ##-------------------- --------------------*/
+/*-------------------- --------------------## 見積一覧検索　ファインダー ##-------------------- --------------------*/
 #cnt4{
   display: flex;
+  gap: 0 10px;
 }
 #cnt4 h3 {
   color:#555;
 }
-
-
+.resultfindzone {
+  font-size: 1em;
+  /*flex: 1;*/
+}
+.resultfindzone ul  {
+  list-style: none;
+}
+.setitem_a  {
+  color: #000;
+}
 
 
 

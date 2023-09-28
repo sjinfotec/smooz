@@ -550,6 +550,12 @@ class QSearch extends Model
 
     // ------------- 検索 --------------
 
+    // 担当
+    private $param_manager;
+    public function getParamManagerAttribute(){ return $this->param_manager;}
+    public function setParamManagerAttribute($value){  $this->param_manager = $value;}
+
+
     // 見積番号
     private $param_m_code;
     public function getParamM_codeAttribute(){ return $this->param_m_code;}
@@ -802,6 +808,93 @@ class QSearch extends Model
         }
 
     }
+
+
+
+     /**
+     * ANOTHER Manager SEARCH取得
+     *
+     * @return void
+     */
+    public function getManager(){
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ->select(
+                'manager_code',
+                'manager',
+
+            )
+            ->distinct()
+            ;
+
+            $result = $data
+            ->get();
+
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+
+    }
+
+
+
+     /**
+     * ANOTHER Customer SEARCH取得
+     *
+     * @return void
+     */
+    public function getCustomer(){
+        $searchgo = false;
+        if(!empty($this->param_manager)) $searchgo = true;
+
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ->select(
+                'customer_code',
+                'customer',
+
+            )
+            ->distinct()
+            ;
+            if(!empty($this->param_manager)){
+                $str = "%".$this->param_manager."%";
+                //Log::info("getSearchA this->param_company_name -- ".$str);
+                $data->where('manager','LIKE', $str)
+                //->where('status','newest')
+                ->orderBy('create_date', 'DESC');
+            }
+
+            if($searchgo) {
+                $result = $data
+                ->get();
+            }
+
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+
+    }
+
+
+
 
 
 
