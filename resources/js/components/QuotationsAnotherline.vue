@@ -9,26 +9,19 @@
         <div class="resultfindzone flex_flex_1">
           <h3 class="gc2">担当</h3>
           <ul>
-            <li v-for="(dmgr,index) in details_manager" v-bind:key="index" class="setitem"><a href="#" class="setitem_a" @click.prevent="clickEvent('',index,dmgr['manager'],'set','選択','','') ">{{ dmgr['manager'] }}</a></li>
+            <li v-for="(dmgr,index) in details_manager" v-bind:key="index" class="setitem"><a href="#" class="setitem_a" @click.prevent="clickEvent('',index,dmgr['manager'].trim(),'set','選択','','') ">{{ dmgr['manager'].trim() }}</a></li>
           </ul>
         </div>
         <div class="resultfindzone flex_flex_2">
           <h3 class="gc2">得意先</h3>
           <ul>
-            <li><a href="#" @click.prevent="clickEvent('','','','clear','クリア','','') ">すもも製版</a></li>
-            <li>富士山印刷</li>
-            <li>山川海空広告</li>
-            <li v-for="(dcust,index) in details_customer" v-bind:key="index" class="itemcust"><a href="#" class="itemcust_a" @click.prevent="clickEvent('',index,dcust['customer_code'],'setcust','選択','','') ">{{ dcust['customer_code'] }} {{ dcust['customer'] }}</a></li>
+            <li v-for="(dcust,index) in details_customer" v-bind:key="index" class="itemcust"><a href="#" class="itemcust_a" @click.prevent="clickEvent('',index,dcust['customer'].trim(),'setcust','選択','','') "><span class="ccode">{{ dcust['customer_code'] }}</span> {{ dcust['customer'].trim() }}</a></li>
           </ul>
         </div>
         <div class="resultfindzone flex_flex_2">
           <h3 class="gc2">エンドユーザー</h3>
           <ul>
-            <li><a href="#" @click.prevent="clickEvent('','','','clear','クリア','','') ">みかん病院</a></li>
-            <li>りんご運輸</li>
-            <li>ぶどう商事</li>
-            <li>すいか鐡道</li>
-            <li>水曜日のカンパネラ</li>
+            <li v-for="(dend,index) in details_enduser" v-bind:key="index" class="itemend"><a href="#" class="itemend_a" @click.prevent="clickEvent('',index,dend['enduser'].trim(),'setend','選択','','') ">{{ dend['enduser'].trim() }}</a></li>
           </ul>
         </div>
       </div><!--end id cnt4-->
@@ -541,6 +534,24 @@ export default {
             //fm.action = '/w';
             //fm.submit();
             this.getCustomer(val2);
+          }
+          else {
+            console.log('キャンセルがクリックされました');
+          }
+
+        }
+        else if(cf == 'setcust') {
+          var elems = document.querySelectorAll('.itemcust');
+          var elemsa = document.querySelectorAll('.itemcust_a');
+          for (var i = 0; i < elems.length; i++){
+            elems[i].style.background = "none";
+            elemsa[i].style.color = "#000";
+          }
+          var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
+          if( result ) {
+            document.getElementsByClassName("itemcust")[val1].style.background = "#548017";
+            document.getElementsByClassName("itemcust_a")[val1].style.color = "#FFF";
+            this.getEnduser(val2);
           }
           else {
             console.log('キャンセルがクリックされました');
@@ -1077,11 +1088,29 @@ export default {
       //this.inputClear();
       console.log("getCustomer in val = " + val);
       var arrayParams = { 
-        s_manager : val ,
+        s_m_code : '',
+        s_manager : val,
       };
-      axios.post("/qanotherline/getcust", arrayParams)
+      //axios.post("/qanotherline/getcust", arrayParams)
+      this.postRequest("/qanotherline/getcust", arrayParams)
         .then(response  => {
           this.getThenCustomer(response);
+        })
+        .catch(reason => {
+          this.serverCatch("取得");
+        });
+    },
+    getEnduser(val) {
+      //this.inputClear();
+      console.log("getEnduser in val = " + val);
+      var arrayParams = { 
+        s_m_code : '',
+        s_customer : val,
+      };
+      //axios.post("/qanotherline/getcust", arrayParams)
+      this.postRequest("/qanotherline/getend", arrayParams)
+        .then(response  => {
+          this.getThenEnduser(response);
         })
         .catch(reason => {
           this.serverCatch("取得");
@@ -1119,6 +1148,36 @@ export default {
           this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
         } else {
           this.serverCatch("取得");
+        }
+      }
+      console.log('取得正常処理');
+    },
+    // 得意先取得
+    getThenCustomer(response) {
+      var res = response.data;
+      //console.log('getthen in res = ' + res);
+      if (res.result) {
+        this.details_customer = res.details_customer;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("得意先取得");
+        }
+      }
+      console.log('取得正常処理');
+    },
+    // エンドユーザー取得
+    getThenEnduser(response) {
+      var res = response.data;
+      //console.log('getthen in res = ' + res);
+      if (res.result) {
+        this.details_enduser = res.details_enduser;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("エンドユーザー取得");
         }
       }
       console.log('取得正常処理');

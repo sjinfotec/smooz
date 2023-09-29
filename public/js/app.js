@@ -5498,13 +5498,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 
@@ -5623,6 +5616,24 @@ __webpack_require__.r(__webpack_exports__);
           //fm.submit();
 
           this.getCustomer(val2);
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else if (cf == 'setcust') {
+        var elems = document.querySelectorAll('.itemcust');
+        var elemsa = document.querySelectorAll('.itemcust_a');
+
+        for (var i = 0; i < elems.length; i++) {
+          elems[i].style.background = "none";
+          elemsa[i].style.color = "#000";
+        }
+
+        var result = window.confirm(com1 + '\n' + val1 + '\n' + val2);
+
+        if (result) {
+          document.getElementsByClassName("itemcust")[val1].style.background = "#548017";
+          document.getElementsByClassName("itemcust_a")[val1].style.color = "#FFF";
+          this.getEnduser(val2);
         } else {
           console.log('キャンセルがクリックされました');
         }
@@ -6020,12 +6031,30 @@ __webpack_require__.r(__webpack_exports__);
       //this.inputClear();
       console.log("getCustomer in val = " + val);
       var arrayParams = {
+        s_m_code: '',
         s_manager: val
-      };
-      axios.post("/qanotherline/getcust", arrayParams).then(function (response) {
+      }; //axios.post("/qanotherline/getcust", arrayParams)
+
+      this.postRequest("/qanotherline/getcust", arrayParams).then(function (response) {
         _this4.getThenCustomer(response);
       })["catch"](function (reason) {
         _this4.serverCatch("取得");
+      });
+    },
+    getEnduser: function getEnduser(val) {
+      var _this5 = this;
+
+      //this.inputClear();
+      console.log("getEnduser in val = " + val);
+      var arrayParams = {
+        s_m_code: '',
+        s_customer: val
+      }; //axios.post("/qanotherline/getcust", arrayParams)
+
+      this.postRequest("/qanotherline/getend", arrayParams).then(function (response) {
+        _this5.getThenEnduser(response);
+      })["catch"](function (reason) {
+        _this5.serverCatch("取得");
       });
     },
     // -------------------- 共通 --------------------
@@ -6059,6 +6088,38 @@ __webpack_require__.r(__webpack_exports__);
           this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
         } else {
           this.serverCatch("取得");
+        }
+      }
+
+      console.log('取得正常処理');
+    },
+    // 得意先取得
+    getThenCustomer: function getThenCustomer(response) {
+      var res = response.data; //console.log('getthen in res = ' + res);
+
+      if (res.result) {
+        this.details_customer = res.details_customer;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("得意先取得");
+        }
+      }
+
+      console.log('取得正常処理');
+    },
+    // エンドユーザー取得
+    getThenEnduser: function getThenEnduser(response) {
+      var res = response.data; //console.log('getthen in res = ' + res);
+
+      if (res.result) {
+        this.details_enduser = res.details_enduser;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("エンドユーザー取得");
         }
       }
 
@@ -61286,10 +61347,10 @@ var render = function () {
                     on: {
                       click: function ($event) {
                         $event.preventDefault()
-                        return _vm.clickEvent(
+                        _vm.clickEvent(
                           "",
                           index,
-                          dmgr["manager"],
+                          dmgr["manager"].trim(),
                           "set",
                           "選択",
                           "",
@@ -61298,7 +61359,7 @@ var render = function () {
                       },
                     },
                   },
-                  [_vm._v(_vm._s(dmgr["manager"]))]
+                  [_vm._v(_vm._s(dmgr["manager"].trim()))]
                 ),
               ])
             }),
@@ -61311,108 +61372,74 @@ var render = function () {
           _vm._v(" "),
           _c(
             "ul",
-            [
-              _c("li", [
+            _vm._l(_vm.details_customer, function (dcust, index) {
+              return _c("li", { key: index, staticClass: "itemcust" }, [
                 _c(
                   "a",
                   {
+                    staticClass: "itemcust_a",
                     attrs: { href: "#" },
                     on: {
                       click: function ($event) {
                         $event.preventDefault()
-                        return _vm.clickEvent(
+                        _vm.clickEvent(
                           "",
-                          "",
-                          "",
-                          "clear",
-                          "クリア",
+                          index,
+                          dcust["customer"].trim(),
+                          "setcust",
+                          "選択",
                           "",
                           ""
                         )
                       },
                     },
                   },
-                  [_vm._v("すもも製版")]
+                  [
+                    _c("span", { staticClass: "ccode" }, [
+                      _vm._v(_vm._s(dcust["customer_code"])),
+                    ]),
+                    _vm._v(" " + _vm._s(dcust["customer"].trim())),
+                  ]
                 ),
-              ]),
-              _vm._v(" "),
-              _c("li", [_vm._v("富士山印刷")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("山川海空広告")]),
-              _vm._v(" "),
-              _vm._l(_vm.details_customer, function (dcust, index) {
-                return _c("li", { key: index, staticClass: "itemcust" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "itemcust_a",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.clickEvent(
-                            "",
-                            index,
-                            dcust["customer_code"],
-                            "setcust",
-                            "選択",
-                            "",
-                            ""
-                          )
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        _vm._s(dcust["customer_code"]) +
-                          " " +
-                          _vm._s(dcust["customer"])
-                      ),
-                    ]
-                  ),
-                ])
-              }),
-            ],
-            2
+              ])
+            }),
+            0
           ),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "resultfindzone flex_flex_2" }, [
           _c("h3", { staticClass: "gc2" }, [_vm._v("エンドユーザー")]),
           _vm._v(" "),
-          _c("ul", [
-            _c("li", [
-              _c(
-                "a",
-                {
-                  attrs: { href: "#" },
-                  on: {
-                    click: function ($event) {
-                      $event.preventDefault()
-                      return _vm.clickEvent(
-                        "",
-                        "",
-                        "",
-                        "clear",
-                        "クリア",
-                        "",
-                        ""
-                      )
+          _c(
+            "ul",
+            _vm._l(_vm.details_enduser, function (dend, index) {
+              return _c("li", { key: index, staticClass: "itemend" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "itemend_a",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        _vm.clickEvent(
+                          "",
+                          index,
+                          dend["enduser"].trim(),
+                          "setend",
+                          "選択",
+                          "",
+                          ""
+                        )
+                      },
                     },
                   },
-                },
-                [_vm._v("みかん病院")]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", [_vm._v("りんご運輸")]),
-            _vm._v(" "),
-            _c("li", [_vm._v("ぶどう商事")]),
-            _vm._v(" "),
-            _c("li", [_vm._v("すいか鐡道")]),
-            _vm._v(" "),
-            _c("li", [_vm._v("水曜日のカンパネラ")]),
-          ]),
+                  [_vm._v(_vm._s(dend["enduser"].trim()))]
+                ),
+              ])
+            }),
+            0
+          ),
         ]),
       ]),
       _vm._v(" "),

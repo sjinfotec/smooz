@@ -1442,6 +1442,13 @@ header .header_login_info a {
 .setitem_a  {
   color: #000;
 }
+.itemcust_a  {
+  color: #000;
+}
+#cnt4 .ccode  {
+  display: inline-block;
+  width: 4em;
+}
 
 
 

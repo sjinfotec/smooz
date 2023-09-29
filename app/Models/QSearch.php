@@ -823,7 +823,6 @@ class QSearch extends Model
             ->select(
                 'manager_code',
                 'manager',
-
             )
             ->distinct()
             ;
@@ -862,16 +861,18 @@ class QSearch extends Model
             ->select(
                 'customer_code',
                 'customer',
-
             )
+            //->selectRaw(trim(both from customer))
             ->distinct()
             ;
             if(!empty($this->param_manager)){
                 $str = "%".$this->param_manager."%";
-                //Log::info("getSearchA this->param_company_name -- ".$str);
+                //Log::info("getCustomer this->param_ -- ".$str);
                 $data->where('manager','LIKE', $str)
-                //->where('status','newest')
-                ->orderBy('create_date', 'DESC');
+                //->where('status','1')
+                //->orderBy('customer_code', 'DESC')
+                ->orderByRaw('CAST(customer_code as SIGNED) ASC')
+                ;
             }
 
             if($searchgo) {
@@ -891,6 +892,51 @@ class QSearch extends Model
             throw $e;
         }
 
+    }
+
+
+
+     /**
+     * ANOTHER Enduser SEARCH取得
+     *
+     * @return void
+     */
+    public function getEnduser(){
+        $searchgo = false;
+        if(!empty($this->param_customer)) $searchgo = true;
+
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ->select(
+                'enduser',
+            )
+            ->distinct()
+            ;
+            if(!empty($this->param_customer)){
+                $str = "%".$this->param_customer."%";
+                Log::info("getEnduser this->param_ -- ".$str);
+                $data->where('customer','LIKE', $str)
+                //->orderByRaw('enduser ASC')
+                ;
+            }
+
+            if($searchgo) {
+                $result = $data
+                ->get();
+            }
+
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
     }
 
 
