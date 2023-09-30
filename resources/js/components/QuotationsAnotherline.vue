@@ -6,22 +6,23 @@
       </div>
 
       <div id="cnt4">
-        <div class="resultfindzone flex_flex_1">
+        <div class="resultfindzone flex_flex_1 zindex3">
           <h3 class="gc2">担当</h3>
           <ul>
             <li v-for="(dmgr,index) in details_manager" v-bind:key="index" class="setitem"><a href="#" class="setitem_a" @click.prevent="clickEvent('',index,dmgr['manager'].trim(),'set','選択','','') ">{{ dmgr['manager'].trim() }}</a></li>
           </ul>
         </div>
-        <div class="resultfindzone flex_flex_2">
+        <div v-bind:class="{'activeview': details_customer.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex2">
           <h3 class="gc2">得意先</h3>
           <ul>
             <li v-for="(dcust,index) in details_customer" v-bind:key="index" class="itemcust"><a href="#" class="itemcust_a" @click.prevent="clickEvent('',index,dcust['customer'].trim(),'setcust','選択','','') "><span class="ccode">{{ dcust['customer_code'] }}</span> {{ dcust['customer'].trim() }}</a></li>
           </ul>
         </div>
-        <div class="resultfindzone flex_flex_2">
+        <div v-bind:class="{'activeview': details_enduser.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex1">
           <h3 class="gc2">エンドユーザー</h3>
           <ul>
             <li v-for="(dend,index) in details_enduser" v-bind:key="index" class="itemend"><a href="#" class="itemend_a" @click.prevent="clickEvent('',index,dend['enduser'].trim(),'setend','選択','','') ">{{ dend['enduser'].trim() }}</a></li>
+            <li class="itemend"><a href="#" class="itemend_a" @click.prevent="clickEvent('',index,'all','setend','選択','','') ">すべて</a></li>
           </ul>
         </div>
       </div><!--end id cnt4-->

@@ -121,7 +121,7 @@ header  {
   max-width: 1280px;
   margin: 0 auto;
   background-color:#217095;
-  z-index: 1;
+  z-index: 100;
 }
 header .navbar  {
   display:flex;
@@ -131,6 +131,8 @@ header .navbar  {
   height:50px;
   background:url( "../images/head_img_1.png" ) no-repeat  left top;
   /*background-size:100%;*/
+  /*position: relative;*/
+  /*z-index: 10;*/
 }
 header button {width:auto;}
 header .toplogoarea {
@@ -1433,6 +1435,7 @@ header .header_login_info a {
   color:#555;
 }
 .resultfindzone {
+  position: relative;
   font-size: 1em;
   /*flex: 1;*/
 }
@@ -1449,6 +1452,23 @@ header .header_login_info a {
   display: inline-block;
   width: 4em;
 }
+.hiddenview {
+  position:relative;
+  visibility: hidden;
+  opacity: 0;
+  left: -200px;
+
+}
+.activeview {
+  visibility: visible;
+  opacity: 1;
+  left: 0px;
+}
+.zindex0  {z-index:0;}
+.zindex1  {z-index:1;}
+.zindex2  {z-index:2;}
+.zindex3  {z-index:3;}
+
 
 
 

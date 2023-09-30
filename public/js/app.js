@@ -5498,6 +5498,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 
@@ -61332,7 +61333,7 @@ var render = function () {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { attrs: { id: "cnt4" } }, [
-        _c("div", { staticClass: "resultfindzone flex_flex_1" }, [
+        _c("div", { staticClass: "resultfindzone flex_flex_1 zindex3" }, [
           _c("h3", { staticClass: "gc2" }, [_vm._v("担当")]),
           _vm._v(" "),
           _c(
@@ -61367,80 +61368,123 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "resultfindzone flex_flex_2" }, [
-          _c("h3", { staticClass: "gc2" }, [_vm._v("得意先")]),
-          _vm._v(" "),
-          _c(
-            "ul",
-            _vm._l(_vm.details_customer, function (dcust, index) {
-              return _c("li", { key: index, staticClass: "itemcust" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "itemcust_a",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function ($event) {
-                        $event.preventDefault()
-                        _vm.clickEvent(
-                          "",
-                          index,
-                          dcust["customer"].trim(),
-                          "setcust",
-                          "選択",
-                          "",
-                          ""
-                        )
+        _c(
+          "div",
+          {
+            staticClass:
+              "resultfindzone flex_flex_2 hiddenview transition2 zindex2",
+            class: { activeview: _vm.details_customer.length },
+          },
+          [
+            _c("h3", { staticClass: "gc2" }, [_vm._v("得意先")]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.details_customer, function (dcust, index) {
+                return _c("li", { key: index, staticClass: "itemcust" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "itemcust_a",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          _vm.clickEvent(
+                            "",
+                            index,
+                            dcust["customer"].trim(),
+                            "setcust",
+                            "選択",
+                            "",
+                            ""
+                          )
+                        },
                       },
                     },
-                  },
-                  [
-                    _c("span", { staticClass: "ccode" }, [
-                      _vm._v(_vm._s(dcust["customer_code"])),
-                    ]),
-                    _vm._v(" " + _vm._s(dcust["customer"].trim())),
-                  ]
-                ),
-              ])
-            }),
-            0
-          ),
-        ]),
+                    [
+                      _c("span", { staticClass: "ccode" }, [
+                        _vm._v(_vm._s(dcust["customer_code"])),
+                      ]),
+                      _vm._v(" " + _vm._s(dcust["customer"].trim())),
+                    ]
+                  ),
+                ])
+              }),
+              0
+            ),
+          ]
+        ),
         _vm._v(" "),
-        _c("div", { staticClass: "resultfindzone flex_flex_2" }, [
-          _c("h3", { staticClass: "gc2" }, [_vm._v("エンドユーザー")]),
-          _vm._v(" "),
-          _c(
-            "ul",
-            _vm._l(_vm.details_enduser, function (dend, index) {
-              return _c("li", { key: index, staticClass: "itemend" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "itemend_a",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function ($event) {
-                        $event.preventDefault()
-                        _vm.clickEvent(
-                          "",
-                          index,
-                          dend["enduser"].trim(),
-                          "setend",
-                          "選択",
-                          "",
-                          ""
-                        )
+        _c(
+          "div",
+          {
+            staticClass:
+              "resultfindzone flex_flex_2 hiddenview transition2 zindex1",
+            class: { activeview: _vm.details_enduser.length },
+          },
+          [
+            _c("h3", { staticClass: "gc2" }, [_vm._v("エンドユーザー")]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              [
+                _vm._l(_vm.details_enduser, function (dend, index) {
+                  return _c("li", { key: index, staticClass: "itemend" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "itemend_a",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            _vm.clickEvent(
+                              "",
+                              index,
+                              dend["enduser"].trim(),
+                              "setend",
+                              "選択",
+                              "",
+                              ""
+                            )
+                          },
+                        },
+                      },
+                      [_vm._v(_vm._s(dend["enduser"].trim()))]
+                    ),
+                  ])
+                }),
+                _vm._v(" "),
+                _c("li", { staticClass: "itemend" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "itemend_a",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.clickEvent(
+                            "",
+                            _vm.index,
+                            "all",
+                            "setend",
+                            "選択",
+                            "",
+                            ""
+                          )
+                        },
                       },
                     },
-                  },
-                  [_vm._v(_vm._s(dend["enduser"].trim()))]
-                ),
-              ])
-            }),
-            0
-          ),
-        ]),
+                    [_vm._v("すべて")]
+                  ),
+                ]),
+              ],
+              2
+            ),
+          ]
+        ),
       ]),
       _vm._v(" "),
       _vm._m(1),
