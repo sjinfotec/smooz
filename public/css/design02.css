@@ -1448,9 +1448,23 @@ header .header_login_info a {
 .itemcust_a  {
   color: #000;
 }
+.itemend_a  {
+  color: #000;
+}
+.itemprod_a  {
+  color: #000;
+}
 #cnt4 .ccode  {
-  display: inline-block;
-  width: 4em;
+  /*overflow:hidden;*/
+  display:inline-flex;
+  /*vertical-align:middle;*/
+  width: 3em;
+
+}
+#cnt4 .customerline {
+  overflow:visible;
+  /*display: inline-block;*/
+  /*vertical-align:middle;*/
 }
 .hiddenview {
   position:relative;

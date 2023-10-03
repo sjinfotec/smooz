@@ -15,14 +15,20 @@
         <div v-bind:class="{'activeview': details_customer.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex2">
           <h3 class="gc2">得意先</h3>
           <ul>
-            <li v-for="(dcust,index) in details_customer" v-bind:key="index" class="itemcust"><a href="#" class="itemcust_a" @click.prevent="clickEvent('',index,dcust['customer'].trim(),'setcust','選択','','') "><span class="ccode">{{ dcust['customer_code'] }}</span> {{ dcust['customer'].trim() }}</a></li>
+            <li v-for="(dcust,index) in details_customer" v-bind:key="index" class="itemcust"><a href="#" class="itemcust_a" @click.prevent="clickEvent('',index,dcust['customer'].trim(),'setcust','選択','','') "><span class="ccode">{{ dcust['customer_code'] }}</span><span class="customerline">{{ dcust['customer'].trim() }}</span></a></li>
           </ul>
         </div>
         <div v-bind:class="{'activeview': details_enduser.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex1">
           <h3 class="gc2">エンドユーザー</h3>
           <ul>
-            <li v-for="(dend,index) in details_enduser" v-bind:key="index" class="itemend"><a href="#" class="itemend_a" @click.prevent="clickEvent('',index,dend['enduser'].trim(),'setend','選択','','') ">{{ dend['enduser'].trim() }}</a></li>
-            <li class="itemend"><a href="#" class="itemend_a" @click.prevent="clickEvent('',index,'all','setend','選択','','') ">すべて</a></li>
+            <li v-for="(dend,index) in details_enduser" v-bind:key="index" class="itemend"><a href="#" class="itemend_a" @click.prevent="clickEvent('',index,dend['enduser'].trim(),'setend','選択','',s_customer) ">{{ dend['enduser'].trim() }}</a></li>
+            <li>{{s_customer}}</li>
+          </ul>
+        </div>
+        <div v-bind:class="{'activeview': details_product.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex0">
+          <h3 class="gc2">製品名</h3>
+          <ul>
+            <li v-for="(dprod,index) in details_product" v-bind:key="index" class="itemprod"><a href="#" class="itemprod_a" @click.prevent="clickEvent('',index,dprod['product'].trim(),'setprod','選択','','') ">{{ dprod['product'].trim() }}</a></li>
           </ul>
         </div>
       </div><!--end id cnt4-->
@@ -553,6 +559,24 @@ export default {
             document.getElementsByClassName("itemcust")[val1].style.background = "#548017";
             document.getElementsByClassName("itemcust_a")[val1].style.color = "#FFF";
             this.getEnduser(val2);
+          }
+          else {
+            console.log('キャンセルがクリックされました');
+          }
+
+        }
+        else if(cf == 'setend') {
+          var elems = document.querySelectorAll('.itemend');
+          var elemsa = document.querySelectorAll('.itemend_a');
+          for (var i = 0; i < elems.length; i++){
+            elems[i].style.background = "none";
+            elemsa[i].style.color = "#000";
+          }
+          var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n' + smd);
+          if( result ) {
+            document.getElementsByClassName("itemend")[val1].style.background = "#548017";
+            document.getElementsByClassName("itemend_a")[val1].style.color = "#FFF";
+            this.getProduct(val2);
           }
           else {
             console.log('キャンセルがクリックされました');
@@ -1117,6 +1141,23 @@ export default {
           this.serverCatch("取得");
         });
     },
+    getProduct(val) {
+      //this.inputClear();
+      console.log("getProduct in val = " + val);
+      var arrayParams = { 
+        s_m_code : '',
+        s_customer : this.s_customer,
+        s_enduser : val,
+      };
+      //axios.post("/qanotherline/getcust", arrayParams)
+      this.postRequest("/qanotherline/getprod", arrayParams)
+        .then(response  => {
+          this.getThenProduct(response);
+        })
+        .catch(reason => {
+          this.serverCatch("取得");
+        });
+    },
  
 
     // -------------------- 共通 --------------------
@@ -1173,7 +1214,28 @@ export default {
       var res = response.data;
       //console.log('getthen in res = ' + res);
       if (res.result) {
+        this.s_customer = res.s_customer;
         this.details_enduser = res.details_enduser;
+        let addeu = {
+          "enduser": this.s_customer + "全て"
+        }
+        this.details_enduser.push(addeu);
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("エンドユーザー取得");
+        }
+      }
+      console.log('取得正常処理');
+    },
+    // エンドユーザー取得
+    getThenProduct(response) {
+      var res = response.data;
+      //console.log('getthen in res = ' + res);
+      if (res.result) {
+        this.details_product = res.details_product;
+        this.s_customer = res.s_customer;
       } else {
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);

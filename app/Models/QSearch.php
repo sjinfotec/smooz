@@ -915,11 +915,66 @@ class QSearch extends Model
             ;
             if(!empty($this->param_customer)){
                 $str = "%".$this->param_customer."%";
-                Log::info("getEnduser this->param_ -- ".$str);
+                //Log::info("getEnduser this->param_ -- ".$str);
                 $data->where('customer','LIKE', $str)
                 //->orderByRaw('enduser ASC')
                 ;
             }
+
+            if($searchgo) {
+                $result = $data
+                ->get();
+            }
+
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+
+
+
+     /**
+     * ANOTHER Product SEARCH取得
+     *
+     * @return void
+     */
+    public function getProduct(){
+        $searchgo = false;
+        if(!empty($this->param_enduser)) $searchgo = true;
+
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ->select(
+                'product',
+            )
+            ->distinct()
+            ;
+            if($this->param_enduser == "all"){
+                $str = "%".$this->param_customer."%";
+                Log::info("getProduct this->param all -- param_customer -- ".$str);
+                $data->where('customer','LIKE', $str)
+                //->orderByRaw('enduser ASC')
+                ;
+            }
+            elseif(!empty($this->param_enduser)){
+                $strc = "%".$this->param_customer."%";
+                $stre = "%".$this->param_enduser."%";
+                Log::info("getProduct this->param_ -- ".$stre);
+                $data->where('customer','LIKE', $strc)
+                ->where('enduser','LIKE', $stre)
+                //->orderByRaw('enduser ASC')
+                ;
+            }
+
 
             if($searchgo) {
                 $result = $data

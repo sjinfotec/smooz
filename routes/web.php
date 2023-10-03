@@ -75,6 +75,7 @@ Route::get('/qanotherline', [QAnotherlineController::class,'index'])->middleware
 Route::post('/qanotherline/getmgr', [QAnotherlineController::class,'getManagerData'])->middleware('auth');
 Route::post('/qanotherline/getcust', [QAnotherlineController::class,'getCustomerData'])->middleware('auth');
 Route::post('/qanotherline/getend', [QAnotherlineController::class,'getEnduserData'])->middleware('auth');
+Route::post('/qanotherline/getprod', [QAnotherlineController::class,'getProductData'])->middleware('auth');
 
 // パーツ
 Route::post('/qparts/get', [QuotationsPartsController::class,'getPartsData'])->middleware('auth');

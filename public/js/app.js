@@ -5499,6 +5499,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 // import mit-parts from "./Parts.vue";
 //import moment from "moment";
 
@@ -5635,6 +5641,24 @@ __webpack_require__.r(__webpack_exports__);
           document.getElementsByClassName("itemcust")[val1].style.background = "#548017";
           document.getElementsByClassName("itemcust_a")[val1].style.color = "#FFF";
           this.getEnduser(val2);
+        } else {
+          console.log('キャンセルがクリックされました');
+        }
+      } else if (cf == 'setend') {
+        var elems = document.querySelectorAll('.itemend');
+        var elemsa = document.querySelectorAll('.itemend_a');
+
+        for (var i = 0; i < elems.length; i++) {
+          elems[i].style.background = "none";
+          elemsa[i].style.color = "#000";
+        }
+
+        var result = window.confirm(com1 + '\n' + val1 + '\n' + val2 + '\n' + smd);
+
+        if (result) {
+          document.getElementsByClassName("itemend")[val1].style.background = "#548017";
+          document.getElementsByClassName("itemend_a")[val1].style.color = "#FFF";
+          this.getProduct(val2);
         } else {
           console.log('キャンセルがクリックされました');
         }
@@ -6058,6 +6082,23 @@ __webpack_require__.r(__webpack_exports__);
         _this5.serverCatch("取得");
       });
     },
+    getProduct: function getProduct(val) {
+      var _this6 = this;
+
+      //this.inputClear();
+      console.log("getProduct in val = " + val);
+      var arrayParams = {
+        s_m_code: '',
+        s_customer: this.s_customer,
+        s_enduser: val
+      }; //axios.post("/qanotherline/getcust", arrayParams)
+
+      this.postRequest("/qanotherline/getprod", arrayParams).then(function (response) {
+        _this6.getThenProduct(response);
+      })["catch"](function (reason) {
+        _this6.serverCatch("取得");
+      });
+    },
     // -------------------- 共通 --------------------
     // 取得正常処理
     getThenXX: function getThenXX(response) {
@@ -6115,7 +6156,29 @@ __webpack_require__.r(__webpack_exports__);
       var res = response.data; //console.log('getthen in res = ' + res);
 
       if (res.result) {
+        this.s_customer = res.s_customer;
         this.details_enduser = res.details_enduser;
+        var addeu = {
+          "enduser": this.s_customer + "全て"
+        };
+        this.details_enduser.push(addeu);
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("エンドユーザー取得");
+        }
+      }
+
+      console.log('取得正常処理');
+    },
+    // エンドユーザー取得
+    getThenProduct: function getThenProduct(response) {
+      var res = response.data; //console.log('getthen in res = ' + res);
+
+      if (res.result) {
+        this.details_product = res.details_product;
+        this.s_customer = res.s_customer;
       } else {
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
@@ -61406,7 +61469,9 @@ var render = function () {
                       _c("span", { staticClass: "ccode" }, [
                         _vm._v(_vm._s(dcust["customer_code"])),
                       ]),
-                      _vm._v(" " + _vm._s(dcust["customer"].trim())),
+                      _c("span", { staticClass: "customerline" }, [
+                        _vm._v(_vm._s(dcust["customer"].trim())),
+                      ]),
                     ]
                   ),
                 ])
@@ -61446,7 +61511,7 @@ var render = function () {
                               "setend",
                               "選択",
                               "",
-                              ""
+                              _vm.s_customer
                             )
                           },
                         },
@@ -61456,20 +61521,40 @@ var render = function () {
                   ])
                 }),
                 _vm._v(" "),
-                _c("li", { staticClass: "itemend" }, [
+                _c("li", [_vm._v(_vm._s(_vm.s_customer))]),
+              ],
+              2
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "resultfindzone flex_flex_2 hiddenview transition2 zindex0",
+            class: { activeview: _vm.details_product.length },
+          },
+          [
+            _c("h3", { staticClass: "gc2" }, [_vm._v("製品名")]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.details_product, function (dprod, index) {
+                return _c("li", { key: index, staticClass: "itemprod" }, [
                   _c(
                     "a",
                     {
-                      staticClass: "itemend_a",
+                      staticClass: "itemprod_a",
                       attrs: { href: "#" },
                       on: {
                         click: function ($event) {
                           $event.preventDefault()
-                          return _vm.clickEvent(
+                          _vm.clickEvent(
                             "",
-                            _vm.index,
-                            "all",
-                            "setend",
+                            index,
+                            dprod["product"].trim(),
+                            "setprod",
                             "選択",
                             "",
                             ""
@@ -61477,11 +61562,11 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v("すべて")]
+                    [_vm._v(_vm._s(dprod["product"].trim()))]
                   ),
-                ]),
-              ],
-              2
+                ])
+              }),
+              0
             ),
           ]
         ),
