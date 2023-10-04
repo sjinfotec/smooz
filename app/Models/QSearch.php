@@ -556,6 +556,10 @@ class QSearch extends Model
     public function setParamManagerAttribute($value){  $this->param_manager = $value;}
 
 
+    // ID
+    private $param_id;
+    public function getParamIdAttribute(){ return $this->param_id;}
+    public function setParamIdAttribute($value){  $this->param_id = $value;}
     // 見積番号
     private $param_m_code;
     public function getParamM_codeAttribute(){ return $this->param_m_code;}
@@ -954,13 +958,15 @@ class QSearch extends Model
             $result = "";
             $data = DB::table($this->table)
             ->select(
+                'id',
+                'm_code',
                 'product',
             )
             ->distinct()
             ;
-            if($this->param_enduser == "all"){
+            if($this->param_enduser === "すべて"){
                 $str = "%".$this->param_customer."%";
-                Log::info("getProduct this->param all -- param_customer -- ".$str);
+                Log::info("getProduct this->param すべて -- param_customer -- ".$str);
                 $data->where('customer','LIKE', $str)
                 //->orderByRaw('enduser ASC')
                 ;
@@ -968,13 +974,53 @@ class QSearch extends Model
             elseif(!empty($this->param_enduser)){
                 $strc = "%".$this->param_customer."%";
                 $stre = "%".$this->param_enduser."%";
-                Log::info("getProduct this->param_ -- ".$stre);
+                Log::info("getProduct this->param enduser -- ".$stre);
                 $data->where('customer','LIKE', $strc)
                 ->where('enduser','LIKE', $stre)
                 //->orderByRaw('enduser ASC')
                 ;
             }
 
+
+            if($searchgo) {
+                $result = $data
+                ->get();
+            }
+
+            return $result;
+
+        }catch(\PDOException $pe){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$pe');
+            Log::error($pe->getMessage());
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', $this->table, Config::get('const.LOG_MSG.data_select_error')).'$e');
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+
+
+
+     /**
+     * ANOTHER Details SEARCH取得
+     *
+     * @return void
+     */
+    public function getDetails(){
+        $searchgo = false;
+        if(!empty($this->param_id)) $searchgo = true;
+
+        try {
+            $result = "";
+            $data = DB::table($this->table)
+            ;
+            if(!empty($this->param_id)){
+                $str = $this->param_id;
+                //Log::info("getEnduser this->param_ -- ".$str);
+                $data->where('id', $str)
+                ;
+            }
 
             if($searchgo) {
                 $result = $data

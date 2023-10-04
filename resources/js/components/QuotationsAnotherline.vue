@@ -5,43 +5,174 @@
         <h3 class="print-none">ファインダー 【一覧検索】</h3>
       </div>
 
-      <div id="cnt4">
-        <div class="resultfindzone flex_flex_1 zindex3">
+      <div class="nowloading" v-if="loading">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+          <circle cx="12" cy="12" r="10" fill="none" stroke="#548017"
+                  stroke-width="2" stroke-dasharray="63" stroke-linecap="round">
+              <animate attributeName="stroke-dashoffset" values="63;16;63" keyTimes="0;.5;1"
+                      keySplines=".42 0 .58 1;.42 0 .58 1;" calcMode="spline"
+                      dur="1.4s" repeatCount="indefinite"/>
+              <animateTransform attributeName="transform" type="rotate" values="0,12,12;135,12,12;450,12,12"
+                                keySplines=".42 0 .58 1;.42 0 .58 1;" calcMode="spline"
+                                dur="1.4s" repeatCount="indefinite"/>
+              <animateTransform attributeName="transform" type="rotate" from="0,12,12" to="270,12,12"
+                                calcMode="linear" dur="1.4s" repeatCount="indefinite" additive="sum"/>
+          </circle>
+        </svg>
+        
+      </div>
+      <div id="cnt4" class="mgt10">
+        <div class="resultfindzone flex_flex_1 zindex3 gc3">
           <h3 class="gc2">担当</h3>
           <ul>
-            <li v-for="(dmgr,index) in details_manager" v-bind:key="index" class="setitem"><a href="#" class="setitem_a" @click.prevent="clickEvent('',index,dmgr['manager'].trim(),'set','選択','','') ">{{ dmgr['manager'].trim() }}</a></li>
+            <li v-for="(dmgr,index) in details_manager" v-bind:key="index" class="setitem"><a href="#" class="setitem_a" @click.prevent="clickEvent('',index,dmgr['manager'].trim(),'setmgr','選択','','') ">{{ dmgr['manager'].trim() }}</a></li>
           </ul>
         </div>
-        <div v-bind:class="{'activeview': details_customer.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex2">
+        <div v-bind:class="{'activeview': details_customer.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex2 gc3">
           <h3 class="gc2">得意先</h3>
           <ul>
             <li v-for="(dcust,index) in details_customer" v-bind:key="index" class="itemcust"><a href="#" class="itemcust_a" @click.prevent="clickEvent('',index,dcust['customer'].trim(),'setcust','選択','','') "><span class="ccode">{{ dcust['customer_code'] }}</span><span class="customerline">{{ dcust['customer'].trim() }}</span></a></li>
           </ul>
         </div>
-        <div v-bind:class="{'activeview': details_enduser.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex1">
+        <div v-bind:class="{'activeview': details_enduser.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex1 gc3">
           <h3 class="gc2">エンドユーザー</h3>
           <ul>
             <li v-for="(dend,index) in details_enduser" v-bind:key="index" class="itemend"><a href="#" class="itemend_a" @click.prevent="clickEvent('',index,dend['enduser'].trim(),'setend','選択','',s_customer) ">{{ dend['enduser'].trim() }}</a></li>
-            <li>{{s_customer}}</li>
+            <!--<li>{{s_customer}}</li>-->
           </ul>
         </div>
         <div v-bind:class="{'activeview': details_product.length}" class="resultfindzone flex_flex_2 hiddenview transition2 zindex0">
           <h3 class="gc2">製品名</h3>
           <ul>
-            <li v-for="(dprod,index) in details_product" v-bind:key="index" class="itemprod"><a href="#" class="itemprod_a" @click.prevent="clickEvent('',index,dprod['product'].trim(),'setprod','選択','','') ">{{ dprod['product'].trim() }}</a></li>
+            <li v-for="(dprod,index) in details_product" v-bind:key="index" class="itemprod"><a href="#" class="itemprod_a" @click.prevent="clickEvent('',index,dprod['id'],'setprod','選択','','') ">{{ dprod['m_code'] }} {{ dprod['product'].trim() }}</a></li>
           </ul>
         </div>
       </div><!--end id cnt4-->
-      <div id="cnt4">
-        <div class="resultfindzone flex_flex_1">
-          <h3 class="gc2">製品名</h3>
-          <ul>
-            <li>エジソン</li>
-            <li>一休さん</li>
-            <li>千利休</li>
-            <li>シャクシャイン</li>
-            <li>バッキンガム</li>
-          </ul>
+      <div id="cnt4" class="mgt10">
+        <div v-bind:class="{'activeview': details.length}" class="resultfindzone flex_flex_1 hiddenview2 transition2 zindex0">
+          <h3 class="gc2">製品詳細</h3>
+          <div v-for="(item,index) in details" v-bind:key="item.id">
+            <div class="line">
+              <div class="inputgroup">
+                <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style" v-model="details[index].m_code" name="m_code" readonly><span></span></label>
+              </div>
+              <div class="inputgroup">
+                <label><span class="spanwidth_8">作成日</span><input type="text" class="form_style" v-model="details[index].create_date" name="create_date" readonly><span></span></label>
+              </div>
+            </div>
+            <div class="line">
+              <div class="inputgroup">
+                <label><span class="spanwidth_8">担当者</span><input type="text" class="form_style" v-model="details[index].manager" name="manager" readonly><span></span></label>
+              </div>
+            </div>
+            <div class="line">
+              <div class="inputgroup">
+                <label><span class="spanwidth_8">得意先</span><input type="text" class="form_style" v-model="details[index].customer_code" name="customer_code" readonly><input type="text" class="form_style" v-model="details[index].customer" name="customer" readonly></label>
+              </div>
+            </div>
+            <div class="line">
+              <div class="inputgroup">
+                <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w30" v-model="details[index].enduser" name="enduser" readonly></label>
+              </div>
+            </div>
+            <div class="line">
+              <div class="inputgroup">
+                <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w30" v-model="details[index].product" name="product" readonly></label>
+              </div>
+            </div>
+            <div class="line">
+              <div class="inputgroup">
+                <label><input type="text" class="form_style input_w2" v-model="details[index].parts_num" name="parts_num">P</label>
+              </div>
+              <div class="inputgroup">
+                <label>制作組数<input type="text" class="form_style input_w5" v-model="details[index].production_setnum" name="production_setnum">
+                <select name="production_setnum_unit" v-model="details[index].production_setnum_unit" class="form_style">
+                <option value=""></option>
+                <option v-for="(s001,indexs001) in select_arr_s001" v-bind:value="s001.code" >{{ s001.code_name }}</option>
+                </select>
+                </label>
+              </div>
+              <div class="inputgroup">
+                <label>制作冊数<input type="text" class="form_style input_w5" v-model="details[index].production_volnum" name="production_volnum">
+                <select name="production_volnum_unit" v-model="details[index].production_volnum_unit" class="form_style">
+                <option value=""></option>
+                <option v-for="(s002,indexs002) in select_arr_s002" v-bind:value="s002.code" >{{ s002.code_name }}</option>
+                </select>
+                </label>
+              </div>
+              <div class="inputgroup">
+                <span id="printing_mark" class="markzone mz_c1"></span>
+                <button type="button" id="printing_btn" class="btn_style1" @click="OnButtonClickT('printing');">印刷有り</button>
+                <input type="text" class="input_w1" value="1" v-model="details[index].printing"  name="printing" id="printing">
+              </div>
+            </div>
+            <div class="line">
+              <div class="inputgroup">
+                <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
+                <button type="button" id="inch_btn" class="btn_style1" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
+              </div>
+              <div class="inputgroup">
+                <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
+                <button type="button" id="milli_btn" class="btn_style1" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
+                <input type="text" class="input_w1" value="0" v-model="details[index].unit" name="unit" id="unit">
+              </div>
+              <div class="inputgroup">
+                <label>紙取<input type="text" class="form_style input_w2" v-model="details[index].papertray" name="papertray">切</label>
+              </div>
+              <div class="inputgroup">
+                面付け...
+                <label>横<input type="text" class="form_style input_w2" v-model="details[index].imposition_w" name="imposition_w"></label>
+                ×
+                <label>縦<input type="text" class="form_style input_w2" v-model="details[index].imposition_h" name="imposition_h"></label>
+              </div>
+            </div>
+            <div class="line">
+              <div class="inputgroup">
+                <label>シリンダー
+                <select name="cylinder" class="form_style" v-model.trim="details[index].cylinder">
+                <option value=""></option>
+                <option v-for="(s004,indexs004) in select_arr_s004" v-bind:value="s004.code" :key="s004.code">{{ s004.code_name }}</option>
+                </select>
+                </label>
+                <label><input type="text" class="form_style input_w2" v-model="details[index].cylinder_num" name="cylinder_num">本</label>
+              </div>
+              <div class="inputgroup">
+                サイズ...
+                <label>横<input type="text" class="form_style input_w3" v-model="details[index].size_w" name="size_w"></label>
+                ×
+                <label>縦<input type="text" class="form_style input_w3" v-model="details[index].size_h" name="size_h"></label>
+                <input type="text" class="form_style input_w2" v-model="details[index].size_top" name="size_top">/<input type="text" class="form_style input_w2" v-model="details[index].size_bottom" name="size_bottom">
+                <label>
+                <select name="inch_fold" class="form_style" v-model.trim="details[index].inch_fold">
+                <option value=""></option>
+                <option v-for="(s005,indexs005) in select_arr_s005" v-bind:value="s005.code" :key="s005.code">{{ s005.code_name }}</option>
+                </select>
+                インチ折
+                </label>
+                
+              </div>
+            </div>
+
+
+            <!--<div>{{all_dpc_arr}}</div>-->
+            <div class="line">
+              <div class="inputgroup" v-for="(p001,indexp001) in container_arr_p001" :key="p001.id">
+                <span :id="'parts' + container_arr_p001[indexp001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_p001[indexp001].code == all_dpc_arr[indexp001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexp001]}}
+                <a href="#" :id="'parts' + container_arr_p001[indexp001].code + '_btn'" @click="SetParts(p001.code, p001.code_name);">{{ container_arr_p001[indexp001].code_name }}</a>
+              </div>
+            </div>
+
+
+            <div id="department01" class="mgt40">
+              <div class="inputgroup">
+                <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
+                <textarea name="comment" class="form_style_textarea" v-model="details[index].comment" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
+                </label>
+              </div>
+            </div><!--end department01-->
+          </div><!--end v-for-->
+
+
         </div>
       </div><!--end id cnt4-->
 
@@ -107,46 +238,15 @@
           </div>
         </div>
 
-
-        <div id="cnt_search">
-          <form id="searchform">
-          <h4>{{ sr_title }}<span id="search_com" class="v_hidden"></span></h4>
           <div class="actionmsg_array mgt10 print-none" v-if="actionmsgArr.length">
             <ul class="">
               <li v-for="(actionmsg,index) in actionmsgArr" v-bind:key="index">{{ actionmsg }}</li>
             </ul>
           </div>
-          <div id="search_result" v-if="searchview === 'doc'">
-            <table id="quodoc">
-              <thead>
-                <tr>
-                  <th class="w2"></th>
-                  <th class="nrap">見積書番号</th>
-                  <th class="">作成日</th>
-                  <th class="nrap">得意先コード</th>
-                  <th class="nrap">得意先名</th>
-                  <th class="">形態</th>
-                  <th class="w1">製品名</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(ditem,drowIndex) in 45" :key="drowIndex">
-                  <td class="w2">
-                    <!--<input type="radio" name="wm_code" value="">-->
-                    <button type="button" class="srbtn" @click="MitGoBtn(ditem['id'],ditem['m_code'])">
-                      見積
-                    </button>
-                  </td>
-                  <td class="nrap">22060123</td>
-                  <td class="nrap">2022年6月18日</td>h_com
-                  <td class="nrap">54321</td>
-                  <td class="nrap">JR北海道</td>
-                  <td class="nrap">通常</td>
-                  <td class="">線路施設工事線区別日報</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+
+        <div id="cnt_search">
+          <form id="searchform">
+          <h4>{{ sr_title }}<span id="search_com" class="v_hidden"></span></h4>
           <div id="search_result" v-if="searchview === 'mit'">
             <table id="quomit">
               <thead>
@@ -183,228 +283,13 @@
       </div><!--end id cnt1-->
 
 
-      <div id="printzone" v-if="printview === '1'">
-
-        <popup-print
-        v-bind:m-code="m_code"
-        v-bind:print-data="printdata"
-        v-bind:print-title="printtitle"
-        v-on:pricancel-event="Pricancel"
-        ></popup-print>
-        <div id="php_view">ファイル読み込み中...</div>
-      </div>
-
-      <div id="printgaiyo"></div>
 
 
 
 
-      <div id="print2zone" v-if="printview === '2'">
-
-        <div id="print2_title">
-          <h1>三条印刷　製品便覧</h1>
-          <div class="abs_r">L06541</div>
-        </div>
 
 
 
-        <div id="print2_main">
-          <div id="p2_cnt">
-            <dl>
-              <dt class="em5">得意先</dt>
-              <dd>変数欄</dd>
-            </dl>
-            <dl>
-              <dt class="em5">需要家</dt>
-              <dd>変数欄</dd>
-            </dl>
-            <dl>
-              <dt class="em5">製品名</dt>
-              <dd>変数欄</dd>
-            </dl>
-          </div>
-
-          <div id="p2_cnt_flex" class="mgt20">
-              <dl>
-                <dt class="em5">サイズ</dt>
-                <dd>変数欄</dd>
-              </dl>
-              <dl>
-                <dt class="em3">姿</dt>
-                <dd>変数欄</dd>
-              </dl>
-              <dl>
-                <dt class="em4">印刷</dt>
-                <dd>変数欄</dd>
-              </dl>
-          </div>
-
-          <div id="p2_cnt_flex2" class="mgt20">
-            <div class="waku">
-              <dl>
-                <dt class="em3">数量</dt>
-                <dd>変数欄</dd>
-              </dl>
-              <dl>
-                <dt class="em4">総数量</dt>
-                <dd>変数欄</dd>
-              </dl>
-            </div>
-            <div class="waku">
-              <dl>
-                <dt class="em6">シリンダー</dt>
-                <dd>変数欄</dd>
-              </dl>
-            </div>
-          </div>
-
-          <!--✽  &#10045;-->
-          <div id="p2_tbl" class="mgt20">
-            <table>
-              <thead>
-                <tr>
-                  <th class="w2">P</th>
-                  <th class="nrap">用紙・紙質</th>
-                  <th colspan="6" class="">オプション</th>
-                  <th colspan="9" class="">フォーム</th>
-                  <th colspan="2" class="">ＯＦ</th>
-                  <th colspan="9" class="">活版</th>
-                  <th colspan="6" class="">ダイカッタ</th>
-                </tr>
-                <tr>
-                  <th class=""></th>
-                  <th class=""></th>
-
-                  <th class="w1">減感</th>
-                  <th class="w1">カボン</th>
-                  <th class="w1">ホワイ</th>
-                  <th class="w1">セパレ</th>
-                  <th class="w1">表色数</th>
-                  <th class="w1">裏色数</th>
-
-                  <th class="w1">ミシン</th>
-                  <th class="w1">Ｊミン</th>
-                  <th class="w1">Ｍミン</th>
-                  <th class="w1">ＪＭミ</th>
-                  <th class="w1">スジ入</th>
-                  <th class="w1">スリト</th>
-                  <th class="w1">ナンバ</th>
-                  <th class="w1">コーナ</th>
-                  <th class="w1">ＩＪＰ</th>
-
-                  <th class="w1">ミシン</th>
-                  <th class="w1">ナンバ</th>
-
-                  <th class="w1">ミシン</th>
-                  <th class="w1">Ｊミン</th>
-                  <th class="w1">Ｍミン</th>
-                  <th class="w1">ＪＭミ</th>
-                  <th class="w1">スジ入</th>
-                  <th class="w1">スリト</th>
-                  <th class="w1">型抜き</th>
-                  <th class="w1">親子№</th>
-                  <th class="w1">ナンバ</th>
-
-                  <th class="w1">ミシン</th>
-                  <th class="w1">Ｊミン</th>
-                  <th class="w1">Ｍミン</th>
-                  <th class="w1">ＪＭミ</th>
-                  <th class="w1">穴ヶ所</th>
-                  <th class="w1">コーナ</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(gitem,growIndex) in 15" :key="growIndex">
-                  <td class="">{{growIndex + 1}}</td>
-                  <td class="txtstyle">用紙名が入る</td>
-
-                  <td class="">*</td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class="">*</td>
-                  <td class="">4</td>
-                  <td class="">1</td>
-
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-
-                  <td class=""></td>
-                  <td class=""></td>
-
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                  <td class=""></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-          <div id="p2_cnt2" class="mgt20">
-            <dl>
-              <dt class="width_style">組版</dt>
-              <dd>変数欄</dd>
-            </dl>
-            <dl>
-              <dt class="width_style">フォーム部</dt>
-              <dd>変数欄</dd>
-            </dl>
-            <dl>
-              <dt class="width_style">オフセット部</dt>
-              <dd>変数欄</dd>
-            </dl>
-            <dl>
-              <dt class="width_style">情報処理</dt>
-              <dd>変数欄</dd>
-            </dl>
-            <dl>
-              <dt class="width_style">コレート</dt>
-              <dd>変数欄</dd>
-            </dl>
-            <dl>
-              <dt class="width_style">ネームライナ</dt>
-              <dd>変数欄</dd>
-            </dl>
-            <dl>
-              <dt class="width_style">製本</dt>
-              <dd>変数欄</dd>
-            </dl>
-          </div>
-
-
-          <div id="p2_cnt3">
-            <dl>
-              <dt>最終受注日</dt>
-              <dd>年月日</dd>
-            </dl>
-          </div>
-        </div>
-
-        <div id="print_btnzone" class="print-none">
-          <button type='button' onclick='window.print(); return false;'>印刷</button>
-          <button type='button' @click="Pricancel();">閉じる</button>
-        </div>
-      </div>
 
     </div><!-- end class mainframe -->
   </div>
@@ -438,13 +323,16 @@ export default {
       details_customer: [],
       details_enduser: [],
       details_product: [],
+      details_productdetails: [],
       details: [],
       details_parts: [],
+      details_parts_min: [],
       details_body: "",
       login_user_code: 0,
       login_user_role: 0,
       dialogVisible: false,
       messageshowsearch: false,
+      loading: false,
 
       s_m_code: "",
       s_manager: "",
@@ -475,6 +363,7 @@ export default {
       select_arr_s003: [],
       select_arr_s004: [],
       select_arr_s005: [],
+      container_arr_p001: [],
 
     };
   },
@@ -520,7 +409,7 @@ export default {
 
           console.log('クリアしました');
         }
-        else if(cf == 'set') {
+        else if(cf == 'setmgr') {
           //var Jperformance = document.getElementById('performance_' + val1).value;
           //var elems = document.querySelectorAll('.cls1, .cls2');
           var elems = document.querySelectorAll('.setitem');
@@ -534,12 +423,17 @@ export default {
           //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
           var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
           if( result ) {
+            this.details_customer = [];
+            this.details_enduser = [];
+            this.details_product = [];
+            this.details = [];
             document.getElementsByClassName("setitem")[val1].style.background = "#548017";
             document.getElementsByClassName("setitem_a")[val1].style.color = "#FFF";
             //fm.s_id.value = val1;
             //fm.s_performance.value = Jperformance;
             //fm.action = '/w';
             //fm.submit();
+            this.loading = true;
             this.getCustomer(val2);
           }
           else {
@@ -556,8 +450,12 @@ export default {
           }
           var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
           if( result ) {
+            this.details_enduser = [];
+            this.details_product = [];
+            this.details = [];
             document.getElementsByClassName("itemcust")[val1].style.background = "#548017";
             document.getElementsByClassName("itemcust_a")[val1].style.color = "#FFF";
+            this.loading = true;
             this.getEnduser(val2);
           }
           else {
@@ -574,8 +472,11 @@ export default {
           }
           var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n' + smd);
           if( result ) {
+            this.details_product = [];
+            this.details = [];
             document.getElementsByClassName("itemend")[val1].style.background = "#548017";
             document.getElementsByClassName("itemend_a")[val1].style.color = "#FFF";
+            this.loading = true;
             this.getProduct(val2);
           }
           else {
@@ -583,56 +484,24 @@ export default {
           }
 
         }
-        else if(cf == 'confirm_work_update') {
-          var Jperformance = document.getElementById('performance_' + val1).value;
-          //var Jstatus = fm.status.value;
-          //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
-          var result = window.confirm( com1 +'\n'+ Jperformance +'');
+        else if(cf == 'setprod') {
+          var elems = document.querySelectorAll('.itemprod');
+          var elemsa = document.querySelectorAll('.itemprod_a');
+          for (var i = 0; i < elems.length; i++){
+            elems[i].style.background = "none";
+            elemsa[i].style.color = "#000";
+          }
+          var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n');
           if( result ) {
-            //fm.s_id.value = val1;
-            //fm.s_performance.value = Jperformance;
-            //fm.action = '/w';
-            //fm.submit();
-            this.ListUpdate(val1);
+            //this.details = [];
+            document.getElementsByClassName("itemprod")[val1].style.background = "#548017";
+            document.getElementsByClassName("itemprod_a")[val1].style.color = "#FFF";
+            this.loading = true;
+            this.getDetails(val2);
           }
           else {
             console.log('キャンセルがクリックされました');
           }
-
-        }
-        else if(cf == 'confirm_update') {
-          var Jwork_name = fm.work_name.value;
-          var Jdepartments_name = fm.departments_name.value;
-          //var Js_product_code = fm.s_product_code.value;
-          //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
-          var result = window.confirm('部署名 : ' + Jdepartments_name + '\n工程 : ' + Jwork_name + '\n' + com1 + 'します');
-          if( result ) {
-            //fm.mode.value = md;
-            fm.motion.value = 'reload';
-            fm.action = '/process/insert';
-            fm.submit();
-          }
-          else {
-            console.log('キャンセルがクリックされました');
-          }
-        }
-        else if(cf == 'select_del') {
-          //var Jwork_name = fm.work_name.value;
-          //var Jdepartments_name = fm.departments_name.value;
-          //var Js_product_code = fm.s_product_code.value;
-          //value="DEL" id="work_code_del"
-          //var result = window.confirm( com1 +'\\n\\n店舗名 : '+ Jname +'\\nコード : '+ Jname_code +'');
-          var result = window.confirm('部署名 : ' + val1 + '\n' + com1 + 'します');
-          if( result ) {
-            //fm.work_code.value = 'DEL';
-            fm.mode.value = md;
-            fm.action = '/process/insert';
-            fm.submit();
-          }
-          else {
-            console.log('キャンセルがクリックされました');
-          }
-
 
         }
         else {
@@ -695,10 +564,6 @@ export default {
       
 
     },
-    MitGoBtn(i,mcode) {
-
-
-    },
     // 見積編集Click
     QuoClick() {
       const element = document.getElementById( "searchform" ) ;
@@ -723,317 +588,8 @@ export default {
         }
       }
     },
-    // 内容Click
-    ContentsClick() {
-      const element = document.getElementById( "searchform" ) ;
-      var radioNodeList = element.m_codes ;
-      //console.log( 'radioNodeList = ' + radioNodeList ) ;
-
-      //if (typeof a === "undefined") {
-      if (radioNodeList == null) {
-        alert('見積の検索をして下さい。');
-      }
-      else {
-        var vvmc = radioNodeList.value ;
-        if ( vvmc === "" ) {
-          alert('検索結果一覧より見積を選択して下さい。');
-          
-        } else {
-          
-          this.printtitle = "見積内容 ― 製品名 ―";
-          this.printdata = "【見積番号】" + this.details[vvmc]['m_code'] + "【作成日】" + this.details[vvmc]['create_date'] + " 【担当者】011 萬谷朋子 【OPRT】萬谷 【素見積】D15520\n";    
-          this.printdata += "【得意先】 119  萬  谷（一 般）\n";
-          this.printdata += "【エンドユーザー】 すずらん商事\n";
-          this.printdata += "【製品名】 納品書（タイトルなし）\n";
-          this.printdata += "【数量】1Ｐ 100,000枚 【総数量】100,000 【総通し数】50,000\n";
-          this.printdata += "【規格】ミリ 【シリンダー】10.5インチ 3本 10.5インチ折\n";
-
-          this.printdata += "<hr>";
-
-          this.printdata += "【シリンダー】3 X 5000 = 15,000\n";
-          this.printdata += "【フォーム部】\n";
-          this.printdata += "【フォーム部合計】11,500 \n";
-          this.printdata += "【版下設定】範疇：新版, 種別：フォーム, 難度：Ａ, 面積:72インチ平方, 料金:3000 \n";
-          this.printdata += "       ＣＴＰ 3版 \n";
-          this.printdata += "【組版・製版合計】12,000 \n";
-          this.printdata += "【製　本】\n";
-          this.printdata += "      [断裁・イン] [バースター] \n";
-          this.printdata += "      [バラ] \n";
-          this.printdata += "【梱包等】 [Ａ式] 2,500入り  40箱 X @250 = 10,000, \n";
-          this.printdata += "【製本合計】66,000 \n";
-          this.printdata += "【発　送】市内 40個 X 150 = 6,000, 【送料合計】 6,000 \n";
-
-          this.printdata += "<hr>";
-
-          this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
-          this.printdata += "【提示額】245,000 単価 2.45-\n";
-
-          this.printdata += "vvmc -> " + vvmc;
 
 
-          //this.m_code = "D11999";
-          this.m_code = this.details[vvmc]['m_code'];
-          console.log('m_code:' + this.m_code);
-          const nopri = 'cnt1';
-          var nopriid = document.getElementById(nopri);
-          //nopriid.style.visibility = "visible";
-          nopriid.style.display = "none";
-          this.printview = '1';
-          //console.log( vvmc ) ;
-
-
-
-
-          
-          let post_data = new FormData();
-          var pmcode = this.details[vvmc]['m_code'];
-          var motion_msg = "パーツ検索";
-          /*
-          var arrayParams = { 
-            s_m_code : pmcode , 
-
-          };
-          this.postRequest("/qparts/get", arrayParams)
-            .then(response  => {
-              this.putThenParts(response, motion_msg);
-            })
-            .catch(reason => {
-              this.serverCatch("パーツget");
-            });
-            */
-
-
-            /*
-            function sleep(ms, generator) {
-              setTimeout(() => generator.next(), ms);
-            }
-
-
-            var main = (function*() {
-              console.log(`停止前: ${getDisplayDate()} 秒`);
-              yield sleep(5*1000, main);
-
-              console.log(`停止後: ${getDisplayDate()} 秒`);
-            })();
-            main.next();
-
-            //現在時刻を取得
-            function getDisplayDate(){
-              let date = new Date();
-              let Hour = ('0' + date.getHours()).slice(-2)
-              let Minute = ('0' + date.getMinutes()).slice(-2)
-              let Second = ('0' + date.getSeconds()).slice(-2)
-
-              return Hour + ':' + Minute + ':' + Second
-            }
-            */
-
-
-
-
-
-
-
-
-
-          let xhr = new XMLHttpRequest();
-          xhr.open('POST', `openview.php`, true);
-          xhr.addEventListener('load', function () {
-            //console.log(this.response);
-            //window.open(this.response);
-            var phpview = document.getElementById("php_view") ;
-            phpview.innerHTML = "" + this.response;
-          });
-
-          //var details_arr = JSON.parse(this.details);
-          var details_arr = JSON.stringify(this.details[vvmc]);
-          //var details_arr = this.details[vvmc].m_code;
-          console.log('details_arr:' + details_arr);
-          //var elA = JSON.parse(details_arr);
-          
-          var parts_arr = JSON.stringify(this.details_parts);
-          //console.log('parts_arr:' + parts_arr);
-          //console.log('parts_arr2:' + this.details_parts);
-
-          //let post_data = new FormData();
-          post_data.append('details_arr', details_arr);
-          post_data.append('parts_arr', parts_arr);
-          post_data.append('m_code', this.details[vvmc]['m_code']);
-          post_data.append('create_date', this.details[vvmc]['create_date']);
-          /*
-          this.details.forEach(function(elements, index, array){
-            //var elJ = JSON.stringify(elements);
-            //var elA = JSON.parse(elJ);
-
-            post_data.append('details[' + index + ']', elements.m_code);
-            console.log('D-Index:' + index);
-            console.log('D-Element:' + elements.m_code);
-            //console.log('Array:' + array);
-          });
-          */
-
-          this.details_parts.forEach(function(element, index, array){
-            //post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
-            console.log('details_parts Index:' + index);
-            console.log('details_parts Element:' + element);
-          });
-
-
-          this.select_arr_s001.forEach(function(element, index, array){
-            post_data.append('select_arr_s001[' + (index + 1) + ']', element['code_name']);
-            //console.log('s001 Index:' + index);
-            //console.log('s001 Element:' + element['code_name']);
-          });
-          this.select_arr_s002.forEach(function(element, index, array){
-            post_data.append('select_arr_s002[' + (index + 1) + ']', element['code_name']);
-
-            //console.log('s002 Index:' + index);
-            //console.log('s002 Element:' + element['code_name']);
-            //console.log('Array:' + array);
-          });
-          this.select_arr_s003.forEach(function(element, index, array){
-            post_data.append('select_arr_s003[' + (index + 1) + ']', element['code_name']);
-          });
-          this.select_arr_s004.forEach(function(element, index, array){
-            post_data.append('select_arr_s004[' + (index + 1) + ']', element['code_name']);
-          });
-          this.select_arr_s005.forEach(function(element, index, array){
-            post_data.append('select_arr_s005[' + (index + 1) + ']', element['code_name']);
-          });
-          xhr.send(post_data);
-          //xhr.send();
-
-
-        }
-      }
-    },
-
-
-    OverviewClick() {
-      const element = document.getElementById( "searchform" ) ;
-      var radioNodeList = element.m_codes ;
-      //console.log( 'radioNodeList = ' + radioNodeList ) ;
-      //if (typeof a === "undefined") {
-      if (radioNodeList == null) {
-        alert('見積の検索をして下さい。');
-      }
-      else {
-        var vvmc = radioNodeList.value ;
-        if ( vvmc === "" ) {
-          // 未選択状態
-          alert('検索結果一覧より見積を選択して下さい。');
-        } else {
-
-
-          /*
-          $.ajax({
-            url : 'm_101.php',
-            type: 'post',
-            dataType : 'html',
-            data : { "vvmc": vvmc, "name": "アイランドラビリンス", },
-            success : function(resultdata){
-                $('#printgaiyo').html(resultdata);
-                //ajaxJs();
-            },
-            error: function(data){
-                $('#printgaiyo').html(data);
-            }
-          });
-          */
-
-          const nopri = 'cnt1';
-          var nopriid = document.getElementById(nopri);
-          nopriid.style.display = "none";
-          this.printview = '2';
-          //printgaiyo.style.display = "block";
-
-
-
-          /*
-          // 基本的にはresponse.dataにデータが返る
-          function UPDATEcollect() {
-            var tn = document.getElementById('t_number').value;
-            var name = document.getElementById('name').value;
-            var namecode = document.getElementById('name_code').value;
-            console.log("t_number cn :" + tn);
-            const res = axios.post("input_update.php", {
-              t_number: tn,
-              name: name,
-              name_code: namecode,
-              mode: 'statusupdate',
-            })
-            .then(response => {
-              appendList(response.data);
-              
-            })
-            .catch(error => {
-              window.error(error.response.data);
-            });
-          }
-          */
-
-
-
-
-
-          const Str = "変数テスト";
-
-          this.searchdetail = `
-          <!DOCTYPE html>
-          <html lang="ja">
-          <head>
-          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-          <meta http-equiv="Content-Language" content="ja" />
-          <title>TEST!</title>
-          <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-          <meta http-equiv="Content-Style-Type" content="text/css" />
-          <meta http-equiv="Content-Script-Type" content="text/javascript" />
-          <link rel="stylesheet" type="text/css" href="./css/site.css" media="screen,print" />
-          </head>
-          <body>
-
-          <button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button>
-          <div id="print_cnt_title">
-            <h1>三条印刷　製品便覧</h1>
-            <div class="abs_r">L06541</div>
-          </div>
-
-          <div id="print_cnt_main">
-            <div>得意先</div>
-
-
-          </div>
-                    <h3>文字列</h3>
-                    <div>
-                      ヒアドキュメント<br>
-                      テスト出力<br>
-                      ${Str}<br>
-                    </div>
-          ${vvmc}
-
-          </body>
-          </html>
-          `;
-
-          //var myWindow = window.open("", "myWindow", "width=900, height=600, top=0, left=0");
-          //myWindow.document.write(this.searchdetail);
-          //myWindow.document.write("<div id='popup_cnt'><div>見積内容！</div><button id='popup_printbtn' type='button' onclick='window.print(); return false;'>印刷</button></div>" + vvmc);
-          //console.log( vvmc ) ;
-
-
-        }
-      }
-    },
-    Pricancel() {
-      const tid = "cnt1";
-      var targetid = document.getElementById(tid);
-      //targetid.style.visibility = "visible";
-      targetid.style.display = "block";
-      this.printview = false;
-
-      console.log('プリント画面 終了');
-
-    },
 
     preloader() {
       let table = document.getElementById("quomit");
@@ -1079,6 +635,10 @@ export default {
     },
 
 
+    viewStrLen(){
+      var len = document.getElementById("textarea1").value.length;
+      document.getElementById("strLen").innerText = len + "文字";
+    },
 
 
     // -------------------- サーバー処理 --------------------
@@ -1104,6 +664,7 @@ export default {
       axios.post("/qanotherline/getmgr", arrayParams)
         .then(response  => {
           this.getThenManager(response);
+          this.loading = false;
         })
         .catch(reason => {
           this.serverCatch("取得");
@@ -1120,6 +681,7 @@ export default {
       this.postRequest("/qanotherline/getcust", arrayParams)
         .then(response  => {
           this.getThenCustomer(response);
+          this.loading = false;
         })
         .catch(reason => {
           this.serverCatch("取得");
@@ -1136,6 +698,7 @@ export default {
       this.postRequest("/qanotherline/getend", arrayParams)
         .then(response  => {
           this.getThenEnduser(response);
+          this.loading = false;
         })
         .catch(reason => {
           this.serverCatch("取得");
@@ -1153,12 +716,35 @@ export default {
       this.postRequest("/qanotherline/getprod", arrayParams)
         .then(response  => {
           this.getThenProduct(response);
+          this.loading = false;
+        })
+        .catch(reason => {
+          this.serverCatch("取得");
+        });
+    },
+    getDetails(val) {
+      //this.inputClear();
+      console.log("getDetails in val = " + val);
+      var arrayParams = { 
+        s_id : val,
+        s_m_code : '',
+        s_customer : this.s_customer,
+        s_enduser : '',
+      };
+      //axios.post("/qanotherline/getcust", arrayParams)
+      this.postRequest("/qanotherline/getdetails", arrayParams)
+        .then(response  => {
+          this.getThenDetails(response);
+          this.loading = false;
         })
         .catch(reason => {
           this.serverCatch("取得");
         });
     },
  
+
+    
+
 
     // -------------------- 共通 --------------------
     // 取得正常処理
@@ -1217,7 +803,7 @@ export default {
         this.s_customer = res.s_customer;
         this.details_enduser = res.details_enduser;
         let addeu = {
-          "enduser": this.s_customer + "全て"
+          "enduser": "すべて"
         }
         this.details_enduser.push(addeu);
       } else {
@@ -1229,13 +815,28 @@ export default {
       }
       console.log('取得正常処理');
     },
-    // エンドユーザー取得
+    // 製品名取得
     getThenProduct(response) {
       var res = response.data;
       //console.log('getthen in res = ' + res);
       if (res.result) {
         this.details_product = res.details_product;
         this.s_customer = res.s_customer;
+      } else {
+        if (res.messagedata.length > 0) {
+          this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
+        } else {
+          this.serverCatch("エンドユーザー取得");
+        }
+      }
+      console.log('取得正常処理');
+    },
+    // 製品詳細取得
+    getThenDetails(response) {
+      var res = response.data;
+      //console.log('getthen in res = ' + res);
+      if (res.result) {
+        this.details = res.details;
       } else {
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);

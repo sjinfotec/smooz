@@ -271,6 +271,66 @@ class QAnotherlineController extends Controller
 
 
 
+    /** product details(製品詳細)取得
+     *
+     * @return list results
+     */
+    public function getDetailsData(Request $request){
+        $this->array_messagedata = array();
+        $result = true;
+        try {
+
+            // パラメータチェック
+            $params = array();
+            if (!isset($request->keyparams)) {
+                Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', "keyparams", Config::get('const.LOG_MSG.parameter_illegal')));
+                $this->array_messagedata[] = Config::get('const.MSG_ERROR.parameter_illegal');
+                return response()->json(
+                    ['result' => false, 'details' => null,
+                    Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata]
+                );
+            }
+            $params = $request->keyparams;
+            //Log::debug("getDataSearch params[s_order_no] = ".$params['s_order_no']);
+            if (!isset($params['s_id'])) {
+                Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.str_replace('{0}', "edit_id", Config::get('const.LOG_MSG.parameter_illegal')));
+                $this->array_messagedata[] = Config::get('const.MSG_ERROR.parameter_illegal');
+                return response()->json(
+                    ['result' => false, 'details' => null, 'params' => $params,
+                    Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata]
+                );
+            }
+
+            $s_id = isset($params['s_id']) ? $params['s_id'] : "";
+
+            $qsearch = new QSearch();
+            //if(isset($s_m_code))      $quotationsparts->setParamM_codeAttribute($s_m_code);
+            if(isset($s_id))      $qsearch->setParamIdAttribute($s_id);
+            $details =  $qsearch->getDetails();
+
+
+            return response()->json(
+                [
+                    'result' => $result, 
+                    's_id' => $s_id, 
+                    'details' => $details,
+                    Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
+                ]
+            );
+
+
+        }catch(\PDOException $pe){
+            throw $pe;
+        }catch(\Exception $e){
+            Log::error('class = '.__CLASS__.' method = '.__FUNCTION__.' '.Config::get('const.LOG_MSG.unknown_error'));
+            Log::error($e->getMessage());
+            throw $e;
+        }
+
+    }
+
+
+
 
 
 

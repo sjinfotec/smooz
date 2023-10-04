@@ -325,6 +325,18 @@ header .header_login_info a {
 #maincontents {
   padding:8px;
 }
+.nowloading {
+  position:fixed;
+  top:50%;
+  left:calc(50% + 100px);
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.7);
+  /*width: 20%;*/
+  /*height: 20%;*/
+  padding: 50px;
+  border-radius: 10px;
+  z-index:20;
+}
 .gotop{
   position: fixed;
   box-sizing: border-box;
@@ -1434,6 +1446,25 @@ header .header_login_info a {
 #cnt4 h3 {
   color:#555;
 }
+#cnt4 input,select {
+  outline: none;
+  border: none;
+  border-bottom: 1px dashed #CCC;
+  border-left: 1px dashed #CCC;
+}
+#cnt4 .line {
+  display:flex;
+  width:100%;
+  flex-wrap:wrap;
+
+}
+#cnt4 .inputgroup {
+  margin-top:1.4rem;
+  margin-left:0.5rem;
+  margin-right:0.5rem;
+
+}
+
 .resultfindzone {
   position: relative;
   font-size: 1em;
@@ -1441,6 +1472,8 @@ header .header_login_info a {
 }
 .resultfindzone ul  {
   list-style: none;
+  overflow: auto;
+  height: 70vh;
 }
 .setitem_a  {
   color: #000;
@@ -1471,6 +1504,13 @@ header .header_login_info a {
   visibility: hidden;
   opacity: 0;
   left: -200px;
+
+}
+.hiddenview2 {
+  position:relative;
+  visibility: hidden;
+  opacity: 0;
+  left: 0px;
 
 }
 .activeview {
