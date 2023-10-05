@@ -115,7 +115,16 @@
                 <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
                 <button type="button" id="milli_btn" class="btn_style1" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
                 <input type="text" class="input_w1" value="0" v-model="details[index].unit" name="unit" id="unit">
+
               </div>
+
+              <div class="inputgroup flex flex_ai_c">
+                  <label v-for="(s003,indexs003) in select_arr_s003" v-bind:for="'unit' + indexs003">
+                    <input type="radio" v-bind:id="'unit' + indexs003" name="unit" v-bind:value="s003.code" v-model="details[index].unit" disabled />
+                    {{ s003.code_name }}
+                  </label>
+              </div>
+
               <div class="inputgroup">
                 <label>紙取<input type="text" class="form_style input_w2" v-model="details[index].papertray" name="papertray">切</label>
               </div>
@@ -173,7 +182,38 @@
           </div><!--end v-for-->
 
 
+
+
+          <div class="line">
+            <div class="inputgroup">
+              <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
+              <button type="button" id="search_doc_btn" @click="SearchClick('doc',0,'見積書');">見積書を検索</button>
+            </div>
+            <div class="inputgroup">
+              <span id="mit_mark" class="markzone mz_c2 v_hidden"></span>
+              <button type="button" id="search_mit_btn" @click="SearchClick('mit',0,'見積');">見積を検索</button>
+            </div>
+            <!--
+            <div class="inputgroup">
+              <div class="caretxt">&#10045; 部分一致可</div>
+            </div>
+            -->
+            <div class="inputgroup mgl_auto">
+              <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
+            </div>
+          </div>
+
+
+
+
+
+
         </div>
+
+
+
+
+
       </div><!--end id cnt4-->
 
 
@@ -181,47 +221,7 @@
 
 
       <div id="cnt1" >
-        <div class="line">
-          <div class="inputgroup3">
-            <label><span class="spanwidth_8">見積番号</span><input type="text" class="form_style input_w100p_m" v-model="s_m_code" name="s_m_code"></label>
-          </div>
-          <div class="inputgroup3">
-            <label><span class="spanwidth_8">得意先コード</span><input type="text" class="form_style input_w100p_m" v-model="s_customer_code" name="s_customer_code"></label>
-          </div>
-          <div class="inputgroup3">
-            <label><span class="spanwidth_8">得意先名<!--<span class="care">&#10045;</span>--></span><input type="text" class="form_style input_w100p_m" v-model="s_customer" name="s_customer"></label>
-          </div>
-        </div>
-        <div class="line">
-          <div class="inputgroup3">
-            <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w100p_m" v-model="s_enduser" name="s_enduser"></label>
-          </div>
-          <div class="inputgroup3">
-            <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w100p_m" v-model="s_product" name="s_product"></label>
-          </div>
-          <div class="inputgroup4">
-            <label><span class="spanwidth_8">作成年月（期間）</span><span class="spanblock1"><input type="text" class="form_style input_search_w1" v-model="s_date_start" name="s_date_start">～<input type="text" class="form_style input_search_w1" v-model="s_date_end" name="s_date_end"></span></label>
-          </div>
-        </div>
 
-        <div class="line">
-          <div class="inputgroup">
-            <span id="doc_mark" class="markzone mz_c2 v_hidden"></span>
-            <button type="button" id="search_doc_btn" @click="SearchClick('doc',0,'見積書');">見積書を検索</button>
-          </div>
-          <div class="inputgroup">
-            <span id="mit_mark" class="markzone mz_c2 v_hidden"></span>
-            <button type="button" id="search_mit_btn" @click="SearchClick('mit',0,'見積');">見積を検索</button>
-          </div>
-          <!--
-          <div class="inputgroup">
-            <div class="caretxt">&#10045; 部分一致可</div>
-          </div>
-          -->
-          <div class="inputgroup mgl_auto">
-            <button type="button" @click="clickEvent('','','','clear','クリア','','') ">クリア</button>
-          </div>
-        </div>
 
         <div class="line mgt20" v-if="searchview === 'mit'">
           <div class="inputgroup">
@@ -333,6 +333,7 @@ export default {
       dialogVisible: false,
       messageshowsearch: false,
       loading: false,
+      result: false,
 
       s_m_code: "",
       s_manager: "",
@@ -369,8 +370,8 @@ export default {
   },
   // マウント時
   mounted() {
-    //this.login_user_code = this.authusers["code"];
     this.getManager();
+
   },
   methods: {
     // -------------------- イベント処理 --------------------
@@ -421,7 +422,8 @@ export default {
           }
           //var Jstatus = fm.status.value;
           //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
-          var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
+          //var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
+          var result = true;
           if( result ) {
             this.details_customer = [];
             this.details_enduser = [];
@@ -448,7 +450,8 @@ export default {
             elems[i].style.background = "none";
             elemsa[i].style.color = "#000";
           }
-          var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
+          //var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
+          var result = true;
           if( result ) {
             this.details_enduser = [];
             this.details_product = [];
@@ -470,7 +473,8 @@ export default {
             elems[i].style.background = "none";
             elemsa[i].style.color = "#000";
           }
-          var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n' + smd);
+          //var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n' + smd);
+          var result = true;
           if( result ) {
             this.details_product = [];
             this.details = [];
@@ -491,9 +495,10 @@ export default {
             elems[i].style.background = "none";
             elemsa[i].style.color = "#000";
           }
-          var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n');
+          //var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n');
+          var result = true;
           if( result ) {
-            //this.details = [];
+            this.details = [];
             document.getElementsByClassName("itemprod")[val1].style.background = "#548017";
             document.getElementsByClassName("itemprod_a")[val1].style.color = "#FFF";
             this.loading = true;
@@ -778,7 +783,7 @@ export default {
           this.serverCatch("取得");
         }
       }
-      console.log('取得正常処理');
+      console.log('取得正常');
     },
     // 得意先取得
     getThenCustomer(response) {
@@ -793,7 +798,7 @@ export default {
           this.serverCatch("得意先取得");
         }
       }
-      console.log('取得正常処理');
+      console.log('取得正常');
     },
     // エンドユーザー取得
     getThenEnduser(response) {
@@ -813,7 +818,7 @@ export default {
           this.serverCatch("エンドユーザー取得");
         }
       }
-      console.log('取得正常処理');
+      console.log('取得正常');
     },
     // 製品名取得
     getThenProduct(response) {
@@ -829,7 +834,7 @@ export default {
           this.serverCatch("エンドユーザー取得");
         }
       }
-      console.log('取得正常処理');
+      console.log('取得正常');
     },
     // 製品詳細取得
     getThenDetails(response) {
@@ -837,6 +842,12 @@ export default {
       //console.log('getthen in res = ' + res);
       if (res.result) {
         this.details = res.details;
+        this.select_arr_s001 = res.select_arr_s001;
+        this.select_arr_s002 = res.select_arr_s002;
+        this.select_arr_s003 = res.select_arr_s003;
+        this.select_arr_s004 = res.select_arr_s004;
+        this.select_arr_s005 = res.select_arr_s005;
+
       } else {
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
@@ -844,7 +855,17 @@ export default {
           this.serverCatch("エンドユーザー取得");
         }
       }
-      console.log('取得正常処理');
+      console.log('取得正常');
+      this.result = res.result;
+      console.log('getThenDetails result ->' + this.result);
+      const timeout = '3000';
+      setTimeout(() => {
+        if(this.result) {
+          this.viewStrLen();
+        }
+      }, timeout);
+
+
     },
     // 検索系正常処理
     putThenSearch(response, eventtext) {

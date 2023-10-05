@@ -5426,6 +5426,7 @@ __webpack_require__.r(__webpack_exports__);
       dialogVisible: false,
       messageshowsearch: false,
       loading: false,
+      result: false,
       s_m_code: "",
       s_manager: "",
       s_customer_code: "",
@@ -5455,7 +5456,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   // マウント時
   mounted: function mounted() {
-    //this.login_user_code = this.authusers["code"];
     this.getManager();
   },
   methods: {
@@ -5500,9 +5500,10 @@ __webpack_require__.r(__webpack_exports__);
           elemsa[i].style.color = "#000";
         } //var Jstatus = fm.status.value;
         //var result = window.confirm( com1 +'\n伝票番号 : '+ Jproduct_code +'');
+        //var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
 
 
-        var result = window.confirm(com1 + '\n' + val1 + '\n' + val2);
+        var result = true;
 
         if (result) {
           this.details_customer = [];
@@ -5527,9 +5528,10 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = 0; i < elems.length; i++) {
           elems[i].style.background = "none";
           elemsa[i].style.color = "#000";
-        }
+        } //var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2);
 
-        var result = window.confirm(com1 + '\n' + val1 + '\n' + val2);
+
+        var result = true;
 
         if (result) {
           this.details_enduser = [];
@@ -5549,9 +5551,10 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = 0; i < elems.length; i++) {
           elems[i].style.background = "none";
           elemsa[i].style.color = "#000";
-        }
+        } //var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n' + smd);
 
-        var result = window.confirm(com1 + '\n' + val1 + '\n' + val2 + '\n' + smd);
+
+        var result = true;
 
         if (result) {
           this.details_product = [];
@@ -5570,12 +5573,13 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = 0; i < elems.length; i++) {
           elems[i].style.background = "none";
           elemsa[i].style.color = "#000";
-        }
+        } //var result = window.confirm( com1 +'\n'+ val1 +'\n' + val2 + '\n');
 
-        var result = window.confirm(com1 + '\n' + val1 + '\n' + val2 + '\n');
+
+        var result = true;
 
         if (result) {
-          //this.details = [];
+          this.details = [];
           document.getElementsByClassName("itemprod")[val1].style.background = "#548017";
           document.getElementsByClassName("itemprod_a")[val1].style.color = "#FFF";
           this.loading = true;
@@ -5824,7 +5828,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      console.log('取得正常処理');
+      console.log('取得正常');
     },
     // 得意先取得
     getThenCustomer: function getThenCustomer(response) {
@@ -5840,7 +5844,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      console.log('取得正常処理');
+      console.log('取得正常');
     },
     // エンドユーザー取得
     getThenEnduser: function getThenEnduser(response) {
@@ -5861,7 +5865,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      console.log('取得正常処理');
+      console.log('取得正常');
     },
     // 製品名取得
     getThenProduct: function getThenProduct(response) {
@@ -5878,14 +5882,21 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      console.log('取得正常処理');
+      console.log('取得正常');
     },
     // 製品詳細取得
     getThenDetails: function getThenDetails(response) {
+      var _this8 = this;
+
       var res = response.data; //console.log('getthen in res = ' + res);
 
       if (res.result) {
         this.details = res.details;
+        this.select_arr_s001 = res.select_arr_s001;
+        this.select_arr_s002 = res.select_arr_s002;
+        this.select_arr_s003 = res.select_arr_s003;
+        this.select_arr_s004 = res.select_arr_s004;
+        this.select_arr_s005 = res.select_arr_s005;
       } else {
         if (res.messagedata.length > 0) {
           this.htmlMessageSwal("エラー", res.messagedata, "error", true, false);
@@ -5894,7 +5905,15 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      console.log('取得正常処理');
+      console.log('取得正常');
+      this.result = res.result;
+      console.log('getThenDetails result ->' + this.result);
+      var timeout = '3000';
+      setTimeout(function () {
+        if (_this8.result) {
+          _this8.viewStrLen();
+        }
+      }, timeout);
     },
     // 検索系正常処理
     putThenSearch: function putThenSearch(response, eventtext) {
@@ -61937,6 +61956,57 @@ var render = function () {
                     }),
                   ]),
                   _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "inputgroup flex flex_ai_c" },
+                    _vm._l(_vm.select_arr_s003, function (s003, indexs003) {
+                      return _c(
+                        "label",
+                        { attrs: { for: "unit" + indexs003 } },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.details[index].unit,
+                                expression: "details[index].unit",
+                              },
+                            ],
+                            attrs: {
+                              type: "radio",
+                              id: "unit" + indexs003,
+                              name: "unit",
+                              disabled: "",
+                            },
+                            domProps: {
+                              value: s003.code,
+                              checked: _vm._q(
+                                _vm.details[index].unit,
+                                s003.code
+                              ),
+                            },
+                            on: {
+                              change: function ($event) {
+                                return _vm.$set(
+                                  _vm.details[index],
+                                  "unit",
+                                  s003.code
+                                )
+                              },
+                            },
+                          }),
+                          _vm._v(
+                            "\n                  " +
+                              _vm._s(s003.code_name) +
+                              "\n                "
+                          ),
+                        ]
+                      )
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
                   _c("div", { staticClass: "inputgroup" }, [
                     _c("label", [
                       _vm._v("紙取"),
@@ -62402,265 +62472,77 @@ var render = function () {
                 ),
               ])
             }),
+            _vm._v(" "),
+            _c("div", { staticClass: "line" }, [
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone mz_c2 v_hidden",
+                  attrs: { id: "doc_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "search_doc_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SearchClick("doc", 0, "見積書")
+                      },
+                    },
+                  },
+                  [_vm._v("見積書を検索")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup" }, [
+                _c("span", {
+                  staticClass: "markzone mz_c2 v_hidden",
+                  attrs: { id: "mit_mark" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button", id: "search_mit_btn" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.SearchClick("mit", 0, "見積")
+                      },
+                    },
+                  },
+                  [_vm._v("見積を検索")]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "inputgroup mgl_auto" }, [
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.clickEvent(
+                          "",
+                          "",
+                          "",
+                          "clear",
+                          "クリア",
+                          "",
+                          ""
+                        )
+                      },
+                    },
+                  },
+                  [_vm._v("クリア")]
+                ),
+              ]),
+            ]),
           ],
           2
         ),
       ]),
       _vm._v(" "),
       _c("div", { attrs: { id: "cnt1" } }, [
-        _c("div", { staticClass: "line" }, [
-          _c("div", { staticClass: "inputgroup3" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [_vm._v("見積番号")]),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.s_m_code,
-                    expression: "s_m_code",
-                  },
-                ],
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "s_m_code" },
-                domProps: { value: _vm.s_m_code },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.s_m_code = $event.target.value
-                  },
-                },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup3" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [
-                _vm._v("得意先コード"),
-              ]),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.s_customer_code,
-                    expression: "s_customer_code",
-                  },
-                ],
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "s_customer_code" },
-                domProps: { value: _vm.s_customer_code },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.s_customer_code = $event.target.value
-                  },
-                },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup3" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [_vm._v("得意先名")]),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.s_customer,
-                    expression: "s_customer",
-                  },
-                ],
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "s_customer" },
-                domProps: { value: _vm.s_customer },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.s_customer = $event.target.value
-                  },
-                },
-              }),
-            ]),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "line" }, [
-          _c("div", { staticClass: "inputgroup3" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [
-                _vm._v("エンドユーザー"),
-              ]),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.s_enduser,
-                    expression: "s_enduser",
-                  },
-                ],
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "s_enduser" },
-                domProps: { value: _vm.s_enduser },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.s_enduser = $event.target.value
-                  },
-                },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup3" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [_vm._v("製品名")]),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.s_product,
-                    expression: "s_product",
-                  },
-                ],
-                staticClass: "form_style input_w100p_m",
-                attrs: { type: "text", name: "s_product" },
-                domProps: { value: _vm.s_product },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.s_product = $event.target.value
-                  },
-                },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup4" }, [
-            _c("label", [
-              _c("span", { staticClass: "spanwidth_8" }, [
-                _vm._v("作成年月（期間）"),
-              ]),
-              _c("span", { staticClass: "spanblock1" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.s_date_start,
-                      expression: "s_date_start",
-                    },
-                  ],
-                  staticClass: "form_style input_search_w1",
-                  attrs: { type: "text", name: "s_date_start" },
-                  domProps: { value: _vm.s_date_start },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.s_date_start = $event.target.value
-                    },
-                  },
-                }),
-                _vm._v("～"),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.s_date_end,
-                      expression: "s_date_end",
-                    },
-                  ],
-                  staticClass: "form_style input_search_w1",
-                  attrs: { type: "text", name: "s_date_end" },
-                  domProps: { value: _vm.s_date_end },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.s_date_end = $event.target.value
-                    },
-                  },
-                }),
-              ]),
-            ]),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "line" }, [
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("span", {
-              staticClass: "markzone mz_c2 v_hidden",
-              attrs: { id: "doc_mark" },
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                attrs: { type: "button", id: "search_doc_btn" },
-                on: {
-                  click: function ($event) {
-                    return _vm.SearchClick("doc", 0, "見積書")
-                  },
-                },
-              },
-              [_vm._v("見積書を検索")]
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup" }, [
-            _c("span", {
-              staticClass: "markzone mz_c2 v_hidden",
-              attrs: { id: "mit_mark" },
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                attrs: { type: "button", id: "search_mit_btn" },
-                on: {
-                  click: function ($event) {
-                    return _vm.SearchClick("mit", 0, "見積")
-                  },
-                },
-              },
-              [_vm._v("見積を検索")]
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "inputgroup mgl_auto" }, [
-            _c(
-              "button",
-              {
-                attrs: { type: "button" },
-                on: {
-                  click: function ($event) {
-                    return _vm.clickEvent("", "", "", "clear", "クリア", "", "")
-                  },
-                },
-              },
-              [_vm._v("クリア")]
-            ),
-          ]),
-        ]),
-        _vm._v(" "),
         _vm.searchview === "mit"
           ? _c("div", { staticClass: "line mgt20" }, [
               _c("div", { staticClass: "inputgroup" }, [

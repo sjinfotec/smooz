@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\QSearch;
-//use App\Models\Generalcode;
+use App\Models\Generalcode;
 //use App\Models\Quotations;
 
 class QAnotherlineController extends Controller
@@ -309,12 +309,34 @@ class QAnotherlineController extends Controller
             $details =  $qsearch->getDetails();
 
 
+            $general_code = new Generalcode();
+            $general_code->setParamIdentificationidAttribute('S001');
+            $select_arr_s001 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S002');
+            $select_arr_s002 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S003');
+            $select_arr_s003 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S004');
+            $select_arr_s004 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('S005');
+            $select_arr_s005 =  $general_code->getItem();
+            $general_code->setParamIdentificationidAttribute('P001');
+            $container_arr_p001 =  $general_code->getItem();
+
+
+
             return response()->json(
                 [
                     'result' => $result, 
                     's_id' => $s_id, 
                     'details' => $details,
-                    Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
+                    'select_arr_s001' => $select_arr_s001,
+                    'select_arr_s002' => $select_arr_s002,
+                    'select_arr_s003' => $select_arr_s003,
+                    'select_arr_s004' => $select_arr_s004,
+                    'select_arr_s005' => $select_arr_s005,
+                    'container_arr_p001' => $container_arr_p001,
+                   Config::get('const.RESPONCE_ITEM.messagedata') => $this->array_messagedata
                 ]
             );
 
