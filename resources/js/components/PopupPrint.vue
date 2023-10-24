@@ -5,7 +5,8 @@
           <!--<div>this is PopupPrintvue {{ mCode }}</div>-->
           <!--<div>{{ RePrintData }}</div>-->
           <!--<input type="text" v-bind:value="mCode">-->
-          <div id="pdatazone" v-html="RePrintData"></div>
+
+          <!--<div id="pdatazone" v-html="RePrintData"></div>-->
           
 
             <div v-for="(item,rowIndex) in details" :key="rowIndex">

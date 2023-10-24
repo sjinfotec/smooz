@@ -70,6 +70,14 @@ Route::get('/qsearch', [QSearchController::class,'search'])->middleware('auth');
 Route::post('/qsearch/get', [QSearchController::class,'getDataSearch'])->middleware('auth');
 //Route::post('/openview.php', [QSearchController::class,'printview'])->middleware('auth');
 
+// ファインダー検索
+Route::get('/qanotherline', [QAnotherlineController::class,'index'])->middleware('auth');
+Route::post('/qanotherline/getmgr', [QAnotherlineController::class,'getManagerData'])->middleware('auth');
+Route::post('/qanotherline/getcust', [QAnotherlineController::class,'getCustomerData'])->middleware('auth');
+Route::post('/qanotherline/getend', [QAnotherlineController::class,'getEnduserData'])->middleware('auth');
+Route::post('/qanotherline/getprod', [QAnotherlineController::class,'getProductData'])->middleware('auth');
+Route::post('/qanotherline/getdetails', [QAnotherlineController::class,'getDetailsData'])->middleware('auth');
+
 // パーツ
 Route::post('/qparts/get', [QuotationsPartsController::class,'getPartsData'])->middleware('auth');
 

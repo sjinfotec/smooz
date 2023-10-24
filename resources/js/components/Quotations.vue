@@ -1,278 +1,279 @@
 <template>
   <div>
-    <div id="cnt_title1">
-      <h3>見積作成</h3>
-    </div>
-    <div id="cnt1" v-if="select_html == 'edit_view'">
-      <div id="department01">
-        <div class="cate"><h4>基本項目</h4></div>
+    <div class="mainframe bc1 gc3">
+      <div id="cnt_title1">
+        <h3>見積作成</h3>
       </div>
+      <div id="cnt1" v-if="select_html == 'edit_view'">
+        <div id="department01">
+          <div class="cate"><h4>基本項目</h4></div>
+        </div>
 
-      <div id="menubtn01">
-        <div class="line">
-          <div class="inputgroup">
-            <button><span>新規</span></button>
+        <div id="menubtn01">
+          <div class="line">
+            <div class="inputgroup">
+              <button><span>新規</span></button>
+            </div>
+            <div class="inputgroup">
+              <button><span>登録</span></button>
+            </div>
+            <div class="inputgroup">
+              <button type="button" onClick="location.href='./qsearch/'"><span>検索</span></button>
+            </div>
+            <!--
+            <div class="inputgroup">
+              <label>参照見積番号<input type="text" class="form_style input_w5"></label>
+            </div>
+            -->
+            <div class="inputgroup">
+              <button><span>見積書</span></button>
+            </div>
+            <div class="inputgroup">
+              <button><span>受注</span></button>
+            </div>
+            <div class="inputgroup">
+              <button><span>原価閲覧</span></button>
+            </div>
+            <div class="inputgroup">
+              <button><span>終了</span></button>
+            </div>
           </div>
-          <div class="inputgroup">
-            <button><span>登録</span></button>
+        </div><!--end id menubtn01-->
+        <div v-for="(item,index) in details" v-bind:key="item.id">
+          <div class="line">
+            <div class="inputgroup">
+              <label><span class="spanwidth_8">担当者</span><input type="text" class="form_style" v-model="details[index].manager" name="manager"><span></span></label>
+            </div>
           </div>
-          <div class="inputgroup">
-            <button type="button" onClick="location.href='./qsearch/'"><span>検索</span></button>
+          <div class="line">
+            <div class="inputgroup">
+              <label><span class="spanwidth_8">得意先</span><input type="text" class="form_style" v-model="details[index].customer_code" name="customer_code"><input type="text" class="form_style" v-model="details[index].customer" name="customer"></label>
+            </div>
           </div>
+          <div class="line">
+            <div class="inputgroup">
+              <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w30" v-model="details[index].enduser" name="enduser"></label>
+            </div>
+          </div>
+          <div class="line">
+            <div class="inputgroup">
+              <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w30" v-model="details[index].product" name="product"></label>
+            </div>
+          </div>
+          <div class="line">
+            <div class="inputgroup">
+              <label><input type="text" class="form_style input_w2" v-model="details[index].parts_num" name="parts_num">P</label>
+            </div>
+            <div class="inputgroup">
+              <label>制作組数<input type="text" class="form_style input_w5" v-model="details[index].production_setnum" name="production_setnum">
+              <select name="production_setnum_unit" v-model="details[index].production_setnum_unit" class="form_style">
+              <option value=""></option>
+              <option v-for="(s001,indexs001) in select_arr_s001" v-bind:value="s001.code" >{{ s001.code_name }}</option>
+              </select>
+              </label>
+            </div>
+            <div class="inputgroup">
+              <label>制作冊数<input type="text" class="form_style input_w5" v-model="details[index].production_volnum" name="production_volnum">
+              <select name="production_volnum_unit" v-model="details[index].production_volnum_unit" class="form_style">
+              <option value=""></option>
+              <option v-for="(s002,indexs002) in select_arr_s002" v-bind:value="s002.code" >{{ s002.code_name }}</option>
+              </select>
+              </label>
+            </div>
+            <div class="inputgroup">
+              <span id="printing_mark" class="markzone mz_c1"></span>
+              <button type="button" id="printing_btn" class="btn_style1" @click="OnButtonClickT('printing');">印刷有り</button>
+              <input type="text" class="input_w1" value="1" v-model="details[index].printing"  name="printing" id="printing">
+            </div>
+          </div>
+          <div class="line">
+            <div class="inputgroup">
+              <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
+              <button type="button" id="inch_btn" class="btn_style1" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
+            </div>
+            <div class="inputgroup">
+              <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
+              <button type="button" id="milli_btn" class="btn_style1" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
+              <input type="text" class="input_w1" value="0" v-model="details[index].unit" name="unit" id="unit">
+            </div>
+            <div class="inputgroup">
+              <label>紙取<input type="text" class="form_style input_w2" v-model="details[index].papertray" name="papertray">切</label>
+            </div>
+            <div class="inputgroup">
+              面付け...
+              <label>横<input type="text" class="form_style input_w2" v-model="details[index].imposition_w" name="imposition_w"></label>
+              ×
+              <label>縦<input type="text" class="form_style input_w2" v-model="details[index].imposition_h" name="imposition_h"></label>
+            </div>
+          </div>
+          <div class="line">
+            <div class="inputgroup">
+              <label>シリンダー
+              <select name="cylinder" class="form_style" v-model.trim="details[index].cylinder">
+              <option value=""></option>
+              <option v-for="(s004,indexs004) in select_arr_s004" v-bind:value="s004.code" :key="s004.code">{{ s004.code_name }}</option>
+              </select>
+              </label>
+              <label><input type="text" class="form_style input_w2" v-model="details[index].cylinder_num" name="cylinder_num">本</label>
+            </div>
+            <div class="inputgroup">
+              サイズ...
+              <label>横<input type="text" class="form_style input_w3" v-model="details[index].size_w" name="size_w"></label>
+              ×
+              <label>縦<input type="text" class="form_style input_w3" v-model="details[index].size_h" name="size_h"></label>
+              <input type="text" class="form_style input_w2" v-model="details[index].size_top" name="size_top">/<input type="text" class="form_style input_w2" v-model="details[index].size_bottom" name="size_bottom">
+              <label>
+              <select name="inch_fold" class="form_style" v-model.trim="details[index].inch_fold">
+              <option value=""></option>
+              <option v-for="(s005,indexs005) in select_arr_s005" v-bind:value="s005.code" :key="s005.code">{{ s005.code_name }}</option>
+              </select>
+              インチ折
+              </label>
+              
+            </div>
+          </div>
+
           <!--
-          <div class="inputgroup">
-            <label>参照見積番号<input type="text" class="form_style input_w5"></label>
+          <div class="line">
+            <div class="inputgroup">
+              <span id="parts1_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts1_btn" @click="SetParts(1,'1P目');">1P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts2_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts2_btn" @click="SetParts(2,'2P目');">2P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts3_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts3_btn" @click="SetParts(3,'3P目');">3P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts4_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts4_btn" @click="SetParts(4,'4P目');">4P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts5_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts5_btn" @click="SetParts(5,'5P目');">5P目</button>
+            </div>
+          </div>
+          <div class="line">
+            <div class="inputgroup">
+              <span id="parts6_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts6_btn" @click="SetParts(6,'6P目');">6P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts7_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts7_btn" @click="SetParts(7,'7P目');">7P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts8_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts8_btn" @click="SetParts(8,'8P目');">8P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts9_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts9_btn" @click="SetParts(9,'9P目');">9P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts10_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts10_btn" @click="SetParts(10,'10P目');">10P目</button>
+            </div>
+          </div>
+
+          <div class="line">
+            <div class="inputgroup">
+              <span id="parts11_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts11_btn" @click="SetParts(11,'11P目');">11P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts12_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts12_btn" @click="SetParts(12,'12P目');">12P目</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts_omote_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts13_btn" @click="SetParts(13,'表紙');">表紙</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts_ura_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts14_btn" @click="SetParts(14,'裏表紙');">裏表紙</button>
+            </div>
+            <div class="inputgroup">
+              <span id="parts_mat_mark" class="markzone2 mz_tc1 v_hidden"></span>
+              <button type="button" id="parts15_btn" @click="SetParts(15,'下敷き');">下敷き</button>
+            </div>
           </div>
           -->
-          <div class="inputgroup">
-            <button><span>見積書</span></button>
-          </div>
-          <div class="inputgroup">
-            <button><span>受注</span></button>
-          </div>
-          <div class="inputgroup">
-            <button><span>原価閲覧</span></button>
-          </div>
-          <div class="inputgroup">
-            <button><span>終了</span></button>
-          </div>
-        </div>
-      </div><!--end id menubtn01-->
-      <div v-for="(item,index) in details" v-bind:key="item.id">
-        <div class="line">
-          <div class="inputgroup">
-            <label><span class="spanwidth_8">担当者</span><input type="text" class="form_style" v-model="details[index].manager" name="manager"><span></span></label>
-          </div>
-        </div>
-        <div class="line">
-          <div class="inputgroup">
-            <label><span class="spanwidth_8">得意先</span><input type="text" class="form_style" v-model="details[index].customer_code" name="customer_code"><input type="text" class="form_style" v-model="details[index].customer" name="customer"></label>
-          </div>
-        </div>
-        <div class="line">
-          <div class="inputgroup">
-            <label><span class="spanwidth_8">エンドユーザー</span><input type="text" class="form_style input_w30" v-model="details[index].enduser" name="enduser"></label>
-          </div>
-        </div>
-        <div class="line">
-          <div class="inputgroup">
-            <label><span class="spanwidth_8">製品名</span><input type="text" class="form_style input_w30" v-model="details[index].product" name="product"></label>
-          </div>
-        </div>
-        <div class="line">
-          <div class="inputgroup">
-            <label><input type="text" class="form_style input_w2" v-model="details[index].parts_num" name="parts_num">P</label>
-          </div>
-          <div class="inputgroup">
-            <label>制作組数<input type="text" class="form_style input_w5" v-model="details[index].production_setnum" name="production_setnum">
-            <select name="production_setnum_unit" v-model="details[index].production_setnum_unit" class="form_style">
-            <option value=""></option>
-            <option v-for="(s001,indexs001) in select_arr_s001" v-bind:value="s001.code" >{{ s001.code_name }}</option>
-            </select>
-            </label>
-          </div>
-          <div class="inputgroup">
-            <label>制作冊数<input type="text" class="form_style input_w5" v-model="details[index].production_volnum" name="production_volnum">
-            <select name="production_volnum_unit" v-model="details[index].production_volnum_unit" class="form_style">
-            <option value=""></option>
-            <option v-for="(s002,indexs002) in select_arr_s002" v-bind:value="s002.code" >{{ s002.code_name }}</option>
-            </select>
-            </label>
-          </div>
-          <div class="inputgroup">
-            <span id="printing_mark" class="markzone mz_c1"></span>
-            <button type="button" id="printing_btn" class="btn_style1" @click="OnButtonClickT('printing');">印刷有り</button>
-            <input type="text" class="input_w1" value="1" v-model="details[index].printing"  name="printing" id="printing">
-          </div>
-        </div>
-        <div class="line">
-          <div class="inputgroup">
-            <span id="inch_mark" class="markzone mz_c1 v_hidden"></span>
-            <button type="button" id="inch_btn" class="btn_style1" @click="OnButtonClick03('inch',0,'unit');">インチ</button>
-          </div>
-          <div class="inputgroup">
-            <span id="milli_mark" class="markzone mz_c1 v_hidden"></span>
-            <button type="button" id="milli_btn" class="btn_style1" @click="OnButtonClick03('milli',0,'unit');">ミリ</button>
-            <input type="text" class="input_w1" value="0" v-model="details[index].unit" name="unit" id="unit">
-          </div>
-          <div class="inputgroup">
-            <label>紙取<input type="text" class="form_style input_w2" v-model="details[index].papertray" name="papertray">切</label>
-          </div>
-          <div class="inputgroup">
-            面付け...
-            <label>横<input type="text" class="form_style input_w2" v-model="details[index].imposition_w" name="imposition_w"></label>
-            ×
-            <label>縦<input type="text" class="form_style input_w2" v-model="details[index].imposition_h" name="imposition_h"></label>
-          </div>
-        </div>
-        <div class="line">
-          <div class="inputgroup">
-            <label>シリンダー
-            <select name="cylinder" class="form_style" v-model.trim="details[index].cylinder">
-            <option value=""></option>
-            <option v-for="(s004,indexs004) in select_arr_s004" v-bind:value="s004.code" :key="s004.code">{{ s004.code_name }}</option>
-            </select>
-            </label>
-            <label><input type="text" class="form_style input_w2" v-model="details[index].cylinder_num" name="cylinder_num">本</label>
-          </div>
-          <div class="inputgroup">
-            サイズ...
-            <label>横<input type="text" class="form_style input_w3" v-model="details[index].size_w" name="size_w"></label>
-            ×
-            <label>縦<input type="text" class="form_style input_w3" v-model="details[index].size_h" name="size_h"></label>
-            <input type="text" class="form_style input_w2" v-model="details[index].size_top" name="size_top">/<input type="text" class="form_style input_w2" v-model="details[index].size_bottom" name="size_bottom">
-            <label>
-            <select name="inch_fold" class="form_style" v-model.trim="details[index].inch_fold">
-            <option value=""></option>
-            <option v-for="(s005,indexs005) in select_arr_s005" v-bind:value="s005.code" :key="s005.code">{{ s005.code_name }}</option>
-            </select>
-            インチ折
-            </label>
-            
-          </div>
-        </div>
 
-        <!--
-        <div class="line">
-          <div class="inputgroup">
-            <span id="parts1_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts1_btn" @click="SetParts(1,'1P目');">1P目</button>
+          <!--<div>{{all_dpc_arr}}</div>-->
+          <div class="line">
+            <div class="inputgroup" v-for="(p001,indexp001) in container_arr_p001" :key="p001.id">
+              <span :id="'parts' + container_arr_p001[indexp001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_p001[indexp001].code == all_dpc_arr[indexp001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexp001]}}
+              <a href="#" :id="'parts' + container_arr_p001[indexp001].code + '_btn'" @click="SetParts(p001.code, p001.code_name);">{{ container_arr_p001[indexp001].code_name }}</a>
+            </div>
           </div>
-          <div class="inputgroup">
-            <span id="parts2_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts2_btn" @click="SetParts(2,'2P目');">2P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts3_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts3_btn" @click="SetParts(3,'3P目');">3P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts4_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts4_btn" @click="SetParts(4,'4P目');">4P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts5_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts5_btn" @click="SetParts(5,'5P目');">5P目</button>
-          </div>
-        </div>
-        <div class="line">
-          <div class="inputgroup">
-            <span id="parts6_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts6_btn" @click="SetParts(6,'6P目');">6P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts7_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts7_btn" @click="SetParts(7,'7P目');">7P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts8_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts8_btn" @click="SetParts(8,'8P目');">8P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts9_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts9_btn" @click="SetParts(9,'9P目');">9P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts10_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts10_btn" @click="SetParts(10,'10P目');">10P目</button>
-          </div>
-        </div>
 
-        <div class="line">
-          <div class="inputgroup">
-            <span id="parts11_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts11_btn" @click="SetParts(11,'11P目');">11P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts12_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts12_btn" @click="SetParts(12,'12P目');">12P目</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts_omote_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts13_btn" @click="SetParts(13,'表紙');">表紙</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts_ura_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts14_btn" @click="SetParts(14,'裏表紙');">裏表紙</button>
-          </div>
-          <div class="inputgroup">
-            <span id="parts_mat_mark" class="markzone2 mz_tc1 v_hidden"></span>
-            <button type="button" id="parts15_btn" @click="SetParts(15,'下敷き');">下敷き</button>
-          </div>
-        </div>
-        -->
 
-        <!--<div>{{all_dpc_arr}}</div>-->
+          <div id="department01" class="mgt40">
+            <div class="inputgroup">
+              <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
+              <textarea name="comment" class="form_style_textarea" v-model="details[index].comment" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
+              </label>
+            </div>
+          </div><!--end department01-->
+        </div><!--end v-for-->
+
+
+        <div class="line mgt40">
+            <div id="zukei" class="mglrauto">
+              <div class="yajirushi_1"></div>
+            </div>
+        </div>
         <div class="line">
-          <div class="inputgroup" v-for="(p001,indexp001) in container_arr_p001" :key="p001.id">
-            <span :id="'parts' + container_arr_p001[indexp001].code + '_mark'" class="markzone2 mz_tc1 v_hidden" :style="{visibility:  [ container_arr_p001[indexp001].code == all_dpc_arr[indexp001] ? 'visible' : 'hidden']}"></span>{{all_dpc_arr[indexp001]}}
-            <a href="#" :id="'parts' + container_arr_p001[indexp001].code + '_btn'" @click="SetParts(p001.code, p001.code_name);">{{ container_arr_p001[indexp001].code_name }}</a>
-          </div>
+            <div class="mglrauto">
+              <button type="button" id="setcal_btn" class="btn_style1" @click="SetcalBtn();">設定・計算</button>
+            </div>
         </div>
 
 
         <div id="department01" class="mgt40">
-          <div class="inputgroup">
-            <label><span class="spanwidth_1">コメント</span>&emsp;<span id="strLen">0文字</span>
-            <textarea name="comment" class="form_style_textarea" v-model="details[index].comment" rows="4" id="textarea1" @keyup="viewStrLen();"></textarea>
-            </label>
-          </div>
+            <div class="group">
+              <div class="inputgroup">
+                <label><span class="spanwidth_1">提示額</span><input type="text" class="form_style input_w5" v-model="details[index].offered_price" name="offered_price"></label>
+              </div>
+              <div class="inputgroup">
+                <button type="button" id="cost_btn" class="btn_style1" @click="CostBtn();">原価一覧</button>
+              </div>
+            </div>
         </div><!--end department01-->
-      </div><!--end v-for-->
 
 
-      <div class="line mgt40">
-          <div id="zukei" class="mglrauto">
-            <div class="yajirushi_1"></div>
+        <div id="calculation">
+          <h3>計算結果</h3>
+          <div class="inputgroup">
           </div>
+        </div>
+
+      </div><!--end id cnt1-->
+
+      <div id="partszone" v-if="partsview == true">
+        <quotations-parts
+        v-bind:page-num="pagenum"
+        v-bind:page-name="pagename"
+        v-bind:m-code="s_m_code"
+        v-bind:parts-code="s_parts_code"
+        v-on:pcancel-event="Pcancel"
+        ></quotations-parts>
       </div>
-      <div class="line">
-          <div class="mglrauto">
-            <button type="button" id="setcal_btn" class="btn_style1" @click="SetcalBtn();">設定・計算</button>
-          </div>
-      </div>
 
-
-      <div id="department01" class="mgt40">
-          <div class="group">
-            <div class="inputgroup">
-              <label><span class="spanwidth_1">提示額</span><input type="text" class="form_style input_w5" v-model="details[index].offered_price" name="offered_price"></label>
-            </div>
-            <div class="inputgroup">
-              <button type="button" id="cost_btn" class="btn_style1" @click="CostBtn();">原価一覧</button>
-            </div>
-          </div>
-      </div><!--end department01-->
-
-
-      <div id="calculation">
-        <h3>計算結果</h3>
-        <div class="inputgroup">
+      <div id="area1">
+        <div v-if="outsourcingview == true">
+          <out-sourcing
+          v-bind:input-textid="inputtextid"
+          v-on:oscancel-event="OScancel"
+          v-on:selectos-event="selectOS"
+          ></out-sourcing>
         </div>
       </div>
-
-    </div><!--end id cnt1-->
-
-    <div id="partszone" v-if="partsview == true">
-      <quotations-parts
-       v-bind:page-num="pagenum"
-       v-bind:page-name="pagename"
-       v-bind:m-code="s_m_code"
-       v-bind:parts-code="s_parts_code"
-       v-on:pcancel-event="Pcancel"
-      ></quotations-parts>
-    </div>
-
-    <div id="area1">
-      <div v-if="outsourcingview == true">
-        <out-sourcing
-        v-bind:input-textid="inputtextid"
-        v-on:oscancel-event="OScancel"
-        v-on:selectos-event="selectOS"
-        ></out-sourcing>
-      </div>
-    </div>
-
+    </div><!--end class mainframe-->
   </div>
 </template>
 <script>
