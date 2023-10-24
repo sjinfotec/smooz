@@ -1,325 +1,327 @@
 <template>
   <div>
-    <div id="cnt_title1">
-      <h3>見積作成</h3>
-    </div>
-    <div id="cnt1" v-if="select_html == 'edit_view'">
-      <div v-for="(item,index) in details" v-bind:key="item.id">
-        <div id="department01">
-          <div class="cate"><h4 class="lspacing1">製本</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup">
-                <span id="sei_chouai_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_chouai_btn" @click="OnButtonClick('sei_chouai');">丁合</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_chouai" name="sei_chouai" id="sei_chouai">
-              </div>
-              <div class="inputgroup">
-                <button type="button" id="sei_chouai_outsou_btn" @click="OutsourcingButton('sei_chouai_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_chouai_outsou" name="sei_chouai_outsou" id="sei_chouai_outsou">
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_chouai_outsou_cost" name="sei_chouai_outsou_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="sei_dansai_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_dansai_btn" @click="OnButtonClickD('sei_dansai');">断裁</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_dansai" name="sei_dansai" id="sei_dansai">
-              </div>
-              <div class="inputgroup">
-                <button type="button" id="sei_dansai_outsou_btn" @click="OutsourcingButton('sei_dansai_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_dansai_outsou" name="sei_dansai_outsou" id="sei_dansai_outsou">
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_dansai_outsou_cost" name="sei_dansai_outsou_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="sei_marble_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_marble_btn" @click="OnButtonClick01('sei_marble',3);">マーブル</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_marble" name="sei_marble" id="sei_marble">
-              </div>
-              <div class="inputgroup">
-                <span id="sei_cross_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_cross_btn" @click="OnButtonClick01('sei_cross',3);">クロス</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_cross" name="sei_cross" id="sei_cross">
-              </div>
-              <div class="inputgroup">
-                <span id="sei_mat_maki_cardboard_mark" class="markzone mz_c3 v_hidden"></span>
-                <button type="button" id="sei_mat_maki_cardboard_btn" @click="OnButtonClick01('sei_mat_maki_cardboard',4);">下敷巻ボール</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_mat_maki_cardboard" name="sei_mat_maki_cardboard" id="sei_mat_maki_cardboard">
-              </div>
-              <div class="inputgroup">
-                <span id="sei_mat_cardboard_mark" class="markzone mz_c3 v_hidden"></span>
-                <button type="button" id="sei_mat_cardboard_btn" @click="OnButtonClick01('sei_mat_cardboard',4);">下敷ボール</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_mat_cardboard" name="sei_mat_cardboard" id="sei_mat_cardboard">
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">
-                <select name="sei_nori" class="form_style" v-model="details[index].sei_nori">
-                <option value=""></option>
-                <option value="天">天</option>
-                <option value="左">左</option>
-                <option value="右">右</option>
-                <option value="地">地</option>
-                </select>
-                糊
-                </label>
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">
-                <select name="sei_tsuduri" class="form_style" v-model="details[index].sei_tsuduri">
-                <option value=""></option>
-                <option value="天">天</option>
-                <option value="左">左</option>
-                <option value="右">右</option>
-                <option value="地">地</option>
-                </select>
-                綴
-                </label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="sei_kurumi_mark" class="markzone mz_c2 v_hidden"></span>
-                <button type="button" id="sei_kurumi_btn" @click="OnButtonClick01('sei_kurumi',5);">くるみ</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_kurumi" name="sei_kurumi" id="sei_kurumi">
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">ラミネート
-                <select name="sei_laminate" class="form_style" v-model="details[index].sei_laminate">
-                <option value=""></option>
-                <option value="A3">A3</option>
-                <option value="A4">A4</option>
-                <option value="A5">A5</option>
-                <option value="B4">B4</option>
-                <option value="B5">B5</option>
-                <option value="B6">B6</option>
-                <option value="カード用">カード用</option>
-                <option value="ハガキ圧着">ハガキ圧着</option>
-                </select>
-                </label>
-                <label><input type="text" class="form_style input_w2" v-model="details[index].sei_laminate_through" name="sei_laminate_through">通し</label>
-              </div>
-              <div class="inputgroup">
-                <span id="sei_buster_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_buster_btn" @click="OnButtonClick('sei_buster');">バスター</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_buster" name="sei_buster" id="sei_buster">
-              </div>
-              <div class="inputgroup">
-                <span id="sei_crimping_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_crimping_btn" @click="OnButtonClick('sei_crimping');">圧着</button>
-                <input type="text" class="input_w1" value="" v-model="details[index].sei_crimping" name="sei_crimping" id="sei_crimping">
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <label><span class="spanwidth_1">手作業</span><input type="text" class="form_style input_w30" v-model="details[index].inside_hand_work" name="inside_hand_work"></label>
-              </div>
-              <div class="inputgroup">
-                <label>内製費<input type="text" class="form_style input_w5" v-model="details[index].inside_insourcing_cost" name="inside_insourcing_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <label><span class="spanwidth_1">社外内職</span><input type="text" class="form_style input_w10" v-model="details[index].outside_job1" name="outside_job1"></label>
-              </div>
-              <div class="inputgroup">
-                <label>外注先<input type="text" class="form_style input_w10" v-model="details[index].outside_job1_outsou" name="outside_job1_outsou"></label>
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].outside_job1_outsou_cost" name="outside_job1_outsou_cost"><span class="txtcolor1">加算</span></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <label><span class="spanwidth_1">社外内職</span><input type="text" class="form_style input_w10" v-model="details[index].outside_job2" name="outside_job2"></label>
-              </div>
-              <div class="inputgroup">
-                <label>外注先<input type="text" class="form_style input_w10" v-model="details[index].outside_job2_outsou" name="outside_job2_outsou"></label>
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].outside_job2_outsou_cost" name="outside_job2_outsou_cost"><span class="txtcolor1">加算</span></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="sei_musen_tozi_mark" class="markzone mz_c2 v_hidden"></span>
-                <button type="button" id="sei_musen_tozi_btn" @click="OnButtonClick01('sei_musen_tozi',5);">無線トジ</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_musen_tozi" name="sei_musen_tozi" id="sei_musen_tozi">
-              </div>
-              <div class="inputgroup">
-                <button type="button" id="sei_musen_tozi_outsou_btn" @click="OutsourcingButton('sei_musen_tozi_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_musen_tozi_outsou" name="sei_musen_tozi_outsou" id="sei_musen_tozi_outsou">
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].musen_tozi_outsou_cost" name="musen_tozi_outsou_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="sei_naka_tozi_mark" class="markzone mz_c2 v_hidden"></span>
-                <button type="button" id="sei_naka_tozi_btn" @click="OnButtonClick01('sei_naka_tozi',5);">中トジ</button>
-                <input type="text" class="input_w1"  v-model="details[index].sei_naka_tozi" name="sei_naka_tozi" id="sei_naka_tozi">
-              </div>
-              <div class="inputgroup">
-                <button type="button" id="sei_naka_tozi_outsou_btn" @click="OutsourcingButton('sei_naka_tozi_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_naka_tozi_outsou" name="sei_naka_tozi_outsou" id="sei_naka_tozi_outsou">
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_naka_tozi_outsou_cost" name="sei_naka_tozi_outsou_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="sei_sashikomi_mark" class="markzone mz_c2 v_hidden"></span>
-                <button type="button" id="sei_sashikomi_btn" @click="OnButtonClick('sei_sashikomi');">差込</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_sashikomi" name="sei_sashikomi" id="sei_sashikomi">
-              </div>
-              <div class="inputgroup">
-                <button type="button" id="sei_sashikomi_outsou_btn" @click="OutsourcingButton('sei_sashikomi_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_sashikomi_outsou" name="sei_sashikomi_outsou" id="sei_sashikomi_outsou">
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_sashikomi_outsou_cost" name="sei_sashikomi_outsou_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <label><input type="text" class="form_style input_w2" v-model="details[index].sei_ana" name="sei_ana">穴×</label>
-                <label><input type="text" class="form_style input_w2" v-model="details[index].sei_part" name="sei_part">ヶ所</label>
-              </div>
-              <div class="inputgroup">
-                <span id="sei_donko_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_donko_btn" @click="OnButtonClick('sei_donko');">ドンコ</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_donko" name="sei_donko" id="sei_donko">
-              </div>
-              <div class="inputgroup">
-                <span class="mgl20">折回数...</span>
-                <label>横<input type="text" class="form_style input_w2" v-model="details[index].sei_ori_w" name="sei_ori_w">回</label>
-                <label class="mgl10">縦<input type="text" class="form_style input_w2" v-model="details[index].sei_ori_h" name="sei_ori_h">回</label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <label><input type="text" class="form_style input_w5" v-model="details[index].sei_obi" name="sei_obi">帯</label>
-              </div>
-              <div class="inputgroup">
-                <span id="sei_bara_mark" class="markzone mz_c4 v_hidden"></span>
-                <button type="button" id="sei_bara_btn" @click="OnButtonClick01('sei_bara',6);">バラ</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_bara" name="sei_bara" id="sei_bara">
-              </div>
-              <div class="inputgroup">
-                <span id="sei_oneset_mark" class="markzone mz_c4 v_hidden"></span>
-                <button type="button" id="sei_oneset_btn" @click="OnButtonClick01('sei_oneset',6);">ワンセット</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_oneset" name="sei_oneset" id="sei_oneset">
-              </div>
-              <div class="inputgroup">
-                <span id="sei_obake_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_obake_btn" @click="OnButtonClick('sei_obake');">オバケ</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_obake" name="sei_obake" id="sei_obake">
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">落とし
-                <select name="sei_otoshi" class="form_style" v-model="details[index].sei_otoshi">
-                <option value=""></option>
-                <option value="コーナー">コーナー</option>
-                <option value="角落とし">角落とし</option>
-                <option value="角丸落とし">角丸落とし</option>
-                </select>
-                </label>
-                <label><input type="text" class="form_style input_w2" v-model="details[index].sei_otoshi_part" name="sei_otoshi_part">ヶ所</label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div id="department01">
-          <div class="cate2"><h4>標準</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup2">
-                <label>梱装<input type="text" class="form_style input_w3" v-model="details[index].sei_package" name="sei_package">×</label>
-                <label><input type="text" class="form_style input_w3" v-model="details[index].sei_package_num" name="sei_package_num">個、</label>
-              </div>
-              <div class="inputgroup2">
-                <label>箱<input type="text" class="form_style input_w3" v-model="details[index].sei_box" name="sei_box">×</label>
-                <label><input type="text" class="form_style input_w3" v-model="details[index].sei_box_num" name="sei_box_num">個</label>
-              </div>
-              <div class="inputgroup2">
-                <span id="sei_a_system_mark" class="markzone mz_c5 v_hidden"></span>
-                <button type="button" id="sei_a_system_btn" @click="OnButtonClick01('sei_a_system',7);">A式</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_a_system" name="sei_a_system" id="sei_a_system">
-              </div>
-              <div class="inputgroup2">
-                <span id="sei_c_system_mark" class="markzone mz_c5 v_hidden"></span>
-                <button type="button" id="sei_c_system_btn" @click="OnButtonClick01('sei_c_system',7);">C式</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_c_system" name="sei_c_system" id="sei_c_system">
-              </div>
-              <div class="inputgroup2">
-                <span id="sei_vinyl_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sei_vinyl_btn" @click="OnButtonClick('sei_vinyl');">ビニール</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sei_vinyl" name="sei_vinyl" id="sei_vinyl">
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div id="department01">
-          <div class="cate2"><h4>製本の全部</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup2">
-                <button type="button" id="sei_all_outsou_btn" @click="OutsourcingButton('sei_all_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_all_outsou" name="sei_all_outsou" id="sei_all_outsou">
-              </div>
-              <div class="inputgroup2">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_all_outsou_cost" name="sei_all_outsou_cost"></label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-      </div><!--end v-for-->
-
-
-
-      <div class="line mgt40">
-          <div id="zukei" class="mglrauto">
-            <div class="yajirushi_1"></div>
-          </div>
+    <div class="mainframe bc1 gc3">
+      <div id="cnt_title1">
+        <h3>見積作成</h3>
       </div>
-      <div class="line">
-          <div class="mglrauto">
-            <button type="button" id="setcal_btn" @click="SettingBtn();">設定</button>
-          </div>
+      <div id="cnt1" v-if="select_html == 'edit_view'">
+        <div v-for="(item,index) in details" v-bind:key="item.id">
+          <div id="department01">
+            <div class="cate"><h4 class="lspacing1">製本</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="sei_chouai_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_chouai_btn" @click="OnButtonClick('sei_chouai');">丁合</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_chouai" name="sei_chouai" id="sei_chouai">
+                </div>
+                <div class="inputgroup">
+                  <button type="button" id="sei_chouai_outsou_btn" @click="OutsourcingButton('sei_chouai_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_chouai_outsou" name="sei_chouai_outsou" id="sei_chouai_outsou">
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_chouai_outsou_cost" name="sei_chouai_outsou_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="sei_dansai_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_dansai_btn" @click="OnButtonClickD('sei_dansai');">断裁</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_dansai" name="sei_dansai" id="sei_dansai">
+                </div>
+                <div class="inputgroup">
+                  <button type="button" id="sei_dansai_outsou_btn" @click="OutsourcingButton('sei_dansai_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_dansai_outsou" name="sei_dansai_outsou" id="sei_dansai_outsou">
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_dansai_outsou_cost" name="sei_dansai_outsou_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="sei_marble_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_marble_btn" @click="OnButtonClick01('sei_marble',3);">マーブル</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_marble" name="sei_marble" id="sei_marble">
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_cross_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_cross_btn" @click="OnButtonClick01('sei_cross',3);">クロス</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_cross" name="sei_cross" id="sei_cross">
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_mat_maki_cardboard_mark" class="markzone mz_c3 v_hidden"></span>
+                  <button type="button" id="sei_mat_maki_cardboard_btn" @click="OnButtonClick01('sei_mat_maki_cardboard',4);">下敷巻ボール</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_mat_maki_cardboard" name="sei_mat_maki_cardboard" id="sei_mat_maki_cardboard">
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_mat_cardboard_mark" class="markzone mz_c3 v_hidden"></span>
+                  <button type="button" id="sei_mat_cardboard_btn" @click="OnButtonClick01('sei_mat_cardboard',4);">下敷ボール</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_mat_cardboard" name="sei_mat_cardboard" id="sei_mat_cardboard">
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">
+                  <select name="sei_nori" class="form_style" v-model="details[index].sei_nori">
+                  <option value=""></option>
+                  <option value="天">天</option>
+                  <option value="左">左</option>
+                  <option value="右">右</option>
+                  <option value="地">地</option>
+                  </select>
+                  糊
+                  </label>
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">
+                  <select name="sei_tsuduri" class="form_style" v-model="details[index].sei_tsuduri">
+                  <option value=""></option>
+                  <option value="天">天</option>
+                  <option value="左">左</option>
+                  <option value="右">右</option>
+                  <option value="地">地</option>
+                  </select>
+                  綴
+                  </label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="sei_kurumi_mark" class="markzone mz_c2 v_hidden"></span>
+                  <button type="button" id="sei_kurumi_btn" @click="OnButtonClick01('sei_kurumi',5);">くるみ</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_kurumi" name="sei_kurumi" id="sei_kurumi">
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">ラミネート
+                  <select name="sei_laminate" class="form_style" v-model="details[index].sei_laminate">
+                  <option value=""></option>
+                  <option value="A3">A3</option>
+                  <option value="A4">A4</option>
+                  <option value="A5">A5</option>
+                  <option value="B4">B4</option>
+                  <option value="B5">B5</option>
+                  <option value="B6">B6</option>
+                  <option value="カード用">カード用</option>
+                  <option value="ハガキ圧着">ハガキ圧着</option>
+                  </select>
+                  </label>
+                  <label><input type="text" class="form_style input_w2" v-model="details[index].sei_laminate_through" name="sei_laminate_through">通し</label>
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_buster_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_buster_btn" @click="OnButtonClick('sei_buster');">バスター</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_buster" name="sei_buster" id="sei_buster">
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_crimping_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_crimping_btn" @click="OnButtonClick('sei_crimping');">圧着</button>
+                  <input type="text" class="input_w1" value="" v-model="details[index].sei_crimping" name="sei_crimping" id="sei_crimping">
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <label><span class="spanwidth_1">手作業</span><input type="text" class="form_style input_w30" v-model="details[index].inside_hand_work" name="inside_hand_work"></label>
+                </div>
+                <div class="inputgroup">
+                  <label>内製費<input type="text" class="form_style input_w5" v-model="details[index].inside_insourcing_cost" name="inside_insourcing_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <label><span class="spanwidth_1">社外内職</span><input type="text" class="form_style input_w10" v-model="details[index].outside_job1" name="outside_job1"></label>
+                </div>
+                <div class="inputgroup">
+                  <label>外注先<input type="text" class="form_style input_w10" v-model="details[index].outside_job1_outsou" name="outside_job1_outsou"></label>
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].outside_job1_outsou_cost" name="outside_job1_outsou_cost"><span class="txtcolor1">加算</span></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <label><span class="spanwidth_1">社外内職</span><input type="text" class="form_style input_w10" v-model="details[index].outside_job2" name="outside_job2"></label>
+                </div>
+                <div class="inputgroup">
+                  <label>外注先<input type="text" class="form_style input_w10" v-model="details[index].outside_job2_outsou" name="outside_job2_outsou"></label>
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].outside_job2_outsou_cost" name="outside_job2_outsou_cost"><span class="txtcolor1">加算</span></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="sei_musen_tozi_mark" class="markzone mz_c2 v_hidden"></span>
+                  <button type="button" id="sei_musen_tozi_btn" @click="OnButtonClick01('sei_musen_tozi',5);">無線トジ</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_musen_tozi" name="sei_musen_tozi" id="sei_musen_tozi">
+                </div>
+                <div class="inputgroup">
+                  <button type="button" id="sei_musen_tozi_outsou_btn" @click="OutsourcingButton('sei_musen_tozi_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_musen_tozi_outsou" name="sei_musen_tozi_outsou" id="sei_musen_tozi_outsou">
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].musen_tozi_outsou_cost" name="musen_tozi_outsou_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="sei_naka_tozi_mark" class="markzone mz_c2 v_hidden"></span>
+                  <button type="button" id="sei_naka_tozi_btn" @click="OnButtonClick01('sei_naka_tozi',5);">中トジ</button>
+                  <input type="text" class="input_w1"  v-model="details[index].sei_naka_tozi" name="sei_naka_tozi" id="sei_naka_tozi">
+                </div>
+                <div class="inputgroup">
+                  <button type="button" id="sei_naka_tozi_outsou_btn" @click="OutsourcingButton('sei_naka_tozi_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_naka_tozi_outsou" name="sei_naka_tozi_outsou" id="sei_naka_tozi_outsou">
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_naka_tozi_outsou_cost" name="sei_naka_tozi_outsou_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="sei_sashikomi_mark" class="markzone mz_c2 v_hidden"></span>
+                  <button type="button" id="sei_sashikomi_btn" @click="OnButtonClick('sei_sashikomi');">差込</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_sashikomi" name="sei_sashikomi" id="sei_sashikomi">
+                </div>
+                <div class="inputgroup">
+                  <button type="button" id="sei_sashikomi_outsou_btn" @click="OutsourcingButton('sei_sashikomi_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_sashikomi_outsou" name="sei_sashikomi_outsou" id="sei_sashikomi_outsou">
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_sashikomi_outsou_cost" name="sei_sashikomi_outsou_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <label><input type="text" class="form_style input_w2" v-model="details[index].sei_ana" name="sei_ana">穴×</label>
+                  <label><input type="text" class="form_style input_w2" v-model="details[index].sei_part" name="sei_part">ヶ所</label>
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_donko_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_donko_btn" @click="OnButtonClick('sei_donko');">ドンコ</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_donko" name="sei_donko" id="sei_donko">
+                </div>
+                <div class="inputgroup">
+                  <span class="mgl20">折回数...</span>
+                  <label>横<input type="text" class="form_style input_w2" v-model="details[index].sei_ori_w" name="sei_ori_w">回</label>
+                  <label class="mgl10">縦<input type="text" class="form_style input_w2" v-model="details[index].sei_ori_h" name="sei_ori_h">回</label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <label><input type="text" class="form_style input_w5" v-model="details[index].sei_obi" name="sei_obi">帯</label>
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_bara_mark" class="markzone mz_c4 v_hidden"></span>
+                  <button type="button" id="sei_bara_btn" @click="OnButtonClick01('sei_bara',6);">バラ</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_bara" name="sei_bara" id="sei_bara">
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_oneset_mark" class="markzone mz_c4 v_hidden"></span>
+                  <button type="button" id="sei_oneset_btn" @click="OnButtonClick01('sei_oneset',6);">ワンセット</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_oneset" name="sei_oneset" id="sei_oneset">
+                </div>
+                <div class="inputgroup">
+                  <span id="sei_obake_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_obake_btn" @click="OnButtonClick('sei_obake');">オバケ</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_obake" name="sei_obake" id="sei_obake">
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">落とし
+                  <select name="sei_otoshi" class="form_style" v-model="details[index].sei_otoshi">
+                  <option value=""></option>
+                  <option value="コーナー">コーナー</option>
+                  <option value="角落とし">角落とし</option>
+                  <option value="角丸落とし">角丸落とし</option>
+                  </select>
+                  </label>
+                  <label><input type="text" class="form_style input_w2" v-model="details[index].sei_otoshi_part" name="sei_otoshi_part">ヶ所</label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div id="department01">
+            <div class="cate2"><h4>標準</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup2">
+                  <label>梱装<input type="text" class="form_style input_w3" v-model="details[index].sei_package" name="sei_package">×</label>
+                  <label><input type="text" class="form_style input_w3" v-model="details[index].sei_package_num" name="sei_package_num">個、</label>
+                </div>
+                <div class="inputgroup2">
+                  <label>箱<input type="text" class="form_style input_w3" v-model="details[index].sei_box" name="sei_box">×</label>
+                  <label><input type="text" class="form_style input_w3" v-model="details[index].sei_box_num" name="sei_box_num">個</label>
+                </div>
+                <div class="inputgroup2">
+                  <span id="sei_a_system_mark" class="markzone mz_c5 v_hidden"></span>
+                  <button type="button" id="sei_a_system_btn" @click="OnButtonClick01('sei_a_system',7);">A式</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_a_system" name="sei_a_system" id="sei_a_system">
+                </div>
+                <div class="inputgroup2">
+                  <span id="sei_c_system_mark" class="markzone mz_c5 v_hidden"></span>
+                  <button type="button" id="sei_c_system_btn" @click="OnButtonClick01('sei_c_system',7);">C式</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_c_system" name="sei_c_system" id="sei_c_system">
+                </div>
+                <div class="inputgroup2">
+                  <span id="sei_vinyl_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sei_vinyl_btn" @click="OnButtonClick('sei_vinyl');">ビニール</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sei_vinyl" name="sei_vinyl" id="sei_vinyl">
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div id="department01">
+            <div class="cate2"><h4>製本の全部</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup2">
+                  <button type="button" id="sei_all_outsou_btn" @click="OutsourcingButton('sei_all_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].sei_all_outsou" name="sei_all_outsou" id="sei_all_outsou">
+                </div>
+                <div class="inputgroup2">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].sei_all_outsou_cost" name="sei_all_outsou_cost"></label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+        </div><!--end v-for-->
+
+
+
+        <div class="line mgt40">
+            <div id="zukei" class="mglrauto">
+              <div class="yajirushi_1"></div>
+            </div>
+        </div>
+        <div class="line">
+            <div class="mglrauto">
+              <button type="button" id="setcal_btn" @click="SettingBtn();">設定</button>
+            </div>
+        </div>
+
+      </div><!--end id cnt1-->
+
+      <div id="area1">
+        <div v-show="outsourcingview === 'osv'">
+          <out-sourcing
+          v-bind:input-textid="inputtextid"
+          v-on:oscancel-event="OScancel"
+          v-on:selectos-event="selectOS"
+          ></out-sourcing>
+        </div>
       </div>
 
-    </div><!--end id cnt1-->
-
-    <div id="area1">
-      <div v-show="outsourcingview === 'osv'">
-        <out-sourcing
-        v-bind:input-textid="inputtextid"
-        v-on:oscancel-event="OScancel"
-        v-on:selectos-event="selectOS"
-        ></out-sourcing>
-      </div>
-    </div>
-
+    </div><!--end class mainframe-->
   </div>
 </template>
 <script>

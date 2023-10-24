@@ -146,7 +146,7 @@
         v-bind:print-title="printtitle"
         v-on:pricancel-event="Pricancel"
         ></popup-print>
-        <div id="php_view">ファイル読み込み中...</div>
+        <!--<div id="php_view">ファイル読み込み中...</div>-->
       </div>
 
       <div id="printgaiyo"></div>
@@ -654,7 +654,8 @@ export default {
           this.printdata += "【用紙代総額】146,926【工賃～送料総額】170,500【実質原価総額】317,426 単価 3.17-\n";
           this.printdata += "【提示額】245,000 単価 2.45-\n";
 
-          this.printdata += "vvmc -> " + vvmc;
+          this.printdata += "vvmc -> " + vvmc + "\n";
+          this.printdata += "テスト用\n";
 
 
           //this.m_code = "D11999";
@@ -674,62 +675,27 @@ export default {
           let post_data = new FormData();
           var pmcode = this.details[vvmc]['m_code'];
           var motion_msg = "パーツ検索";
+
+
+
+
+
+          // public/openview.php を使う場合 コメントアウト
           /*
-          var arrayParams = { 
-            s_m_code : pmcode , 
-
-          };
-          this.postRequest("/qparts/get", arrayParams)
-            .then(response  => {
-              this.putThenParts(response, motion_msg);
-            })
-            .catch(reason => {
-              this.serverCatch("パーツget");
-            });
-            */
-
-
-            /*
-            function sleep(ms, generator) {
-              setTimeout(() => generator.next(), ms);
-            }
-
-
-            var main = (function*() {
-              console.log(`停止前: ${getDisplayDate()} 秒`);
-              yield sleep(5*1000, main);
-
-              console.log(`停止後: ${getDisplayDate()} 秒`);
-            })();
-            main.next();
-
-            //現在時刻を取得
-            function getDisplayDate(){
-              let date = new Date();
-              let Hour = ('0' + date.getHours()).slice(-2)
-              let Minute = ('0' + date.getMinutes()).slice(-2)
-              let Second = ('0' + date.getSeconds()).slice(-2)
-
-              return Hour + ':' + Minute + ':' + Second
-            }
-            */
-
-
-
-
-
-
-
-
-
           let xhr = new XMLHttpRequest();
           xhr.open('POST', `openview.php`, true);
           xhr.addEventListener('load', function () {
-            //console.log(this.response);
-            //window.open(this.response);
             var phpview = document.getElementById("php_view") ;
             phpview.innerHTML = "" + this.response;
           });
+          */
+          // 749行目あたりの　ここのコメントも外す　xhr.send(post_data);
+          // 149行目あたりの　ここのコメントも外す <div id="php_view">ファイル読み込み中...</div>
+
+
+
+
+
 
           //var details_arr = JSON.parse(this.details);
           var details_arr = JSON.stringify(this.details[vvmc]);
@@ -786,7 +752,7 @@ export default {
           this.select_arr_s005.forEach(function(element, index, array){
             post_data.append('select_arr_s005[' + (index + 1) + ']', element['code_name']);
           });
-          xhr.send(post_data);
+          //xhr.send(post_data);
           //xhr.send();
 
 

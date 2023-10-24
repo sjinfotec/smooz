@@ -1,343 +1,344 @@
 <template>
   <div>
-    <div id="cnt_title1">
-      <h3>見積作成</h3>
-    </div>
-    <div id="cnt1" v-if="select_html == 'edit_view'">
-      <div v-for="(item,index) in details" v-bind:key="item.id">
-        <div id="department01">
-          <div class="cate"><h4>フォーム部</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup">
-                <span id="wkake_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="wkake_btn" @click="OnButtonClick02('wkake',1);">Ｗ掛け</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].wkake" name="wkake" id="wkake">
-              </div>
-              <div class="inputgroup">
-                <span id="daenpin_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="daenpin_btn" @click="OnButtonClick('daenpin');">楕円ピン</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].daenpin" name="daenpin" id="daenpin">
-              </div>
-              <div class="inputgroup">
-                <span id="ana2_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="ana2_btn" @click="OnButtonClick02('ana2',1);">２穴</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].ana2" name="ana2" id="ana2">
-              </div>
-              <div class="inputgroup">
-                <span id="ana6_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="ana6_btn" @click="OnButtonClick02('ana6',1);">６穴</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].ana6" name="ana6" id="ana6">
-              </div>
-              <div class="inputgroup">
-                <span id="donko_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="donko_btn" @click="OnButtonClick02('donko',1);">ドンコ</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].donko" name="donko" id="donko">
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="katanuki_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="katanuki_btn" @click="OnButtonClick02('katanuki',1);">型ヌキ</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].katanuki" name="katanuki" id="katanuki">
-              </div>
-              <div class="inputgroup">
-                <button type="button" id="katanuki_outsou_btn" @click="OutsourcingButton('katanuki_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].katanuki_outsou" name="katanuki_outsou" id="katanuki_outsou">
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].katanuki_outsou_cost" name="katanuki_outsou_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="kasutori_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="kasutori_btn" @click="OnButtonClick02('kasutori',1);">カス取</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].kasutori" name="kasutori" id="kasutori">
-              </div>
-              <div class="inputgroup">
-                <button type="button" id="kasutori_outsou_btn" @click="OutsourcingButton('kasutori_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].kasutori_outsou" name="kasutori_outsou" id="kasutori_outsou">
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].kasutori_outsou_cost" name="kasutori_outsou_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="nisu_single_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="nisu_single_btn" @click="OnButtonClick01('nisu_single',2);">ニス片面</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].nisu_single" name="nisu_single" id="nisu_single">
-              </div>
-              <div class="inputgroup">
-                <span id="nisu_double_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="nisu_double_btn" @click="OnButtonClick01('nisu_double',2);">ニス両面</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].nisu_double" name="nisu_double" id="nisu_double">
-              </div>
-              <div class="inputgroup">
-                ＴＳＲスキップ
-                <label><input type="text" class="form_style input_w2" v-model="details[index].tsr_times" name="tsr_times">回</label>
-                ×
-                <label><input type="text" class="form_style input_w5" v-model="details[index].tsr_through" name="tsr_through">通</label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <label>色替<input type="text" class="form_style input_w2" v-model="details[index].form_color_change" name="form_color_change">回</label>
-              </div>
-              <div class="inputgroup">
-                <label>カーボン型<input type="text" class="form_style input_w2" v-model="details[index].form_carbon_mold" name="form_carbon_mold">版</label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div id="department01">
-          <div class="cate2"><h4>フォーム部の全部</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup2">
-                <button type="button" id="form_all_outsou_btn" @click="OutsourcingButton('form_all_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].form_all_outsou" name="form_all_outsou" id="form_all_outsou">
-              </div>
-              <div class="inputgroup2">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].form_all_outsou_cost" name="form_all_outsou_cost"></label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div id="department01" class="mgt40">
-          <div class="cate"><h4>オフセット部</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup">
-                <label>色替<input type="text" class="form_style input_w2" v-model="details[index].offset_color_change" name="offset_color_change">回</label>
-              </div>
-              <div class="inputgroup">
-                <label>カーボン型<input type="text" class="form_style input_w2" v-model="details[index].offset_carbon_mold" name="offset_carbon_mold">版</label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div id="department01" class="mgt40">
-          <div class="cate"><h4>組版・製版</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup">
-                <label>版下
-                <select name="block_copy" class="form_style" v-model="details[index].block_copy">
-                <option value=""></option>
-                <option value="1">新版</option>
-                <option value="2">修正</option>
-                <option value="3">在版</option>
-                <option value="4">インコー</option>
-                <option value="5">編集（支給）</option>
-                </select>
-                </label>
-              </div>
-              <div class="inputgroup">
-                <label>種別
-                <select name="kinds" class="form_style" v-model="details[index].kinds">
-                <option value=""></option>
-                <option value="1">一般</option>
-                <option value="2">フォーム</option>
-                <option value="3">偽造防止</option>
-                <option value="4">名刺</option>
-                <option value="5">封筒</option>
-                <option value="6">デザイン</option>
-                </select>
-                </label>
-              </div>
-              <div class="inputgroup">
-                <label>難度
-                <select name="difficulty" class="form_style" v-model="details[index].difficulty">
-                <option value=""></option>
-                <option value="1">A</option>
-                <option value="2">B</option>
-                <option value="3">C</option>
-                <option value="4">D</option>
-                <option value="5">インコー</option>
-                <option value="6">修正無し</option>
-                <option value="7">在版</option>
-                </select>
-                </label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <button type="button" id="plate_making_outsou_btn" @click="OutsourcingButton('plate_making_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].plate_making_outsou" name="plate_making_outsou" id="plate_making_outsou">
-              </div>
-              <div class="inputgroup">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].plate_making_outsou_cost" name="plate_making_outsou_cost"></label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <label>ＣＴＰ<input type="text" class="form_style input_w2" v-model="details[index].ctp" name="ctp">版</label>
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">インクジェット
-                <select name="inkjet" class="form_style" v-model="details[index].inkjet">
-                <option value=""></option>
-                <option value="1">A1</option>
-                <option value="2">A2</option>
-                <option value="3">A3</option>
-                <option value="4">A4以下</option>
-                <option value="5">B3</option>
-                <option value="6">B4</option>
-                <option value="7">B5以下</option>
-                </select>
-                </label>
-                <label><input type="text" class="form_style input_w2" v-model="details[index].inkjet_sheet" name="inkjet_sheet">枚</label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                オンデマンド
-                <span class="mgl20">色数...</span>
-                <label>表<input type="text" class="form_style input_w2" v-model="details[index].ondemand_color_front" name="ondemand_color_front"></label>
-                <label>裏<input type="text" class="form_style input_w2" v-model="details[index].ondemand_color_back" name="ondemand_color_back"></label>
-              </div>
-              <div class="inputgroup">
-                <span class="mgl20">通し...</span>
-                <label>表<input type="text" class="form_style input_w2" v-model="details[index].ondemand_through_front" name="ondemand_through_front">×10</label>
-                <label class="mgl10">裏<input type="text" class="form_style input_w2" v-model="details[index].ondemand_through_back" name="ondemand_through_back">×10</label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div id="department01" class="mgt40">
-          <div class="cate"><h4>コレーター部</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup">
-                <label>コレーター<input type="text" class="form_style input_w2" v-model="details[index].collator" name="collator">台</label>
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">ベーベ<input type="text" class="form_style input_w2" v-model="details[index].bebe" name="bebe">台</label>
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <span id="envelope_process_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="envelope_process_btn" @click="OnButtonClick('envelope_process');">封筒加工</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].envelope_process" name="envelope_process" id="envelope_process">
-              </div>
-              <div class="inputgroup">
-                <span id="tape_process_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="tape_process_btn" @click="OnButtonClick('tape_process');">テープ加工</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].tape_process" name="tape_process" id="tape_process">
-              </div>
-              <div class="inputgroup">
-                <span id="peel_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="peel_btn" @click="OnButtonClick('peel');">剥離糊</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].peel" name="peel" id="peel">
-              </div>
-              <div class="inputgroup">
-                <span id="press_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="press_btn" @click="OnButtonClick('press');">プレス</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].press" name="press" id="press">
-              </div>
-              <div class="inputgroup">
-                <span id="sheetcut_mark" class="markzone mz_c1 v_hidden"></span>
-                <button type="button" id="sheetcut_btn" @click="OnButtonClick('sheetcut');">シートカット</button>
-                <input type="text" class="input_w1" value="0" v-model="details[index].sheetcut" name="sheetcut" id="sheetcut">
-              </div>
-            </div>
-
-            <div class="group">
-              <div class="inputgroup">
-                <label>クラッシュNo.<input type="text" class="form_style input_w2" v-model="details[index].collator_cno" name="collator_cno">ヶ所</label>
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">穴<input type="text" class="form_style input_w2" v-model="details[index].collator_ana" name="collator_ana">ヶ所</label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div id="department01">
-          <div class="cate2"><h4>コレーター部の全部</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup2">
-                <button type="button" id="collator_all_outsou_btn" @click="OutsourcingButton('collator_all_outsou');">外注先</button>
-                <input type="text" class="form_style input_w20" value="" v-model="details[index].collator_all_outsou" name="collator_all_outsou" id="collator_all_outsou">
-              </div>
-              <div class="inputgroup2">
-                <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].collator_all_outsou_cost" name="collator_all_outsou_cost"></label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div id="department01" class="mgt40">
-          <div class="cate"><h4>ネームライナー</h4></div>
-          <div class="area">
-            <div class="group">
-              <div class="inputgroup">
-                <label>名刺<input type="text" class="form_style input_w2" v-model="details[index].nl_color" name="nl_color">色</label>
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">
-                <select name="nl_hagaki" class="form_style" v-model="details[index].nl_hagaki">
-                <option value=""></option>
-                <option value="1">ハガキ単</option>
-                <option value="2">ハガキ単両</option>
-                <option value="3">２つ折ハガキ</option>
-                <option value="4">３つ折ハガキ</option>
-                </select>
-                </label>
-                <label><input type="text" class="form_style input_w2" v-model="details[index].nl_hagaki_color" name="nl_hagaki_color">色</label>
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">封筒<input type="text" class="form_style input_w2" v-model="details[index].nl_envelope_color" name="nl_envelope_color">色</label>
-              </div>
-              <div class="inputgroup">
-                <label class="mgl20">No.<input type="text" class="form_style input_w2" v-model="details[index].nl_number_part" name="nl_number_part">ヶ所</label>
-              </div>
-            </div>
-          </div><!--end area-->
-        </div><!--end department01-->
-
-        <div class="line mgt40">
-            <div id="zukei" class="mglrauto">
-              <div class="yajirushi_1"></div>
-            </div>
-        </div>
-        <div class="line">
-            <div class="mglrauto">
-              <button type="button" id="setcal_btn" @click="SettingBtn();">設定</button>
-            </div>
-        </div>
-
-
-      </div><!--end v-for-->
-    </div><!--end id cnt1-->
-
-
-    <div id="area1">
-      <div v-show="outsourcingview == true">
-        <out-sourcing
-        v-bind:input-textid="inputtextid"
-        v-on:oscancel-event="OScancel"
-        v-on:selectos-event="selectOS"
-        ></out-sourcing>
+    <div class="mainframe bc1 gc3">
+      <div id="cnt_title1">
+        <h3>見積作成</h3>
       </div>
-    </div>
+      <div id="cnt1" v-if="select_html == 'edit_view'">
+        <div v-for="(item,index) in details" v-bind:key="item.id">
+          <div id="department01">
+            <div class="cate"><h4>フォーム部</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="wkake_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="wkake_btn" @click="OnButtonClick02('wkake',1);">Ｗ掛け</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].wkake" name="wkake" id="wkake">
+                </div>
+                <div class="inputgroup">
+                  <span id="daenpin_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="daenpin_btn" @click="OnButtonClick('daenpin');">楕円ピン</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].daenpin" name="daenpin" id="daenpin">
+                </div>
+                <div class="inputgroup">
+                  <span id="ana2_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="ana2_btn" @click="OnButtonClick02('ana2',1);">２穴</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].ana2" name="ana2" id="ana2">
+                </div>
+                <div class="inputgroup">
+                  <span id="ana6_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="ana6_btn" @click="OnButtonClick02('ana6',1);">６穴</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].ana6" name="ana6" id="ana6">
+                </div>
+                <div class="inputgroup">
+                  <span id="donko_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="donko_btn" @click="OnButtonClick02('donko',1);">ドンコ</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].donko" name="donko" id="donko">
+                </div>
+              </div>
 
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="katanuki_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="katanuki_btn" @click="OnButtonClick02('katanuki',1);">型ヌキ</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].katanuki" name="katanuki" id="katanuki">
+                </div>
+                <div class="inputgroup">
+                  <button type="button" id="katanuki_outsou_btn" @click="OutsourcingButton('katanuki_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].katanuki_outsou" name="katanuki_outsou" id="katanuki_outsou">
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].katanuki_outsou_cost" name="katanuki_outsou_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="kasutori_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="kasutori_btn" @click="OnButtonClick02('kasutori',1);">カス取</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].kasutori" name="kasutori" id="kasutori">
+                </div>
+                <div class="inputgroup">
+                  <button type="button" id="kasutori_outsou_btn" @click="OutsourcingButton('kasutori_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].kasutori_outsou" name="kasutori_outsou" id="kasutori_outsou">
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].kasutori_outsou_cost" name="kasutori_outsou_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="nisu_single_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="nisu_single_btn" @click="OnButtonClick01('nisu_single',2);">ニス片面</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].nisu_single" name="nisu_single" id="nisu_single">
+                </div>
+                <div class="inputgroup">
+                  <span id="nisu_double_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="nisu_double_btn" @click="OnButtonClick01('nisu_double',2);">ニス両面</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].nisu_double" name="nisu_double" id="nisu_double">
+                </div>
+                <div class="inputgroup">
+                  ＴＳＲスキップ
+                  <label><input type="text" class="form_style input_w2" v-model="details[index].tsr_times" name="tsr_times">回</label>
+                  ×
+                  <label><input type="text" class="form_style input_w5" v-model="details[index].tsr_through" name="tsr_through">通</label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <label>色替<input type="text" class="form_style input_w2" v-model="details[index].form_color_change" name="form_color_change">回</label>
+                </div>
+                <div class="inputgroup">
+                  <label>カーボン型<input type="text" class="form_style input_w2" v-model="details[index].form_carbon_mold" name="form_carbon_mold">版</label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div id="department01">
+            <div class="cate2"><h4>フォーム部の全部</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup2">
+                  <button type="button" id="form_all_outsou_btn" @click="OutsourcingButton('form_all_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].form_all_outsou" name="form_all_outsou" id="form_all_outsou">
+                </div>
+                <div class="inputgroup2">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].form_all_outsou_cost" name="form_all_outsou_cost"></label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div id="department01" class="mgt40">
+            <div class="cate"><h4>オフセット部</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup">
+                  <label>色替<input type="text" class="form_style input_w2" v-model="details[index].offset_color_change" name="offset_color_change">回</label>
+                </div>
+                <div class="inputgroup">
+                  <label>カーボン型<input type="text" class="form_style input_w2" v-model="details[index].offset_carbon_mold" name="offset_carbon_mold">版</label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div id="department01" class="mgt40">
+            <div class="cate"><h4>組版・製版</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup">
+                  <label>版下
+                  <select name="block_copy" class="form_style" v-model="details[index].block_copy">
+                  <option value=""></option>
+                  <option value="1">新版</option>
+                  <option value="2">修正</option>
+                  <option value="3">在版</option>
+                  <option value="4">インコー</option>
+                  <option value="5">編集（支給）</option>
+                  </select>
+                  </label>
+                </div>
+                <div class="inputgroup">
+                  <label>種別
+                  <select name="kinds" class="form_style" v-model="details[index].kinds">
+                  <option value=""></option>
+                  <option value="1">一般</option>
+                  <option value="2">フォーム</option>
+                  <option value="3">偽造防止</option>
+                  <option value="4">名刺</option>
+                  <option value="5">封筒</option>
+                  <option value="6">デザイン</option>
+                  </select>
+                  </label>
+                </div>
+                <div class="inputgroup">
+                  <label>難度
+                  <select name="difficulty" class="form_style" v-model="details[index].difficulty">
+                  <option value=""></option>
+                  <option value="1">A</option>
+                  <option value="2">B</option>
+                  <option value="3">C</option>
+                  <option value="4">D</option>
+                  <option value="5">インコー</option>
+                  <option value="6">修正無し</option>
+                  <option value="7">在版</option>
+                  </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <button type="button" id="plate_making_outsou_btn" @click="OutsourcingButton('plate_making_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].plate_making_outsou" name="plate_making_outsou" id="plate_making_outsou">
+                </div>
+                <div class="inputgroup">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].plate_making_outsou_cost" name="plate_making_outsou_cost"></label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <label>ＣＴＰ<input type="text" class="form_style input_w2" v-model="details[index].ctp" name="ctp">版</label>
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">インクジェット
+                  <select name="inkjet" class="form_style" v-model="details[index].inkjet">
+                  <option value=""></option>
+                  <option value="1">A1</option>
+                  <option value="2">A2</option>
+                  <option value="3">A3</option>
+                  <option value="4">A4以下</option>
+                  <option value="5">B3</option>
+                  <option value="6">B4</option>
+                  <option value="7">B5以下</option>
+                  </select>
+                  </label>
+                  <label><input type="text" class="form_style input_w2" v-model="details[index].inkjet_sheet" name="inkjet_sheet">枚</label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  オンデマンド
+                  <span class="mgl20">色数...</span>
+                  <label>表<input type="text" class="form_style input_w2" v-model="details[index].ondemand_color_front" name="ondemand_color_front"></label>
+                  <label>裏<input type="text" class="form_style input_w2" v-model="details[index].ondemand_color_back" name="ondemand_color_back"></label>
+                </div>
+                <div class="inputgroup">
+                  <span class="mgl20">通し...</span>
+                  <label>表<input type="text" class="form_style input_w2" v-model="details[index].ondemand_through_front" name="ondemand_through_front">×10</label>
+                  <label class="mgl10">裏<input type="text" class="form_style input_w2" v-model="details[index].ondemand_through_back" name="ondemand_through_back">×10</label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div id="department01" class="mgt40">
+            <div class="cate"><h4>コレーター部</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup">
+                  <label>コレーター<input type="text" class="form_style input_w2" v-model="details[index].collator" name="collator">台</label>
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">ベーベ<input type="text" class="form_style input_w2" v-model="details[index].bebe" name="bebe">台</label>
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <span id="envelope_process_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="envelope_process_btn" @click="OnButtonClick('envelope_process');">封筒加工</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].envelope_process" name="envelope_process" id="envelope_process">
+                </div>
+                <div class="inputgroup">
+                  <span id="tape_process_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="tape_process_btn" @click="OnButtonClick('tape_process');">テープ加工</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].tape_process" name="tape_process" id="tape_process">
+                </div>
+                <div class="inputgroup">
+                  <span id="peel_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="peel_btn" @click="OnButtonClick('peel');">剥離糊</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].peel" name="peel" id="peel">
+                </div>
+                <div class="inputgroup">
+                  <span id="press_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="press_btn" @click="OnButtonClick('press');">プレス</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].press" name="press" id="press">
+                </div>
+                <div class="inputgroup">
+                  <span id="sheetcut_mark" class="markzone mz_c1 v_hidden"></span>
+                  <button type="button" id="sheetcut_btn" @click="OnButtonClick('sheetcut');">シートカット</button>
+                  <input type="text" class="input_w1" value="0" v-model="details[index].sheetcut" name="sheetcut" id="sheetcut">
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="inputgroup">
+                  <label>クラッシュNo.<input type="text" class="form_style input_w2" v-model="details[index].collator_cno" name="collator_cno">ヶ所</label>
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">穴<input type="text" class="form_style input_w2" v-model="details[index].collator_ana" name="collator_ana">ヶ所</label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div id="department01">
+            <div class="cate2"><h4>コレーター部の全部</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup2">
+                  <button type="button" id="collator_all_outsou_btn" @click="OutsourcingButton('collator_all_outsou');">外注先</button>
+                  <input type="text" class="form_style input_w20" value="" v-model="details[index].collator_all_outsou" name="collator_all_outsou" id="collator_all_outsou">
+                </div>
+                <div class="inputgroup2">
+                  <label>外注費<input type="text" class="form_style input_w5" v-model="details[index].collator_all_outsou_cost" name="collator_all_outsou_cost"></label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div id="department01" class="mgt40">
+            <div class="cate"><h4>ネームライナー</h4></div>
+            <div class="area">
+              <div class="group">
+                <div class="inputgroup">
+                  <label>名刺<input type="text" class="form_style input_w2" v-model="details[index].nl_color" name="nl_color">色</label>
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">
+                  <select name="nl_hagaki" class="form_style" v-model="details[index].nl_hagaki">
+                  <option value=""></option>
+                  <option value="1">ハガキ単</option>
+                  <option value="2">ハガキ単両</option>
+                  <option value="3">２つ折ハガキ</option>
+                  <option value="4">３つ折ハガキ</option>
+                  </select>
+                  </label>
+                  <label><input type="text" class="form_style input_w2" v-model="details[index].nl_hagaki_color" name="nl_hagaki_color">色</label>
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">封筒<input type="text" class="form_style input_w2" v-model="details[index].nl_envelope_color" name="nl_envelope_color">色</label>
+                </div>
+                <div class="inputgroup">
+                  <label class="mgl20">No.<input type="text" class="form_style input_w2" v-model="details[index].nl_number_part" name="nl_number_part">ヶ所</label>
+                </div>
+              </div>
+            </div><!--end area-->
+          </div><!--end department01-->
+
+          <div class="line mgt40">
+              <div id="zukei" class="mglrauto">
+                <div class="yajirushi_1"></div>
+              </div>
+          </div>
+          <div class="line">
+              <div class="mglrauto">
+                <button type="button" id="setcal_btn" @click="SettingBtn();">設定</button>
+              </div>
+          </div>
+
+
+        </div><!--end v-for-->
+      </div><!--end id cnt1-->
+
+
+      <div id="area1">
+        <div v-show="outsourcingview == true">
+          <out-sourcing
+          v-bind:input-textid="inputtextid"
+          v-on:oscancel-event="OScancel"
+          v-on:selectos-event="selectOS"
+          ></out-sourcing>
+        </div>
+      </div>
+    </div><!--end class mainframe-->
   </div>
 </template>
 <script>

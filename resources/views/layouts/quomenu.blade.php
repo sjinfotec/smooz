@@ -61,13 +61,13 @@ switch ($ruqurl) {
                 <div id="cnt_menu">
                    <div class="offcanvas-collapse-from-left side-base print-none"><!--query_str = {!! $query_str !!}-->
                         <nav class="">
-                        <div id="menu_li">
+                        <div id="menu_li"  class="gc1">
                             <!--<h3 class="side-head p-3 font-size-rg">見積システム</h3>  offcanvas_left-->
-                                <ul>
-                                        <li class="gc2 {{ $active_css[1] }}"><a class="" href="{!! url('/quotations'.$request_parameter) !!}">基本項目</a></li>
-                                        <li class="gc2 {{ $active_css[2] }}"><a class="" href="{!! url('/quotations/department'.$request_parameter) !!}">フォーム・オフセット・組版・コレーター・ネームライナー</a></li>
-                                        <li class="gc2 {{ $active_css[3] }}"><a class="" href="{!! url('/quotations/binding'.$request_parameter) !!}">製本</a></li>
-                                        <li class="gc2 {{ $active_css[4] }}"><a class="" href="{!! url('/quotations/cost'.$request_parameter) !!}">発送・費用・外注</a></li>
+                                <ul class="aic">
+                                        <li class="gc2 {{ $active_css[1] }} mgt10"><a class="quo" href="{!! url('/quotations'.$request_parameter) !!}">基本項目</a></li>
+                                        <li class="gc2 {{ $active_css[2] }}"><a class="quo" href="{!! url('/quotations/department'.$request_parameter) !!}">フォーム<br>オフセット<br>組版<br>コレーター</a></li>
+                                        <li class="gc2 {{ $active_css[3] }}"><a class="quo" href="{!! url('/quotations/binding'.$request_parameter) !!}">製本</a></li>
+                                        <li class="gc2 {{ $active_css[4] }}"><a class="quo" href="{!! url('/quotations/cost'.$request_parameter) !!}">発送<br>費用<br>外注</a></li>
                                 </ul>
                         </div>
                         </nav>
